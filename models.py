@@ -7,4 +7,9 @@ class Segmento(models.Model):
 
 class Campana(models.Model):
     codigo_campana = models.CharField(max_length=100)
-    
+    mes_vigencia = models.CharField(max_length=10)
+    segmento = models.CharField(max_length=20)
+    ofertas = models.IntegerField()
+
+    def __str__(self):
+        return self.codigo_campana+' '+self.segmento
