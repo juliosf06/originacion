@@ -4,9 +4,9 @@
 <head>
   <title>Reporte de Ofertas TC</title>
   <!-- estilos -->  
-  <link href="/static/css/bootstrap.css" rel="stylesheet">
-  <link href="/static/css/bootstrap-theme.css" rel="stylesheet">
-  <link href="/static/css/main.css" rel="stylesheet">
+  <link href="{{static_url}}css/bootstrap.css" rel="stylesheet">
+  <link href="{{static_url}}css/bootstrap-theme.css" rel="stylesheet">
+  <link href="{{static_url}}css/main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -191,10 +191,10 @@
       </div>
     </div>
 
-  <script src="/static/js/jquery.min.js"></script>
-  <script src="/static/js/bootstrap.min.js"></script>
-  <script src="/static/js/jquery.canvasjs.min.js"></script>
-  <script src="/static/js/main.js"></script>
+  <script src="{{static_url}}js/jquery.min.js"></script>
+  <script src="{{static_url}}js/bootstrap.min.js"></script>
+  <script src="{{static_url}}js/jquery.canvasjs.min.js"></script>
+  <script src="{{static_url}}js/main.js"></script>
   <script type="text/javascript">
     window.onload = function () {
 	var chart = new CanvasJS.Chart("chartContainer", {
