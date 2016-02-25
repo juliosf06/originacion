@@ -10,3 +10,9 @@ def index(request):
     static_url=settings.STATIC_URL
     return render('reports/reports.html', locals(),
                   context_instance=RequestContext(request))
+
+def mapa(request):
+    distrito = MoraDistrito.objects.filter(provincia='Lima')
+    static_url=settings.STATIC_URL
+    return render('reports/mapa.html', locals(),
+                  context_instance=RequestContext(request))
