@@ -26,3 +26,23 @@ class MoraDistrito(models.Model):
 
     def __str__(self):
         return self.provincia+' '+self.distrito
+
+class RVGL(models.Model):
+    mes_vigencia = models.CharField(max_length=10)
+    rvgl = models.CharField(max_length=8)
+    seco = models.CharField(max_length=8)
+    dictamen = models.CharField(max_length=30)
+    analista = models.CharField(max_length=100)
+    importe_solic = models.DecimalField(max_digits=10, decimal_places=2)
+    dias_eval = models.IntegerField()
+    producto_esp = models.CharField(max_length=50)
+    territorio_nuevo = models.CharField(max_length=50)
+    ejecutivo_cuenta = models.CharField(max_length=100)
+    cliente = models.CharField(max_length=100)
+    seg_prime = models.CharField(max_length=10)
+    sco = models.CharField(max_length=10)
+    dictamen_sco = models.CharField(max_length=10)
+    dic_buro = models.CharField(max_length=10)
+    
+    def __str__(self):
+        return self.rvgl

@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -19,14 +19,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/reports">Originacion Banca Personas</a>
+          <a class="navbar-brand" href="#">Originacion Banca Personas</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/reports/seguimiento">Seguimiento</a></li>
-            <li><a href="/reports/hipotecario">Hipotecario</a></li>
-            <li><a href="/reports/rvgl">RVGL</a></li>
-            <li><a href="/reports/campanas">Campañas</a></li>
+            <li><a href="#">Seguimiento</a></li>
+            <li><a href="#">Hipotecario</a></li>
+            <li><a href="#">RVGL</a></li>
+            <li><a href="#">Campañas</a></li>
           </ul>
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Buscar...">
@@ -37,46 +37,25 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="/reports">Ofertas Generadas <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Efectividad</a></li>
-            <li><a href="#">Competitividad</a></li>
-            <li><a href="#">Altas Oferta Aprobada</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Altas SS.FF</a></li>
-            <li><a href="">Altas Según Buro</a></li>
-            <li><a href="">Altas Tipo Persona</a></li>
-            <li><a href="">Otros</a></li>
-          </ul>
-        </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Oferta Aprobada</h1>
-
-          <div class="rows placeholders">
-		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          <h1 class="page-header">Carga de Archivos</h1>
+	  <div class="row">
+            <form action="carga_rvgl/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reportes RVGL</label>
+		<input type="file" id="rvgl" name="rvgl">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load RVGL" ></div>
+            </form>
           </div>
-          <h2 class="sub-header">Detalle Campaña</h2>
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Segmento</th>
-                  <th>Ofertas</th>
-                </tr>
-              </thead>
-              <tbody>
-		{% for a in campanas %}
-		<tr>
-                  <td>{{a.codigo_campana}}</td>
-                  <td>{{a.segmento}}</td>
-                  <td>{{a.ofertas}}</td>
-                </tr>
-		{% endfor %}
-              </tbody>
-            </table>
+	  <div class="row">
+            <form>
+	      <div class="form_group">
+		<label>Reporte Mapa Hipotecario</label>
+		<input type="file" id="mapa" required>
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Mora" ></div>
+            </form>
           </div>
         </div>
       </div>

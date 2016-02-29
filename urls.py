@@ -19,5 +19,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),
+    url(r'^load_data/$', views.load, name='load'),
     url(r'^mapa/$', views.mapa, name='mapa'),
 ]
