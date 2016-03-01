@@ -2,6 +2,8 @@
 
 {% load report_tags %}
 
+{% load humanize %}
+
 {% block title %}Reporte de Ofertas TC{% endblock %}
 
 {% block content %}
@@ -26,7 +28,7 @@
 		<tr>
                   <td>{{a.codigo_campana}}</td>
                   <td>{{a.segmento}}</td>
-                  <td>{{a.ofertas}}</td>
+                  <td>{{a.ofertas|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>

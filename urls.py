@@ -20,8 +20,9 @@ urlpatterns = [
     # URLS para reportes de RVGL
     url(r'^rvgl/$', views.rvgl_banca, name='rvgl_banca'),
     url(r'^rvgl/banca/$', views.rvgl_banca, name='rvgl_banca'),
-    url(r'^rvgl/dictamen/$', views.dummy, name='dummy'),
-    url(r'^rvgl/producto/$', views.dummy, name='dummy'),
+    url(r'^rvgl/dictamen/$', views.rvgl_dictamen, name='rvgl_dictamen'),
+    url(r'^rvgl/producto/$', views.rvgl_producto, name='rvgl_producto'),
+    url(r'^rvgl/importexprod/$', views.rvgl_importexprod, name='rvgl_importexprod'),
 
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),

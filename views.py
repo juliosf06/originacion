@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
-from django.db.models import Count
+from django.db.models import Count, Sum, Avg
 from django.http import HttpResponse
 from django.shortcuts import render_to_response as render
 from django.template import RequestContext
@@ -38,6 +38,32 @@ def rvgl_banca(request):
     return render('reports/rvgl_banca.html', locals(),
                   context_instance=RequestContext(request))
 
+def rvgl_dictamen(request):
+    dictamen = RVGL.objects.all().values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
+    for i in dictamen:
+        print i
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_dictamen.html', locals(),
+                  context_instance=RequestContext(request))
+
+def rvgl_producto(request):
+    producto = RVGL.objects.all().values('producto_esp').annotate(num_producto=Count('producto_esp')).order_by('producto_esp')
+    for i in producto:
+        print i
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_producto.html', locals(),
+                  context_instance=RequestContext(request))
+
+def rvgl_importexprod(request):
+    importexprod = RVGL.objects.all().values('producto_esp').annotate(sum_importe=Sum('importe_solic')).order_by('producto_esp')
+    for i in importexprod:
+        print i
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_importexprod.html', locals(),
+                  context_instance=RequestContext(request))
 
 def mapa(request):
     distrito = MoraDistrito.objects.filter(provincia='Lima')

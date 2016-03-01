@@ -4,11 +4,11 @@
 
 {% load humanize %}
 
-{% block title %}Distribución por banca{% endblock %}
+{% block title %}Distribución por dictamen{% endblock %}
 
 {% block content %}
 
-          <h1 class="page-header">Operaciones por banca</h1>
+          <h1 class="page-header">Operaciones por dictamen</h1>
 
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
@@ -19,16 +19,16 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Seco</th>
+                  <th>Dictamen</th>
                   <th>Operaciones</th>
                 </tr>
               </thead>
               <tbody>
-		{% for a in banca %}
+		{% for a in dictamen %}
 		<tr>
                   <td></td>
-                  <td>{{a.seco}}</td>
-                  <td>{{a.num_seco|intcomma}}</td>
+                  <td>{{a.dictamen}}</td>
+                  <td>{{a.num_dictamen|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -42,7 +42,7 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Distribución por Operaciones"              
+			text: "Distribución por Dictamen"              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -50,8 +50,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "column",
 			dataPoints: [
-				{% for i in banca %}
-				{ label: "{{i.seco}}",  y: {{i.num_seco}}  },
+				{% for i in dictamen %}
+				{ label: "{{i.dictamen}}",  y: {{i.num_dictamen}}  },
 				{% endfor %}
 			]
 		}
