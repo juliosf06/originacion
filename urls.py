@@ -1,24 +1,29 @@
-"""originacion URL Configuration
+# -*- coding: utf-8 -*-
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.9/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import url
 
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.campana_ofertas, name='campana_ofertas'),
+    # URLS para reportes de campaña
+    url(r'^campanas/$', views.campana_ofertas, name='campana_ofertas'),
+    url(r'^campanas/ofertas/$', views.campana_ofertas, name='campana_ofertas'),
+    url(r'^campanas/efectividad/$', views.dummy, name='dummy'),
+    url(r'^campanas/competitividad/$', views.dummy, name='dummy'),
+    url(r'^campanas/altas_oa/$', views.dummy, name='dummy'),
+    url(r'^campanas/altas_sf/$', views.dummy, name='dummy'),
+    url(r'^campanas/altas_buro/$', views.dummy, name='dummy'),
+    url(r'^campanas/altas_personas/$', views.dummy, name='dummy'),
+    url(r'^campanas/otros/$', views.dummy, name='dummy'),
+
+    # URLS para reportes de RVGL
+    url(r'^rvgl/$', views.rvgl_banca, name='rvgl_banca'),
+    url(r'^rvgl/banca/$', views.rvgl_banca, name='rvgl_banca'),
+    url(r'^rvgl/dictamen/$', views.dummy, name='dummy'),
+    url(r'^rvgl/producto/$', views.dummy, name='dummy'),
+
+    # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),
     url(r'^load_data/$', views.load, name='load'),
     url(r'^mapa/$', views.mapa, name='mapa'),

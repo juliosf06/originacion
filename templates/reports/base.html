@@ -8,6 +8,7 @@
   <!-- estilos -->  
   <link href="{{static_url}}css/bootstrap.css" rel="stylesheet">
   <link href="{{static_url}}css/bootstrap-theme.css" rel="stylesheet">
+  <link href="{{static_url}}css/sidebar.css" rel="stylesheet">
   <link href="{{static_url}}css/main.css" rel="stylesheet">
 </head>
 
@@ -15,15 +16,15 @@
 
 <body>
   {% header %}
-    <div class="container-fluid">
-      <div class="row">
-        {% sidebar %}
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      <div id="wrapper">
+        {% sidebar tipo_side %}
+        <div id="page-content-wrapper">
+	  <div class=container-fluid">
           {% block content %}
           {% endblock %}
+	  </div>
         </div>
       </div>
-    </div>
   {% footer %}
   <!-- Le javascript -->
   <script src="{{static_url}}js/jquery.min.js"></script>
