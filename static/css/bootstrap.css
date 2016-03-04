@@ -2517,6 +2517,7 @@ label {
   max-width: 100%;
   margin-bottom: 5px;
   font-weight: bold;
+  padding-top:5px;
 }
 input[type="search"] {
   -webkit-box-sizing: border-box;

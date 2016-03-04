@@ -9,7 +9,17 @@
 {% block content %}
 
           <h1 class="page-header">Operaciones por banca</h1>
-
+          <div class="form-inline">
+            &nbsp;&nbsp;
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control">
+              <option selected>Enero 2016</option>
+              <option>Diciembre 2015</option>
+              <option>Noviembre 2015</option>
+              <option>Octubre 2015</option>
+              <option>Septiembre 2015</option>
+            </select>
+          </div>
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
           </div>
@@ -42,13 +52,13 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Distribución por Operaciones"              
+			text: "Distribución según Banca"              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "column",
+			type: "pie",
 			dataPoints: [
 				{% for i in banca %}
 				{ label: "{{i.seco}}",  y: {{i.num_seco}}  },

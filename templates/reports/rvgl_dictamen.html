@@ -9,7 +9,26 @@
 {% block content %}
 
           <h1 class="page-header">Operaciones por dictamen</h1>
-
+          <div class="form-inline">
+            &nbsp;&nbsp;
+            <label class="control-label">Producto:&nbsp;&nbsp;</label>
+            <select class="form-control" id="tipo_producto">
+              <option selected>TODOS</option>
+              <option>CONTIAUTO</option>
+              <option>HIPOTECARIO</option>
+              <option>PLD</option>
+              <option>TARJETAS</option>
+            </select>
+            &nbsp;&nbsp;
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control">
+              <option selected>Enero 2016</option>
+              <option>Diciembre 2015</option>
+              <option>Noviembre 2015</option>
+              <option>Octubre 2015</option>
+              <option>Septiembre 2015</option>
+            </select>
+          </div>
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
           </div>

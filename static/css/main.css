@@ -12,7 +12,7 @@
 
 .menu{
     position: fixed;
-    padding-top: 200px;
+    padding-top: 25%;
     font-size: 25px;
     color: #000;
     z-index:9999;
@@ -21,4 +21,8 @@
 
 .menu:hover{
     color: rgb(9,79,168);
+}
+
+.rows{
+    margin-top: 10px;
 }
