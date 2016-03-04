@@ -9,3 +9,16 @@
 .page-header{
     margin-top: 10px;
 }
+
+.menu{
+    position: fixed;
+    padding-top: 150px;
+    font-size: 25px;
+    color: #000;
+    z-index:9999;
+    cursor: pointer;
+}
+
+.menu:hover{
+    color: rgb(9,79,168);
+}

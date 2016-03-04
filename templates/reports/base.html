@@ -19,8 +19,10 @@
   {% header %}
       <div id="wrapper">
         {% sidebar tipo_side %}
+        <span class="menu glyphicon glyphicon-menu-right" id="tog_menu">
+        </span>
         <div id="page-content-wrapper">
-	  <div class=container-fluid">
+          <div class=container-fluid">
           {% block content %}
           {% endblock %}
 	  </div>
