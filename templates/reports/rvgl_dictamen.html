@@ -12,7 +12,7 @@
           <div class="form-inline">
             &nbsp;&nbsp;
             <label class="control-label">Producto:&nbsp;&nbsp;</label>
-            <select class="form-control" id="tipo_producto">
+            <select class="form-control" id="dictamen_producto">
               <option selected>TODOS</option>
               <option>CONTIAUTO</option>
               <option>HIPOTECARIO</option>
@@ -21,13 +21,14 @@
             </select>
             &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
-            <select class="form-control">
-              <option selected>Enero 2016</option>
-              <option>Diciembre 2015</option>
-              <option>Noviembre 2015</option>
-              <option>Octubre 2015</option>
-              <option>Septiembre 2015</option>
+            <select class="form-control" id="dictamen_periodo">
+              <option value="201601" selected>Enero 2016</option>
+              <option value="201512">Diciembre 2015</option>
+              <option value="201511">Noviembre 2015</option>
+              <option value="201510">Octubre 2015</option>
+              <option value="201509">Septiembre 2015</option>
             </select>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
@@ -43,6 +44,7 @@
                 </tr>
               </thead>
               <tbody>
+                <input type="hidden" id="result_dictamen" value="{{csrf_token}}">
 		{% for a in dictamen %}
 		<tr>
                   <td></td>
@@ -58,25 +60,12 @@
 {% block script_final %}
   <script type="text/javascript">
     window.onload = function () {
-	var chart = new CanvasJS.Chart("chartContainer", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Distribución por Dictamen"              
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "column",
-			dataPoints: [
-				{% for i in dictamen %}
-				{ label: "{{i.dictamen}}",  y: {{i.num_dictamen}}  },
-				{% endfor %}
-			]
-		}
-		]
-	});
-	chart.render();
+        datos = [
+			{% for i in dictamen %}
+			{ "label": "{{i.dictamen}}",  "y": {{i.num_dictamen}}  },
+			{% endfor %}
+		];
+        crear_chart(datos, "column", "Distribución por Dictamen");
     }
   </script>
 {% endblock %}

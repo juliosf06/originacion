@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
+from django.core.serializers import serialize
 from django.db.models import Count, Sum, Avg
 from django.http import HttpResponse
 from django.shortcuts import render_to_response as render
@@ -31,8 +32,6 @@ def campana_ofertas(request):
 # 3.- Vistas para reportes de RVGL
 def rvgl_banca(request):
     banca = RVGL.objects.all().values('seco').annotate(num_seco=Count('seco')).order_by('seco')
-    for i in banca:
-        print i
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_banca.html', locals(),
@@ -40,8 +39,6 @@ def rvgl_banca(request):
 
 def rvgl_dictamen(request):
     dictamen = RVGL.objects.all().values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
-    for i in dictamen:
-        print i
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_dictamen.html', locals(),
@@ -49,8 +46,6 @@ def rvgl_dictamen(request):
 
 def rvgl_producto(request):
     producto = RVGL.objects.all().values('producto_esp').annotate(num_producto=Count('producto_esp')).order_by('producto_esp')
-    for i in producto:
-        print i
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_producto.html', locals(),
@@ -58,8 +53,6 @@ def rvgl_producto(request):
 
 def rvgl_importexprod(request):
     importexprod = RVGL.objects.all().values('producto_esp').annotate(sum_importe=Sum('importe_solic')).order_by('producto_esp')
-    for i in importexprod:
-        print i
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_importexprod.html', locals(),
@@ -70,6 +63,13 @@ def mapa(request):
     static_url=settings.STATIC_URL
     return render('reports/mapa.html', locals(),
                   context_instance=RequestContext(request))
+
+# Vistas para recibir consultas Ajax
+def json_dictamen(request):
+    producto = request.POST['producto']
+    periodo = request.POST['periodo']
+    dictamen = RVGL.objects.filter(producto_esp=producto).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
+    return HttpResponse(dictamen)
 
 
 # Vistas para carga de csv

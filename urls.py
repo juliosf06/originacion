@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^rvgl/$', views.rvgl_banca, name='rvgl_banca'),
     url(r'^rvgl/banca/$', views.rvgl_banca, name='rvgl_banca'),
     url(r'^rvgl/dictamen/$', views.rvgl_dictamen, name='rvgl_dictamen'),
+    url(r'^rvgl/json_dictamen/$', views.json_dictamen, name='json_dictamen'),
     url(r'^rvgl/producto/$', views.rvgl_producto, name='rvgl_producto'),
     url(r'^rvgl/importexprod/$', views.rvgl_importexprod, name='rvgl_importexprod'),
 
