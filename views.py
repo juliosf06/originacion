@@ -66,9 +66,13 @@ def mapa(request):
 
 # Vistas para recibir consultas Ajax
 def json_dictamen(request):
-    producto = request.POST['producto']
     periodo = request.POST['periodo']
-    dictamen = RVGL.objects.filter(producto_esp=producto).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
+    producto = request.POST['producto']
+    #if request.method == 'TODOS'
+    if request.POST['producto'] == 'TODOS':
+        dictamen = RVGL.objects.all().values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')     
+    else:    
+        dictamen = RVGL.objects.filter(producto_esp=producto).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
     return HttpResponse(dictamen)
 
 

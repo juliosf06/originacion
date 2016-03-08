@@ -41,7 +41,15 @@ $("#dictamen_producto, #dictamen_periodo").change(function(e){
        limpia = limpia.replace(/}{/g,"},{");
        limpia = limpia.replace(/'/g,'"');
        limpia = limpia.replace(/&quot;/ig,'"');
-       crear_chart(JSON.parse('['+limpia+']'), "column", "Distribución por Dictamen");
+       console.log(limpia);
+       var result = JSON.parse('['+limpia+']');
+       console.log(result);
+       crear_chart(result, "column", "Distribución por Dictamen");
+       var html = "";
+       for (var datos in result){
+        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
+       };
+       $("#tabla_dictamen").html(html);
     }
   });
 });
