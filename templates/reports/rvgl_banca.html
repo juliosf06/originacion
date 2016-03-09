@@ -35,7 +35,7 @@
               </thead>
               <tbody>
 		{% for a in banca %}
-		<tr>
+		<tr>                       
                   <td></td>
                   <td>{{a.seco}}</td>
                   <td>{{a.num_seco|intcomma}}</td>
@@ -59,6 +59,8 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "pie",
+			indexLabelFontColor: "gray",			
+			indexLabel: "{label}",
 			dataPoints: [
 				{% for i in banca %}
 				{ label: "{{i.seco}}",  y: {{i.num_seco}}  },

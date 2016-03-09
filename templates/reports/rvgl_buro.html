@@ -4,12 +4,22 @@
 
 {% load humanize %}
 
-{% block title %}Distribución por Importe de Producto{% endblock %}
+{% block title %}Distribución por banca{% endblock %}
 
 {% block content %}
 
-          <h1 class="page-header">Importe por Producto</h1>
-
+          <h1 class="page-header">Operaciones por buro</h1>
+          <div class="form-inline">
+            &nbsp;&nbsp;
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control">
+              <option selected>Enero 2016</option>
+              <option>Diciembre 2015</option>
+              <option>Noviembre 2015</option>
+              <option>Octubre 2015</option>
+              <option>Septiembre 2015</option>
+            </select>
+          </div>
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
           </div>
@@ -19,16 +29,16 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Producto</th>
-                  <th>Importe</th>
+                  <th>Buro</th>
+                  <th>Operaciones</th>
                 </tr>
               </thead>
               <tbody>
-		{% for a in importexprod %}
+		{% for a in buro %}
 		<tr>
                   <td></td>
-                  <td>{{a.producto_esp}}</td>
-                  <td>S/. {{a.sum_importe|intcomma}}</td>
+                  <td>{{a.dic_buro}}</td>
+                  <td>{{a.num_buro|intcomma}}</td>                
                 </tr>
 		{% endfor %}
               </tbody>
@@ -42,27 +52,24 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Importe solicitado por Producto"              
+			text: "Distribución según Buro",
+                        verticalAlign: 'top', 
+			horizontalAlign: 'left'             
 		},
 		animationEnabled: true,   // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "bar",
-			color: "#0024b3",
+			type: "doughnut",
+			startAngle: 20,
+			indexLabel: "{label}  #percent%",
 			dataPoints: [
-				{% for i in importexprod %}
-				{ label: "{{i.producto_esp}}",  y: {{i.sum_importe}}/1000000  },
+				{% for i in buro %}
+				{ label: "{{i.dic_buro}}",  y: {{i.num_buro}}  },
 				{% endfor %}
 			]
 		}
-		],
-                axisY:{
-		  interlacedColor: "#e6ebff",
-		  gridColor: "#e6ebff",
-                  prefix: "S/.",
-                  suffix: "M"
-                }
+		]
 	});
 	chart.render();
     }

@@ -58,6 +58,29 @@ def rvgl_importexprod(request):
     return render('reports/rvgl_importexprod.html', locals(),
                   context_instance=RequestContext(request))
 
+def rvgl_buro(request):
+    buro = RVGL.objects.exclude(dic_buro='AL').exclude(dic_buro='').values('dic_buro').annotate(num_buro=Count('dic_buro')).order_by('dic_buro')
+    #buro = RVGL.objects.all().values('dic_buro').annotate(num_buro=Count('dic_buro')).order_by('dic_buro')
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_buro.html', locals(),
+                  context_instance=RequestContext(request))
+    print buro
+
+def rvgl_tiempo(request):
+    tiempo = RVGL.objects.all().values('dias_eval').annotate(num_tiempo=Count('dias_eval')).order_by('dias_eval')
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_tiempo.html', locals(),
+                  context_instance=RequestContext(request))
+
+def rvgl_importexdict(request):
+    importexdict = RVGL.objects.all().values('dictamen').annotate(sum_importe=Sum('importe_solic')).order_by('dictamen')
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_importexdict.html', locals(),
+                  context_instance=RequestContext(request))
+
 def mapa(request):
     distrito = MoraDistrito.objects.filter(provincia='Lima')
     static_url=settings.STATIC_URL
@@ -74,6 +97,22 @@ def json_dictamen(request):
     else:    
         dictamen = RVGL.objects.filter(producto_esp=producto).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
     return HttpResponse(dictamen)
+
+def json_tiempo(request):
+    periodo = request.POST['periodo']
+    banca = request.POST['banca']
+    #producto = request.POST['producto']
+    #if request.method == 'TODOS'
+    #if request.POST['producto'] == 'TODOS':
+        #tiempo = RVGL.objects.all().values('dias_eval').annotate(num_tiempo=Count('dias_eval')).order_by('dias_eval')     
+    #else:    
+        #tiempo = RVGL.objects.filter(producto_esp=producto).values('dias_eval').annotate(num_tiempo=Count('dias_eval')).order_by('dias_eval')
+
+    if request.POST['banca'] == 'TODOS':
+        tiempo = RVGL.objects.all().values('dias_eval').annotate(num_tiempo=Count('dias_eval')).order_by('dias_eval')     
+    else:    
+        tiempo = RVGL.objects.filter(seco=banca).values('dias_eval').annotate(num_tiempo=Count('dias_eval')).order_by('dias_eval')
+    return HttpResponse(tiempo)
 
 
 # Vistas para carga de csv

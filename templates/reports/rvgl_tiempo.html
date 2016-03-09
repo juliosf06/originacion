@@ -1,0 +1,82 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Distribución por dictamen{% endblock %}
+
+{% block content %}
+
+          <h1 class="page-header">Operaciones por tiempo dictaminado</h1>
+          <div class="form-inline">
+            <!--
+            &nbsp;&nbsp;
+            <label class="control-label">Producto:&nbsp;&nbsp;</label>
+            <select class="form-control" id="tiempo_producto">
+              <option selected>TODOS</option>
+              <option>CONTIAUTO</option>
+              <option>HIPOTECARIO</option>
+              <option>PLD</option>
+              <option>TARJETAS</option>
+            </select>
+            -->
+            &nbsp;&nbsp;
+            <label class="control-label">Banca:&nbsp;&nbsp;</label>
+            <select class="form-control" id="tiempo_banca">
+              <option selected>TODOS</option>
+              <option>BP1</option>
+              <option>BP2</option>
+              <option>BP3</option>
+              <option>CA</option>
+            </select>
+            &nbsp;&nbsp;
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control" id="tiempo_periodo">
+              <option value="201601" selected>Enero 2016</option>
+              <option value="201512">Diciembre 2015</option>
+              <option value="201511">Noviembre 2015</option>
+              <option value="201510">Octubre 2015</option>
+              <option value="201509">Septiembre 2015</option>
+            </select>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          </div>
+          <div class="rows placeholders">
+		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          </div>
+          <h2 class="sub-header">Detalle de Operaciones</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Tiempo Dictaminado</th>
+                  <th>Operaciones</th>
+                </tr>
+              </thead>
+              <tbody id="tabla_dictamen">
+		{% for a in tiempo %}
+		<tr>
+                  <td></td>
+                  <td>{{a.dias_eval}}</td>
+                  <td>{{a.num_tiempo|intcomma}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+{% endblock %}
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+        datos = [
+			{% for i in tiempo %}
+			{ "label": "{{i.dias_eval}}",  "y": {{i.num_tiempo}}  },
+			{% endfor %}
+		];
+        crear_chart(datos, "column", "Distribución por tiempo");
+    }
+  </script>
+{% endblock %}
+

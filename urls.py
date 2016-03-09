@@ -24,6 +24,10 @@ urlpatterns = [
     url(r'^rvgl/json_dictamen/$', views.json_dictamen, name='json_dictamen'),
     url(r'^rvgl/producto/$', views.rvgl_producto, name='rvgl_producto'),
     url(r'^rvgl/importexprod/$', views.rvgl_importexprod, name='rvgl_importexprod'),
+    url(r'^rvgl/buro/$', views.rvgl_buro, name='rvgl_buro'),
+    url(r'^rvgl/tiempo/$', views.rvgl_tiempo, name='rvgl_tiempo'),
+    url(r'^rvgl/json_tiempo/$', views.json_tiempo, name='json_tiempo'),
+    url(r'^rvgl/importexdict/$', views.rvgl_importexdict, name='rvgl_importexdict'),
 
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),

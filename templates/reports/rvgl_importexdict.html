@@ -8,7 +8,7 @@
 
 {% block content %}
 
-          <h1 class="page-header">Importe por Producto</h1>
+          <h1 class="page-header">Importe por Dictamen</h1>
 
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
@@ -19,15 +19,15 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Producto</th>
+                  <th>Dictamen</th>
                   <th>Importe</th>
                 </tr>
               </thead>
               <tbody>
-		{% for a in importexprod %}
+		{% for a in importexdict %}
 		<tr>
                   <td></td>
-                  <td>{{a.producto_esp}}</td>
+                  <td>{{a.dictamen}}</td>
                   <td>S/. {{a.sum_importe|intcomma}}</td>
                 </tr>
 		{% endfor %}
@@ -42,7 +42,7 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Importe solicitado por Producto"              
+			text: "Importe generado por dictamen"              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -51,8 +51,8 @@
 			type: "bar",
 			color: "#0024b3",
 			dataPoints: [
-				{% for i in importexprod %}
-				{ label: "{{i.producto_esp}}",  y: {{i.sum_importe}}/1000000  },
+				{% for i in importexdict %}
+				{ label: "{{i.dictamen}}",  y: {{i.sum_importe}}/1000000  },
 				{% endfor %}
 			]
 		}

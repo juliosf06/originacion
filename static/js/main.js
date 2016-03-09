@@ -55,6 +55,36 @@ $("#dictamen_producto, #dictamen_periodo").change(function(e){
 });
 
 
+$("#tiempo_banca, #tiempo_periodo").change(function(e){
+  console.log($("#tiempo_banca").val());
+  console.log($("#tiempo_periodo").val());
+
+  $.ajax({
+    data: {banca: $("#tiempo_banca").val(), 
+           periodo: $("#tiempo_periodo").val(),
+           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
+          },
+    type: 'POST',
+    url: '/reports/rvgl/json_tiempo/',
+    success: function(json){
+       var limpia = json.replace(/'dias_eval'/g,'"label"');
+       limpia = limpia.replace(/'num_tiempo'/g,'"y"');
+       limpia = limpia.replace(/: u'/g,": '");
+       limpia = limpia.replace(/}{/g,"},{");
+       limpia = limpia.replace(/'/g,'"');
+       limpia = limpia.replace(/&quot;/ig,'"');
+       console.log(limpia);
+       var result = JSON.parse('['+limpia+']');
+       console.log(result);
+       crear_chart(result, "column", "Distribución por Tiempo Dictaminado");
+       var html = "";
+       for (var datos in result){
+        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
+       };
+       $("#tabla_dictamen").html(html);
+    }
+  });
+});
 
 
 
