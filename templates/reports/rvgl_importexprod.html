@@ -49,7 +49,6 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "bar",
-			color: "#0024b3",
 			dataPoints: [
 				{% for i in importexprod %}
 				{ label: "{{i.producto_esp}}",  y: {{i.sum_importe}}/1000000  },
@@ -58,8 +57,6 @@
 		}
 		],
                 axisY:{
-		  interlacedColor: "#e6ebff",
-		  gridColor: "#e6ebff",
                   prefix: "S/.",
                   suffix: "M"
                 }

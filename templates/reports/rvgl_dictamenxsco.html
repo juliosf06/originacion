@@ -1,0 +1,112 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Distribución por dictamen{% endblock %}
+
+{% block content %}
+
+          <h1 class="page-header">Operaciones de dictamen por scoring</h1>
+          <div class="form-inline">
+            &nbsp;&nbsp;
+            <label class="control-label">Producto:&nbsp;&nbsp;</label>
+            <select class="form-control" id="dictamenxsco_producto">
+              <option selected>TODOS</option>
+              <option>CONTIAUTO</option>
+              <option>HIPOTECARIO</option>
+              <option>PLD</option>
+              <option>TARJETAS</option>
+            </select>
+            &nbsp;&nbsp;
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control" id="dictamenxsco_periodo">
+              <option value="201601" selected>Enero 2016</option>
+              <option value="201512">Diciembre 2015</option>
+              <option value="201511">Noviembre 2015</option>
+              <option value="201510">Octubre 2015</option>
+              <option value="201509">Septiembre 2015</option>
+            </select>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          </div>
+          <div class="rows placeholders">
+		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          </div>
+          <h2 class="sub-header">Detalle de Operaciones</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Dictamen</th>
+                  <th>Aprobado</th>
+                  <th>Duda</th>
+                  <th>Rechazo</th>
+                </tr>
+              </thead>
+              <tbody id="tabla_dictamen">
+		{% for a in dictamenxsco_ap %}
+		<tr>
+                  <td></td>
+                  <td>{{a.dictamen}}</td>
+                  <td>{{a.num_dictamenxsco_ap|intcomma}}</td>
+                  <td>{{a.num_dictamenxsco_du|intcomma}}</td>
+                  <td>{{a.num_dictamenxsco_re|intcomma}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+{% endblock %}
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Distribución según Dictamen por Scoring",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "Aprobados",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in dictamenxsco_ap %}
+				{ label: "{{i.dictamen}}",  y: {{i.num_dictamenxsco_ap}}  },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "Dudas",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in dictamenxsco_du %}
+				{ label: "{{i.dictamen}}",  y: {{i.num_dictamenxsco_du}}  },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "Rechazos",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in dictamenxsco_re %}
+				{ label: "{{i.dictamen}}",  y: {{i.num_dictamenxsco_re}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+    }
+  </script>
+{% endblock %}
+

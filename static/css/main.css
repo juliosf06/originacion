@@ -8,6 +8,10 @@
 
 .page-header{
     margin-top: 10px;
+    padding-bottom: 5px;
+    color: #094fa4;
+    font-family: 'BBVA';
+    border-bottom: 2px solid #009ee5;
 }
 
 .menu{

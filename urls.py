@@ -5,7 +5,8 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.campana_ofertas, name='campana_ofertas'),
+    url(r'^$', views.login, name='login'),
+    #url(r'^$', views.campana_ofertas, name='campana_ofertas'),
     # URLS para reportes de campaña
     url(r'^campanas/$', views.campana_ofertas, name='campana_ofertas'),
     url(r'^campanas/ofertas/$', views.campana_ofertas, name='campana_ofertas'),
@@ -28,6 +29,12 @@ urlpatterns = [
     url(r'^rvgl/tiempo/$', views.rvgl_tiempo, name='rvgl_tiempo'),
     url(r'^rvgl/json_tiempo/$', views.json_tiempo, name='json_tiempo'),
     url(r'^rvgl/importexdict/$', views.rvgl_importexdict, name='rvgl_importexdict'),
+    url(r'^rvgl/dictamenxsco/$', views.rvgl_dictamenxsco, name='rvgl_dictamenxsco'),
+    url(r'^rvgl/json_dictamenxsco/$', views.json_dictamenxsco, name='json_dictamenxsco'),
+    url(r'^rvgl/top20terr/$', views.rvgl_top20terr, name='rvgl_top20terr'),
+    url(r'^rvgl/top20gest/$', views.rvgl_top20gest, name='rvgl_top20gest'),
+    url(r'^rvgl/top20clie/$', views.rvgl_top20clie, name='rvgl_top20clie'),
+
 
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),

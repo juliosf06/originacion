@@ -1,0 +1,129 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Distribución por banca{% endblock %}
+
+{% block content %}
+
+          <h1 class="page-header">Operaciones por clientes</h1>
+          <div class="form-inline">
+            &nbsp;&nbsp;
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control">
+              <option selected>Enero 2016</option>
+              <option>Diciembre 2015</option>
+              <option>Noviembre 2015</option>
+              <option>Octubre 2015</option>
+              <option>Septiembre 2015</option>
+            </select>
+          </div>
+          <div class="rows placeholders">
+		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          </div>
+          <h2 class="sub-header">Detalle de Operaciones</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>cliente</th>
+                  <th>Operaciones</th>
+                </tr>
+              </thead>
+              <tbody>
+		{% for a in top20clie1 %}
+		<tr>                       
+                  <td></td>
+                  <td>{{a.cliente}}</td>
+                  <td>{{a.num_top20clie1|intcomma}}</td>
+                  <!--<td>{{a.num_top20clie3|intcomma}}</td>-->
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+{% endblock %}
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Operaciones por Cliente",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar",
+			name: "Solicitadas",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in top20clie1 %}
+				{ label: "{{i.cliente}}",  y: {{i.num_top20clie1}}  },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar",
+			name: "Aprobadas",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in top20clie3 %}
+				{ label: "{{i.cliente}}",  y: {{i.num_top20clie3}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+    }
+  </script>
+{% endblock %}
+
+<!--
+
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Importes por Cliente",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "Solicitadas",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in top20clie2 %}
+				{ label: "{{i.cliente}}",  y: {{i.sum_top20clie2}}  },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "Aprobadas",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in top20clie4 %}
+				{ label: "{{i.cliente}}",  y: {{i.sum_top20clie4}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+    }
+  </script>
+
+-->
+

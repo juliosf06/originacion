@@ -87,5 +87,37 @@ $("#tiempo_banca, #tiempo_periodo").change(function(e){
 });
 
 
+$("#dictamenxsco_producto, #dictamenxsco_periodo").change(function(e){
+  console.log($("#dictamenxsco_producto").val());
+  console.log($("#dictamenxsco_periodo").val());
+
+  $.ajax({
+    data: {producto: $("#dictamenxsco_producto").val(), 
+           periodo: $("#dictamenxsco_periodo").val(),
+           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
+          },
+    type: 'POST',
+    url: '/reports/rvgl/json_dictamenxsco/',
+    success: function(json){
+       var limpia = json.replace(/'dictamen'/g,'"label"');
+       limpia = limpia.replace(/'num_dictamenxsco'/g,'"y"');
+       limpia = limpia.replace(/: u'/g,": '");
+       limpia = limpia.replace(/}{/g,"},{");
+       limpia = limpia.replace(/'/g,'"');
+       limpia = limpia.replace(/&quot;/ig,'"');
+       console.log(limpia);
+       var result = JSON.parse('['+limpia+']');
+       console.log(result);
+       crear_chart(result, "column", "Distribución de Dictamen por Scoring");
+       var html = "";
+       for (var datos in result){
+        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
+       };
+       $("#tabla_dictamen").html(html);
+    }
+  });
+});
+
+
 
 

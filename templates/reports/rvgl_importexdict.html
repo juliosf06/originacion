@@ -9,11 +9,11 @@
 {% block content %}
 
           <h1 class="page-header">Importe por Dictamen</h1>
-
+          <!--<h2 class="page-grafic">Grafic Detail</h2> agregado h2 era sub-header-->
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
           </div>
-          <h2 class="sub-header">Detalle de Operaciones</h2>
+          <h3 class="sub-header">Detalle de Operaciones</h3>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -49,7 +49,6 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "bar",
-			color: "#0024b3",
 			dataPoints: [
 				{% for i in importexdict %}
 				{ label: "{{i.dictamen}}",  y: {{i.sum_importe}}/1000000  },
@@ -58,8 +57,6 @@
 		}
 		],
                 axisY:{
-		  interlacedColor: "#e6ebff",
-		  gridColor: "#e6ebff",
                   prefix: "S/.",
                   suffix: "M"
                 }
