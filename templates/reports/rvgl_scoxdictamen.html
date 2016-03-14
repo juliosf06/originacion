@@ -8,13 +8,12 @@
 
 {% block content %}
 
-          <h1 class="page-header">Operaciones por banca</h1>
+          <h1 class="page-header">Por Dictamen de Scoring</h1>
           <div class="form-inline">
             &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
             <select class="form-control">
-              <option selected>Febrero 2016</option>
-              <option>Enero 2016</option>
+              <option selected>Enero 2016</option>
               <option>Diciembre 2015</option>
               <option>Noviembre 2015</option>
               <option>Octubre 2015</option>
@@ -23,27 +22,28 @@
           </div>
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
-          </div>
+          </di>
           <h2 class="sub-header">Detalle de Operaciones</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Seco</th>
+                  <th>Dictamen</th>
                   <th>Operaciones</th>
                 </tr>
               </thead>
               <tbody>
-		{% for a in banca %}
+		{% for a in scoxdictamen %}
 		<tr>                       
                   <td></td>
-                  <td>{{a.seco}}</td>
-                  <td>{{a.num_seco|intcomma}}</td>
+                  <td>{{a.dictamen_sco}}</td>
+                  <td>{{a.num_scoxdictamen|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
             </table>
+		<div>(*) SE CONSIDERAN LAS OP. CON DICTAMEN SCORING </div>
           </div>
 {% endblock %}
 
@@ -53,7 +53,7 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Distribución según Banca"              
+			text: "Por Dictamen de Scoring"              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -63,8 +63,8 @@
 			indexLabelFontColor: "gray",			
 			indexLabel: "{label}",
 			dataPoints: [
-				{% for i in banca %}
-				{ label: "{{i.seco}}",  y: {{i.num_seco}}  },
+				{% for i in scoxdictamen %}
+				{ label: "{{i.dictamen_sco}}",  y: {{i.num_scoxdictamen}}  },
 				{% endfor %}
 			]
 		}

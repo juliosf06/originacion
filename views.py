@@ -37,14 +37,14 @@ def campana_ofertas(request):
 
 # 3.- Vistas para reportes de RVGL
 def rvgl_banca(request):
-    banca = RVGL.objects.all().values('seco').annotate(num_seco=Count('seco')).order_by('seco')
+    banca = RVGL.objects.filter(mes_vigencia='201601').values('seco').annotate(num_seco=Count('seco')).order_by('seco')
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_banca.html', locals(),
                   context_instance=RequestContext(request))
 
 def rvgl_dictamen(request):
-    dictamen = RVGL.objects.all().values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
+    dictamen = RVGL.objects.filter(mes_vigencia='201602').values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_dictamen.html', locals(),
@@ -104,34 +104,65 @@ def rvgl_dictamenxsco(request):
     return render('reports/rvgl_dictamenxsco.html', locals(),
                   context_instance=RequestContext(request))
 
+def rvgl_scoxllenado(request):
+    scoxllenado = RVGL.objects.filter(mes_vigencia='201601').exclude(sco='O').values('sco').annotate(num_scoxllenado=Count('sco')).order_by('sco')
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_scoxllenado.html', locals(),
+                  context_instance=RequestContext(request))
+
+def rvgl_scoxforzaje(request):
+    scoxforzaje = RVGL.objects.filter(mes_vigencia='201601').filter(dictamen_sco='RE').exclude(seg_prime='NULL').values('seg_prime').annotate(num_scoxforzaje=Count('seg_prime')).order_by('seg_prime')
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_scoxforzaje.html', locals(),
+                  context_instance=RequestContext(request))
+
+def rvgl_scoxdictamen(request):
+    scoxdictamen = RVGL.objects.filter(mes_vigencia='201601').exclude(dictamen_sco='NULL').values('dictamen_sco').annotate(num_scoxdictamen=Count('dictamen_sco')).order_by('dictamen_sco')
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_scoxdictamen.html', locals(),
+                  context_instance=RequestContext(request))
+
 def rvgl_top20terr(request):
-    top20terr1 = RVGL.objects.all().values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic')).order_by('-territorio_nuevo')[:20]
-    top20terr2 = RVGL.objects.all().values('territorio_nuevo').annotate(sum_top20terr2=Sum('importe_solic')).order_by('-territorio_nuevo')[:20]
-    top20terr3 = RVGL.objects.exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr3=Count('importe_aprob')).order_by('-territorio_nuevo')[:20]
-    top20terr4 = RVGL.objects.all().values('territorio_nuevo').annotate(sum_top20terr4=Sum('importe_aprob')).order_by('-territorio_nuevo')[:20]
+    top20terr1 = RVGL.objects.filter(mes_vigencia='201601').values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic')).order_by('-num_top20terr1')[:20]
+    top20terr2 = RVGL.objects.filter(mes_vigencia='201601').values('territorio_nuevo').annotate(sum_top20terr2=Sum('importe_solic')).order_by('-sum_top20terr2')[:20]
+    top20terr3 = RVGL.objects.filter(mes_vigencia='201601').exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr3=Count('importe_aprob')).order_by('-num_top20terr3')[:20]
+    top20terr4 = RVGL.objects.filter(mes_vigencia='201601').values('territorio_nuevo').annotate(sum_top20terr4=Sum('importe_aprob')).order_by('-sum_top20terr4')[:20]
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_top20terr.html', locals(),
                   context_instance=RequestContext(request))
 
 def rvgl_top20gest(request):
-    top20gest1 = RVGL.objects.all().values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic')).order_by('ejecutivo_cuenta')[:20]
-    top20gest2 = RVGL.objects.all().values('ejecutivo_cuenta').annotate(sum_top20gest2=Sum('importe_solic')).order_by('ejecutivo_cuenta')[:20]
-    top20gest3 = RVGL.objects.exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest3=Count('importe_aprob')).order_by('ejecutivo_cuenta')[:20]
-    top20gest4 = RVGL.objects.all().values('ejecutivo_cuenta').annotate(sum_top20gest4=Sum('importe_aprob')).order_by('ejecutivo_cuenta')[:20]
+    top20gest1 = RVGL.objects.filter(mes_vigencia='201601').values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic')).order_by('-num_top20gest1')[:20]
+    top20gest2 = RVGL.objects.filter(mes_vigencia='201601').values('ejecutivo_cuenta').annotate(sum_top20gest2=Sum('importe_solic')).order_by('-sum_top20gest2')[:20]
+    top20gest3 = RVGL.objects.filter(mes_vigencia='201601').exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest3=Count('importe_aprob')).order_by('-num_top20gest3')[:20]
+    top20gest4 = RVGL.objects.filter(mes_vigencia='201601').values('ejecutivo_cuenta').annotate(sum_top20gest4=Sum('importe_aprob')).order_by('-sum_top20gest4')[:20]
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_top20gest.html', locals(),
                   context_instance=RequestContext(request))
 
 def rvgl_top20clie(request):
-    top20clie1 = RVGL.objects.all().values('cliente').annotate(num_top20clie1=Count('importe_solic')).order_by('cliente')[:20]
-    top20clie2 = RVGL.objects.all().values('cliente').annotate(sum_top20clie2=Sum('importe_solic')).order_by('cliente')[:20]
-    top20clie3 = RVGL.objects.exclude(importe_aprob=0).values('cliente').annotate(num_top20clie3=Count('importe_aprob')).order_by('cliente')[:20]
-    top20clie4 = RVGL.objects.all().values('cliente').annotate(sum_top20clie4=Sum('importe_aprob')).order_by('cliente')[:20]
+    top20clie1 = RVGL.objects.filter(mes_vigencia='201601').values('cliente').annotate(num_top20clie1=Count('importe_solic')).order_by('cliente').order_by('-num_top20clie1')[:20]
+    top20clie2 = RVGL.objects.filter(mes_vigencia='201601').values('cliente').annotate(sum_top20clie2=Sum('importe_solic')).order_by('-sum_top20clie2')[:20]
+    top20clie3 = RVGL.objects.filter(mes_vigencia='201601').exclude(importe_aprob=0).values('cliente').annotate(num_top20clie3=Count('importe_aprob')).order_by('-num_top20clie3')[:20]
+    top20clie4 = RVGL.objects.filter(mes_vigencia='201601').values('cliente').annotate(sum_top20clie4=Sum('importe_aprob')).order_by('-sum_top20clie4')[:20]
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_top20clie.html', locals(),
+                  context_instance=RequestContext(request))
+
+def rvgl_top20ofic(request):
+    top20ofic1 = RVGL.objects.filter(mes_vigencia='201602').values('oficina').annotate(num_top20ofic1=Count('importe_solic')).order_by('-num_top20ofic1')[:20]
+    top20ofic2 = RVGL.objects.filter(mes_vigencia='201602').values('oficina').annotate(sum_top20ofic2=Sum('importe_solic')).order_by('-sum_top20ofic2')[:20]
+    top20ofic3 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('oficina').annotate(num_top20ofic3=Count('importe_aprob')).order_by('-num_top20ofic3')[:20]
+    top20ofic4 = RVGL.objects.filter(mes_vigencia='201602').values('oficina').annotate(sum_top20ofic4=Sum('importe_aprob')).order_by('-sum_top20ofic4')[:20]
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_top20ofic.html', locals(),
                   context_instance=RequestContext(request))
 
 # Vistas para recibir consultas Ajax
@@ -140,10 +171,11 @@ def json_dictamen(request):
     producto = request.POST['producto']
     #if request.method == 'TODOS'
     if request.POST['producto'] == 'TODOS':
-        dictamen = RVGL.objects.all().values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')     
+        dictamen = RVGL.objects.all().filter(mes_vigencia=periodo).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')     
     else:    
-        dictamen = RVGL.objects.filter(producto_esp=producto).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
+        dictamen = RVGL.objects.filter(producto_esp=producto).filter(mes_vigencia=periodo).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
     return HttpResponse(dictamen)
+
 
 def json_tiempo(request):
     periodo = request.POST['periodo']

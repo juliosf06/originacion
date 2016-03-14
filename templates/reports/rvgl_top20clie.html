@@ -23,6 +23,9 @@
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
           </div>
+          <div class="rows placeholders">
+		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+          </div>
           <h2 class="sub-header">Detalle de Operaciones</h2>
           <div class="table-responsive">
             <table class="table table-striped">
@@ -82,15 +85,8 @@
 		]
 	});
 	chart.render();
-    }
-  </script>
-{% endblock %}
 
-<!--
-
-  <script type="text/javascript">
-    window.onload = function () {
-	var chart = new CanvasJS.Chart("chartContainer", {
+	var chart = new CanvasJS.Chart("chartContainer2", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Importes por Cliente",
@@ -99,7 +95,7 @@
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "scatter",
 			name: "Solicitadas",
 			showInLegend: "true",
 			dataPoints: [
@@ -110,7 +106,7 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "scatter",
 			name: "Aprobadas",
 			showInLegend: "true",
 			dataPoints: [
@@ -122,6 +118,15 @@
 		]
 	});
 	chart.render();
+
+    }
+  </script>
+{% endblock %}
+
+<!--
+
+  <script type="text/javascript">
+    window.onload = function () {
     }
   </script>
 

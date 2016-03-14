@@ -8,7 +8,7 @@
 
 {% block content %}
 
-          <h1 class="page-header">Operaciones por Gestor</h1>
+          <h1 class="page-header">Operaciones por Oficina</h1>
           <div class="form-inline">
             &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
@@ -32,16 +32,16 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Gestor</th>
+                  <th>Oficinas</th>
                   <th>Operaciones</th>
                 </tr>
               </thead>
               <tbody>
-		{% for a in top20gest1 %}
+		{% for a in top20ofic1 %}
 		<tr>                       
                   <td></td>
-                  <td>{{a.ejecutivo_cuenta}}</td>
-                  <td>{{a.num_top20gest1|intcomma}}</td>
+                  <td>{{a.oficina}}</td>
+                  <td>{{a.num_top20ofic1|intcomma}}</td>
                   <!--<td>{{a.num_top20terr3|intcomma}}</td>-->
                 </tr>
 		{% endfor %}
@@ -56,7 +56,7 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Operaciones por Gestor",
+			text: "Operaciones por Oficinas",
                 },
 		animationEnabled: true,   // change to true
 		data: [              
@@ -64,10 +64,11 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedBar",
 			name: "Solicitadas",
+			markerType: "circle",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20gest1 %}
-				{ label: "{{i.ejecutivo_cuenta}}",  y: {{i.num_top20gest1}}  },
+				{% for i in top20ofic1 %}
+				{ label: "{{i.oficina}}", y: {{i.num_top20ofic1}}  },
 				{% endfor %}
 			]
 		},
@@ -75,10 +76,11 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedBar",
 			name: "Aprobadas",
+			markerType: "square",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20gest3 %}
-				{ label: "{{i.ejecutivo_cuenta}}",  y: {{i.num_top20gest3}}  },
+				{% for i in top20ofic3 %}
+				{ label: "{{i.oficina}}", y: {{i.num_top20ofic3}}  },
 				{% endfor %}
 			]
 		}
@@ -89,7 +91,7 @@
 	var chart = new CanvasJS.Chart("chartContainer2", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Importes por gestor",
+			text: "Importes por Oficinas",
                 },
 		animationEnabled: true,   // change to true
 		data: [              
@@ -99,8 +101,8 @@
 			name: "Solicitadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20gest2 %}
-				{ label: "{{i.ejecutivo_cuenta}}",  y: {{i.sum_top20gest2}}  },
+				{% for i in top20ofic2 %}
+				{ label: "{{i.oficina}}",  y: {{i.sum_top20ofic2}}  },
 				{% endfor %}
 			]
 		},
@@ -110,8 +112,8 @@
 			name: "Aprobadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20gest4 %}
-				{ label: "{{i.ejecutivo_cuenta}}",  y: {{i.sum_top20gest4}}  },
+				{% for i in top20ofic4 %}
+				{ label: "{{i.oficina}}",  y: {{i.sum_top20ofic4}}  },
 				{% endfor %}
 			]
 		}

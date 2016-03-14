@@ -31,9 +31,13 @@ urlpatterns = [
     url(r'^rvgl/importexdict/$', views.rvgl_importexdict, name='rvgl_importexdict'),
     url(r'^rvgl/dictamenxsco/$', views.rvgl_dictamenxsco, name='rvgl_dictamenxsco'),
     url(r'^rvgl/json_dictamenxsco/$', views.json_dictamenxsco, name='json_dictamenxsco'),
+    url(r'^rvgl/scoxllenado/$', views.rvgl_scoxllenado, name='rvgl_scoxllenado'),
+    url(r'^rvgl/scoxforzaje/$', views.rvgl_scoxforzaje, name='rvgl_scoxforzaje'),
+    url(r'^rvgl/scoxdictamen/$', views.rvgl_scoxdictamen, name='rvgl_scoxdictamen'),
     url(r'^rvgl/top20terr/$', views.rvgl_top20terr, name='rvgl_top20terr'),
     url(r'^rvgl/top20gest/$', views.rvgl_top20gest, name='rvgl_top20gest'),
     url(r'^rvgl/top20clie/$', views.rvgl_top20clie, name='rvgl_top20clie'),
+    url(r'^rvgl/top20ofic/$', views.rvgl_top20ofic, name='rvgl_top20ofic'),
 
 
     # URLS para carga de archivos

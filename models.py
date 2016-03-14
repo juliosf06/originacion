@@ -45,6 +45,7 @@ class RVGL(models.Model):
     dictamen_sco = models.CharField(max_length=10)
     dic_buro = models.CharField(max_length=10)
     importe_aprob = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    oficina = models.CharField(max_length=50, default=0)
 
     def __str__(self):
         return self.rvgl

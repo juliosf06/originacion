@@ -23,6 +23,9 @@
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
           </div>
+          <div class="rows placeholders">
+		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+          </div>
           <h2 class="sub-header">Detalle de Operaciones</h2>
           <div class="table-responsive">
             <table class="table table-striped">
@@ -76,6 +79,38 @@
 			dataPoints: [
 				{% for i in top20terr3 %}
 				{ label: "{{i.territorio_nuevo}}",  y: {{i.num_top20terr3}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Importes por territorio",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			name: "Solicitadas",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in top20terr2 %}
+				{ label: "{{i.territorio_nuevo}}",  y: {{i.sum_top20terr2}}  },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			name: "Aprobadas",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in top20terr4 %}
+				{ label: "{{i.territorio_nuevo}}",  y: {{i.sum_top20terr4}}  },
 				{% endfor %}
 			]
 		}
