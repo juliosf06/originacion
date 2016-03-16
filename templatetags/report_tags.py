@@ -7,7 +7,7 @@ register = Library()
 
 #Header
 @register.inclusion_tag('reports/header.html')
-def header():
+def header(user):
     return locals()
 
 #Footer

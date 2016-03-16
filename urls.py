@@ -5,7 +5,8 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.login, name='login'),
+    url(r'^$', views.login_reports, name='login_reports'),
+    url(r'^logout/$', views.logout_view, name='logout_view'),
     #url(r'^$', views.campana_ofertas, name='campana_ofertas'),
     # URLS para reportes de campaña
     url(r'^campanas/$', views.campana_ofertas, name='campana_ofertas'),
@@ -21,14 +22,19 @@ urlpatterns = [
     # URLS para reportes de RVGL
     url(r'^rvgl/$', views.rvgl_banca, name='rvgl_banca'),
     url(r'^rvgl/banca/$', views.rvgl_banca, name='rvgl_banca'),
+    url(r'^rvgl/json_banca/$', views.json_banca, name='json_banca'),
     url(r'^rvgl/dictamen/$', views.rvgl_dictamen, name='rvgl_dictamen'),
     url(r'^rvgl/json_dictamen/$', views.json_dictamen, name='json_dictamen'),
     url(r'^rvgl/producto/$', views.rvgl_producto, name='rvgl_producto'),
+    url(r'^rvgl/json_producto/$', views.json_producto, name='json_producto'),
     url(r'^rvgl/importexprod/$', views.rvgl_importexprod, name='rvgl_importexprod'),
+    url(r'^rvgl/json_importexprod/$', views.json_importexprod, name='json_importexprod'),
     url(r'^rvgl/buro/$', views.rvgl_buro, name='rvgl_buro'),
+    url(r'^rvgl/json_buro/$', views.json_buro, name='json_buro'),
     url(r'^rvgl/tiempo/$', views.rvgl_tiempo, name='rvgl_tiempo'),
     url(r'^rvgl/json_tiempo/$', views.json_tiempo, name='json_tiempo'),
     url(r'^rvgl/importexdict/$', views.rvgl_importexdict, name='rvgl_importexdict'),
+    #url(r'^rvgl/json_importexdict/$', views.json_importexdict, name='json_importexdict'),
     url(r'^rvgl/dictamenxsco/$', views.rvgl_dictamenxsco, name='rvgl_dictamenxsco'),
     url(r'^rvgl/json_dictamenxsco/$', views.json_dictamenxsco, name='json_dictamenxsco'),
     url(r'^rvgl/scoxllenado/$', views.rvgl_scoxllenado, name='rvgl_scoxllenado'),

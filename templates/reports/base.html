@@ -16,7 +16,7 @@
 {% load report_tags %}
 
 <body>
-  {% header %}
+  {% header request.user %}
       <div id="wrapper">
         {% sidebar tipo_side %}
         <span class="menu glyphicon glyphicon-play" id="tog_menu">
