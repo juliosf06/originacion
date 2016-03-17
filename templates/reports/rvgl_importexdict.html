@@ -10,6 +10,28 @@
 
           <h1 class="page-header">Importe por Dictamen</h1>
           <!--<h2 class="page-grafic">Grafic Detail</h2> agregado h2 era sub-header-->
+          <div class="form-inline">
+            &nbsp;&nbsp;
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control" id="importexdict_periodo">
+              <option value="201602" selected>Febrero 2016</option>
+              <option value="201601">Enero 2016</option>
+              <option>Diciembre 2015</option>
+              <option>Noviembre 2015</option>
+              <option>Octubre 2015</option>
+              <option>Septiembre 2015</option>
+            </select>
+            &nbsp;&nbsp;
+            <label class="control-label">Analista:&nbsp;&nbsp;</label>
+            <select class="form-control" id="importexdict_analista">
+              <option selected>TODOS</option>
+	      {% for a in control_analistas %}  
+                  <option>{{a.analista}}</option>
+	      {% endfor %}
+            </select>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          </div>
+
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
           </div>
@@ -23,7 +45,7 @@
                   <th>Importe</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="tabla_importexdict">
 		{% for a in importexdict %}
 		<tr>
                   <td></td>

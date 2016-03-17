@@ -11,22 +11,22 @@
           <h1 class="page-header">Operaciones de dictamen por scoring</h1>
           <div class="form-inline">
             &nbsp;&nbsp;
-            <label class="control-label">Producto:&nbsp;&nbsp;</label>
-            <select class="form-control" id="dictamenxsco_producto">
-              <option selected>TODOS</option>
-              <option>CONTIAUTO</option>
-              <option>HIPOTECARIO</option>
-              <option>PLD</option>
-              <option>TARJETAS</option>
-            </select>
-            &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
             <select class="form-control" id="dictamenxsco_periodo">
-              <option value="201601" selected>Enero 2016</option>
-              <option value="201512">Diciembre 2015</option>
-              <option value="201511">Noviembre 2015</option>
-              <option value="201510">Octubre 2015</option>
-              <option value="201509">Septiembre 2015</option>
+              <option value="201602" selected>Febrero 2016</option>
+              <option value="201601">Enero 2016</option>
+              <option>Diciembre 2015</option>
+              <option>Noviembre 2015</option>
+              <option>Octubre 2015</option>
+              <option>Septiembre 2015</option>
+            </select>
+	    &nbsp;&nbsp;
+            <label class="control-label">Analista:&nbsp;&nbsp;</label>
+            <select class="form-control" id="dictamenxsco_analista">
+              <option selected>TODOS</option>
+	      {% for a in control_analistas %}  
+                  <option>{{a.analista}}</option>
+	      {% endfor %}
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
@@ -45,7 +45,7 @@
                   <th>Rechazo</th>
                 </tr>
               </thead>
-              <tbody id="tabla_dictamen">
+              <tbody id="tabla_dictamenxsco">
 		{% for a in dictamenxsco_ap %}
 		<tr>
                   <td></td>

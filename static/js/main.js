@@ -161,7 +161,7 @@ $("#importexprod_periodo,#importexprod_analista ").change(function(e){
     success: function(json){
        console.log(json);
        var limpia = json.replace(/'producto_esp'/g,'"label"');
-       limpia = limpia.replace(/'sum_importe'/g,'"y"');
+       limpia = limpia.replace(/'sum_importexprod'/g,'"y"');
        limpia = limpia.replace(/Decimal\('/g,'');
        limpia = limpia.replace(/'\)/g,'');
        limpia = limpia.replace(/: u'/g,": '");
@@ -215,14 +215,48 @@ $("#tiempo_banca, #tiempo_periodo, #tiempo_analista").change(function(e){
   });
 });
 
-
-$("#dictamenxsco_producto, #dictamenxsco_periodo").change(function(e){
-  console.log($("#dictamenxsco_producto").val());
-  console.log($("#dictamenxsco_periodo").val());
+$("#importexdict_periodo,#importexdict_analista ").change(function(e){
+  console.log($("#importexdict_periodo").val());
+  console.log($("#importexdict_analista").val());
 
   $.ajax({
-    data: {producto: $("#dictamenxsco_producto").val(), 
-           periodo: $("#dictamenxsco_periodo").val(),
+    data: {periodo: $("#importexdict_periodo").val(),
+	   analista: $("#importexdict_analista").val(), 
+           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
+          },
+    type: 'POST',
+    url: '/reports/rvgl/json_importexdict/',
+    success: function(json){
+       console.log(json);
+       var limpia = json.replace(/'dictamen'/g,'"label"');
+       limpia = limpia.replace(/'sum_importexdict'/g,'"y"');
+       limpia = limpia.replace(/Decimal\('/g,'');
+       limpia = limpia.replace(/'\)/g,'');
+       limpia = limpia.replace(/: u'/g,": '");
+       limpia = limpia.replace(/}{/g,"},{");
+       limpia = limpia.replace(/'/g,'"');
+       limpia = limpia.replace(/&quot;/ig,'"');
+       console.log(limpia);
+       var result = JSON.parse('['+limpia+']');
+       console.log(result);
+       crear_chart(result, "bar", "Importe generado por Dictamen");
+       var html = "";
+       for (var datos in result){
+        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
+       };
+       $("#tabla_importexdict").html(html);
+    }
+  });
+});
+
+
+$("#dictamenxsco_periodo, #dictamenxsco_analista").change(function(e){
+  console.log($("#dictamenxsco_periodo").val());
+  console.log($("#dictamenxsco_analista").val());
+
+  $.ajax({
+    data: {periodo: $("#dictamenxsco_periodo").val(),
+           analista: $("#dictamenxsco_analista").val(),
            csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
           },
     type: 'POST',
@@ -242,11 +276,106 @@ $("#dictamenxsco_producto, #dictamenxsco_periodo").change(function(e){
        for (var datos in result){
         html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
        };
-       $("#tabla_dictamen").html(html);
+       $("#tabla_dictamenxsco").html(html);
     }
   });
 });
 
+
+$("#scoxllenado_periodo, #scoxllenado_analista").change(function(e){
+  console.log($("#scoxllenado_periodo").val());
+  console.log($("#scoxllenado_analista").val());
+
+  $.ajax({
+    data: {periodo: $("#scoxllenado_periodo").val(),
+           analista: $("#scoxllenado_analista").val(),
+           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
+          },
+    type: 'POST',
+    url: '/reports/rvgl/json_scoxllenado/',
+    success: function(json){
+       var limpia = json.replace(/'sco'/g,'"label"');
+       limpia = limpia.replace(/'num_scoxllenado'/g,'"y"');
+       limpia = limpia.replace(/: u'/g,": '");
+       limpia = limpia.replace(/}{/g,"},{");
+       limpia = limpia.replace(/'/g,'"');
+       limpia = limpia.replace(/&quot;/ig,'"');
+       console.log(limpia);
+       var result = JSON.parse('['+limpia+']');
+       console.log(result);
+       crear_chart(result, "pie", "Por llenado de Scoring");
+       var html = "";
+       for (var datos in result){
+        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
+       };
+       $("#tabla_scoxllenado").html(html);
+    }
+  });
+})
+
+
+$("#scoxforzaje_periodo, #scoxforzaje_analista").change(function(e){
+  console.log($("#scoxforzaje_periodo").val());
+  console.log($("#scoxforzaje_analista").val());
+
+  $.ajax({
+    data: {periodo: $("#scoxforzaje_periodo").val(),
+           analista: $("#scoxforzaje_analista").val(),
+           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
+          },
+    type: 'POST',
+    url: '/reports/rvgl/json_scoxforzaje/',
+    success: function(json){
+       var limpia = json.replace(/'seg_prime'/g,'"label"');
+       limpia = limpia.replace(/'num_scoxforzaje'/g,'"y"');
+       limpia = limpia.replace(/: u'/g,": '");
+       limpia = limpia.replace(/}{/g,"},{");
+       limpia = limpia.replace(/'/g,'"');
+       limpia = limpia.replace(/&quot;/ig,'"');
+       console.log(limpia);
+       var result = JSON.parse('['+limpia+']');
+       console.log(result);
+       crear_chart(result, "pie", "Por Nivel de forzaje");
+       var html = "";
+       for (var datos in result){
+        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
+       };
+       $("#tabla_scoxforzaje").html(html);
+    }
+  });
+})
+
+
+$("#scoxdictamen_periodo, #scoxdictamen_analista").change(function(e){
+  console.log($("#scoxdictamen_periodo").val());
+  console.log($("#scoxdictamen_analista").val());
+
+  $.ajax({
+    data: {periodo: $("#scoxdictamen_periodo").val(),
+           analista: $("#scoxdictamen_analista").val(),
+           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
+          },
+    type: 'POST',
+    url: '/reports/rvgl/json_scoxdictamen/',
+    success: function(json){
+       var limpia = json.replace(/'dictamen_sco'/g,'"label"');
+       limpia = limpia.replace(/'num_scoxdictamen'/g,'"y"');
+       limpia = limpia.replace(/: u'/g,": '");
+       limpia = limpia.replace(/}{/g,"},{");
+       limpia = limpia.replace(/'/g,'"');
+       limpia = limpia.replace(/&quot;/ig,'"');
+       console.log(limpia);
+       var result = JSON.parse('['+limpia+']');
+       console.log(result);
+       crear_chart(result, "pie", "Por Dictamen de Scoring");
+       var html = "";
+       for (var datos in result){
+        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
+       };
+       $("#tabla_scoxdictamen").html(html);
+    }
+  });
+})
 
 
 

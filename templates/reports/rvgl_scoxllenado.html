@@ -12,13 +12,23 @@
           <div class="form-inline">
             &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
-            <select class="form-control">
-              <option selected>Enero 2016</option>
+            <select class="form-control" id="scoxllenado_periodo">
+              <option value="201602" selected>Febrero 2016</option>
+              <option value="201601">Enero 2016</option>
               <option>Diciembre 2015</option>
               <option>Noviembre 2015</option>
               <option>Octubre 2015</option>
               <option>Septiembre 2015</option>
             </select>
+            &nbsp;&nbsp;
+            <label class="control-label">Analista:&nbsp;&nbsp;</label>
+            <select class="form-control" id="scoxllenado_analista">
+              <option selected>TODOS</option>
+	      {% for a in control_analistas %}  
+                  <option>{{a.analista}}</option>
+	      {% endfor %}
+            </select>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
@@ -33,7 +43,7 @@
                   <th>Operaciones</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="tabla_scoxllenado">
 		{% for a in scoxllenado %}
 		<tr>                       
                   <td></td>

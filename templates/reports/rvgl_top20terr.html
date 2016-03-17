@@ -33,7 +33,8 @@
                 <tr>
                   <th>#</th>
                   <th>Territorios</th>
-                  <th>Operaciones</th>
+                  <th>Operaciones sol.</th>
+                  <th>Monto solicitado</th>
                 </tr>
               </thead>
               <tbody>
@@ -42,7 +43,7 @@
                   <td></td>
                   <td>{{a.territorio_nuevo}}</td>
                   <td>{{a.num_top20terr1|intcomma}}</td>
-                  <!--<td>{{a.num_top20terr3|intcomma}}</td>-->
+                  <td>{{a.sum_top20terr1|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -77,8 +78,8 @@
 			name: "Aprobadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20terr3 %}
-				{ label: "{{i.territorio_nuevo}}",  y: {{i.num_top20terr3}}  },
+				{% for i in top20terr2 %}
+				{ label: "{{i.territorio_nuevo}}",  y: {{i.num_top20terr2}}  },
 				{% endfor %}
 			]
 		}
@@ -98,8 +99,8 @@
 			name: "Solicitadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20terr2 %}
-				{ label: "{{i.territorio_nuevo}}",  y: {{i.sum_top20terr2}}  },
+				{% for i in top20terr1 %}
+				{ label: "{{i.territorio_nuevo}}",  y: {{i.sum_top20terr1}}  },
 				{% endfor %}
 			]
 		},
@@ -109,8 +110,8 @@
 			name: "Aprobadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20terr4 %}
-				{ label: "{{i.territorio_nuevo}}",  y: {{i.sum_top20terr4}}  },
+				{% for i in top20terr2 %}
+				{ label: "{{i.territorio_nuevo}}",  y: {{i.sum_top20terr2}}  },
 				{% endfor %}
 			]
 		}
