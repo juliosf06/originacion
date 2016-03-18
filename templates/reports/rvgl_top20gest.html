@@ -34,6 +34,7 @@
                   <th>#</th>
                   <th>Gestor</th>
                   <th>Operaciones</th>
+                  <th>Monto Solicitado</th>
                 </tr>
               </thead>
               <tbody>
@@ -42,7 +43,7 @@
                   <td></td>
                   <td>{{a.ejecutivo_cuenta}}</td>
                   <td>{{a.num_top20gest1|intcomma}}</td>
-                  <!--<td>{{a.num_top20terr3|intcomma}}</td>-->
+                  <td>{{a.sum_top20gest1|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -77,8 +78,8 @@
 			name: "Aprobadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20gest3 %}
-				{ label: "{{i.ejecutivo_cuenta}}",  y: {{i.num_top20gest3}}  },
+				{% for i in top20gest2 %}
+				{ label: "{{i.ejecutivo_cuenta}}",  y: {{i.num_top20gest2}}  },
 				{% endfor %}
 			]
 		}
@@ -99,8 +100,8 @@
 			name: "Solicitadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20gest2 %}
-				{ label: "{{i.ejecutivo_cuenta}}",  y: {{i.sum_top20gest2}}  },
+				{% for i in top20gest1 %}
+				{ label: "{{i.ejecutivo_cuenta}}",  y: {{i.sum_top20gest1}}  },
 				{% endfor %}
 			]
 		},
@@ -110,8 +111,8 @@
 			name: "Aprobadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20gest4 %}
-				{ label: "{{i.ejecutivo_cuenta}}",  y: {{i.sum_top20gest4}}  },
+				{% for i in top20gest2 %}
+				{ label: "{{i.ejecutivo_cuenta}}",  y: {{i.sum_top20gest2}}  },
 				{% endfor %}
 			]
 		}

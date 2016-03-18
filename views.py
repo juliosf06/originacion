@@ -190,10 +190,8 @@ def rvgl_top20terr(request):
 
 @login_required
 def rvgl_top20gest(request):
-    top20gest1 = RVGL.objects.filter(mes_vigencia='201601').values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic')).order_by('-num_top20gest1')[:20]
-    top20gest2 = RVGL.objects.filter(mes_vigencia='201601').values('ejecutivo_cuenta').annotate(sum_top20gest2=Sum('importe_solic')).order_by('-sum_top20gest2')[:20]
-    top20gest3 = RVGL.objects.filter(mes_vigencia='201601').exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest3=Count('importe_aprob')).order_by('-num_top20gest3')[:20]
-    top20gest4 = RVGL.objects.filter(mes_vigencia='201601').values('ejecutivo_cuenta').annotate(sum_top20gest4=Sum('importe_aprob')).order_by('-sum_top20gest4')[:20]
+    top20gest1 = RVGL.objects.filter(mes_vigencia='201602').values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic'), sum_top20gest1=Sum('importe_solic')).order_by('-sum_top20gest1')[:20]
+    top20gest2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest2=Count('importe_aprob'), sum_top20gest2=Sum('importe_aprob')).order_by('-sum_top20gest2')[:20]
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
     static_url=settings.STATIC_URL
     tipo_side = 2
@@ -202,10 +200,8 @@ def rvgl_top20gest(request):
 
 @login_required
 def rvgl_top20clie(request):
-    top20clie1 = RVGL.objects.filter(mes_vigencia='201601').values('cliente').annotate(num_top20clie1=Count('importe_solic')).order_by('cliente').order_by('-num_top20clie1')[:20]
-    top20clie2 = RVGL.objects.filter(mes_vigencia='201601').values('cliente').annotate(sum_top20clie2=Sum('importe_solic')).order_by('-sum_top20clie2')[:20]
-    top20clie3 = RVGL.objects.filter(mes_vigencia='201601').exclude(importe_aprob=0).values('cliente').annotate(num_top20clie3=Count('importe_aprob')).order_by('-num_top20clie3')[:20]
-    top20clie4 = RVGL.objects.filter(mes_vigencia='201601').values('cliente').annotate(sum_top20clie4=Sum('importe_aprob')).order_by('-sum_top20clie4')[:20]
+    top20clie1 = RVGL.objects.filter(mes_vigencia='201602').values('cliente').annotate(num_top20clie1=Count('importe_solic'), sum_top20clie1=Sum('importe_solic')).order_by('cliente').order_by('-sum_top20clie1')[:20]
+    top20clie2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('cliente').annotate(num_top20clie2=Count('importe_aprob'), sum_top20clie2=Sum('importe_aprob')).order_by('-sum_top20clie2')[:20]
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
     static_url=settings.STATIC_URL
     tipo_side = 2
@@ -214,10 +210,8 @@ def rvgl_top20clie(request):
 
 @login_required
 def rvgl_top20ofic(request):
-    top20ofic1 = RVGL.objects.filter(mes_vigencia='201602').values('oficina').annotate(num_top20ofic1=Count('importe_solic')).order_by('-num_top20ofic1')[:20]
-    top20ofic2 = RVGL.objects.filter(mes_vigencia='201602').values('oficina').annotate(sum_top20ofic2=Sum('importe_solic')).order_by('-sum_top20ofic2')[:20]
-    top20ofic3 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('oficina').annotate(num_top20ofic3=Count('importe_aprob')).order_by('-num_top20ofic3')[:20]
-    top20ofic4 = RVGL.objects.filter(mes_vigencia='201602').values('oficina').annotate(sum_top20ofic4=Sum('importe_aprob')).order_by('-sum_top20ofic4')[:20]
+    top20ofic1 = RVGL.objects.filter(mes_vigencia='201602').values('oficina').annotate(num_top20ofic1=Count('importe_solic'), sum_top20ofic1=Sum('importe_solic')).order_by('-sum_top20ofic1')[:20]
+    top20ofic2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('oficina').annotate(num_top20ofic2=Count('importe_aprob'), sum_top20ofic2=Sum('importe_aprob')).order_by('-sum_top20ofic2')[:20]
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
     static_url=settings.STATIC_URL
     tipo_side = 2
@@ -350,7 +344,9 @@ def json_top20terr(request):
     else:
        top20terr1 = RVGL.objects.filter(mes_vigencia=periodo).filter(analista=analista).values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
        top20terr2 = RVGL.objects.filter(mes_vigencia=periodo).filter(analista=analista).exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
-    return HttpResponse(top20terr1, )
+    return HttpResponse(top20terr1, top20terr2)
+
+
 
 
 # Vistas para carga de csv

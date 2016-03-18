@@ -34,6 +34,7 @@
                   <th>#</th>
                   <th>Oficinas</th>
                   <th>Operaciones</th>
+                  <th>Monto solicitado</th>
                 </tr>
               </thead>
               <tbody>
@@ -42,7 +43,7 @@
                   <td></td>
                   <td>{{a.oficina}}</td>
                   <td>{{a.num_top20ofic1|intcomma}}</td>
-                  <!--<td>{{a.num_top20terr3|intcomma}}</td>-->
+                  <td>{{a.sum_top20ofic1|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -79,8 +80,8 @@
 			markerType: "square",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20ofic3 %}
-				{ label: "{{i.oficina}}", y: {{i.num_top20ofic3}}  },
+				{% for i in top20ofic2 %}
+				{ label: "{{i.oficina}}", y: {{i.num_top20ofic2}}  },
 				{% endfor %}
 			]
 		}
@@ -101,8 +102,8 @@
 			name: "Solicitadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20ofic2 %}
-				{ label: "{{i.oficina}}",  y: {{i.sum_top20ofic2}}  },
+				{% for i in top20ofic1 %}
+				{ label: "{{i.oficina}}",  y: {{i.sum_top20ofic1}}  },
 				{% endfor %}
 			]
 		},
@@ -112,8 +113,8 @@
 			name: "Aprobadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20ofic4 %}
-				{ label: "{{i.oficina}}",  y: {{i.sum_top20ofic4}}  },
+				{% for i in top20ofic2 %}
+				{ label: "{{i.oficina}}",  y: {{i.sum_top20ofic2}}  },
 				{% endfor %}
 			]
 		}
@@ -125,12 +126,5 @@
   </script>
 {% endblock %}
 
-<!--
 
-  <script type="text/javascript">
-    window.onload = function () {
-    }
-  </script>
-
--->
 

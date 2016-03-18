@@ -34,6 +34,7 @@
                   <th>#</th>
                   <th>cliente</th>
                   <th>Operaciones</th>
+                  <th>Monto solicitado</th>
                 </tr>
               </thead>
               <tbody>
@@ -42,7 +43,7 @@
                   <td></td>
                   <td>{{a.cliente}}</td>
                   <td>{{a.num_top20clie1|intcomma}}</td>
-                  <!--<td>{{a.num_top20clie3|intcomma}}</td>-->
+                  <td>{{a.sum_top20clie1|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -77,8 +78,8 @@
 			name: "Aprobadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20clie3 %}
-				{ label: "{{i.cliente}}",  y: {{i.num_top20clie3}}  },
+				{% for i in top20clie2 %}
+				{ label: "{{i.cliente}}",  y: {{i.num_top20clie2}}  },
 				{% endfor %}
 			]
 		}
@@ -99,8 +100,8 @@
 			name: "Solicitadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20clie2 %}
-				{ label: "{{i.cliente}}",  y: {{i.sum_top20clie2}}  },
+				{% for i in top20clie1 %}
+				{ label: "{{i.cliente}}",  y: {{i.sum_top20clie1}}  },
 				{% endfor %}
 			]
 		},
@@ -110,8 +111,8 @@
 			name: "Aprobadas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in top20clie4 %}
-				{ label: "{{i.cliente}}",  y: {{i.sum_top20clie4}}  },
+				{% for i in top20clie2 %}
+				{ label: "{{i.cliente}}",  y: {{i.sum_top20clie2}}  },
 				{% endfor %}
 			]
 		}
