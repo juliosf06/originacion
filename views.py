@@ -183,6 +183,8 @@ def rvgl_top20terr(request):
     top20terr1 = RVGL.objects.filter(mes_vigencia='201602').values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic') ).order_by('-sum_top20terr1')[:20]
     top20terr2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+    top20 = RVGL.objects.raw('SELECT * FROM top20terr1')
+    print top20
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_top20terr.html', locals(),
@@ -352,7 +354,7 @@ def json_top20terr(request):
 # Vistas para carga de csv
 def load(request):
     static_url=settings.STATIC_URL
-    #RVGL.objects.all().delete()
+    RVGL.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
