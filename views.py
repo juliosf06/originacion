@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response as render
 from django.template import RequestContext
 
 from models import *
-from forms import RVGLCsv, UploadRVGL, UploadCampana, CampanaCsv
+from forms import *
 from django.contrib.auth import authenticate, login, logout
 
 import csv
@@ -354,7 +354,7 @@ def json_top20terr(request):
 # Vistas para carga de csv
 def load(request):
     static_url=settings.STATIC_URL
-    RVGL.objects.all().delete()
+    #RVGL.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
@@ -387,6 +387,30 @@ def carga_campana(request):
             return campana_ofertas(request)
         else:
             print "no es valido"
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_caidas(request):
+    if request.method == 'POST':
+        form = UploadCaida(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['caidas']
+            CaidaCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_verificaciones(request):
+    if request.method == 'POST':
+        form = UploadVerificaciones(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['verificaciones']
+            VerificacionesCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
             return load(campana_ofertas)
     else:
         return load(campana_ofertas)
