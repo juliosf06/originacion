@@ -49,12 +49,12 @@
             </form>
           </div>
 	  <div class="row">
-            <form>
+            <form accion="carga_campana/" method="post" enctype="multipart/form-data">{% csrf_token %}
 	      <div class="form_group">
-		<label>Reporte Mapa Hipotecario</label>
-		<input type="file" id="mapa" required>
+		<label>Reporte Campañas</label>
+		<input type="file" id="campana" name="campana">
 	      </div>
-	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Mora" ></div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Campana" ></div>
             </form>
           </div>
         </div>
