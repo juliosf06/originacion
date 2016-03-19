@@ -21,6 +21,9 @@ def sidebar(tipo=1):
     if tipo == 2:
         temp = 'reports/sidebar_rvgl.html'
     else:
-        temp = 'reports/sidebar.html'
+	if tipo == 3:
+           temp = 'reports/sidebar_evaluacion.html'
+	else:
+           temp = 'reports/sidebar.html'
     t = loader.get_template(temp)
     return t.render(Context)

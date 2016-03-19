@@ -69,6 +69,10 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "bar",
+			indexLabelFontColor: "gray",
+			indexLabelPlacement: "outside",			
+			indexLabel: "{y}",
+			yValueFormatString: "###.# MM",
 			dataPoints: [
 				{% for i in importexprod %}
 				{ label: "{{i.producto_esp}}",  y: {{i.sum_importexprod}}/1000000  },

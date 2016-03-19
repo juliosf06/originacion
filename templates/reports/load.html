@@ -75,6 +75,24 @@
               <div class="form_group"><input type="submit" class="btn btn-default" value="Load Verificaciones" ></div>
             </form>
           </div>
+          <div class="row">
+            <form action="carga_evaluaciontc/" method="post" enctype="multipart/form-data">{% csrf_token %}
+              <div class="form_group">
+                <label>Reporte de EvaluacionTC</label>
+                <input type="file" id="evaluaciontc" name="evaluaciontc">
+              </div>
+              <div class="form_group"><input type="submit" class="btn btn-default" value="Load Evaluaciontc" ></div>
+            </form>
+          </div>
+          <div class="row">
+            <form action="carga_evaluacionpld/" method="post" enctype="multipart/form-data">{% csrf_token %}
+              <div class="form_group">
+                <label>Reporte de EvaluacionPLD</label>
+                <input type="file" id="evaluacionpld" name="evaluacionpld">
+              </div>
+              <div class="form_group"><input type="submit" class="btn btn-default" value="Load Evaluacionpld" ></div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

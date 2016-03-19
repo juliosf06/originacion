@@ -69,6 +69,9 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "bar",
+			indexLabelFontColor: "white",
+			indexLabelPlacement: "inside",			
+			indexLabel: "{y}",
 			dataPoints: [
 				{% for i in producto %}
 				{ label: "{{i.producto_esp}}",  y: {{i.num_producto}}  },

@@ -73,6 +73,7 @@
 			type: "doughnut",
 			startAngle: 20,
 			indexLabel: "{label}  #percent%",
+			percentFormatString: "##.#",
 			dataPoints: [
 				{% for i in buro %}
 				{ label: "{{i.dic_buro}}",  y: {{i.num_buro}}  },

@@ -71,6 +71,10 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "bar",
+			indexLabelFontColor: "white",
+			indexLabelPlacement: "inside",			
+			indexLabel: "{y}",
+			yValueFormatString: "###.# MM",
 			dataPoints: [
 				{% for i in importexdict %}
 				{ label: "{{i.dictamen}}",  y: {{i.sum_importe}}/1000000  },

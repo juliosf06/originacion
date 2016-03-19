@@ -56,11 +56,18 @@ urlpatterns = [
     #url(r'^rvgl/json_top20ofic/$', views.json_top20ofic, name='json_top20ofic'),
 
 
+    # URLS para reportes de Evaluacion
+    url(r'^evaluacion/$', views.evaluacion_evaluaciontc, name='evaluacion_evaluaciontc'),
+    url(r'^evaluacion/evaluaciontc/$', views.evaluacion_evaluaciontc, name='evaluacion_evaluaciontc'),
+    url(r'^evaluacion/evaluacionpld/$', views.evaluacion_evaluacionpld, name='evaluacion_evaluacionpld'),
+
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),
     url(r'^load_data/carga_campana/$', views.carga_campana, name='carga_campana'),
     url(r'^load_data/carga_caidas/$', views.carga_caidas, name='carga_caidas'),
     url(r'^load_data/carga_verificaciones/$', views.carga_verificaciones, name='carga_verificaciones'),
+    url(r'^load_data/carga_evaluaciontc/$', views.carga_evaluaciontc, name='carga_evaluaciontc'),
+    url(r'^load_data/carga_evaluacionpld/$', views.carga_evaluacionpld, name='carga_evaluacionpld'),
     url(r'^load_data/$', views.load, name='load'),
     url(r'^mapa/$', views.mapa, name='mapa'),
 ]

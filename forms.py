@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from models import RVGL, Campana, Caida, Verificaciones
+from models import RVGL, Campana, Caida, Verificaciones, Evaluaciontc, Evaluacionpld
 from adaptor.model import CsvDbModel
 
 class UploadRVGL(forms.Form):
@@ -33,4 +33,20 @@ class UploadVerificaciones(forms.Form):
 class VerificacionesCsv(CsvDbModel):
     class Meta:
         dbModel = Verificaciones
+        delimiter = ","
+
+class UploadEvaluaciontc(forms.Form):
+    evaluaciontc = forms.FileField()
+
+class EvaluaciontcCsv(CsvDbModel):
+    class Meta:
+        dbModel = Evaluaciontc
+        delimiter = ","
+
+class UploadEvaluacionpld(forms.Form):
+    evaluacionpld = forms.FileField()
+
+class EvaluacionpldCsv(CsvDbModel):
+    class Meta:
+        dbModel = Evaluacionpld
         delimiter = ","

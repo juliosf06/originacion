@@ -58,6 +58,40 @@ class Caida(models.Model):
     def __str__(self):
         return self.mes_vigencia+' '+self.segmento+' '+self.caida
 
+class Evaluaciontc(models.Model):
+    cliente = models.CharField(max_length=20)
+    tip_doc = models.CharField(max_length=5)
+    documento = models.CharField(max_length=20)
+    nombre = models.CharField(max_length=100)
+    apell_paterno = models.CharField(max_length=100)
+    apell_materno = models.CharField(max_length=100)
+    edad = models.CharField(max_length=5)
+    segmento = models.CharField(max_length=10)
+    buro = models.CharField(max_length=5)
+    grupo_pr = models.CharField(max_length=10)
+    sueldo_final = models.CharField(max_length=20)
+    sueldo_final_fuente = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.cliente+' '+self.documento
+
+class Evaluacionpld(models.Model):
+    cliente = models.CharField(max_length=20)
+    tip_doc = models.CharField(max_length=5)
+    documento = models.CharField(max_length=20)
+    nombre = models.CharField(max_length=100)
+    apell_paterno = models.CharField(max_length=100)
+    apell_materno = models.CharField(max_length=100)
+    edad = models.CharField(max_length=5)
+    segmento = models.CharField(max_length=10)
+    buro = models.CharField(max_length=5)
+    grupo_pr = models.CharField(max_length=10)
+    sueldo_final = models.CharField(max_length=20)
+    sueldo_final_fuente = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.cliente+' '+self.documento
+
 class MoraDistrito(models.Model):
     departamento = models.CharField(max_length=100)
     provincia = models.CharField(max_length=100)

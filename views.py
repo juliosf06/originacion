@@ -269,6 +269,25 @@ def rvgl_top20ofic(request):
     return render('reports/rvgl_top20ofic.html', locals(),
                   context_instance=RequestContext(request))
 
+# 4.- Vistas para reportes de EVALUACION
+@login_required
+def evaluacion_evaluaciontc(request):
+    evaluaciontc = Evaluaciontc.objects.all().order_by('cliente').distinct('cliente')
+    static_url=settings.STATIC_URL
+    tipo_side = 3
+    print evaluaciontc
+    return render('reports/evaluacion_evaluaciontc.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def evaluacion_evaluacionpld(request):
+    evaluacionpld = Evaluacionpld.objects.all().order_by('cliente').distinct('cliente')
+    static_url=settings.STATIC_URL
+    tipo_side = 3
+    return render('reports/evaluacion_evaluacionpld.html', locals(),
+                  context_instance=RequestContext(request))
+
+
 # Vistas CAMPANA para recibir consultas Ajax
 def json_ofertas(request):
     periodo = request.POST['periodo']
@@ -346,7 +365,6 @@ def json_importexprod(request):
     print importexprod
     return HttpResponse(importexprod)
 
-
 def json_tiempo(request):
     periodo = request.POST['periodo']
     banca = request.POST['banca']
@@ -403,7 +421,6 @@ def json_scoxforzaje(request):
 def json_scoxdictamen(request):
     periodo = request.POST['periodo']
     analista = request.POST['analista']
-    #if request.method == 'TODOS'
     if request.POST['analista'] == 'TODOS':
        scoxdictamen = RVGL.objects.filter(mes_vigencia=periodo).exclude(dictamen_sco='NULL').values('dictamen_sco').annotate(num_scoxdictamen=Count('dictamen_sco')).order_by('dictamen_sco')
     else:
@@ -413,7 +430,6 @@ def json_scoxdictamen(request):
 def json_top20terr(request):
     periodo = request.POST['periodo']
     analista = request.POST['analista']
-    #if request.method == 'TODOS'
     if request.POST['analista'] == 'TODOS':
        top20terr1 = RVGL.objects.filter(mes_vigencia=periodo).values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
        top20terr2 = RVGL.objects.filter(mes_vigencia=periodo).exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
@@ -423,12 +439,12 @@ def json_top20terr(request):
     return HttpResponse(top20terr1, top20terr2)
 
 
-
-
 # Vistas para carga de csv
 def load(request):
     static_url=settings.STATIC_URL
     #RVGL.objects.all().delete()
+    #Evaluaciontc.objects.all().delete()
+    #Evaluacionpld.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
@@ -483,6 +499,30 @@ def carga_verificaciones(request):
         if form.is_valid():
             csv_file = request.FILES['verificaciones']
             VerificacionesCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_evaluaciontc(request):
+    if request.method == 'POST':
+        form = UploadEvaluaciontc(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['evaluaciontc']
+            EvaluaciontcCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_evaluacionpld(request):
+    if request.method == 'POST':
+        form = UploadEvaluacionpld(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['evaluacionpld']
+            EvaluacionpldCsv.import_data(data = csv_file)
             return campana_ofertas(request)
         else:
             return load(campana_ofertas)

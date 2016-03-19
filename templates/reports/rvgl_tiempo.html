@@ -64,16 +64,34 @@
           </div>
 {% endblock %}
 
+
 {% block script_final %}
   <script type="text/javascript">
     window.onload = function () {
-        datos = [
-			{% for i in tiempo %}
-			{ "label": "{{i.dias_eval}}",  "y": {{i.num_tiempo}}  },
-			{% endfor %}
-		];
-        crear_chart(datos, "column", "Distribución por tiempo");
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Distribución por tiempo"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			indexLabelFontColor: "gray",
+			indexLabelPlacement: "outside",			
+			indexLabel: "{y}",
+			dataPoints: [
+				{% for i in tiempo %}
+				{ label: "{{i.dias_eval}}",  y: {{i.num_tiempo}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
     }
   </script>
 {% endblock %}
+
 
