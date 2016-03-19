@@ -91,7 +91,7 @@ def rvgl_producto(request):
 
 @login_required
 def rvgl_importexprod(request):
-    importexprod = RVGL.objects.filter(mes_vigencia='201602').values('producto_esp').annotate(sum_importe=Sum('importe_solic')).order_by('producto_esp')
+    importexprod = RVGL.objects.filter(mes_vigencia='201602').values('producto_esp').annotate(sum_importexprod=Sum('importe_solic')).order_by('producto_esp')
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
     static_url=settings.STATIC_URL
     tipo_side = 2
@@ -180,8 +180,8 @@ def rvgl_scoxdictamen(request):
 
 @login_required
 def rvgl_top20terr(request):
-    top20terr1 = RVGL.objects.filter(mes_vigencia='201602').values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic') ).order_by('-sum_top20terr1')[:20]
-    top20terr2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
+    top20terr1 = RVGL.objects.filter(mes_vigencia='201602').exclude(territorio_nuevo='NULL').values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic') ).order_by('-sum_top20terr1')[:20]
+    top20terr2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).exclude(territorio_nuevo='NULL').values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
     top20 = RVGL.objects.raw('SELECT * FROM top20terr1')
     print top20

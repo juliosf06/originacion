@@ -60,6 +60,37 @@
 {% block script_final %}
   <script type="text/javascript">
     window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Operaciones por Dictamen"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			indexLabelFontColor: "white",
+			indexLabelPlacement: "inside",			
+			indexLabel: "{y}",
+			//percentFormatString: "#0.#",
+			dataPoints: [
+				{% for i in dictamen %}
+				{ label: "{{i.dictamen}}",  y: {{i.num_dictamen}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+    }
+  </script>
+{% endblock %}
+
+
+<!--
+  <script type="text/javascript">
+    window.onload = function () {
         datos = [
 			{% for i in dictamen %}
 			{ "label": "{{i.dictamen}}",  "y": {{i.num_dictamen}}  },
@@ -68,5 +99,7 @@
         crear_chart(datos, "column", "Distribución por Dictamen");
     }
   </script>
-{% endblock %}
+-->
+
+
 

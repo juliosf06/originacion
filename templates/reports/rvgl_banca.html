@@ -70,7 +70,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "pie",
 			indexLabelFontColor: "gray",			
-			indexLabel: "{label}",
+			indexLabel: "{label} #percent%",
+			percentFormatString: "#0.#",
 			dataPoints: [
 				{% for i in banca %}
 				{ label: "{{i.seco}}",  y: {{i.num_seco}}  },
