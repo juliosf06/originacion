@@ -54,10 +54,20 @@ def dummy(request):
 # 2.- Vistas para reportes de Campaña
 @login_required
 def campana_ofertas(request):
-    campanas = Campana.objects.filter(mes_vigencia='201512')
+    ofertas = Campana.objects.filter(mes_vigencia='201604')
     static_url=settings.STATIC_URL
     tipo_side = 1
+    print ofertas
     return render('reports/campana_ofertas.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def campana_detalles(request):
+    detalles = Campana.objects.filter(mes_vigencia='201604').filter(segmento='MS')
+    control_segmentos = Campana.objects.all().values('segmento').distinct('segmento')
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana_detalles.html', locals(),
                   context_instance=RequestContext(request))
 
 
@@ -220,7 +230,15 @@ def rvgl_top20ofic(request):
     return render('reports/rvgl_top20ofic.html', locals(),
                   context_instance=RequestContext(request))
 
-# Vistas para recibir consultas Ajax
+# Vistas CAMPANA para recibir consultas Ajax
+def json_ofertas(request):
+    periodo = request.POST['periodo']
+    ofertas = Campana.objects.filter(mes_vigencia=periodo)
+    return HttpResponse(ofertas)
+
+
+
+# Vistas RVGL para recibir consultas Ajax
 def json_banca(request):
     periodo = request.POST['periodo']
     analista = request.POST['analista']

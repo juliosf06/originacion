@@ -11,7 +11,8 @@ urlpatterns = [
     # URLS para reportes de campaña
     url(r'^campanas/$', views.campana_ofertas, name='campana_ofertas'),
     url(r'^campanas/ofertas/$', views.campana_ofertas, name='campana_ofertas'),
-    url(r'^campanas/efectividad/$', views.dummy, name='dummy'),
+    url(r'^campanas/json_ofertas/$', views.json_ofertas, name='json_ofertas'),
+    url(r'^campanas/detalles/$', views.campana_detalles, name='campana_detalles'),
     url(r'^campanas/competitividad/$', views.dummy, name='dummy'),
     url(r'^campanas/altas_oa/$', views.dummy, name='dummy'),
     url(r'^campanas/altas_sf/$', views.dummy, name='dummy'),

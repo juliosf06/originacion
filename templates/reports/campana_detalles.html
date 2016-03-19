@@ -12,9 +12,16 @@
           <div class="form-inline">
             &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
-            <select class="form-control" id="ofertas_periodo">
+            <select class="form-control" id="detalles_periodo">
               <option value="201604" selected>Abril 2016</option>
               <option value="201603">Marzo 2016</option>
+            </select>
+            &nbsp;&nbsp;
+            <label class="control-label">Segmento:&nbsp;&nbsp;</label>
+            <select class="form-control" id="detalles_segmento">
+	    {% for a in control_segmentos %}
+              <option>{{a.segmento}}</option>
+	    {% endfor %}
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
@@ -27,36 +34,69 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Segmento</th>
-                  <th>Tarjeta</th>
-                  <th>Consumo</th>
-                  <th>Auto</th>
-                  <th>subrogación</th>
-                  <th>TC Entry Level</th>
-                  <th>Renovados</th>
-                  <th>Auto 2da</th>
-                  <th>Adelanto Sueldo</th>
-                  <th>Efectivo Plus</th>
-                  <th>Prestamo al Toque</th>
-                  <th>Incremento Linea</th>
-                </tr>
+                  <th>Cant. Ofertas</th>
+                  <th>Monto Oferta</th>
+                  <!--<th>Exoneración VL</th>
+                  <th>Exoneración VD</th>
+                  <th>Exoneración VL y VD</th>
+                  <th>No Exoneración</th>-->
               </thead>
               <tbody id="tabla_ofertas">
-		{% for a in ofertas %}
+		{% for a in detalles %}
 		<tr>
-                  <td>{{a.codigo_campana}}</td>
-                  <td>{{a.segmento}}</td>
+                  <td>Tarjeta</td>
                   <td>{{a.q_tc|intcomma}}</td>
+                  <td>{{a.monto_tc|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Consumo</td>
                   <td>{{a.q_pld|intcomma}}</td>
-                  <!--<td>{{a.q_veh|intcomma}}</td>
+                  <td>{{a.monto_pld|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Auto</td>
+                  <td>{{a.q_veh|intcomma}}</td>
+                  <td>{{a.monto_veh|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>subrogación</td>
                   <td>{{a.q_subrogacion|intcomma}}</td>
+                  <td>{{a.monto_subrogacion|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>TC Entry Level</td>
                   <td>{{a.q_tc_entry_level|intcomma}}</td>
+                  <td>{{a.monto_tc_entry_level|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Renovados</td>
                   <td>{{a.q_renovado|intcomma}}</td>
+                  <td>{{a.monto_renovado|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Auto de 2da</td>
                   <td>{{a.q_auto_2da|intcomma}}</td>
+                  <td>{{a.monto_auto_2da|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Adelanto de Sueldo</td>
                   <td>{{a.q_adelanto_sueldo|intcomma}}</td>
+                  <td>{{a.monto_adelanto_sueldo|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Efectivo Plus</td>
                   <td>{{a.q_efectivo_plus|intcomma}}</td>
+                  <td>{{a.monto_efectivo_plus|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Prestamo al Toque</td>
                   <td>{{a.q_prestamo_inmediato|intcomma}}</td>
-                  <td>{{a.q_incr_linea|intcomma}}</td>-->
+                  <td>{{a.monto_prestamo_inmediato|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Incremento de Linea</td>
+                  <td>{{a.q_incr_linea|intcomma}}</td>
+                  <td>{{a.monto_incr_linea|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -64,7 +104,7 @@
           </div>
 {% endblock %}
 
-
+<!--
 {% block script_final %}
   <script type="text/javascript">
     window.onload = function () {
@@ -97,7 +137,7 @@
 				{% endfor %}
 			]
 		}
-		/*{
+		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "Auto",
@@ -195,12 +235,12 @@
 				{ label: "{{i.segmento}}",  y: {{i.q_incr_linea}}  },
 				{% endfor %}
 			]
-		}*/
+		}
 		]
 	});
 	chart.render();
     }
   </script>
-{% endblock %}
+{% endblock %}-->
 
 

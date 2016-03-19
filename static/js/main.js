@@ -22,6 +22,40 @@ $("#tog_menu").click(function(e) {
   $("#wrapper").toggleClass("toggled");
 });
 
+//Ajax para vistas CAMPANAS
+$("#ofertas_periodo").change(function(e){
+  console.log($("#ofertas_periodo").val());
+
+  $.ajax({
+    data: {periodo: $("#ofertas_periodo").val(),
+           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
+          },
+    type: 'POST',
+    url: '/reports/campanas/json_ofertas/',
+    success: function(json){
+       var limpia = json.replace(/'segmento'/g,'"label"');
+       limpia = limpia.replace(/'q_tc'/g,'"y"');
+       limpia = limpia.replace(/: u'/g,": '");
+       limpia = limpia.replace(/}{/g,"},{");
+       limpia = limpia.replace(/'/g,'"');
+       limpia = limpia.replace(/&quot;/ig,'"');
+       console.log(limpia);
+       var result = JSON.parse('['+limpia+']');
+       console.log(result);
+       crear_chart(result, "stackedBar", "Cantidades por Ofertas");
+       var html = "";
+       for (var datos in result){
+        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
+       };
+       $("#tabla_ofertas").html(html);
+    }
+  });
+});
+
+
+
+
+//Ajax para vistas RVGL
 $("#banca_periodo,#banca_analista ").change(function(e){
   console.log($("#banca_periodo").val());
   console.log($("#banca_analista").val());
