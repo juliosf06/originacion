@@ -57,6 +57,24 @@
 	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Campana" ></div>
             </form>
           </div>
+          <div class="row">
+            <form action="carga_caidas/" method="post" enctype="multipart/form-data">{% csrf_token %}
+              <div class="form_group">
+                <label>Reporte de Caidas</label>
+                <input type="file" id="caidas" name="caidas">
+              </div>
+              <div class="form_group"><input type="submit" class="btn btn-default" value="Load Caidas" ></div>
+            </form>
+          </div>
+          <div class="row">
+            <form action="carga_verificaciones/" method="post" enctype="multipart/form-data">{% csrf_token %}
+              <div class="form_group">
+                <label>Reporte de Verificaciones</label>
+                <input type="file" id="verificaciones" name="verificaciones">
+              </div>
+              <div class="form_group"><input type="submit" class="btn btn-default" value="Load Verificaciones" ></div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

@@ -57,6 +57,8 @@ urlpatterns = [
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),
     url(r'^load_data/carga_campana/$', views.carga_campana, name='carga_campana'),
+    url(r'^load_data/carga_caidas/$', views.carga_caidas, name='carga_caidas'),
+    url(r'^load_data/carga_verificaciones/$', views.carga_verificaciones, name='carga_verificaciones'),
     url(r'^load_data/$', views.load, name='load'),
     url(r'^mapa/$', views.mapa, name='mapa'),
 ]

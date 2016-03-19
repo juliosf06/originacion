@@ -49,6 +49,15 @@ class Verificaciones(models.Model):
     def __str__(self):
         return self.mes_vigencia+' '+self.segmento
 
+class Caida(models.Model):
+    mes_vigencia = models.CharField(max_length=10)
+    segmento = models.CharField(max_length=20)
+    caida = models.CharField(max_length=150)
+    cantidad = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.mes_vigencia+' '+self.segmento+' '+self.caida
+
 class MoraDistrito(models.Model):
     departamento = models.CharField(max_length=100)
     provincia = models.CharField(max_length=100)
