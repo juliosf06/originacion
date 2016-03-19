@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response as render
 from django.template import RequestContext
 
 from models import *
-from forms import RVGLCsv, UploadRVGL
+from forms import RVGLCsv, UploadRVGL, UploadCampana, CampanaCsv
 from django.contrib.auth import authenticate, login, logout
 
 import csv
@@ -377,3 +377,16 @@ def carga_rvgl(request):
     else:
         return load(campana_ofertas)
 
+
+def carga_campana(request):
+    if request.method == 'POST':
+        form = UploadCampana(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['campana']
+            CampanaCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            print "no es valido"
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
