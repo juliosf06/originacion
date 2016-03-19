@@ -48,7 +48,7 @@
                   <td>{{a.segmento}}</td>
                   <td>{{a.q_tc|intcomma}}</td>
                   <td>{{a.q_pld|intcomma}}</td>
-                  <!--<td>{{a.q_veh|intcomma}}</td>
+                  <td>{{a.q_veh|intcomma}}</td>
                   <td>{{a.q_subrogacion|intcomma}}</td>
                   <td>{{a.q_tc_entry_level|intcomma}}</td>
                   <td>{{a.q_renovado|intcomma}}</td>
@@ -56,7 +56,7 @@
                   <td>{{a.q_adelanto_sueldo|intcomma}}</td>
                   <td>{{a.q_efectivo_plus|intcomma}}</td>
                   <td>{{a.q_prestamo_inmediato|intcomma}}</td>
-                  <td>{{a.q_incr_linea|intcomma}}</td>-->
+                  <td>{{a.q_incr_linea|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -75,127 +75,27 @@
                 },
 		animationEnabled: true,   // change to true
 		data: [              
-		{
+		{% for i in ofertas %}
+                {
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
-			name: "Tarjeta",
+			name: "{{i.segmento}}",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in ofertas %}
-				{ label: "{{i.segmento}}",  y: {{i.q_tc}}  },
-				{% endfor %}
+				{ label: "Tarjeta",  y: {{i.q_tc}}  },
+                                { label: "Consumo",  y: {{i.q_pld}} },
+                                { label: "Vehicular",  y: {{i.q_veh}} },
+				{ label: "Subrogacion",  y: {{i.q_subrogacion}}  },
+				{ label: "TC Entry Level",  y: {{i.q_tc_entry_level}}  },
+				{ label: "Renovado",  y: {{i.q_renovado}}  },
+				{ label: "Auto 2da",  y: {{i.q_auto_2da}}  },
+				{ label: "Adel Sueldo",  y: {{i.q_adelanto_sueldo}}  },
+				{ label: "Efect Plus",  y: {{i.q_efectivo_plus}}  },
+				{ label: "Prest al Toque",  y: {{i.q_prestamo_inmediato}}  },
+				{ label: "Inc Linea",  y: {{i.q_incr_linea}}  },
 			]
 		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Consumo",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in ofertas %}
-				{ label: "{{i.segmento}}",  y: {{i.q_pld}}  },
-				{% endfor %}
-			]
-		}
-		/*{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Auto",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in ofertas %}
-				{ label: "{{i.segmento}}",  y: {{i.q_veh}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Subrogación",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in ofertas %}
-				{ label: "{{i.segmento}}",  y: {{i.q_subrogacion}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "TC Entry Level",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in ofertas %}
-				{ label: "{{i.segmento}}",  y: {{i.q_tc_entry_level}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Renovados",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in ofertas %}
-				{ label: "{{i.segmento}}",  y: {{i.q_renovado}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Auto 2da",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in ofertas %}
-				{ label: "{{i.segmento}}",  y: {{i.q_auto_2da}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Adelanto Sueldo",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in ofertas %}
-				{ label: "{{i.segmento}}",  y: {{i.q_adelanto_sueldo}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Efectivo Plus",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in ofertas %}
-				{ label: "{{i.segmento}}",  y: {{i.q_efectivo_plus}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Prestamo al Toque",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in ofertas %}
-				{ label: "{{i.segmento}}",  y: {{i.q_prestamo_inmediato}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Incremento Linea",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in ofertas %}
-				{ label: "{{i.segmento}}",  y: {{i.q_incr_linea}}  },
-				{% endfor %}
-			]
-		}*/
+                {% endfor %}
 		]
 	});
 	chart.render();
