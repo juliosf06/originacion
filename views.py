@@ -84,6 +84,16 @@ def campana_caidas(request):
     return render('reports/campana_caidas.html', locals(),
                   context_instance=RequestContext(request))
 
+@login_required
+def campana_exoneraciones(request):
+    exoneraciones = Verificaciones.objects.values('mes_vigencia').filter(segmento='AVA').annotate(exoambas=Sum('exonera_ambas'), solovl=Sum('exonera_solo_vl'), solovd=Sum('exonera_solo_vd'), reqambas=Sum('requiere_ambas'), exovltc=Sum('exonera_vl_tc')).order_by('mes_vigencia')
+    control_segmentos = Verificaciones.objects.all().values('segmento').distinct('segmento')
+    print control_segmentos
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana_exoneraciones.html', locals(),
+                  context_instance=RequestContext(request))
+
 
 # 3.- Vistas para reportes de RVGL
 @login_required

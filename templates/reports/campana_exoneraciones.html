@@ -1,0 +1,129 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Reporte de Ofertas TC{% endblock %}
+
+{% block content %}
+
+          <h1 class="page-header">Evolución de Exoneraciones</h1>
+          <div class="form-inline">
+            &nbsp;&nbsp;
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control" id="ofertas_periodo">
+	    {%for a in control_segmentos%}
+              <option>{{a.segmento}}</option>
+	    {% endfor %}
+            </select>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          </div>
+          <div class="rows placeholders">
+		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          </div>
+          <h2 class="sub-header">Detalle Exoneraciones</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Exonerado de Ambas</th>
+                  <th>Exonerado solo VL</th>
+                  <th>Exonerado solo VD</th>
+                  <th>Requiere de Ambas</th>
+                  <th>Exonerado VL TC</th>
+                </tr>
+              </thead>
+              <tbody id="tabla_exoneraciones">
+		{% for a in exoneraciones %}
+		<tr>
+                  <td>{{a.mes_vigencia}}</td>
+                  <td>{{a.exoambas}}</td>
+                  <td>{{a.solovl}}</td>
+                  <td>{{a.solovd}}</td>
+                  <td>{{a.reqambas}}</td>
+                  <td>{{a.exovltc}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+{% endblock %}
+
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Evolución de Exoneraciones",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedArea",
+			name: "Requiere Ambas",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in exoneraciones %}
+				{ label: "{{i.mes_vigencia}}",  y: {{i.exoambas}}  },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedArea",
+			name: "Exoneración VL",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in exoneraciones %}
+				{ label: "{{i.mes_vigencia}}",  y: {{i.solovl}}  },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedArea",
+			name: "Exoneración VD",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in exoneraciones %}
+				{ label: "{{i.mes_vigencia}}",  y: {{i.solovd}}  },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedArea",
+			name: "Requiere Ambas",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in exoneraciones %}
+				{ label: "{{i.mes_vigencia}}",  y: {{i.reqambas}}  },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedArea",
+			name: "Exoneración VL TC",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in exoneraciones %}
+				{ label: "{{i.mes_vigencia}}",  y: {{i.exovltc}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+    }
+  </script>
+{% endblock %}
+
+
+
+
