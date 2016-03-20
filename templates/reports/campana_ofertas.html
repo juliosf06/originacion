@@ -21,6 +21,9 @@
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
           </div>
+          <div class="rows placeholders">
+		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+          </div>
           <h2 class="sub-header">Detalle Ofertas</h2>
           <div class="table-responsive">
             <table class="table table-striped">
@@ -28,6 +31,7 @@
                 <tr>
                   <th>#</th>
                   <th>Segmento</th>
+                  <th>Num. Clientes</th>
                   <th>Tarjeta</th>
                   <th>Consumo</th>
                   <th>Auto</th>
@@ -42,10 +46,11 @@
                 </tr>
               </thead>
               <tbody id="tabla_ofertas">
-		{% for a in ofertas %}
+		{% for a,b in ofer %}
 		<tr>
                   <td>{{a.codigo_campana}}</td>
                   <td>{{a.segmento}}</td>
+                  <td>{{b.num_clientes}}</td>
                   <td>{{a.q_tc|intcomma}}</td>
                   <td>{{a.q_pld|intcomma}}</td>
                   <td>{{a.q_veh|intcomma}}</td>
@@ -71,36 +76,49 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Cantidades por Ofertas",
+			text: "Segmentos a nivel contrato",
                 },
 		animationEnabled: true,   // change to true
 		data: [              
-		{% for i in ofertas %}
                 {
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "{{i.segmento}}",
-			showInLegend: "true",
+			type: "pie",
+			indexLabel: "{label},  {y}",
 			dataPoints: [
-				{ label: "Tarjeta",  y: {{i.q_tc}}  },
-                                { label: "Consumo",  y: {{i.q_pld}} },
-                                { label: "Vehicular",  y: {{i.q_veh}} },
-				{ label: "Subrogacion",  y: {{i.q_subrogacion}}  },
-				{ label: "TC Entry Level",  y: {{i.q_tc_entry_level}}  },
-				{ label: "Renovado",  y: {{i.q_renovado}}  },
-				{ label: "Auto 2da",  y: {{i.q_auto_2da}}  },
-				{ label: "Adel Sueldo",  y: {{i.q_adelanto_sueldo}}  },
-				{ label: "Efect Plus",  y: {{i.q_efectivo_plus}}  },
-				{ label: "Prest al Toque",  y: {{i.q_prestamo_inmediato}}  },
-				{ label: "Inc Linea",  y: {{i.q_incr_linea}}  },
+				{% for i in clientes %}
+				{ label: "{{i.segmento}}",  y: {{i.num_clientes}}  },
+				{% endfor %}
 			]
 		},
-                {% endfor %}
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Segmentos a nivel importe",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+                {
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "doughnut",
+			indexLabel: "{label},  {y}",
+			//yValueFormatString: "##,###.00 MM",
+			indexLabelorientatios: "horizontal", 
+			dataPoints: [
+				{% for i in montos %}
+				{ label: "{{i.segmento}}",  y: {{i.monto}}  },
+				{% endfor %}
+			]
+		},
 		]
 	});
 	chart.render();
     }
   </script>
 {% endblock %}
+
 
 

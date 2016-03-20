@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.core.serializers import serialize
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Sum, Avg, Case, When, IntegerField
+from django.db.models import Count, Sum, Avg, Case, When, IntegerField, F
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response as render
 from django.template import RequestContext
@@ -54,10 +54,13 @@ def dummy(request):
 # 2.- Vistas para reportes de Campaña
 @login_required
 def campana_ofertas(request):
-    ofertas = Campana.objects.filter(mes_vigencia='201604').distinct('segmento')
+    clientes = Verificaciones.objects.values('segmento').annotate(num_clientes=Sum(F('exonera_ambas')+F('exonera_solo_vl')+F('exonera_solo_vd')+F('requiere_ambas'))).filter(mes_vigencia='201604').order_by('segmento')
+    ofertas = Campana.objects.all().filter(mes_vigencia='201604').distinct('segmento')
+    montos = Campana.objects.values('segmento').annotate(monto=Sum(F('monto_tc')+F('monto_pld')+F('monto_veh')+F('monto_subrogacion')+F('monto_tc_entry_level')+F('monto_renovado')+F('monto_auto_2da')+F('monto_adelanto_sueldo')+F('monto_efectivo_plus')+F('monto_prestamo_inmediato')+F('monto_incr_linea'))).filter(mes_vigencia='201604').order_by('segmento')
+    ofer = zip(ofertas, clientes, montos)
     static_url=settings.STATIC_URL
     tipo_side = 1
-    print ofertas
+    print montos
     return render('reports/campana_ofertas.html', locals(),
                   context_instance=RequestContext(request))
 
@@ -72,12 +75,11 @@ def campana_detalles(request):
 
 @login_required
 def campana_caidas(request):
-    caidas_ms = Caida.objects.values('caida').filter(mes_vigencia='201602').filter(segmento='MS').annotate(num_caidaxms=Sum('cantidad'))
+    caidas_ms = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='MS').annotate(num_caidaxms=Sum('cantidad'))
     caidas_ava = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='AVA').annotate(num_caidaxava=Sum('cantidad'))
     caidas_noph = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='NO PH + PASIVO').annotate(num_caidaxnoph=Sum('cantidad'))
     caidas_noclie = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='NO CLIENTE').annotate(num_caidaxnoclie=Sum('cantidad'))
-
-    caidas = Caida.objects.values('caida').filter(mes_vigencia='201602').annotate(num_caidaxms=models.Sum(models.Case(models.When(segmento='MS'),default=0,output_field=models.IntegerField())))
+    caidas = zip(caidas_ms, caidas_ava, caidas_noph, caidas_noclie)
     print caidas
     static_url=settings.STATIC_URL
     tipo_side = 1

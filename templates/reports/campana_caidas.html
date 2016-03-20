@@ -34,13 +34,13 @@
                 </tr>
               </thead>
               <tbody id="tabla_ofertas">
-		{% for a in caidas_ms %}
+		{% for a,b,c,d in caidas %}
 		<tr>
                   <td>{{a.caida}}</td>
                   <td>{{a.num_caidaxms}}</td>
-                  <td>{{a.num_caidaxava}}</td>
-                  <td>{{a.num_caidaxnoph}}</td>
-                  <td>{{a.num_caidaxnoclie}}</td>
+                  <td>{{b.num_caidaxava}}</td>
+                  <td>{{c.num_caidaxnoph}}</td>
+                  <td>{{d.num_caidaxnoclie}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
