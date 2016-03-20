@@ -33,7 +33,7 @@
                   <th>No Clientes</th>
                 </tr>
               </thead>
-              <tbody id="tabla_ofertas">
+              <tbody id="tabla_caidas">
 		{% for a,b,c,d in caidas %}
 		<tr>
                   <td>{{a.caida}}</td>
@@ -62,6 +62,7 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
+			//type: "rangeColumn",
 			name: "Mundo Sueldo",
 			showInLegend: "true",
 			dataPoints: [

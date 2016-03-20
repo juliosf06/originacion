@@ -68,6 +68,7 @@ def campana_ofertas(request):
 def campana_detalles(request):
     detalles = Campana.objects.filter(mes_vigencia='201603').filter(segmento='MS').distinct('segmento')
     control_segmentos = Campana.objects.all().values('segmento').distinct('segmento')
+    print detalles
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana_detalles.html', locals(),
@@ -259,10 +260,27 @@ def rvgl_top20ofic(request):
 # Vistas CAMPANA para recibir consultas Ajax
 def json_ofertas(request):
     periodo = request.POST['periodo']
-    ofertas = Campana.objects.filter(mes_vigencia=periodo)
-    return HttpResponse(ofertas.values())
+    clientes = Verificaciones.objects.values('segmento').annotate(num_clientes=Sum(F('exonera_ambas')+F('exonera_solo_vl')+F('exonera_solo_vd')+F('requiere_ambas'))).filter(mes_vigencia=periodo).order_by('segmento')
+    ofertas = Campana.objects.all().filter(mes_vigencia=periodo).distinct('segmento')
+    montos = Campana.objects.values('segmento').annotate(monto=Sum(F('monto_tc')+F('monto_pld')+F('monto_veh')+F('monto_subrogacion')+F('monto_tc_entry_level')+F('monto_renovado')+F('monto_auto_2da')+F('monto_adelanto_sueldo')+F('monto_efectivo_plus')+F('monto_prestamo_inmediato')+F('monto_incr_linea'))).filter(mes_vigencia=periodo).order_by('segmento')
+    ofer = zip(ofertas, clientes, montos)
+    return HttpResponse(clientes)
 
 
+def json_detalles(request):
+    periodo = request.POST['periodo']
+    detalles = Campana.objects.filter(mes_vigencia=periodo).filter(segmento='MS').distinct('segmento')
+    detalles1 = Campana.objects.values('q_tc','q_pld','q_veh','q_subrogacion','q_tc_entry_level', 'q_renovado', 'q_auto_2da', 'q_adelanto_sueldo','q_efectivo_plus','q_prestamo_inmediato','q_incr_linea').filter(mes_vigencia=periodo).filter(segmento='MS').distinct('segmento')
+    return HttpResponse(detalles1)
+
+def json_caidas(request):
+    periodo = request.POST['periodo']
+    caidas_ms = Caida.objects.values('caida').filter(mes_vigencia=periodo).filter(segmento='MS').annotate(num_caidaxms=Sum('cantidad'))
+    caidas_ava = Caida.objects.values('caida').filter(mes_vigencia=periodo).filter(segmento='AVA').annotate(num_caidaxava=Sum('cantidad'))
+    caidas_noph = Caida.objects.values('caida').filter(mes_vigencia=periodo).filter(segmento='NO PH + PASIVO').annotate(num_caidaxnoph=Sum('cantidad'))
+    caidas_noclie = Caida.objects.values('caida').filter(mes_vigencia=periodo).filter(segmento='NO CLIENTE').annotate(num_caidaxnoclie=Sum('cantidad'))
+    caidas = zip(caidas_ms, caidas_ava, caidas_noph, caidas_noclie)
+    return HttpResponse(caidas)
 
 # Vistas RVGL para recibir consultas Ajax
 def json_banca(request):
