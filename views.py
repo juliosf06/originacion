@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.core.serializers import serialize
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Sum, Avg
+from django.db.models import Count, Sum, Avg, Case, When, IntegerField
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response as render
 from django.template import RequestContext
@@ -54,7 +54,7 @@ def dummy(request):
 # 2.- Vistas para reportes de Campaña
 @login_required
 def campana_ofertas(request):
-    ofertas = Campana.objects.filter(mes_vigencia='201604')
+    ofertas = Campana.objects.filter(mes_vigencia='201604').distinct('segmento')
     static_url=settings.STATIC_URL
     tipo_side = 1
     print ofertas
@@ -63,11 +63,25 @@ def campana_ofertas(request):
 
 @login_required
 def campana_detalles(request):
-    detalles = Campana.objects.filter(mes_vigencia='201604').filter(segmento='MS')
+    detalles = Campana.objects.filter(mes_vigencia='201603').filter(segmento='MS').distinct('segmento')
     control_segmentos = Campana.objects.all().values('segmento').distinct('segmento')
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana_detalles.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def campana_caidas(request):
+    caidas_ms = Caida.objects.values('caida').filter(mes_vigencia='201602').filter(segmento='MS').annotate(num_caidaxms=Sum('cantidad'))
+    caidas_ava = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='AVA').annotate(num_caidaxava=Sum('cantidad'))
+    caidas_noph = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='NO PH + PASIVO').annotate(num_caidaxnoph=Sum('cantidad'))
+    caidas_noclie = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='NO CLIENTE').annotate(num_caidaxnoclie=Sum('cantidad'))
+
+    caidas = Caida.objects.values('caida').filter(mes_vigencia='201602').annotate(num_caidaxms=models.Sum(models.Case(models.When(segmento='MS'),default=0,output_field=models.IntegerField())))
+    print caidas
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana_caidas.html', locals(),
                   context_instance=RequestContext(request))
 
 

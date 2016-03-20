@@ -1,0 +1,113 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Reporte de Ofertas TC{% endblock %}
+
+{% block content %}
+
+          <h1 class="page-header">Resumen Caidas</h1>
+          <div class="form-inline">
+            &nbsp;&nbsp;
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control" id="caidas_periodo">
+              <option value="201603" selected>Marzo 2016</option>
+              <option value="201602">Febrero 2016</option>
+            </select>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          </div>
+          <div class="rows placeholders">
+		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          </div>
+          <h2 class="sub-header">Detalle Ofertas</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Filtro</th>
+                  <th>Mundo Sueldo</th>
+                  <th>Premium/VIP</th>
+                  <th>No PH</th>
+                  <th>No Clientes</th>
+                </tr>
+              </thead>
+              <tbody id="tabla_ofertas">
+		{% for a in caidas_ms %}
+		<tr>
+                  <td>{{a.caida}}</td>
+                  <td>{{a.num_caidaxms}}</td>
+                  <td>{{a.num_caidaxava}}</td>
+                  <td>{{a.num_caidaxnoph}}</td>
+                  <td>{{a.num_caidaxnoclie}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+{% endblock %}
+
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Resumen de caidas",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mundo Sueldo",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in caidas_ms %}
+				{ label: "{{i.caida}}",  y: {{i.num_caidaxms}}  },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Premium/VIP",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in caidas_ava %}
+				{ label: "{{i.caida}}",  y: {{i.num_caidaxava}}  },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "No PH",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in caidas_noph %}
+				{ label: "{{i.caida}}",  y: {{i.num_caidaxnoph}}  },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "No Clientes",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in caidas_noclie %}
+				{ label: "{{i.caida}}",  y: {{i.num_caidaxnoclie}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+    }
+  </script>
+{% endblock %}
+
+

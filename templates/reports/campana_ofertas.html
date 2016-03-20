@@ -48,7 +48,7 @@
                   <td>{{a.segmento}}</td>
                   <td>{{a.q_tc|intcomma}}</td>
                   <td>{{a.q_pld|intcomma}}</td>
-                  <!--<td>{{a.q_veh|intcomma}}</td>
+                  <td>{{a.q_veh|intcomma}}</td>
                   <td>{{a.q_subrogacion|intcomma}}</td>
                   <td>{{a.q_tc_entry_level|intcomma}}</td>
                   <td>{{a.q_renovado|intcomma}}</td>
@@ -56,7 +56,7 @@
                   <td>{{a.q_adelanto_sueldo|intcomma}}</td>
                   <td>{{a.q_efectivo_plus|intcomma}}</td>
                   <td>{{a.q_prestamo_inmediato|intcomma}}</td>
-                  <td>{{a.q_incr_linea|intcomma}}</td>-->
+                  <td>{{a.q_incr_linea|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -96,8 +96,8 @@
 				{ label: "{{i.segmento}}",  y: {{i.q_pld}}  },
 				{% endfor %}
 			]
-		}
-		/*{
+		},
+		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "Auto",
@@ -195,7 +195,7 @@
 				{ label: "{{i.segmento}}",  y: {{i.q_incr_linea}}  },
 				{% endfor %}
 			]
-		}*/
+		}
 		]
 	});
 	chart.render();
