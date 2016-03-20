@@ -248,7 +248,7 @@ def rvgl_top20ofic(request):
 def json_ofertas(request):
     periodo = request.POST['periodo']
     ofertas = Campana.objects.filter(mes_vigencia=periodo)
-    return HttpResponse(ofertas)
+    return HttpResponse(ofertas.values())
 
 
 

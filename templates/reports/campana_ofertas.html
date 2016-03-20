@@ -75,17 +75,27 @@
                 },
 		animationEnabled: true,   // change to true
 		data: [              
-		{
+		{% for i in ofertas %}
+                {
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
-			name: "Tarjeta",
+			name: "{{i.segmento}}",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in ofertas %}
-				{ label: "{{i.segmento}}",  y: {{i.q_tc}}  },
-				{% endfor %}
+				{ label: "Tarjeta",  y: {{i.q_tc}}  },
+                                { label: "Consumo",  y: {{i.q_pld}} },
+                                { label: "Vehicular",  y: {{i.q_veh}} },
+				{ label: "Subrogacion",  y: {{i.q_subrogacion}}  },
+				{ label: "TC Entry Level",  y: {{i.q_tc_entry_level}}  },
+				{ label: "Renovado",  y: {{i.q_renovado}}  },
+				{ label: "Auto 2da",  y: {{i.q_auto_2da}}  },
+				{ label: "Adel Sueldo",  y: {{i.q_adelanto_sueldo}}  },
+				{ label: "Efect Plus",  y: {{i.q_efectivo_plus}}  },
+				{ label: "Prest al Toque",  y: {{i.q_prestamo_inmediato}}  },
+				{ label: "Inc Linea",  y: {{i.q_incr_linea}}  },
 			]
 		},
+<<<<<<< HEAD
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
@@ -196,6 +206,9 @@
 				{% endfor %}
 			]
 		}
+=======
+                {% endfor %}
+>>>>>>> 4918e678b1f2ef628e8fc1264c4ad5b799d697cc
 		]
 	});
 	chart.render();
