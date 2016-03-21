@@ -4,11 +4,11 @@
 
 {% load humanize %}
 
-{% block title %}Reporte de Ofertas TC{% endblock %}
+{% block title %}Resumen de Caídas{% endblock %}
 
 {% block content %}
 
-          <h1 class="page-header">Resumen Caidas</h1>
+          <h1 class="page-header">Resumen de Caídas</h1>
           <div class="form-inline">
             &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
@@ -21,7 +21,7 @@
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
           </div>
-          <h2 class="sub-header">Detalle Ofertas</h2>
+          <h2 class="sub-header">Detalle por Segmento</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -36,11 +36,11 @@
               <tbody id="tabla_caidas">
 		{% for a,b,c,d in caidas %}
 		<tr>
-                  <td>{{a.caida}}</td>
-                  <td>{{a.num_caidaxms}}</td>
-                  <td>{{b.num_caidaxava}}</td>
-                  <td>{{c.num_caidaxnoph}}</td>
-                  <td>{{d.num_caidaxnoclie}}</td>
+                  <td>{{a.caida|intcomma}}</td>
+                  <td>{{a.num_caidaxms|intcomma}}</td>
+                  <td>{{b.num_caidaxava|intcomma}}</td>
+                  <td>{{c.num_caidaxnoph|intcomma}}</td>
+                  <td>{{d.num_caidaxnoclie|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -57,6 +57,7 @@
 		title:{
 			text: "Resumen de caidas",
                 },
+                exportEnabled: true,
 		animationEnabled: true,   // change to true
                 axisY: {
                         title: "Cantidad",
@@ -71,6 +72,7 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "rangeBar",
 			showInLegend: "true",
+                        legendText:  "Distribución de caídas",
 			dataPoints: [
 				{% for i in coord %}
 				{ x: {{forloop.counter}}*10,  label: "{{i.label}}",  y:[{{i.x}}/1000, {{i.y}}/1000 ] },
