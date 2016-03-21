@@ -50,7 +50,7 @@
 		<tr>
                   <td>{{a.codigo_campana}}</td>
                   <td>{{a.segmento}}</td>
-                  <td>{{b.num_clientes}}</td>
+                  <td>{{b.num_clientes|intcomma}}</td>
                   <td>{{a.q_tc|intcomma}}</td>
                   <td>{{a.q_pld|intcomma}}</td>
                   <td>{{a.q_veh|intcomma}}</td>
@@ -105,11 +105,11 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "doughnut",
 			indexLabel: "{label},  {y}",
-			//yValueFormatString: "##,###.00 MM",
+			yValueFormatString: "##.0 MM",
 			indexLabelorientatios: "horizontal", 
 			dataPoints: [
 				{% for i in montos %}
-				{ label: "{{i.segmento}}",  y: {{i.monto}}  },
+				{ label: "{{i.segmento}}",  y: {{i.monto}}/1000000  },
 				{% endfor %}
 			]
 		},
