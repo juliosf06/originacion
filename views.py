@@ -75,14 +75,26 @@ def campana_detalles(request):
 
 @login_required
 def campana_caidas(request):
-    caidas_ms = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='MS').annotate(num_caidaxms=Sum('cantidad'))
-    caidas_ava = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='AVA').annotate(num_caidaxava=Sum('cantidad'))
-    caidas_noph = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='NO PH + PASIVO').annotate(num_caidaxnoph=Sum('cantidad'))
-    caidas_noclie = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='NO CLIENTE').annotate(num_caidaxnoclie=Sum('cantidad'))
+    caidas_ms = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='MS').annotate(num_caidaxms=Sum('cantidad')).order_by('caida')
+    caidas_ava = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='AVA').annotate(num_caidaxava=Sum('cantidad')).order_by('caida')
+    caidas_noph = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='NO PH + PASIVO').annotate(num_caidaxnoph=Sum('cantidad')).order_by('caida')
+    caidas_noclie = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='NO CLIENTE').annotate(num_caidaxnoclie=Sum('cantidad')).order_by('caida')
     caidas = zip(caidas_ms, caidas_ava, caidas_noph, caidas_noclie)
     print caidas
     static_url=settings.STATIC_URL
+    grafica  = Caida.objects.values('caida').filter(mes_vigencia='201603').annotate(num_caida=Sum('cantidad')).order_by('caida')
+    total = Caida.objects.values('mes_vigencia').filter(mes_vigencia='201603').annotate(total=Sum('cantidad'))
+    coord = []
+    coord.append({ 'label': 'Total Evaluados', 'x': 0, 'y': total[0]['total'] })
+    cont = 0
+    for i in grafica:
+        if cont == 0:
+            coord.append({'label':i['caida'], 'x': coord[cont]['y']-i['num_caida'], 'y': coord[cont]['y']})
+        elif cont<9:
+            coord.append({'label':i['caida'], 'x': coord[cont]['x']-i['num_caida'], 'y': coord[cont]['x']})
+        cont=cont+1
     tipo_side = 1
+    coord = reversed(coord)
     return render('reports/campana_caidas.html', locals(),
                   context_instance=RequestContext(request))
 

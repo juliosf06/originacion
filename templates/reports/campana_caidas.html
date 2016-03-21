@@ -58,51 +58,25 @@
 			text: "Resumen de caidas",
                 },
 		animationEnabled: true,   // change to true
+                axisY: {
+                        title: "Cantidad",
+                        interval: 1000,
+                },
+                axisX: {
+                        interval: 10,
+                        title: "Caidas",
+                },
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mundo Sueldo",
+			type: "rangeBar",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in caidas_ms %}
-				{ label: "{{i.caida}}",  y: {{i.num_caidaxms}}  },
+				{% for i in coord %}
+				{ x: {{forloop.counter}}*10,  label: "{{i.label}}",  y:[{{i.x}}/1000, {{i.y}}/1000 ] },
 				{% endfor %}
 			]
 		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Premium/VIP",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in caidas_ava %}
-				{ label: "{{i.caida}}",  y: {{i.num_caidaxava}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "No PH",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in caidas_noph %}
-				{ label: "{{i.caida}}",  y: {{i.num_caidaxnoph}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "No Clientes",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in caidas_noclie %}
-				{ label: "{{i.caida}}",  y: {{i.num_caidaxnoclie}}  },
-				{% endfor %}
-			]
-		}
 		]
 	});
 	chart.render();
