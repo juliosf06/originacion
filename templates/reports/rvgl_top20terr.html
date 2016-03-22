@@ -45,15 +45,19 @@
                   <th>Territorios</th>
                   <th>Operaciones sol.</th>
                   <th>Monto solicitado</th>
+                  <th>Operaciones aprob.</th>
+                  <th>Monto aprobado</th>
                 </tr>
               </thead>
               <tbody id="tabla_top20terr">
-		{% for a in top20terr1 %}
+		{% for a,b in top20terr %}
 		<tr>                       
                   <td></td>
                   <td>{{a.territorio_nuevo}}</td>
                   <td>{{a.num_top20terr1|intcomma}}</td>
                   <td>{{a.sum_top20terr1|intcomma}}</td>
+                  <td>{{b.num_top20terr2|intcomma}}</td>
+                  <td>{{b.sum_top20terr2|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -87,6 +91,10 @@
 			type: "stackedBar",
 			name: "Aprobadas",
 			showInLegend: "true",
+			indexLabel: "#percent%",
+			indexLabelPlacement: "outside",
+			indexLabelFontSize: "10",
+			percentFormatString: "#0.#",
 			dataPoints: [
 				{% for i in top20terr2 %}
 				{ label: "{{i.territorio_nuevo}}",  y: {{i.num_top20terr2}}  },

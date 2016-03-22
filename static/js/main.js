@@ -82,7 +82,7 @@ $("#detalles_periodo").change(function(e){
     url: '/reports/campanas/json_detalles/',
     success: function(json){
        console.log(json);
-       var limpia = json.replace(/'q_tc'/g,'"y"');
+       /*var limpia = json.replace(/'q_tc'/g,'"y"');
        limpia = limpia.replace(/'q_pld'/g,'"y"');
        limpia = limpia.replace(/'q_pld'/g,'"y"');
        limpia = limpia.replace(/'q_veh'/g,'"y"');
@@ -98,15 +98,17 @@ $("#detalles_periodo").change(function(e){
        limpia = limpia.replace(/, /g,"},{");
        limpia = limpia.replace(/'/g,'"');
        limpia = limpia.replace(/&quot;/ig,'"');
-       console.log(limpia);
-       var result = JSON.parse('['+limpia+']');
+       console.log(limpia);*/
+       var result = JSON.parse(JSON.stringify(json));
        console.log(result);
-       crear_chart(result, "bar", "Segmentos a nivel contrato");
+       console.log(result[1]);
+
+       /*crear_chart(result, "bar", "Segmentos a nivel contrato");
        var html = "";
        for (var datos in result){
         html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
        };
-       $("#tabla_detalles").html(html);
+       $("#tabla_detalles").html(html);*/
     }
   });
 });

@@ -46,13 +46,13 @@
                 </tr>
               </thead>
               <tbody id="tabla_dictamenxsco">
-		{% for a in dictamenxsco_ap %}
+		{% for a,b,c in dictamenxsco %}
 		<tr>
                   <td></td>
                   <td>{{a.dictamen}}</td>
                   <td>{{a.num_dictamenxsco_ap|intcomma}}</td>
-                  <td>{{a.num_dictamenxsco_du|intcomma}}</td>
-                  <td>{{a.num_dictamenxsco_re|intcomma}}</td>
+                  <td>{{b.num_dictamenxsco_du|intcomma}}</td>
+                  <td>{{c.num_dictamenxsco_re|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>

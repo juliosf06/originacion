@@ -33,17 +33,21 @@
                 <tr>
                   <th>#</th>
                   <th>cliente</th>
-                  <th>Operaciones</th>
+                  <th>Operaciones sol.</th>
                   <th>Monto solicitado</th>
+                  <th>Operaciones aprob.</th>
+                  <th>Monto aprobado</th>
                 </tr>
               </thead>
               <tbody>
-		{% for a in top20clie1 %}
+		{% for a,b in top20clie %}
 		<tr>                       
                   <td></td>
                   <td>{{a.cliente}}</td>
                   <td>{{a.num_top20clie1|intcomma}}</td>
                   <td>{{a.sum_top20clie1|intcomma}}</td>
+                  <td>{{b.num_top20clie2|intcomma}}</td>
+                  <td>{{b.sum_top20clie2|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -77,6 +81,10 @@
 			type: "stackedBar",
 			name: "Aprobadas",
 			showInLegend: "true",
+			indexLabel: "#percent%",
+			indexLabelPlacement: "outside",
+			indexLabelFontSize: "10",
+			percentFormatString: "#0.#",
 			dataPoints: [
 				{% for i in top20clie2 %}
 				{ label: "{{i.cliente}}",  y: {{i.num_top20clie2}}  },

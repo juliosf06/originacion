@@ -188,14 +188,9 @@ def rvgl_dictamenxsco(request):
     dictamenxsco_ap = RVGL.objects.filter(mes_vigencia='201602').filter(dictamen_sco='AP').values('dictamen').annotate(num_dictamenxsco_ap=Count('dictamen_sco')).order_by('dictamen')
     dictamenxsco_du = RVGL.objects.filter(mes_vigencia='201602').filter(dictamen_sco='DU').values('dictamen').annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
     dictamenxsco_re = RVGL.objects.filter(mes_vigencia='201602').filter(dictamen_sco='RE').values('dictamen').annotate(num_dictamenxsco_re=Count('dictamen_sco')).order_by('dictamen')
-    
-    dictamenxsco_all = RVGL.objects.filter(mes_vigencia='201602').values('dictamen','dictamen_sco').annotate(Count('dictamen')).order_by('dictamen')
-    print dictamenxsco_all
-
+    dictamenxsco = zip(dictamenxsco_ap,dictamenxsco_du,dictamenxsco_re)
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
     static_url=settings.STATIC_URL
-    rango =range(0,4)
-    #print dictamenxsco_all
     tipo_side = 2
     return render('reports/rvgl_dictamenxsco.html', locals(),
                   context_instance=RequestContext(request))
@@ -232,8 +227,7 @@ def rvgl_top20terr(request):
     top20terr1 = RVGL.objects.filter(mes_vigencia='201602').exclude(territorio_nuevo='NULL').values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic') ).order_by('-sum_top20terr1')[:20]
     top20terr2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).exclude(territorio_nuevo='NULL').values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    top20 = RVGL.objects.raw('SELECT * FROM top20terr1')
-    print top20
+    top20terr = zip(top20terr1, top20terr2)
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_top20terr.html', locals(),
@@ -243,6 +237,7 @@ def rvgl_top20terr(request):
 def rvgl_top20gest(request):
     top20gest1 = RVGL.objects.filter(mes_vigencia='201602').values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic'), sum_top20gest1=Sum('importe_solic')).order_by('-sum_top20gest1')[:20]
     top20gest2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest2=Count('importe_aprob'), sum_top20gest2=Sum('importe_aprob')).order_by('-sum_top20gest2')[:20]
+    top20gest = zip(top20gest1,top20gest2)
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
     static_url=settings.STATIC_URL
     tipo_side = 2
@@ -254,6 +249,7 @@ def rvgl_top20clie(request):
     top20clie1 = RVGL.objects.filter(mes_vigencia='201602').values('cliente').annotate(num_top20clie1=Count('importe_solic'), sum_top20clie1=Sum('importe_solic')).order_by('cliente').order_by('-sum_top20clie1')[:20]
     top20clie2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('cliente').annotate(num_top20clie2=Count('importe_aprob'), sum_top20clie2=Sum('importe_aprob')).order_by('-sum_top20clie2')[:20]
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+    top20clie = zip(top20clie1,top20clie2)
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_top20clie.html', locals(),
@@ -264,6 +260,7 @@ def rvgl_top20ofic(request):
     top20ofic1 = RVGL.objects.filter(mes_vigencia='201602').values('oficina').annotate(num_top20ofic1=Count('importe_solic'), sum_top20ofic1=Sum('importe_solic')).order_by('-sum_top20ofic1')[:20]
     top20ofic2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('oficina').annotate(num_top20ofic2=Count('importe_aprob'), sum_top20ofic2=Sum('importe_aprob')).order_by('-sum_top20ofic2')[:20]
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+    top20ofic = zip(top20ofic1,top20ofic2)
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_top20ofic.html', locals(),
@@ -300,9 +297,9 @@ def json_ofertas(request):
 
 def json_detalles(request):
     periodo = request.POST['periodo']
-    detalles = Campana.objects.filter(mes_vigencia=periodo).filter(segmento='MS').distinct('segmento')
+    detalles = Campana.objects.filter(mes_vigencia=periodo).filter(segmento='MS').distinct('segmento').values()
     detalles1 = Campana.objects.values('q_tc','q_pld','q_veh','q_subrogacion','q_tc_entry_level', 'q_renovado', 'q_auto_2da', 'q_adelanto_sueldo','q_efectivo_plus','q_prestamo_inmediato','q_incr_linea').filter(mes_vigencia=periodo).filter(segmento='MS').distinct('segmento')
-    return HttpResponse(detalles1)
+    return HttpResponse(zip(detalles,detalles1))
 
 def json_caidas(request):
     periodo = request.POST['periodo']

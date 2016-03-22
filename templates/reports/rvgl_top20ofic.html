@@ -33,17 +33,21 @@
                 <tr>
                   <th>#</th>
                   <th>Oficinas</th>
-                  <th>Operaciones</th>
+                  <th>Operaciones sol.</th>
                   <th>Monto solicitado</th>
+                  <th>Operaciones aprob.</th>
+                  <th>Monto aprobado</th>
                 </tr>
               </thead>
               <tbody>
-		{% for a in top20ofic1 %}
+		{% for a,b in top20ofic %}
 		<tr>                       
                   <td></td>
                   <td>{{a.oficina}}</td>
                   <td>{{a.num_top20ofic1|intcomma}}</td>
                   <td>{{a.sum_top20ofic1|intcomma}}</td>
+                  <td>{{b.num_top20ofic2|intcomma}}</td>
+                  <td>{{b.sum_top20ofic2|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -79,6 +83,10 @@
 			name: "Aprobadas",
 			markerType: "square",
 			showInLegend: "true",
+			indexLabel: "#percent%",
+			indexLabelPlacement: "outside",
+			indexLabelFontSize: "10",
+			percentFormatString: "#0.#",
 			dataPoints: [
 				{% for i in top20ofic2 %}
 				{ label: "{{i.oficina}}", y: {{i.num_top20ofic2}}  },
