@@ -272,7 +272,6 @@ def evaluacion_evaluaciontc(request):
     evaluaciontc = Evaluaciontc.objects.all().order_by('cliente').distinct('cliente')
     static_url=settings.STATIC_URL
     tipo_side = 3
-    print evaluaciontc
     return render('reports/evaluacion_evaluaciontc.html', locals(),
                   context_instance=RequestContext(request))
 

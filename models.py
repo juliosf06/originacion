@@ -73,7 +73,7 @@ class Evaluaciontc(models.Model):
     sueldo_final_fuente = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.cliente+' '+self.documento
+        return self.cliente+' '+self.documento+' '+ self.segmento
 
 class Evaluacionpld(models.Model):
     cliente = models.CharField(max_length=20)
@@ -92,24 +92,24 @@ class Evaluacionpld(models.Model):
     def __str__(self):
         return self.cliente+' '+self.documento
 
-class seguimiento(models.Model):
-    mes_vigencia = models.CharField(max_length=10)
-    dic_global = models.CharField(max_length=10)
-    dic_buro = models.CharField(max_length=5)
-    buro_camp = models.CharField(max_length=20)
-    buro_uno = models.CharField(max_length=20)
-    segmento = models.CharField(max_length=20)
-    origen = models.CharField(max_length=50)
-    rng_ing = models.CharField(max_length=20)
-    producto = models.CharField(max_length=50)
-    riesgos = models.CharField(max_length=20)
-    soli = models.IntegerField(default=0)
-    plazo = models.IntegerField(default=0)
-    form = models.IntegerField(default=0)
-    facturacion = models.DecimalField(max_digits=4, decimal_places=4, default=0)
+#class seguimiento(models.Model):
+    #mes_vigencia = models.CharField(max_length=10)
+    #dic_global = models.CharField(max_length=10)
+    #dic_buro = models.CharField(max_length=5)
+    #buro_camp = models.CharField(max_length=20)
+    #buro_uno = models.CharField(max_length=20)
+    #segmento = models.CharField(max_length=20)
+    #origen = models.CharField(max_length=50)
+    #rng_ing = models.CharField(max_length=20)
+    #producto = models.CharField(max_length=50)
+    #riesgos = models.CharField(max_length=20)
+    #soli = models.IntegerField(default=0)
+    #plazo = models.IntegerField(default=0)
+    #form = models.IntegerField(default=0)
+    #facturacion = models.DecimalField(max_digits=4, decimal_places=4, default=0)
 
-    def __str__(self):
-        return self.mes_vigencia+' '+self.segmento+' '+self.producto
+    #def __str__(self):
+        #return self.mes_vigencia+' '+self.segmento+' '+self.producto
 
 class MoraDistrito(models.Model):
     departamento = models.CharField(max_length=100)
