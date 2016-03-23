@@ -59,13 +59,13 @@ class Caida(models.Model):
         return self.mes_vigencia+' '+self.segmento+' '+self.caida
 
 class Evaluaciontc(models.Model):
-    fecha = models.CharField(max_length=10)
-    hora_fin = models.CharField(max_lenght=10)
+    fecha = models.CharField(max_length=10,default=0)
+    hora_fin = models.CharField(max_length=10,default=0)
     cliente = models.CharField(max_length=20)
-    relacion_lab = models.CharField(max_length=20)
-    validado = models.CharField(max_length=5)
-    scoreweb = models.CharField(max_length=20)
-    eval_admi = models.CharField(max_length=20)
+    relacion_lab = models.CharField(max_length=20,default=0)
+    validado = models.CharField(max_length=5,default=0)
+    scoreweb = models.CharField(max_length=20,default=0)
+    eval_admi = models.CharField(max_length=20,default=0)
     tip_doc = models.CharField(max_length=5)
     documento = models.CharField(max_length=20)
     nombre = models.CharField(max_length=100)
@@ -82,14 +82,13 @@ class Evaluaciontc(models.Model):
         return self.fecha+' '+self.cliente+' '+ self.documento
 
 class Evaluacionpld(models.Model):
-    fecha = models.CharField(max_length=10)
-    hora_fin = models.CharField(max_lenght=10)
+    fecha = models.CharField(max_length=10,default=0)
+    hora_fin = models.CharField(max_length=10,default=0)
     cliente = models.CharField(max_length=20)
-    relacion_lab = models.CharField(max_length=20)
-    accion_orig = models.CharField(max_length=20)
-    validado = models.CharField(max_length=5)
-    scoreweb = models.CharField(max_length=20)
-    eval_admi = models.CharField(max_length=20)
+    relacion_lab = models.CharField(max_length=20,default=0)
+    validado = models.CharField(max_length=5,default=0)
+    scoreweb = models.CharField(max_length=20,default=0)
+    eval_admi = models.CharField(max_length=20,default=0)
     tip_doc = models.CharField(max_length=5)
     documento = models.CharField(max_length=20)
     nombre = models.CharField(max_length=100)
