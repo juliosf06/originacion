@@ -71,7 +71,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "pie",
 			indexLabelFontColor: "gray",			
-			indexLabel: "{label}",
+			indexLabel: "{label} #percent%",
+			percentFormatString: "#0.#",
 			dataPoints: [
 				{% for i in scoxforzaje %}
 				{ label: "{{i.seg_prime}}",  y: {{i.num_scoxforzaje}}  },
