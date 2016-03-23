@@ -448,8 +448,8 @@ def json_top20terr(request):
 def load(request):
     static_url=settings.STATIC_URL
     #RVGL.objects.all().delete()
-    Evaluaciontc.objects.all().delete()
-    Evaluacionpld.objects.all().delete()
+    #Evaluaciontc.objects.all().delete()
+    #Evaluacionpld.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
