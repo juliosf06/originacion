@@ -284,6 +284,16 @@ def evaluacion_evaluacionpld(request):
                   context_instance=RequestContext(request))
 
 
+# 5.- Vistas para reportes de SEGUIMIENTO
+@login_required
+def seguimiento_tarjeta(request):
+    seg_tarjeta = Seguimiento1.objects.all().order_by('segmento').distinct('segmento')
+    static_url=settings.STATIC_URL
+    tipo_side = 3
+    return render('reports/seguimiento_tarjeta.html', locals(),
+                  context_instance=RequestContext(request))
+
+
 # Vistas CAMPANA para recibir consultas Ajax
 def json_ofertas(request):
     periodo = request.POST['periodo']
@@ -292,7 +302,6 @@ def json_ofertas(request):
     montos = Campana.objects.values('segmento').annotate(monto=Sum(F('monto_tc')+F('monto_pld')+F('monto_veh')+F('monto_subrogacion')+F('monto_tc_entry_level')+F('monto_renovado')+F('monto_auto_2da')+F('monto_adelanto_sueldo')+F('monto_efectivo_plus')+F('monto_prestamo_inmediato')+F('monto_incr_linea'))).filter(mes_vigencia=periodo).order_by('segmento')
     ofer = zip(ofertas, clientes, montos)
     return HttpResponse(clientes)
-
 
 def json_detalles(request):
     periodo = request.POST['periodo']
@@ -439,8 +448,8 @@ def json_top20terr(request):
 def load(request):
     static_url=settings.STATIC_URL
     #RVGL.objects.all().delete()
-    #Evaluaciontc.objects.all().delete()
-    #Evaluacionpld.objects.all().delete()
+    Evaluaciontc.objects.all().delete()
+    Evaluacionpld.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
@@ -519,6 +528,18 @@ def carga_evaluacionpld(request):
         if form.is_valid():
             csv_file = request.FILES['evaluacionpld']
             EvaluacionpldCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_seguimiento1(request):
+    if request.method == 'POST':
+        form = UploadSegiumiento1(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['seguimiento1']
+            Seguimiento1Csv.import_data(data = csv_file)
             return campana_ofertas(request)
         else:
             return load(campana_ofertas)

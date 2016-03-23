@@ -4,12 +4,12 @@
 
 {% load humanize %}
 
-{% block title %}Operaciones por Banca{% endblock %}
+{% block title %}Seguimiento Tarjeta{% endblock %}
 
 {% block content %}
 
-          <h1 class="page-header">operaciones por Banca</h1>
-          <div class="form-inline">
+          <h1 class="page-header">Seguimiento Tarjeta</h1>
+          <!--<div class="form-inline">
             &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
             <select class="form-control" id="banca_periodo">
@@ -29,11 +29,11 @@
 	      {% endfor %}
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
-          </div>
+          </div>-->
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
           </div>
-          <h2 class="sub-header">Detalle de Operaciones</h2>
+          <!--<h2 class="sub-header">Detalle de Operaciones</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>

@@ -9,5 +9,6 @@ admin.site.register(Verificaciones)
 admin.site.register(Caida)
 admin.site.register(Evaluaciontc)
 admin.site.register(Evaluacionpld)
+#admin.site.register(Seguimiento1)
 
 # Register your models here.

@@ -61,6 +61,11 @@ urlpatterns = [
     url(r'^evaluacion/evaluaciontc/$', views.evaluacion_evaluaciontc, name='evaluacion_evaluaciontc'),
     url(r'^evaluacion/evaluacionpld/$', views.evaluacion_evaluacionpld, name='evaluacion_evaluacionpld'),
 
+    # URLS para reportes de Seguimiento
+    url(r'^seguimiento/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
+    url(r'^seguimiento/tarjeta/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
+    #url(r'^evaluacion/evaluacionpld/$', views.evaluacion_evaluacionpld, name='evaluacion_evaluacionpld'),
+
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),
     url(r'^load_data/carga_campana/$', views.carga_campana, name='carga_campana'),

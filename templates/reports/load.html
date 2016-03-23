@@ -57,6 +57,15 @@
 	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Campana" ></div>
             </form>
           </div>
+	  <div class="row">
+            <form action="carga_seguimiento1/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reportes Seguimiento1</label>
+		<input type="file" id="seguimiento1" name="seguimiento1">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Seguimiento1" ></div>
+            </form>
+          </div>
           <div class="row">
             <form action="carga_caidas/" method="post" enctype="multipart/form-data">{% csrf_token %}
               <div class="form_group">

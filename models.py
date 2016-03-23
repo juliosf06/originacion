@@ -104,7 +104,7 @@ class Evaluacionpld(models.Model):
     def __str__(self):
         return self.fecha+' '+self.cliente+' '+ self.documento
 
-class seguimiento(models.Model):
+class Seguimiento1(models.Model):
     mes_vigencia = models.CharField(max_length=10)
     dic_global = models.CharField(max_length=10)
     dic_buro = models.CharField(max_length=5)
