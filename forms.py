@@ -54,7 +54,7 @@ class EvaluacionpldCsv(CsvDbModel):
 class UploadSeguimiento1(forms.Form):
     seguimiento1 = forms.FileField()
 
-class EvaluacionpldCsv(CsvDbModel):
+class Seguimiento1Csv(CsvDbModel):
     class Meta:
         dbModel = Seguimiento1
         delimiter = ","

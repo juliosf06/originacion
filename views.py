@@ -534,14 +534,4 @@ def carga_evaluacionpld(request):
     else:
         return load(campana_ofertas)
 
-def carga_seguimiento1(request):
-    if request.method == 'POST':
-        form = UploadSegiumiento1(request.POST, request.FILES)
-        if form.is_valid():
-            csv_file = request.FILES['seguimiento1']
-            Seguimiento1Csv.import_data(data = csv_file)
-            return campana_ofertas(request)
-        else:
-            return load(campana_ofertas)
-    else:
-        return load(campana_ofertas)
+
