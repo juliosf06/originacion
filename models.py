@@ -118,7 +118,7 @@ class Seguimiento1(models.Model):
     soli = models.IntegerField(default=0)
     plazo = models.IntegerField(default=0)
     form = models.IntegerField(default=0)
-    facturacion = models.DecimalField(max_digits=4, decimal_places=4, default=0)
+    facturacion = models.DecimalField(max_digits=12, decimal_places=2, default=0)
 
     def __str__(self):
         return self.mes_vigencia+' '+self.segmento+' '+self.producto

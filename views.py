@@ -287,9 +287,10 @@ def evaluacion_evaluacionpld(request):
 # 5.- Vistas para reportes de SEGUIMIENTO
 @login_required
 def seguimiento_tarjeta(request):
-    seg_tarjeta = Seguimiento1.objects.all().order_by('segmento').distinct('segmento')
+    seg_tarjeta = Seguimiento1.objects.values_list('producto','riesgos').filter(mes_vigencia='201502', producto='01 Consumo').annotate(formalizado=Sum('form'))
     static_url=settings.STATIC_URL
-    tipo_side = 3
+    tipo_side = 4
+    print seg_tarjeta
     return render('reports/seguimiento_tarjeta.html', locals(),
                   context_instance=RequestContext(request))
 
@@ -534,4 +535,16 @@ def carga_evaluacionpld(request):
     else:
         return load(campana_ofertas)
 
+
+def carga_seguimiento1(request):
+    if request.method == 'POST':
+        form = UploadSeguimiento1(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['seguimiento1']
+            Seguimiento1Csv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
 
