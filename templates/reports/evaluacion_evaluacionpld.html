@@ -31,36 +31,36 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Cliente</th>
-                  <th>Tip. Doc.</th>
+                  <th>Fecha</th>
+                  <th>Hora Fin</th>
+                  <th>Ingreso Neto</th>
+                  <th>Relación Laboral</th>
+                  <th>Tipo de Documento</th>
                   <th>Documento</th>
-                  <th>Nombre</th>
-                  <th>Apell. Paterno</th>
-                  <th>Apell. Materno</th>
-                  <th>Edad</th>
-                  <th>Segmento</th>
-                  <th>Buro</th>
-                  <th>Grupo PR</th>
-                  <th>Sueldo Final</th>
-                  <th>Sueldo Final Fuente</th>
+                  <th>Acción Originación</th>
+                  <th>Boleta</th>
+                  <th>Recibo por honorarios</th>
+                  <th>Validado</th>
+                  <th>Scoreweb</th>
+                  <th>Evaluación Admisión</th>
                 </tr>
               </thead>
               <tbody >
 		{% for a in evaluacionpld %}
 		<tr>                       
                   <td></td>
-                  <td>{{a.cliente|intcomma}}</td>
+                  <td>{{a.fecha}}</td>
+                  <td>{{a.hora_fin}}</td>
+                  <td>S/. {{a.sueldo_final|intcomma}}</td>
+                  <td>{{a.relacion_lab}}</td>
                   <td>{{a.tip_doc}}</td>
-                  <td>{{a.documento|intcomma}}</td>
-                  <td>{{a.nombre}}</td>
-                  <td>{{a.apell_paterno}}</td>
-                  <td>{{a.apell_materno}}</td>
-                  <td>{{a.edad}}</td>
-                  <td>{{a.segmento}}</td>
-                  <td>{{a.buro}}</td>
+                  <td>{{a.documento}}</td>
                   <td>{{a.grupo_pr}}</td>
-                  <td>{{a.sueldo_final|intcomma}}</td>
-                  <td>{{a.sueldo_final_fuente}}</td>
+                  <td>PDF</td>
+                  <td>PDF</td>
+                  <td>{{a.validado}}</td>
+                  <td>{{a.scoreweb}}</td>
+                  <td>{{a.eval_admi}}</td>
                 </tr>
 		{% endfor %}
               </tbody>

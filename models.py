@@ -59,7 +59,13 @@ class Caida(models.Model):
         return self.mes_vigencia+' '+self.segmento+' '+self.caida
 
 class Evaluaciontc(models.Model):
+    fecha = models.CharField(max_length=10)
+    hora_fin = models.CharField(max_lenght=10)
     cliente = models.CharField(max_length=20)
+    relacion_lab = models.CharField(max_length=20)
+    validado = models.CharField(max_length=5)
+    scoreweb = models.CharField(max_length=20)
+    eval_admi = models.CharField(max_length=20)
     tip_doc = models.CharField(max_length=5)
     documento = models.CharField(max_length=20)
     nombre = models.CharField(max_length=100)
@@ -73,10 +79,17 @@ class Evaluaciontc(models.Model):
     sueldo_final_fuente = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.cliente+' '+self.documento+' '+ self.segmento
+        return self.fecha+' '+self.cliente+' '+ self.documento
 
 class Evaluacionpld(models.Model):
+    fecha = models.CharField(max_length=10)
+    hora_fin = models.CharField(max_lenght=10)
     cliente = models.CharField(max_length=20)
+    relacion_lab = models.CharField(max_length=20)
+    accion_orig = models.CharField(max_length=20)
+    validado = models.CharField(max_length=5)
+    scoreweb = models.CharField(max_length=20)
+    eval_admi = models.CharField(max_length=20)
     tip_doc = models.CharField(max_length=5)
     documento = models.CharField(max_length=20)
     nombre = models.CharField(max_length=100)
@@ -90,26 +103,26 @@ class Evaluacionpld(models.Model):
     sueldo_final_fuente = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.cliente+' '+self.documento
+        return self.fecha+' '+self.cliente+' '+ self.documento
 
-#class seguimiento(models.Model):
-    #mes_vigencia = models.CharField(max_length=10)
-    #dic_global = models.CharField(max_length=10)
-    #dic_buro = models.CharField(max_length=5)
-    #buro_camp = models.CharField(max_length=20)
-    #buro_uno = models.CharField(max_length=20)
-    #segmento = models.CharField(max_length=20)
-    #origen = models.CharField(max_length=50)
-    #rng_ing = models.CharField(max_length=20)
-    #producto = models.CharField(max_length=50)
-    #riesgos = models.CharField(max_length=20)
-    #soli = models.IntegerField(default=0)
-    #plazo = models.IntegerField(default=0)
-    #form = models.IntegerField(default=0)
-    #facturacion = models.DecimalField(max_digits=4, decimal_places=4, default=0)
+class seguimiento(models.Model):
+    mes_vigencia = models.CharField(max_length=10)
+    dic_global = models.CharField(max_length=10)
+    dic_buro = models.CharField(max_length=5)
+    buro_camp = models.CharField(max_length=20)
+    buro_uno = models.CharField(max_length=20)
+    segmento = models.CharField(max_length=20)
+    origen = models.CharField(max_length=50)
+    rng_ing = models.CharField(max_length=20)
+    producto = models.CharField(max_length=50)
+    riesgos = models.CharField(max_length=20)
+    soli = models.IntegerField(default=0)
+    plazo = models.IntegerField(default=0)
+    form = models.IntegerField(default=0)
+    facturacion = models.DecimalField(max_digits=4, decimal_places=4, default=0)
 
-    #def __str__(self):
-        #return self.mes_vigencia+' '+self.segmento+' '+self.producto
+    def __str__(self):
+        return self.mes_vigencia+' '+self.segmento+' '+self.producto
 
 class MoraDistrito(models.Model):
     departamento = models.CharField(max_length=100)
