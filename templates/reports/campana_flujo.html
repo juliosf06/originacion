@@ -1,0 +1,95 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Reporte de Flujo Operativo{% endblock %}
+
+{% block content %}
+
+          <h1 class="page-header">Resumen Flujo Operativo</h1>
+          <div class="form-inline">
+            &nbsp;&nbsp;
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control" id="flujo_periodo">
+              <option value="201603" {% if fecha == '201603' %}selected {% endif %}>Marzo 2016</option>
+              <option value="201602" {% if fecha == '201602' %}selected {% endif %}>Febrero 2016</option>
+              <option value="201601" {% if fecha == '201601' %}selected {% endif %}>Enero 2016</option>
+            </select>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          </div>
+          <div class="rows placeholders">
+		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          </div>
+          <h2 class="sub-header">Detalle Flujo Operativo</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Tipo</th>
+                  <th>Exon. Solo VL</th>
+                  <th>Exon. Solo VD</th>
+                  <th>Exon. Ambas</th>
+                  <th>Requiere Ambas</th>
+                </tr>
+              </thead>
+              <tbody>
+		{% for a,b,c,d in flujo %}
+		<tr>
+		  {% if a.tipo == '1A' %}
+                     <td>CONTRATACIÓN SENCILLA</td>
+		  {% else %}
+		     <td>FAST</td>
+		  {% endif %}
+                  <td>{{a.num_flujo1|intcomma}}</td>
+                  <td>{{b.num_flujo2|intcomma}}</td>
+                  <td>{{c.num_flujo3|intcomma}}</td>
+                  <td>{{d.num_flujo4|intcomma}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+{% endblock %}
+
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Flujo Operativo",
+                },
+		animationEnabled: true,   // change to true
+		data: [
+                {% for a,b,c,d in flujo %}              
+                {
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar",
+			{% if a.tipo == "1A" %}
+			   name: "CONTRATACIÓN SENCILLA",
+			{% else %}
+			   name: "FAST",
+			{% endif %}
+			showInLegend: "true",
+			dataPoints: [
+				
+				{   y: {{a.num_flujo1}}, label: "EXON. SOLO VL"  },
+				{   y: {{b.num_flujo2}}, label: "EXON. SOLO VD",  },
+				{   y: {{c.num_flujo3}}, label: "EXON. AMBAS"  }, 
+				{   y: {{d.num_flujo4}}, label: "REQUIERE AMBAS"  },
+				
+			]
+		},
+                {% endfor %}
+ 		]
+	});
+	chart.render();
+    }
+  </script>
+{% endblock %}
+
+
+

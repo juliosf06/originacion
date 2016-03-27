@@ -13,8 +13,8 @@
             &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
             <select class="form-control" id="caidas_periodo">
-              <option value="201603" selected>Marzo 2016</option>
-              <option value="201602">Febrero 2016</option>
+              <option value="201603" {% if fecha == '201603' %}selected {% endif %}>Marzo 2016</option>
+              <option value="201602" {% if fecha == '201602' %}selected {% endif %}>Febrero 2016</option>
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>

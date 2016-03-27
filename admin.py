@@ -10,5 +10,6 @@ admin.site.register(Caida)
 admin.site.register(Evaluaciontc)
 admin.site.register(Evaluacionpld)
 #admin.site.register(Seguimiento1)
+#admin.site.register(FlujOperativo)
 
 # Register your models here.

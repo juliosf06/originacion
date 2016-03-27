@@ -65,8 +65,30 @@ def campana_ofertas(request):
                   context_instance=RequestContext(request))
 
 @login_required
+def campana2_ofertas(request, fecha):
+    clientes = Verificaciones.objects.values('segmento').annotate(num_clientes=Sum(F('exonera_ambas')+F('exonera_solo_vl')+F('exonera_solo_vd')+F('requiere_ambas'))).filter(mes_vigencia=fecha).order_by('segmento')
+    ofertas = Campana.objects.all().filter(mes_vigencia=fecha).distinct('segmento')
+    montos = Campana.objects.values('segmento').annotate(monto=Sum(F('monto_tc')+F('monto_pld')+F('monto_veh')+F('monto_subrogacion')+F('monto_tc_entry_level')+F('monto_renovado')+F('monto_auto_2da')+F('monto_adelanto_sueldo')+F('monto_efectivo_plus')+F('monto_prestamo_inmediato')+F('monto_incr_linea'))).filter(mes_vigencia=fecha).order_by('segmento')
+    ofer = zip(ofertas, clientes, montos)
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    print montos
+    return render('reports/campana_ofertas.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
 def campana_detalles(request):
     detalles = Campana.objects.filter(mes_vigencia='201603').filter(segmento='MS').distinct('segmento')
+    control_segmentos = Campana.objects.all().values('segmento').distinct('segmento')
+    print detalles
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana_detalles.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def campana2_detalles(request, segmento, fecha):
+    detalles = Campana.objects.filter(segmento=segmento).filter(mes_vigencia=fecha).distinct('segmento')
     control_segmentos = Campana.objects.all().values('segmento').distinct('segmento')
     print detalles
     static_url=settings.STATIC_URL
@@ -80,11 +102,38 @@ def campana_caidas(request):
     caidas_ava = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='AVA').annotate(num_caidaxava=Sum('cantidad')).order_by('caida')
     caidas_noph = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='NO PH + PASIVO').annotate(num_caidaxnoph=Sum('cantidad')).order_by('caida')
     caidas_noclie = Caida.objects.values('caida').filter(mes_vigencia='201603').filter(segmento='NO CLIENTE').annotate(num_caidaxnoclie=Sum('cantidad')).order_by('caida')
+    combo_fechas = Caida.objects.all().values('mes_vigencia').distinct('mes_vigencia')
     caidas = zip(caidas_ms, caidas_ava, caidas_noph, caidas_noclie)
     print caidas
     static_url=settings.STATIC_URL
     grafica  = Caida.objects.values('caida').filter(mes_vigencia='201603').annotate(num_caida=Sum('cantidad')).order_by('caida')
     total = Caida.objects.values('mes_vigencia').filter(mes_vigencia='201603').annotate(total=Sum('cantidad'))
+    coord = []
+    coord.append({ 'label': 'Total Evaluados', 'x': 0, 'y': total[0]['total'] })
+    cont = 0
+    for i in grafica:
+        if cont == 0:
+            coord.append({'label':i['caida'], 'x': coord[cont]['y']-i['num_caida'], 'y': coord[cont]['y']})
+        elif cont<9:
+            coord.append({'label':i['caida'], 'x': coord[cont]['x']-i['num_caida'], 'y': coord[cont]['x']})
+        cont=cont+1
+    tipo_side = 1
+    coord = reversed(coord)
+    return render('reports/campana_caidas.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def campana2_caidas(request, fecha):
+    caidas_ms = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='MS').annotate(num_caidaxms=Sum('cantidad')).order_by('caida')
+    caidas_ava = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='AVA').annotate(num_caidaxava=Sum('cantidad')).order_by('caida')
+    caidas_noph = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='NO PH + PASIVO').annotate(num_caidaxnoph=Sum('cantidad')).order_by('caida')
+    caidas_noclie = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='NO CLIENTE').annotate(num_caidaxnoclie=Sum('cantidad')).order_by('caida')
+    combo_fechas = Caida.objects.all().values('mes_vigencia').distinct('mes_vigencia')
+    caidas = zip(caidas_ms, caidas_ava, caidas_noph, caidas_noclie)
+    print caidas
+    static_url=settings.STATIC_URL
+    grafica  = Caida.objects.values('caida').filter(mes_vigencia=fecha).annotate(num_caida=Sum('cantidad')).order_by('caida')
+    total = Caida.objects.values('mes_vigencia').filter(mes_vigencia=fecha).annotate(total=Sum('cantidad'))
     coord = []
     coord.append({ 'label': 'Total Evaluados', 'x': 0, 'y': total[0]['total'] })
     cont = 0
@@ -107,6 +156,41 @@ def campana_exoneraciones(request):
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana_exoneraciones.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def campana2_exoneraciones(request, segmento):
+    exoneraciones = Verificaciones.objects.values('mes_vigencia').filter(segmento=segmento).annotate(exoambas=Sum('exonera_ambas'), solovl=Sum('exonera_solo_vl'), solovd=Sum('exonera_solo_vd'), reqambas=Sum('requiere_ambas'), exovltc=Sum('exonera_vl_tc')).order_by('mes_vigencia')
+    control_segmentos = Verificaciones.objects.all().values('segmento').distinct('segmento')
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana_exoneraciones.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def campana_flujo(request):
+    flujo1 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia='201603',grupo_exoneracion='EXON. SOLO VL').annotate(num_flujo1=Sum('cantidad'))
+    flujo2 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia='201603',grupo_exoneracion='EXON. SOLO VD').annotate(num_flujo2=Sum('cantidad'))
+    flujo3 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia='201603',grupo_exoneracion='EXON. AMBAS').annotate(num_flujo3=Sum('cantidad'))
+    flujo4 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia='201603',grupo_exoneracion='REQUIERE AMBAS').annotate(num_flujo4=Sum('cantidad'))
+
+    flujo = zip(flujo1, flujo2, flujo3, flujo4)
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana_flujo.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def campana2_flujo(request, fecha):
+    flujo1 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia=fecha,grupo_exoneracion='EXON. SOLO VL').annotate(num_flujo1=Sum('cantidad'))
+    flujo2 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia=fecha,grupo_exoneracion='EXON. SOLO VD').annotate(num_flujo2=Sum('cantidad'))
+    flujo3 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia=fecha,grupo_exoneracion='EXON. AMBAS').annotate(num_flujo3=Sum('cantidad'))
+    flujo4 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia=fecha,grupo_exoneracion='REQUIERE AMBAS').annotate(num_flujo4=Sum('cantidad'))
+
+    flujo = zip(flujo1, flujo2, flujo3, flujo4)
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana_flujo.html', locals(),
                   context_instance=RequestContext(request))
 
 
@@ -542,6 +626,18 @@ def carga_seguimiento1(request):
         if form.is_valid():
             csv_file = request.FILES['seguimiento1']
             Seguimiento1Csv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_flujoperativo(request):
+    if request.method == 'POST':
+        form = UploadFlujOperativo(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['flujoperativo']
+            FlujOperativoCsv.import_data(data = csv_file)
             return campana_ofertas(request)
         else:
             return load(campana_ofertas)

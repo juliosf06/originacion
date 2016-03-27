@@ -102,6 +102,15 @@
 	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Seguimiento1" ></div>
             </form>
           </div>
+          <div class="row">
+            <form action="carga_flujoperativo/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reportes Flujo Operativo</label>
+		<input type="file" id="flujoperativo" name="flujoperativo">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load FlujOperativo" ></div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

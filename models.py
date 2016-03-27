@@ -136,6 +136,15 @@ class MoraDistrito(models.Model):
     def __str__(self):
         return self.provincia+' '+self.distrito
 
+class FlujOperativo(models.Model):
+    mes_vigencia = models.CharField(max_length=10)
+    tipo = models.CharField(max_length=5)
+    grupo_exoneracion = models.CharField(max_length=20)
+    cantidad = models.IntegerField()
+
+    def __str__(self):
+        return self.mes_vigencia+' '+self.tipo+' '+self.grupo_exoneracion
+
 class RVGL(models.Model):
     mes_vigencia = models.CharField(max_length=10)
     rvgl = models.CharField(max_length=8)

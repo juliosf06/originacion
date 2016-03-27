@@ -4,17 +4,17 @@
 
 {% load humanize %}
 
-{% block title %}Reporte de Ofertas TC{% endblock %}
+{% block title %}Reporte de Exoneraciones{% endblock %}
 
 {% block content %}
 
           <h1 class="page-header">Evolución de Exoneraciones</h1>
           <div class="form-inline">
             &nbsp;&nbsp;
-            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
-            <select class="form-control" id="ofertas_periodo">
-	    {%for a in control_segmentos%}
-              <option>{{a.segmento}}</option>
+            <label class="control-label">Segmento:&nbsp;&nbsp;</label>
+            <select class="form-control" id="exoneraciones_periodo">
+	    {% for a in control_segmentos %}
+              <option {% if segmento == a.segmento %}selected {% endif %}>{{a.segmento}} </option>
 	    {% endfor %}
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">

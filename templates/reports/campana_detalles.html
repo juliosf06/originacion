@@ -13,14 +13,14 @@
             &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
             <select class="form-control" id="detalles_periodo">
-              <option value="201604" selected>Abril 2016</option>
-              <option value="201603">Marzo 2016</option>
+              <option value="201604" {% if fecha == '201604' %}selected {% endif %}>Abril 2016</option>
+              <option value="201603" {% if fecha == '201603' %}selected {% endif %}>Marzo 2016</option>
             </select>
             &nbsp;&nbsp;
             <label class="control-label">Segmento:&nbsp;&nbsp;</label>
             <select class="form-control" id="detalles_segmento">
 	    {% for a in control_segmentos %}
-              <option>{{a.segmento}}</option>
+              <option {% if segmento == a.segmento %}selected {% endif %}>{{a.segmento}} </option>
 	    {% endfor %}
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">

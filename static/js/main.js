@@ -26,121 +26,34 @@ $("#tog_menu").click(function(e) {
 $("#ofertas_periodo").change(function(e){
   console.log($("#ofertas_periodo").val());
 
-  $.ajax({
-    data: {periodo: $("#ofertas_periodo").val(),
-           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
-          },
-    type: 'POST',
-    url: '/reports/campanas/json_ofertas/',
-    success: function(json){
-       console.log(json);
-       var limpia = json.replace(/'segmento'/g,'"label"');
-       limpia = limpia.replace(/'num_clientes'/g,'"y"');
-       limpia = limpia.replace(/: u'/g,": '");
-       limpia = limpia.replace(/}{/g,"},{");
-       limpia = limpia.replace(/'/g,'"');
-       limpia = limpia.replace(/&quot;/ig,'"');
-       console.log(limpia);
-       var result = JSON.parse('['+limpia+']');
-       console.log(result);
-       crear_chart(result, "pie", "Segmentos a nivel contrato");
-       var html = "";
-       for (var datos in result){
-        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
-       };
-    /*success: function(json){
-       console.log(json);
-       var limpia = json.replace(/'segmento'/g,'"label"');
-       limpia = limpia.replace(/'montos'/g,'"y"');
-       limpia = limpia.replace(/Decimal\('/g,'');
-       limpia = limpia.replace(/'\)/g,'');
-       limpia = limpia.replace(/: u'/g,": '");
-       limpia = limpia.replace(/}{/g,"},{");
-       limpia = limpia.replace(/'/g,'"');
-       limpia = limpia.replace(/&quot;/ig,'"');
-       console.log(limpia);
-       var result = JSON.parse('['+limpia+']');
-       console.log(result);
-       crear_chart(result, "doughnut", "Segmentos a nivel importe");
-       var html = "";
-       for (var datos in result){
-        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
-       };*/
-       $("#tabla_ofertas").html(html);
-    }
-  });
+  window.location.href = "/reports/campanas/ofertas/"+$("#ofertas_periodo").val()+"/";
 });
 
-$("#detalles_periodo").change(function(e){
+$("#detalles_segmento, #detalles_periodo").change(function(e){
+  console.log($("#detalles_segmento").val());
   console.log($("#detalles_periodo").val());
 
-  $.ajax({
-    data: {periodo: $("#detalles_periodo").val(),
-           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
-          },
-    type: 'POST',
-    url: '/reports/campanas/json_detalles/',
-    success: function(json){
-       console.log(json);
-       /*var limpia = json.replace(/'q_tc'/g,'"y"');
-       limpia = limpia.replace(/'q_pld'/g,'"y"');
-       limpia = limpia.replace(/'q_pld'/g,'"y"');
-       limpia = limpia.replace(/'q_veh'/g,'"y"');
-       limpia = limpia.replace(/'q_subrogacion'/g,'"y"');
-       limpia = limpia.replace(/'q_tc_entry_level'/g,'"y"');
-       limpia = limpia.replace(/'q_renovado'/g,'"y"');
-       limpia = limpia.replace(/'q_auto_2da'/g,'"y"');
-       limpia = limpia.replace(/'q_adelanto_sueldo'/g,'"y"');
-       limpia = limpia.replace(/'q_efectivo_plus'/g,'"y"');
-       limpia = limpia.replace(/'q_prestamo_inmediato'/g,'"y"');
-       limpia = limpia.replace(/'q_incr_linea'/g,'"y"');
-       limpia = limpia.replace(/: u'/g,": '");
-       limpia = limpia.replace(/, /g,"},{");
-       limpia = limpia.replace(/'/g,'"');
-       limpia = limpia.replace(/&quot;/ig,'"');
-       console.log(limpia);*/
-       var result = JSON.parse(JSON.stringify(json));
-       console.log(result);
-       console.log(result[1]);
-
-       /*crear_chart(result, "bar", "Segmentos a nivel contrato");
-       var html = "";
-       for (var datos in result){
-        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
-       };
-       $("#tabla_detalles").html(html);*/
-    }
-  });
+  window.location.href = "/reports/campanas/detalles/"+$("#detalles_segmento").val()+"/"+$("#detalles_periodo").val()+"/";
+ 
 });
+
 
 $("#caidas_periodo").change(function(e){
   console.log($("#caidas_periodo").val());
 
-  $.ajax({
-    data: {periodo: $("#caidas_periodo").val(),
-           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
-          },
-    type: 'POST',
-    url: '/reports/campanas/json_caidas/',
-    success: function(json){
-       console.log(json);
-       var limpia = json.replace(/'caida'/g,'"label"');
-       limpia = limpia.replace(/'num_caidaxms'/g,'"y"');
-       limpia = limpia.replace(/: u'/g,": '");
-       limpia = limpia.replace(/, /g,"},{");
-       limpia = limpia.replace(/'/g,'"');
-       limpia = limpia.replace(/&quot;/ig,'"');
-       console.log(limpia);
-       var result = JSON.parse('['+limpia+']');
-       console.log(result);
-       crear_chart(result, "bar", "Resumen de caidas");
-       var html = "";
-       for (var datos in result){
-        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
-       };
-       $("#tabla_caidas").html(html);
-    }
-  });
+  window.location.href = "/reports/campanas/caidas/"+$("#caidas_periodo").val()+"/";
+});
+
+$("#exoneraciones_periodo").change(function(e){
+  console.log($("#exoneraciones_periodo").val());
+
+  window.location.href = "/reports/campanas/exoneraciones/"+$("#exoneraciones_periodo").val()+"/";
+});
+
+$("#flujo_periodo").change(function(e){
+  console.log($("#flujo_periodo").val());
+
+  window.location.href = "/reports/campanas/flujo/"+$("#flujo_periodo").val()+"/";
 });
 
 
