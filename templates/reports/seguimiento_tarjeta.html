@@ -9,51 +9,16 @@
 {% block content %}
 
           <h1 class="page-header">Seguimiento Tarjeta</h1>
-          <!--<div class="form-inline">
-            &nbsp;&nbsp;
-            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
-            <select class="form-control" id="banca_periodo">
-              <option value="201602" selected>Febrero 2016</option>
-              <option value="201601">Enero 2016</option>
-              <option>Diciembre 2015</option>
-              <option>Noviembre 2015</option>
-              <option>Octubre 2015</option>
-              <option>Septiembre 2015</option>
-            </select>
-            &nbsp;&nbsp;
-            <label class="control-label">Analista:&nbsp;&nbsp;</label>
-            <select class="form-control" id="banca_analista">
-              <option selected>TODOS</option>
-	      {% for a in control_analistas %}  
-                  <option>{{a.analista}}</option>
-	      {% endfor %}
-            </select>
+          <div class="form-inline">
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
-          </div>-->
+          </div>
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
           </div>
-          <!--<h2 class="sub-header">Detalle de Operaciones</h2>
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Seco</th>
-                  <th>Operaciones</th>
-                </tr>
-              </thead>
-              <tbody id="tabla_banca">
-		{% for a in banca %}
-		<tr>                       
-                  <td></td>
-                  <td>{{a.seco}}</td>
-                  <td>{{a.num_seco|intcomma}}</td>
-                </tr>
-		{% endfor %}
-              </tbody>
-            </table>
-          </div>-->
+          <div class="rows placeholders">
+		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+          </div>
+
 {% endblock %}
 
 {% block script_final %}
@@ -62,25 +27,148 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Distribución según Banca"              
+			text: "Formalizados"              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "pie",
-			indexLabelFontColor: "gray",			
-			indexLabel: "{label} #percent%",
-			percentFormatString: "#0.#",
+			type: "stackedColumn",
+			name: "UNO A UNO",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
 			dataPoints: [
-				{% for i in banca %}
-				{ label: "{{i.seco}}",  y: {{i.num_seco}}  },
+				{% for a,b,c,d in formalizados %}
+				{ y: {{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
 				{% endfor %}
 			]
-		}
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "CAMPAÑA FAST",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in formalizados %}
+				{ y: {{c.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "# FORMALIZADOS",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in formalizados %}
+				{ y: {{a.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "CAMPAÑA REGULAR",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in formalizados %}
+				{ y: {{d.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
 		]
 	});
 	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Ticket Promedio"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "UNO A UNO",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}",
+			yValueFormatString: "##,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in ticket %}
+				{ y: {{a.facturacion}}*1000000/{{c.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "CAMPAÑAS",
+			indexLabelFontColor: "darkblue",			
+			//indexLabel: "{y}",
+			yValueFormatString: "##,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in ticket %}
+				{ y: {{b.facturacion}}*1000000/{{d.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer3", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Ticket Promedio"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "UNO A UNO",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}",
+			yValueFormatString: "##,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in ticket %}
+				{ y: {{a.facturacion}}*1000000/{{c.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "CAMPAÑAS",
+			indexLabelFontColor: "darkblue",			
+			//indexLabel: "{y}",
+			yValueFormatString: "##,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in ticket %}
+				{ y: {{b.facturacion}}*1000000/{{d.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
     }
   </script>
 {% endblock %}

@@ -5,6 +5,8 @@ from django.conf import settings
 
 register = Library()
 
+DIC = {'201502':'FEB15','201503':'MAR15','201504':'ABR15','201505':'MAY15', '201506':'JUN15','201507':'JUL15','201508':'AGO15','201509':'SET15','201510':'OCT15', '201511':'NOV15','201512':'DIC15','201601':'ENE16','201602':'FEB16'}
+
 #Header
 @register.inclusion_tag('reports/header.html')
 def header(user):
@@ -30,3 +32,8 @@ def sidebar(tipo=1):
                temp = 'reports/sidebar.html'
     t = loader.get_template(temp)
     return t.render(Context)
+
+@register.filter
+def convert_date(value):
+    return DIC[value]
+

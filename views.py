@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.core.serializers import serialize
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Sum, Avg, Case, When, IntegerField, F
+from django.db.models import Count, Sum, Avg, Case, When, IntegerField, F, Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response as render
 from django.template import RequestContext
@@ -90,7 +90,7 @@ def campana_detalles(request):
 @login_required
 def campana2_detalles(request, segmento, fecha):
     if segmento == 'TOTAL':
-       detalles = Campana.objects.filter(mes_vigencia='201603').distinct('codigo_campana')
+       detalles = Campana.objects.filter(mes_vigencia=fecha).distinct('codigo_campana')
     else:
        detalles = Campana.objects.filter(segmento=segmento).filter(mes_vigencia=fecha).distinct('codigo_campana')
     control_segmentos = Campana.objects.all().values('segmento').distinct('segmento')
@@ -276,11 +276,35 @@ def mapa(request):
 
 @login_required
 def rvgl_dictamenxsco(request):
-    dictamenxsco_ap = RVGL.objects.filter(mes_vigencia='201602').filter(dictamen_sco='AP').values('dictamen').annotate(num_dictamenxsco_ap=Count('dictamen_sco')).order_by('dictamen')
-    dictamenxsco_du = RVGL.objects.filter(mes_vigencia='201602').filter(dictamen_sco='DU').values('dictamen').annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
-    dictamenxsco_re = RVGL.objects.filter(mes_vigencia='201602').filter(dictamen_sco='RE').values('dictamen').annotate(num_dictamenxsco_re=Count('dictamen_sco')).order_by('dictamen')
+    dictamenxsco_ap = RVGL.objects.values('dictamen').filter(mes_vigencia='201602').filter(dictamen_sco='AP').annotate(num_dictamenxsco_ap=Count('dictamen_sco')).order_by('dictamen')
+    dictamenxsco_du = RVGL.objects.values('dictamen').filter(mes_vigencia='201602').filter(dictamen_sco='DU').annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
+    dictamenxsco_re = RVGL.objects.values('dictamen').filter(mes_vigencia='201602').filter(dictamen_sco='RE').annotate(num_dictamenxsco_re=Count('dictamen_sco')).order_by('dictamen')
     dictamenxsco = zip(dictamenxsco_ap,dictamenxsco_du,dictamenxsco_re)
+    print dictamenxsco_ap
+    print dictamenxsco_du
+    print dictamenxsco_re
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_dictamenxsco.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def rvgl2_dictamenxsco(request, fecha, analista):
+    if analista == 'TODOS':
+       dictamenxsco_ap = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha).filter(dictamen_sco='AP').annotate(num_dictamenxsco_ap=Count('dictamen_sco')).order_by('dictamen')
+       dictamenxsco_du = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha).filter(dictamen_sco='DU').annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
+       dictamenxsco_re = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha).filter(dictamen_sco='RE').annotate(num_dictamenxsco_re=Count('dictamen_sco')).order_by('dictamen')
+       dictamenxsco = zip(dictamenxsco_ap,dictamenxsco_du,dictamenxsco_re)
+    else:
+       dictamenxsco_ap = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha, analista=analista).filter(dictamen_sco='AP').annotate(num_dictamenxsco_ap=Count('dictamen_sco')).order_by('dictamen')
+       dictamenxsco_du = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha, analista=analista).filter(dictamen_sco='DU').annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
+       dictamenxsco_re = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha, analista=analista).filter(dictamen_sco='RE').annotate(num_dictamenxsco_re=Count('dictamen_sco')).order_by('dictamen')
+       dictamenxsco = zip(dictamenxsco_ap,dictamenxsco_du,dictamenxsco_re)
+    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+    print dictamenxsco_ap
+    print dictamenxsco_du
+    print dictamenxsco_re
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_dictamenxsco.html', locals(),
@@ -378,10 +402,23 @@ def evaluacion_evaluacionpld(request):
 # 5.- Vistas para reportes de SEGUIMIENTO
 @login_required
 def seguimiento_tarjeta(request):
-    seg_tarjeta = Seguimiento1.objects.values_list('producto','riesgos').filter(mes_vigencia='201502', producto='01 Consumo').annotate(formalizado=Sum('form'))
+    total_form = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='03 Tarjeta').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    uno_form = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(producto='03 Tarjeta', riesgos='UNO A UNO').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    camp_form = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(producto='03 Tarjeta', riesgos='CAMP').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    camp_fast = Seguimiento1.objects.values('mes_vigencia','origen').filter(producto='03 Tarjeta', origen='ORIGINACION FAST').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    camp_uno = Seguimiento1.objects.values('mes_vigencia','origen').filter(producto='03 Tarjeta', origen='ORIGINACION MS').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    formalizados = zip(total_form,uno_form,camp_fast,camp_uno)
+    fact_uno = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='03 Tarjeta', riesgos='UNO A UNO').annotate(facturacion=Sum('facturacion')).order_by('mes_vigencia')
+    fact_camp = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='03 Tarjeta', riesgos='CAMP').annotate(facturacion=Sum('facturacion')).order_by('mes_vigencia')
+    ticket = zip(fact_uno, fact_camp, uno_form, camp_form)
+    seg_ava = Seguimiento1.objects.values('mes_vigencia','segmento').filter(producto='03 Tarjeta', segmento='VIP').annotate(seg=Sum('form')).order_by('mes_vigencia')
+    seg_ms = Seguimiento1.objects.values('mes_vigencia','segmento').filter(producto='03 Tarjeta', segmento='MS').annotate(seg=Sum('form')).order_by('mes_vigencia')
     static_url=settings.STATIC_URL
     tipo_side = 4
-    print seg_tarjeta
+    print seg_ava
+    print seg_ms
+    #print camp_fast
+    #print camp_uno
     return render('reports/seguimiento_tarjeta.html', locals(),
                   context_instance=RequestContext(request))
 
@@ -542,6 +579,7 @@ def load(request):
     #RVGL.objects.all().delete()
     #Evaluaciontc.objects.all().delete()
     #Evaluacionpld.objects.all().delete()
+    Seguimiento1.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))

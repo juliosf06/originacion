@@ -37,7 +37,6 @@ $("#detalles_segmento, #detalles_periodo").change(function(e){
  
 });
 
-
 $("#caidas_periodo").change(function(e){
   console.log($("#caidas_periodo").val());
 
@@ -291,31 +290,7 @@ $("#dictamenxsco_periodo, #dictamenxsco_analista").change(function(e){
   console.log($("#dictamenxsco_periodo").val());
   console.log($("#dictamenxsco_analista").val());
 
-  $.ajax({
-    data: {periodo: $("#dictamenxsco_periodo").val(),
-           analista: $("#dictamenxsco_analista").val(),
-           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
-          },
-    type: 'POST',
-    url: '/reports/rvgl/json_dictamenxsco/',
-    success: function(json){
-       var limpia = json.replace(/'dictamen'/g,'"label"');
-       limpia = limpia.replace(/'num_dictamenxsco'/g,'"y"');
-       limpia = limpia.replace(/: u'/g,": '");
-       limpia = limpia.replace(/}{/g,"},{");
-       limpia = limpia.replace(/'/g,'"');
-       limpia = limpia.replace(/&quot;/ig,'"');
-       console.log(limpia);
-       var result = JSON.parse('['+limpia+']');
-       console.log(result);
-       crear_chart(result, "column", "Distribución de Dictamen por Scoring");
-       var html = "";
-       for (var datos in result){
-        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
-       };
-       $("#tabla_dictamenxsco").html(html);
-    }
-  });
+  window.location.href = "/reports/rvgl/dictamenxsco/"+$("#dictamenxsco_periodo").val()+"/"+$("#dictamenxsco_analista").val()+"/";
 });
 
 
