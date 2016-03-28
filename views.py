@@ -55,12 +55,13 @@ def dummy(request):
 @login_required
 def campana_ofertas(request):
     clientes = Verificaciones.objects.values('segmento').annotate(num_clientes=Sum(F('exonera_ambas')+F('exonera_solo_vl')+F('exonera_solo_vd')+F('requiere_ambas'))).filter(mes_vigencia='201604').order_by('segmento')
-    ofertas = Campana.objects.all().filter(mes_vigencia='201604').distinct('segmento')
+    ofertas = Campana.objects.all().filter(mes_vigencia='201604').order_by('segmento')
     montos = Campana.objects.values('segmento').annotate(monto=Sum(F('monto_tc')+F('monto_pld')+F('monto_veh')+F('monto_subrogacion')+F('monto_tc_entry_level')+F('monto_renovado')+F('monto_auto_2da')+F('monto_adelanto_sueldo')+F('monto_efectivo_plus')+F('monto_prestamo_inmediato')+F('monto_incr_linea'))).filter(mes_vigencia='201604').order_by('segmento')
     ofer = zip(ofertas, clientes, montos)
     static_url=settings.STATIC_URL
     tipo_side = 1
     print montos
+    print ofertas
     return render('reports/campana_ofertas.html', locals(),
                   context_instance=RequestContext(request))
 
@@ -78,8 +79,8 @@ def campana2_ofertas(request, fecha):
 
 @login_required
 def campana_detalles(request):
-    detalles = Campana.objects.filter(mes_vigencia='201603').distinct('mes_vigencia')
-    control_segmentos = Campana.objects.all().values('segmento').distinct('segmento')
+    detalles = Campana.objects.filter(mes_vigencia='201604').values('mes_vigencia').annotate(q_tc=Sum('q_tc'), q_pld=Sum('q_pld'), q_veh=Sum('q_veh'),q_subrogacion=Sum('q_subrogacion'), q_tc_entry_level=Sum('q_tc_entry_level'), q_renovado=Sum('q_renovado'), q_auto_2da=Sum('q_auto_2da'), q_adelanto_sueldo=Sum('q_adelanto_sueldo'),q_efectivo_plus=Sum('q_efectivo_plus'),q_prestamo_inmediato=Sum('q_prestamo_inmediato'),q_incr_linea=Sum('q_incr_linea')).annotate(monto_tc=Sum('monto_tc'), monto_pld=Sum('monto_pld'), monto_veh=Sum('monto_veh'),monto_subrogacion=Sum('monto_subrogacion'), monto_tc_entry_level=Sum('monto_tc_entry_level'), monto_renovado=Sum('monto_renovado'), monto_auto_2da=Sum('monto_auto_2da'), monto_adelanto_sueldo=Sum('monto_adelanto_sueldo'),monto_efectivo_plus=Sum('monto_efectivo_plus'),monto_prestamo_inmediato=Sum('monto_prestamo_inmediato'),monto_incr_linea=Sum('monto_incr_linea'))
+    control_segmentos = Campana.objects.all().values('segmento')
     print detalles
     static_url=settings.STATIC_URL
     tipo_side = 1
@@ -188,10 +189,10 @@ def campana_flujo(request):
 
 @login_required
 def campana2_flujo(request, fecha):
-    flujo1 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia=fecha,grupo_exoneracion='EXON. SOLO VL').annotate(num_flujo1=Sum('cantidad'))
-    flujo2 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia=fecha,grupo_exoneracion='EXON. SOLO VD').annotate(num_flujo2=Sum('cantidad'))
-    flujo3 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia=fecha,grupo_exoneracion='EXON. AMBAS').annotate(num_flujo3=Sum('cantidad'))
-    flujo4 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia=fecha,grupo_exoneracion='REQUIERE AMBAS').annotate(num_flujo4=Sum('cantidad'))
+    flujo1 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia=fecha,grupo_exoneracion='EXON. SOLO VL').annotate(num_flujo1=Sum('cantidad')).order_by('tipo')
+    flujo2 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia=fecha,grupo_exoneracion='EXON. SOLO VD').annotate(num_flujo2=Sum('cantidad')).order_by('tipo')
+    flujo3 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia=fecha,grupo_exoneracion='EXON. AMBAS').annotate(num_flujo3=Sum('cantidad')).order_by('tipo')
+    flujo4 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia=fecha,grupo_exoneracion='REQUIERE AMBAS').annotate(num_flujo4=Sum('cantidad')).order_by('tipo')
 
     flujo = zip(flujo1, flujo2, flujo3, flujo4)
     static_url=settings.STATIC_URL
