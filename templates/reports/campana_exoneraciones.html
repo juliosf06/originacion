@@ -13,6 +13,7 @@
             &nbsp;&nbsp;
             <label class="control-label">Segmento:&nbsp;&nbsp;</label>
             <select class="form-control" id="exoneraciones_periodo">
+              <option>TOTAL</option>
 	    {% for a in control_segmentos %}
               <option {% if segmento == a.segmento %}selected {% endif %}>{{a.segmento}} </option>
 	    {% endfor %}

@@ -37,10 +37,10 @@
               <tbody>
 		{% for a,b,c,d in flujo %}
 		<tr>
-		  {% if a.tipo == '1A' %}
-                     <td>CONTRATACIÓN SENCILLA</td>
+		  {% if a.tipo == "A1" %}
+                     <td>FAST</td>
 		  {% else %}
-		     <td>FAST</td>
+		     <td>CONTRATACIÓN SENCILLA</td>
 		  {% endif %}
                   <td>{{a.num_flujo1|intcomma}}</td>
                   <td>{{b.num_flujo2|intcomma}}</td>
