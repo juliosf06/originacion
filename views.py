@@ -617,7 +617,7 @@ def load(request):
     #RVGL.objects.all().delete()
     #Evaluaciontc.objects.all().delete()
     #Evaluacionpld.objects.all().delete()
-    Seguimiento1.objects.all().delete()
+    #Seguimiento1.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
