@@ -68,7 +68,8 @@ urlpatterns = [
     # URLS para reportes de Seguimiento
     url(r'^seguimiento/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
     url(r'^seguimiento/tarjeta/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
-    #url(r'^evaluacion/evaluacionpld/$', views.evaluacion_evaluacionpld, name='evaluacion_evaluacionpld'),
+    url(r'^seguimiento/pld/$', views.seguimiento_pld, name='seguimiento_pld'),
+    url(r'^seguimiento/auto/$', views.seguimiento_auto, name='seguimiento_auto'),
 
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),

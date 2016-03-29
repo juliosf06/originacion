@@ -1,0 +1,123 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Seguimiento Auto{% endblock %}
+
+{% block content %}
+
+          <h1 class="page-header">Seguimiento Auto</h1>
+          <div class="form-inline">
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          </div>
+          <div class="rows placeholders">
+		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          </div>
+	 &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+          </div>
+
+{% endblock %}
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Formalizados"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "UNO A UNO",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c in formalizados %}
+				{ y: {{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "# FORMALIZADOS",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}",
+			//indexLabelPlacement: "inside",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c in formalizados %}
+				{ y: {{a.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "CAMPAÑA REGULAR",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c in formalizados %}
+				{ y: {{c.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Ticket Promedio"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "UNO A UNO",
+			indexLabelFontColor: "#89D1F3",			
+			//indexLabel: "{y}",
+			yValueFormatString: "##,###",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in ticket %}
+				{ y: {{a.facturacion}}*1000000/{{c.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "CAMPAÑAS",
+			indexLabelFontColor: "#009EE5",			
+			indexLabel: "{y}",
+			yValueFormatString: "##,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in ticket %}
+				{ y: {{b.facturacion}}*1000000/{{d.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+    }
+  </script>
+{% endblock %}
+
