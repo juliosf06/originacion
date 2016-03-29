@@ -394,47 +394,5 @@ $("#top20terr_periodo, #top20terr_analista").change(function(e){
   console.log($("#top20terr_periodo").val());
   console.log($("#top20terr_analista").val());
 
-  $.ajax({
-    data: {periodo: $("#top20terr_periodo").val(),
-           analista: $("#top20terr_analista").val(),
-           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
-          },
-    type: 'POST',
-    url: '/reports/rvgl/json_top20terr/',
-    success: function(json){
-       var limpia = json.replace(/'territorio_nuevo'/g,'"label"');
-       limpia = limpia.replace(/'num_top20terr1'/g,'"y"');
-       limpia = limpia.replace(/'num_top20terr2'/g,'"y"');
-       limpia = limpia.replace(/: u'/g,": '");
-       limpia = limpia.replace(/}{/g,"},{");
-       limpia = limpia.replace(/'/g,'"');
-       limpia = limpia.replace(/&quot;/ig,'"');
-       console.log(limpia);
-       var result = JSON.parse('['+limpia+']');
-       console.log(result);
-       crear_chart(result, "stackedBar", "Operaciones por territorio");
-       var html = "";
-       for (var datos in result){
-        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
-       };
-       var limpia = json.replace(/'territorio_nuevo'/g,'"label"');
-       limpia = limpia.replace(/'sum_top20terr1'/g,'"y"');
-       limpia = limpia.replace(/'sum_top20terr2'/g,'"y"');
-       limpia = limpia.replace(/Decimal\('/g,'');
-       limpia = limpia.replace(/'\)/g,'');
-       limpia = limpia.replace(/: u'/g,": '");
-       limpia = limpia.replace(/}{/g,"},{");
-       limpia = limpia.replace(/'/g,'"');
-       limpia = limpia.replace(/&quot;/ig,'"');
-       console.log(limpia);
-       var result = JSON.parse('['+limpia+']');
-       console.log(result);
-       crear_chart(result, "scatter", "Importes por territorio");
-       var html = "";
-       for (var datos in result){
-        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
-       };
-       $("#tabla_top20terr").html(html);
-    }
-  });
+  window.location.href = "/reports/rvgl/top20terr/"+$("#top20terr_periodo").val()+"/"+$("#top20terr_analista").val()+"/";
 })
