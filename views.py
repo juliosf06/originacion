@@ -348,11 +348,42 @@ def rvgl_top20terr(request):
     return render('reports/rvgl_top20terr.html', locals(),
                   context_instance=RequestContext(request))
 
+def rvgl2_top20terr(request, fecha, analista):
+    if analista == 'TODOS':
+       top20terr1 = RVGL.objects.filter(mes_vigencia=fecha).values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
+       top20terr2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
+       top20terr = zip(top20terr1, top20terr2)
+    else:
+       top20terr1 = RVGL.objects.filter(mes_vigencia=fecha).filter(analista=analista).values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
+       top20terr2 = RVGL.objects.filter(mes_vigencia=fecha).filter(analista=analista).exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
+       top20terr = zip(top20terr1, top20terr2)
+    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_top20terr.html', locals(),
+                  context_instance=RequestContext(request))
+
 @login_required
 def rvgl_top20gest(request):
     top20gest1 = RVGL.objects.filter(mes_vigencia='201602').values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic'), sum_top20gest1=Sum('importe_solic')).order_by('-sum_top20gest1')[:20]
     top20gest2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest2=Count('importe_aprob'), sum_top20gest2=Sum('importe_aprob')).order_by('-sum_top20gest2')[:20]
     top20gest = zip(top20gest1,top20gest2)
+    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_top20gest.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def rvgl2_top20gest(request, fecha, analista):
+    if analista == 'TODOS':
+       top20gest1 = RVGL.objects.filter(mes_vigencia=fecha).values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic'), sum_top20gest1=Sum('importe_solic')).order_by('-sum_top20gest1')[:20]
+       top20gest2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest2=Count('importe_aprob'), sum_top20gest2=Sum('importe_aprob')).order_by('-sum_top20gest2')[:20]
+       top20gest = zip(top20gest1,top20gest2)
+    else:
+       top20gest1 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic'), sum_top20gest1=Sum('importe_solic')).order_by('-sum_top20gest1')[:20]
+       top20gest2 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest2=Count('importe_aprob'), sum_top20gest2=Sum('importe_aprob')).order_by('-sum_top20gest2')[:20]
+       top20gest = zip(top20gest1,top20gest2)
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
     static_url=settings.STATIC_URL
     tipo_side = 2
@@ -371,11 +402,43 @@ def rvgl_top20clie(request):
                   context_instance=RequestContext(request))
 
 @login_required
+def rvgl2_top20clie(request, fecha, analista):
+    if analista == 'TODOS':
+       top20clie1 = RVGL.objects.filter(mes_vigencia=fecha).values('cliente').annotate(num_top20clie1=Count('importe_solic'), sum_top20clie1=Sum('importe_solic')).order_by('cliente').order_by('-sum_top20clie1')[:20]
+       top20clie2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('cliente').annotate(num_top20clie2=Count('importe_aprob'), sum_top20clie2=Sum('importe_aprob')).order_by('-sum_top20clie2')[:20]
+       top20clie = zip(top20clie1,top20clie2)
+    else:
+       top20clie1 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('cliente').annotate(num_top20clie1=Count('importe_solic'), sum_top20clie1=Sum('importe_solic')).order_by('cliente').order_by('-sum_top20clie1')[:20]
+       top20clie2 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).exclude(importe_aprob=0).values('cliente').annotate(num_top20clie2=Count('importe_aprob'), sum_top20clie2=Sum('importe_aprob')).order_by('-sum_top20clie2')[:20]
+       top20clie = zip(top20clie1,top20clie2)
+    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_top20clie.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
 def rvgl_top20ofic(request):
     top20ofic1 = RVGL.objects.filter(mes_vigencia='201602').values('oficina').annotate(num_top20ofic1=Count('importe_solic'), sum_top20ofic1=Sum('importe_solic')).order_by('-sum_top20ofic1')[:20]
     top20ofic2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('oficina').annotate(num_top20ofic2=Count('importe_aprob'), sum_top20ofic2=Sum('importe_aprob')).order_by('-sum_top20ofic2')[:20]
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
     top20ofic = zip(top20ofic1,top20ofic2)
+    static_url=settings.STATIC_URL
+    tipo_side = 2
+    return render('reports/rvgl_top20ofic.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def rvgl2_top20ofic(request, fecha, analista):
+    if analista == 'TODOS':
+       top20ofic1 = RVGL.objects.filter(mes_vigencia=fecha).values('oficina').annotate(num_top20ofic1=Count('importe_solic'), sum_top20ofic1=Sum('importe_solic')).order_by('-sum_top20ofic1')[:20]
+       top20ofic2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('oficina').annotate(num_top20ofic2=Count('importe_aprob'), sum_top20ofic2=Sum('importe_aprob')).order_by('-sum_top20ofic2')[:20]
+       top20ofic = zip(top20ofic1,top20ofic2)
+    else:
+       top20ofic1 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('oficina').annotate(num_top20ofic1=Count('importe_solic'), sum_top20ofic1=Sum('importe_solic')).order_by('-sum_top20ofic1')[:20]
+       top20ofic2 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).exclude(importe_aprob=0).values('oficina').annotate(num_top20ofic2=Count('importe_aprob'), sum_top20ofic2=Sum('importe_aprob')).order_by('-sum_top20ofic2')[:20]
+       top20ofic = zip(top20ofic1,top20ofic2)
+    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_top20ofic.html', locals(),
@@ -458,6 +521,28 @@ def seguimiento_auto(request):
     tipo_side = 4
 
     return render('reports/seguimiento_auto.html', locals(),
+                  context_instance=RequestContext(request))
+
+# 6.- Vistas para reportes de HIPOTECARIO
+@login_required
+def hipoteca_ssff(request):
+    saldo_bcp = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='BCP',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    saldo_bbva = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='BBVA',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    saldo_sco = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='SCO',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    saldo_ibk = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='IBK',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+
+    saldo2_bcp = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='BCP',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    saldo2_bbva = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='BBVA',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    saldo2_sco = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='SCO',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    saldo2_ibk = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='IBK',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    bcp = zip(saldo_bcp, saldo2_bcp)
+    bbva = zip(saldo_bbva, saldo2_bbva)
+    sco = zip(saldo_sco, saldo2_sco)
+    ibk = zip(saldo_ibk, saldo2_ibk)
+    print saldo_bcp
+    static_url=settings.STATIC_URL
+    tipo_side = 5
+    return render('reports/hipoteca_ssff.html', locals(),
                   context_instance=RequestContext(request))
 
 
@@ -599,21 +684,6 @@ def json_scoxdictamen(request):
        scoxdictamen = RVGL.objects.filter(mes_vigencia=periodo).filter(analista=analista).exclude(dictamen_sco='NULL').values('dictamen_sco').annotate(num_scoxdictamen=Count('dictamen_sco')).order_by('dictamen_sco')
     return HttpResponse(scoxdictamen)
 
-def rvgl2_top20terr(request, fecha, analista):
-    if analista == 'TODOS':
-       top20terr1 = RVGL.objects.filter(mes_vigencia=fecha).values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
-       top20terr2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
-       top20terr = zip(top20terr1, top20terr2)
-    else:
-       top20terr1 = RVGL.objects.filter(mes_vigencia=fecha).filter(analista=analista).values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
-       top20terr2 = RVGL.objects.filter(mes_vigencia=fecha).filter(analista=analista).exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
-       top20terr = zip(top20terr1, top20terr2)
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    return render('reports/rvgl_top20terr.html', locals(),
-                  context_instance=RequestContext(request))
-
 
 
 # Vistas para carga de csv
@@ -726,6 +796,18 @@ def carga_flujoperativo(request):
         if form.is_valid():
             csv_file = request.FILES['flujoperativo']
             FlujOperativoCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_hipotecassff(request):
+    if request.method == 'POST':
+        form = UploadHipotecaSSFF(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['hipotecassff']
+            HipotecaSSFFCsv.import_data(data = csv_file)
             return campana_ofertas(request)
         else:
             return load(campana_ofertas)

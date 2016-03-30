@@ -166,3 +166,15 @@ class RVGL(models.Model):
 
     def __str__(self):
         return self.rvgl
+
+class HipotecaSSFF(models.Model):
+    mes_vigencia = models.CharField(max_length=10)
+    banco = models.CharField(max_length=15)
+    tipo_hipotecario = models.CharField(max_length=15)
+    tipo_cuenta = models.CharField(max_length=15)
+    clasificacion = models.IntegerField()
+    mto_saldo = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    clientes = models.IntegerField()
+
+    def __str__(self):
+        return self.mes_vigencia+' '+self.banco

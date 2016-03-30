@@ -53,11 +53,11 @@ urlpatterns = [
     url(r'^rvgl/top20terr/$', views.rvgl_top20terr, name='rvgl_top20terr'),
     url(r'^rvgl/top20terr/(?P<fecha>[0-9]{6})/(?P<analista>[\w|\W]+)/$', views.rvgl2_top20terr, name='rvgl2_top20terr'),
     url(r'^rvgl/top20gest/$', views.rvgl_top20gest, name='rvgl_top20gest'),
-    #url(r'^rvgl/json_top20gest/$', views.json_top20gest, name='json_top20gest'),
+    url(r'^rvgl/top20gest/(?P<fecha>[0-9]{6})/(?P<analista>[\w|\W]+)/$', views.rvgl2_top20gest, name='rvgl2_top20gest'),
     url(r'^rvgl/top20clie/$', views.rvgl_top20clie, name='rvgl_top20clie'),
-    #url(r'^rvgl/json_top20clie/$', views.json_top20clie, name='json_top20clie'),
+    url(r'^rvgl/top20clie/(?P<fecha>[0-9]{6})/(?P<analista>[\w|\W]+)/$', views.rvgl2_top20clie, name='rvgl2_top20clie'),
     url(r'^rvgl/top20ofic/$', views.rvgl_top20ofic, name='rvgl_top20ofic'),
-    #url(r'^rvgl/json_top20ofic/$', views.json_top20ofic, name='json_top20ofic'),
+    url(r'^rvgl/top20ofic/(?P<fecha>[0-9]{6})/(?P<analista>[\w|\W]+)/$', views.rvgl2_top20ofic, name='rvgl2_top20ofic'),
 
 
     # URLS para reportes de Evaluacion
@@ -71,6 +71,10 @@ urlpatterns = [
     url(r'^seguimiento/pld/$', views.seguimiento_pld, name='seguimiento_pld'),
     url(r'^seguimiento/auto/$', views.seguimiento_auto, name='seguimiento_auto'),
 
+    # URLS para reportes de Hipotecario
+    url(r'^hipotecario/$', views.hipoteca_ssff, name='hipoteca_ssff'),
+    url(r'^hipotecario/ssff/$', views.hipoteca_ssff, name='hipoteca_ssff'),
+
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),
     url(r'^load_data/carga_campana/$', views.carga_campana, name='carga_campana'),
@@ -80,6 +84,7 @@ urlpatterns = [
     url(r'^load_data/carga_evaluacionpld/$', views.carga_evaluacionpld, name='carga_evaluacionpld'),
     url(r'^load_data/carga_seguimiento1/$', views.carga_seguimiento1, name='carga_seguimiento1'),
     url(r'^load_data/carga_flujoperativo/$', views.carga_flujoperativo, name='carga_flujoperativo'),
+    url(r'^load_data/carga_hipotecassff/$', views.carga_hipotecassff, name='carga_hipotecassff'),
     url(r'^load_data/$', views.load, name='load'),
     url(r'^mapa/$', views.mapa, name='mapa'),
 ]

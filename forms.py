@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from models import RVGL, Campana, Caida, Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo
+from models import RVGL, Campana, Caida, Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF
 from adaptor.model import CsvDbModel
 
 class UploadRVGL(forms.Form):
@@ -65,5 +65,13 @@ class UploadFlujOperativo(forms.Form):
 class FlujOperativoCsv(CsvDbModel):
     class Meta:
         dbModel = FlujOperativo
+        delimiter = ","
+
+class UploadHipotecaSSFF(forms.Form):
+    hipotecassff = forms.FileField()
+
+class HipotecaSSFFCsv(CsvDbModel):
+    class Meta:
+        dbModel = HipotecaSSFF
         delimiter = ","
 

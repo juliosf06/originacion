@@ -396,3 +396,24 @@ $("#top20terr_periodo, #top20terr_analista").change(function(e){
 
   window.location.href = "/reports/rvgl/top20terr/"+$("#top20terr_periodo").val()+"/"+$("#top20terr_analista").val()+"/";
 })
+
+$("#top20gest_periodo, #top20gest_analista").change(function(e){
+  console.log($("#top20gest_periodo").val());
+  console.log($("#top20gest_analista").val());
+
+  window.location.href = "/reports/rvgl/top20gest/"+$("#top20gest_periodo").val()+"/"+$("#top20gest_analista").val()+"/";
+})
+
+$("#top20clie_periodo, #top20clie_analista").change(function(e){
+  console.log($("#top20clie_periodo").val());
+  console.log($("#top20clie_analista").val());
+
+  window.location.href = "/reports/rvgl/top20clie/"+$("#top20clie_periodo").val()+"/"+$("#top20clie_analista").val()+"/";
+})
+
+$("#top20ofic_periodo, #top20ofic_analista").change(function(e){
+  console.log($("#top20ofic_periodo").val());
+  console.log($("#top20ofic_analista").val());
+
+  window.location.href = "/reports/rvgl/top20ofic/"+$("#top20ofic_periodo").val()+"/"+$("#top20ofic_analista").val()+"/";
+})
