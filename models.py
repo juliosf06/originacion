@@ -178,3 +178,32 @@ class HipotecaSSFF(models.Model):
 
     def __str__(self):
         return self.mes_vigencia+' '+self.banco
+
+class HipotecaConce(models.Model):
+    mes_form = models.CharField(max_length=10)
+    territorio = models.CharField(max_length=30)
+    inversion = models.DecimalField(max_digits=18, decimal_places=15, default=0)
+    vencida = models.DecimalField(max_digits=18, decimal_places=15, default=0)
+    cuotas = models.IntegerField()
+    mes = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.mes_form+' '+self.territorio
+
+class Moras(models.Model):
+    trimestre_form = models.CharField(max_length=10)
+    mes_form = models.CharField(max_length=10)
+    flg_camp = models.CharField(max_length=25)
+    flg_uso = models.IntegerField()
+    producto = models.CharField(max_length=30)
+    ctas = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    ctas_uso = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    mora6 = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    mora9 = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    mora12 = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    mora18 = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    mora24 = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    mora36 = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+
+    def __str__(self):
+        return self.trimestre_form+' '+self.producto+' '+self.ctas

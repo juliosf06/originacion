@@ -480,6 +480,14 @@ def seguimiento_tarjeta(request):
     seg_noph = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', segmento='No PH').annotate(seg=Sum('form')).order_by('mes_vigencia')
     seg_nocli = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', segmento__in=['NoCli','']).annotate(seg=Sum('form')).order_by('mes_vigencia')
     camp_seg = zip(seg_ava, seg_ms, seg_noph, seg_nocli, camp_form)
+
+    mora6 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora6')).order_by('mes_form')
+    mora9 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
+    mora12 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
+    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+    mora = zip(mora6,mora9,mora12,total_ctas)
+    print mora6
+    print total_ctas
     static_url=settings.STATIC_URL
     tipo_side = 4
 
@@ -530,7 +538,6 @@ def hipoteca_ssff(request):
     saldo_bbva = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='BBVA',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
     saldo_sco = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='SCO',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
     saldo_ibk = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='IBK',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
-
     saldo2_bcp = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='BCP',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
     saldo2_bbva = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='BBVA',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
     saldo2_sco = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='SCO',mes_vigencia__in=['201112', '201212', '201312', '201412', '201503', '201506', '201509', '201512']).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
@@ -539,11 +546,26 @@ def hipoteca_ssff(request):
     bbva = zip(saldo_bbva, saldo2_bbva)
     sco = zip(saldo_sco, saldo2_sco)
     ibk = zip(saldo_ibk, saldo2_ibk)
-    print saldo_bcp
+    saldo_jud = HipotecaSSFF.objects.values('mes_vigencia', 'banco', 'tipo_cuenta' ).filter(tipo_cuenta='JUD_HIPO', banco__in=['BCP','SCO','BBVA','IBK'], mes_vigencia='201512' ).annotate(sum_jud=Sum('mto_saldo')).order_by('banco')
+    saldo_ven = HipotecaSSFF.objects.values('mes_vigencia', 'banco', 'tipo_cuenta' ).filter(tipo_cuenta='VEN_HIPO', banco__in=['BCP','SCO','BBVA','IBK'], mes_vigencia='201512' ).annotate(sum_ven=Sum('mto_saldo')).order_by('banco')
+    saldo_ref = HipotecaSSFF.objects.values('mes_vigencia', 'banco', 'tipo_cuenta' ).filter(tipo_cuenta='REF_HIPO', banco__in=['BCP','SCO','BBVA','IBK'], mes_vigencia='201512' ).annotate(sum_ref=Sum('mto_saldo')).order_by('banco')
+    totales = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco__in=['BCP','SCO','BBVA','IBK'], mes_vigencia='201512').annotate(total=Sum('mto_saldo')).order_by('banco')
+    grafica2 = zip(saldo_jud,saldo_ven,saldo_ref,totales)
+
     static_url=settings.STATIC_URL
     tipo_side = 5
     return render('reports/hipoteca_ssff.html', locals(),
                   context_instance=RequestContext(request))
+
+@login_required
+def hipoteca_conce(request):
+
+    static_url=settings.STATIC_URL
+    tipo_side = 5
+    return render('reports/hipoteca_conce.html', locals(),
+                  context_instance=RequestContext(request))
+
+
 
 
 # Vistas CAMPANA para recibir consultas Ajax
@@ -808,6 +830,30 @@ def carga_hipotecassff(request):
         if form.is_valid():
             csv_file = request.FILES['hipotecassff']
             HipotecaSSFFCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_hipotecaconce(request):
+    if request.method == 'POST':
+        form = UploadHipotecaConce(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['hipotecaconce']
+            HipotecaConceCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_moras(request):
+    if request.method == 'POST':
+        form = UploadMoras(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['moras']
+            MorasCsv.import_data(data = csv_file)
             return campana_ofertas(request)
         else:
             return load(campana_ofertas)

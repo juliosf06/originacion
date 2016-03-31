@@ -24,6 +24,10 @@
 		<div id="chartContainer3" style="height: 300px; width: 100%;"></div>
           </div>
 	  <!--<div>(*) SE AGREGO LOS PASIVOS A LOS NO PH </div>-->
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer4" style="height: 300px; width: 100%;"></div>
+          </div>
 
 {% endblock %}
 
@@ -224,6 +228,59 @@
 			dataPoints: [
 				{% for a,b,c,d,e in camp_seg %}
 				{ y: {{e.formalizado}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer4", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora Total"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA6",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}%",
+			yValueFormatString: "##.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in mora %}
+				{ y: {{a.sum_mora}}*100/{{d.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA9",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}%",
+			yValueFormatString: "##.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in mora %}
+				{ y: {{b.sum_mora}}*100/{{d.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA12",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}%",
+			yValueFormatString: "##.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in mora %}
+				{ y: {{c.sum_mora}}*100/{{d.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
 				{% endfor %}
 			]
 		},

@@ -74,6 +74,7 @@ urlpatterns = [
     # URLS para reportes de Hipotecario
     url(r'^hipotecario/$', views.hipoteca_ssff, name='hipoteca_ssff'),
     url(r'^hipotecario/ssff/$', views.hipoteca_ssff, name='hipoteca_ssff'),
+    url(r'^hipotecario/territorio/$', views.hipoteca_conce, name='hipoteca_conces'),
 
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),
@@ -85,6 +86,8 @@ urlpatterns = [
     url(r'^load_data/carga_seguimiento1/$', views.carga_seguimiento1, name='carga_seguimiento1'),
     url(r'^load_data/carga_flujoperativo/$', views.carga_flujoperativo, name='carga_flujoperativo'),
     url(r'^load_data/carga_hipotecassff/$', views.carga_hipotecassff, name='carga_hipotecassff'),
+    url(r'^load_data/carga_hipotecaconce/$', views.carga_hipotecaconce, name='carga_hipotecaconce'),
+    url(r'^load_data/carga_moras/$', views.carga_moras, name='carga_moras'),
     url(r'^load_data/$', views.load, name='load'),
     url(r'^mapa/$', views.mapa, name='mapa'),
 ]

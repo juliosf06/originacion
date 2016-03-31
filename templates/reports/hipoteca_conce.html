@@ -4,11 +4,11 @@
 
 {% load humanize %}
 
-{% block title %}Sistema Financiero y BBVA{% endblock %}
+{% block title %}Inversión y Morosidad por Territorio{% endblock %}
 
 {% block content %}
 
-          <h1 class="page-header">Sistema Financiero y BBVA</h1>
+          <h1 class="page-header">Inversión y Morosidad por Territorio</h1>
           <div class="form-inline">
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
@@ -20,11 +20,7 @@
           <div class="rows placeholders">
 		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
           </div>
-	  &nbsp;
-	  &nbsp;
-          <div class="rows placeholders">
-		<div id="chartContainer3" style="height: 300px; width: 100%;"></div>
-          </div>
+
 
 {% endblock %}
 
@@ -34,7 +30,7 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Inversión y morosidad por banco"              
+			text: "Participación de Inversión por territorio"              
 		},
 		animationEnabled: true,   // change to true
 

@@ -120,6 +120,24 @@
 	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load HipotecaSSFF" ></div>
             </form>
           </div>
+          <div class="row">
+            <form action="carga_hipotecaconce/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reportes Hipoteca Concentración</label>
+		<input type="file" id="hipotecaconce" name="hipotecaconce">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load HipotecaConce" ></div>
+            </form>
+          </div>
+          <div class="row">
+            <form action="carga_moras/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reportes Moras</label>
+		<input type="file" id="moras" name="moras">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Moras" ></div>
+            </form>
+          </div>
 
         </div>
       </div>
