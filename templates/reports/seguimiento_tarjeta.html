@@ -251,8 +251,8 @@
 			yValueFormatString: "##.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in mora %}
-				{ y: {{a.sum_mora}}*100/{{d.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% for a,b in mora_6 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -262,11 +262,12 @@
 			name: "MORA9",
 			indexLabelFontColor: "darkblue",			
 			indexLabel: "{y}%",
+			color: "#094FA4",
 			yValueFormatString: "##.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in mora %}
-				{ y: {{b.sum_mora}}*100/{{d.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% for a,b in mora_9 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -276,11 +277,12 @@
 			name: "MORA12",
 			indexLabelFontColor: "darkblue",			
 			indexLabel: "{y}%",
+			color: "#86C82D",
 			yValueFormatString: "##.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in mora %}
-				{ y: {{c.sum_mora}}*100/{{d.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% for a,b in mora_12 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
 				{% endfor %}
 			]
 		},

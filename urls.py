@@ -75,6 +75,7 @@ urlpatterns = [
     url(r'^hipotecario/$', views.hipoteca_ssff, name='hipoteca_ssff'),
     url(r'^hipotecario/ssff/$', views.hipoteca_ssff, name='hipoteca_ssff'),
     url(r'^hipotecario/territorio/$', views.hipoteca_conce, name='hipoteca_conces'),
+    url(r'^hipotecario/seguimiento/$', views.hipoteca_segui, name='hipoteca_segui'),
 
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),

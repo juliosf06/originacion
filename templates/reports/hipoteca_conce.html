@@ -17,9 +17,9 @@
           </div>
 	  &nbsp;
 	  &nbsp;
-          <div class="rows placeholders">
+          <!--<div class="rows placeholders">
 		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
-          </div>
+          </div>-->
 
 
 {% endblock %}
@@ -37,204 +37,16 @@
 		data: [ 
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			//indexLabel: "{y}%",
-			yValueFormatString: "##.#",
-			name: "BCP",
-			color: "#F6891E",			
-			showInLegend: "true",
-			dataPoints: [
-			{% for a,b in bcp %} 			
-				{ label: "{{a.mes_vigencia|convert_date}}",  y: {{b.sum_saldo}}*100/{{a.sum_saldo}}  },
-		        {% endfor %}
-			]
-
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			indexLabel: "{y}%",
-			yValueFormatString: "##.#",
-			name: "BBVA",
-			color: "#094FA4",			
-			showInLegend: "true",
-			dataPoints: [
-			{% for a,b in bbva %} 			
-				{ label: "{{a.mes_vigencia|convert_date}}",  y: {{b.sum_saldo}}*100/{{a.sum_saldo}}  },
-		        {% endfor %}
-			]
-
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			//indexLabel: "{y}%",
-			yValueFormatString: "##.#",
-			name: "SCO",
-			color: "#C8175E",			
-			showInLegend: "true",
-			dataPoints: [
-			{% for a,b in sco %} 			
-				{ label: "{{a.mes_vigencia|convert_date}}",  y: {{b.sum_saldo}}*100/{{a.sum_saldo}}  },
-		        {% endfor %}
-			]
-
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			indexLabel: "{y}%",
-			yValueFormatString: "##.#",
-			name: "IBK",
-			color: "#86C82D",			
-			showInLegend: "true",
-			dataPoints: [
-			{% for a,b in ibk %} 			
-				{ label: "{{a.mes_vigencia|convert_date}}",  y: {{b.sum_saldo}}*100/{{a.sum_saldo}}  },
-		        {% endfor %}
-			]
-
-		},
-		]
-	});
-	chart.render();
-
-	var chart = new CanvasJS.Chart("chartContainer2", {
-		theme: "theme2",//theme1
-		//title:{
-			//text: "Inversión y morosidad por banco"              
-		//},
-		animationEnabled: true,   // change to true
-
-		data: [ 
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "column",
-			bevelEnabled: true,
+			type: "doughnut",
 			indexLabel: "{y}",
-			indexLabelFontColor: "#F6891E",
-			yValueFormatString: "##,###",
-			name: "BCP",
-			color: "#F6891E",			
-			showInLegend: "true",
-			dataPoints: [
-			{% for a in saldo_bcp %} 			
-				{ label: "{{a.mes_vigencia|convert_date}}",  y: {{a.sum_saldo}}/1000000  },
-		        {% endfor %}
-			]
-
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "column",
-			bevelEnabled: true,
-			indexLabel: "{y}",
-			indexLabelFontColor: "#094FA4",
-			yValueFormatString: "##,###",
-			name: "BBVA",
-			color: "#094FA4",			
-			showInLegend: "true",
-			dataPoints: [
-			{% for a in saldo_bbva %} 			
-				{ label: "{{a.mes_vigencia|convert_date}}",  y: {{a.sum_saldo}}/1000000  },
-		        {% endfor %}
-			]
-
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "column",
-			bevelEnabled: true,
-			indexLabel: "{y}",
-			indexLabelFontColor: "#C8175E",
-			yValueFormatString: "##,###",
-			name: "SCO",
-			color: "#C8175E",			
-			showInLegend: "true",
-			dataPoints: [
-			{% for a in saldo_sco %} 			
-				{ label: "{{a.mes_vigencia|convert_date}}",  y: {{a.sum_saldo}}/1000000  },
-		        {% endfor %}
-			]
-
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "column",
-			bevelEnabled: true,
-			indexLabel: "{y}",
-			indexLabelFontColor: "#86C82D",
-			yValueFormatString: "##,###",
-			name: "IBK",
-			color: "#86C82D",			
-			showInLegend: "true",
-			dataPoints: [
-			{% for a in saldo_ibk %} 			
-				{ label: "{{a.mes_vigencia|convert_date}}",  y: {{a.sum_saldo}}/1000000  },
-		        {% endfor %}
-			]
-
-		},
-		]
-	});
-	chart.render();
-
-	var chart = new CanvasJS.Chart("chartContainer3", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Composición de cartera por banco"              
-		},
-		animationEnabled: true,   // change to true
-
-		data: [ 
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			//bevelEnabled: true,
-			indexLabel: "{y}%",
-			indexLabelFontColor: "white",
-			yValueFormatString: "##.#",
-			name: "Refinanciado",
-			//color: "#C8175E",			
-			showInLegend: "true",
-			dataPoints: [
-			{% for a,b,c,d in grafica2 %} 			
-				{ y: {{c.sum_ref}}*100/{{d.total}}  , label: "{{a.banco}}" },
-		        {% endfor %}
-			]
-
-		},
-
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			//bevelEnabled: true,
-			indexLabel: "{y}%",
-			indexLabelFontColor: "white",
-			yValueFormatString: "##.#",
-			name: "Vencidos",
-			color: "#C8175E",			
-			showInLegend: "true",
-			dataPoints: [
-			{% for a,b,c,d in grafica2 %} 			
-				{  y: {{b.sum_ven}}*100/{{d.total}} , label: "{{a.banco}}" },
-		        {% endfor %}
-			]
-
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			//bevelEnabled: true,
-			indexLabel: "{y}%",
-			indexLabelFontColor: "white",
-			yValueFormatString: "##.#",
-			name: "Judicial",
+			startAngle: 0,
+			yValueFormatString: "###.##",
+			//name: "BCP",
 			//color: "#F6891E",			
-			showInLegend: "true",
+			//showInLegend: "true",
 			dataPoints: [
-			{% for a,b,c,d in grafica2 %} 			
-				{  y: {{a.sum_jud}}*100/{{d.total}}  ,label: "{{a.banco}}" },
+			{% for a in conce %} 			
+				{ y: {{a.sum_inv}} , indexLabel: "{{a.territorio}}"  },
 		        {% endfor %}
 			]
 

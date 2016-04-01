@@ -482,10 +482,12 @@ def seguimiento_tarjeta(request):
     camp_seg = zip(seg_ava, seg_ms, seg_noph, seg_nocli, camp_form)
 
     mora6 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora6')).order_by('mes_form')
-    mora9 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
-    mora12 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
+    mora9 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505']).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
+    mora12 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502']).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
     total_ctas = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
-    mora = zip(mora6,mora9,mora12,total_ctas)
+    mora_6 = zip(mora6,total_ctas)
+    mora_9 = zip(mora9,total_ctas)
+    mora_12 = zip(mora12,total_ctas)
     print mora6
     print total_ctas
     static_url=settings.STATIC_URL
@@ -508,6 +510,14 @@ def seguimiento_pld(request):
     seg_noph = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='01 Consumo', segmento='No PH').annotate(seg=Sum('form')).order_by('mes_vigencia')
     seg_nocli = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='01 Consumo', segmento__in=['NoCli','']).annotate(seg=Sum('form')).order_by('mes_vigencia')
     camp_seg = zip(seg_ava, seg_ms, seg_noph, seg_nocli, camp_form)
+
+    mora6 = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora6')).order_by('mes_form')
+    mora9 = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505']).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
+    mora12 = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__in=['201410','201411','201412','201501','201502']).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
+    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+    mora_6 = zip(mora6,total_ctas)
+    mora_9 = zip(mora9,total_ctas)
+    mora_12 = zip(mora12,total_ctas)
     static_url=settings.STATIC_URL
     tipo_side = 4
 
@@ -525,6 +535,17 @@ def seguimiento_auto(request):
     fact_uno = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='02 Auto', riesgos='UNO A UNO').annotate(facturacion=Sum('facturacion')).order_by('mes_vigencia')
     fact_camp = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='02 Auto', riesgos='CAMP').annotate(facturacion=Sum('facturacion')).order_by('mes_vigencia')
     ticket = zip(fact_uno, fact_camp, uno_form, camp_form)
+
+    mora12 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
+    mora18 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora18')).order_by('mes_form')
+    mora24 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora24')).order_by('mes_form')
+    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+    mora = zip(mora12,mora18,mora24,total_ctas)
+    print mora12
+    print mora18
+    print mora24
+    print total_ctas
+    print mora
     static_url=settings.STATIC_URL
     tipo_side = 4
 
@@ -559,10 +580,28 @@ def hipoteca_ssff(request):
 
 @login_required
 def hipoteca_conce(request):
-
+    conce = HipotecaConce.objects.values('mes','territorio').filter(mes='201512').annotate(sum_inv=Sum('inversion')).order_by('territorio')
+    print conce
     static_url=settings.STATIC_URL
     tipo_side = 5
     return render('reports/hipoteca_conce.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def hipoteca_segui(request):
+    evo_mora12 = Moras.objects.values('trimestre_form','producto').filter(producto='04 Hipotecario', trimestre_form__in=['2013-1','2013-2','2013-3', '2013-4','2014-1','2014-2','2014-3','2014-4']).annotate(sum_inv=Sum('mora12')).order_by('trimestre_form')
+    evo_mora18 = Moras.objects.values('trimestre_form','producto').filter(producto='04 Hipotecario', trimestre_form__in=['2013-1','2013-2','2013-3', '2013-4','2014-1','2014-2','2014-3','2014-4']).annotate(sum_inv=Sum('mora18')).order_by('trimestre_form')
+    evo_mora24 = Moras.objects.values('trimestre_form','producto').filter(producto='04 Hipotecario', trimestre_form__in=['2013-1','2013-2','2013-3', '2013-4','2014-1','2014-2','2014-3','2014-4']).annotate(sum_inv=Sum('mora24')).order_by('trimestre_form')
+    evo_mora36 = Moras.objects.values('trimestre_form','producto').filter(producto='04 Hipotecario', trimestre_form__in=['2013-1','2013-2','2013-3', '2013-4','2014-1','2014-2','2014-3','2014-4']).annotate(sum_inv=Sum('mora36')).order_by('trimestre_form')
+    total = Moras.objects.values('trimestre_form').filter(producto='04 Hipotecario').annotate(sum_ctas=Sum('ctas')).order_by('trimestre_form')
+    mora12 = zip(evo_mora12, total)
+    mora18 = zip(evo_mora18, total)
+    mora24 = zip(evo_mora24, total)
+    mora36 = zip(evo_mora36, total)
+    print evo_mora12
+    static_url=settings.STATIC_URL
+    tipo_side = 5
+    return render('reports/hipoteca_seguimiento.html', locals(),
                   context_instance=RequestContext(request))
 
 
@@ -715,6 +754,7 @@ def load(request):
     #Evaluaciontc.objects.all().delete()
     #Evaluacionpld.objects.all().delete()
     #Seguimiento1.objects.all().delete()
+    HipotecaConce.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
