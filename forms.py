@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from models import RVGL, Campana, Caida, Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras
+from models import RVGL, Campana2, Caida, Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras
 from adaptor.model import CsvDbModel
 
 class UploadRVGL(forms.Form):
@@ -11,12 +11,20 @@ class RVGLCsv(CsvDbModel):
         dbModel = RVGL
         delimiter = ","
 
-class UploadCampana(forms.Form):
-    campana = forms.FileField()
+#class UploadCampana(forms.Form):
+    #campana = forms.FileField()
 
-class CampanaCsv(CsvDbModel):
+#class CampanaCsv(CsvDbModel):
+    #class Meta:
+        #dbModel = Campana
+        #delimiter = ","
+
+class UploadCampana2(forms.Form):
+    campana2 = forms.FileField()
+
+class Campana2Csv(CsvDbModel):
     class Meta:
-        dbModel = Campana
+        dbModel = Campana2
         delimiter = ","
 
 class UploadCaida(forms.Form):

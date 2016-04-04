@@ -15,6 +15,8 @@
             <select class="form-control" id="ofertas_periodo">
               <option value="201604" {% if fecha == '201604' %}selected {% endif %}>Abril 2016</option>
               <option value="201603" {% if fecha == '201603' %}selected {% endif %}>Marzo 2016</option>
+              <option value="201602" {% if fecha == '201602' %}selected {% endif %}>Febrero 2016</option>
+              <option value="201601" {% if fecha == '201601' %}selected {% endif %}>Enero 2016</option>
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
@@ -36,10 +38,10 @@
                   <th>Consumo</th>
                   <th>Auto</th>
                   <th>subrogación</th>
-                  <th>TC Entry Level</th>
+                  <th>Refinanciación</th>
                   <th>Renovados</th>
                   <th>Auto 2da</th>
-                  <th>Adelanto Sueldo</th>
+                  <th>subrogación Plus</th>
                   <th>Efectivo Plus</th>
                   <th>Prestamo al Toque</th>
                   <th>Incremento Linea</th>

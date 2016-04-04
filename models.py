@@ -37,6 +37,39 @@ class Campana(models.Model):
     def __str__(self):
         return self.codigo_campana+' '+self.segmento
 
+class Campana2(models.Model):
+    codigo_campana = models.CharField(max_length=10)
+    mes_vigencia = models.CharField(max_length=10)
+    segmento = models.CharField(max_length=20)
+    tipo_clie = models.CharField(max_length=20)
+    verificacion = models.CharField(max_length=50)
+    ofertas = models.IntegerField(default=0)
+    q_tc = models.IntegerField(default=0)
+    monto_tc = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    q_pld = models.IntegerField(default=0)
+    monto_pld = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    q_veh = models.IntegerField(default=0)
+    monto_veh = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    q_subrogacion = models.IntegerField(default=0)
+    monto_subrogacion = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    q_tc_entry_level = models.IntegerField(default=0)
+    monto_tc_entry_level = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    q_renovado = models.IntegerField(default=0)
+    monto_renovado = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    q_auto_2da = models.IntegerField(default=0)
+    monto_auto_2da = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    q_adelanto_sueldo = models.IntegerField(default=0)
+    monto_adelanto_sueldo = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    q_efectivo_plus = models.IntegerField(default=0)
+    monto_efectivo_plus = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    q_prestamo_inmediato = models.IntegerField(default=0)
+    monto_prestamo_inmediato = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    q_incr_linea = models.IntegerField(default=0)
+    monto_incr_linea = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+
+    def __str__(self):
+        return self.codigo_campana+' '+self.segmento+' '+self.tipo_clie
+
 class Verificaciones(models.Model):
     mes_vigencia = models.CharField(max_length=10)
     segmento = models.CharField(max_length=20)
