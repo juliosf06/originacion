@@ -67,11 +67,6 @@
                   <td>{{a.monto_subrogacion|floatformat:2|intcomma}}</td>
                 </tr>
 		<tr>
-                  <td>Refinanciación</td>
-                  <td>{{a.q_tc_entry_level|intcomma}}</td>
-                  <td>{{a.monto_tc_entry_level|floatformat:2|intcomma}}</td>
-                </tr>
-		<tr>
                   <td>Renovados</td>
                   <td>{{a.q_renovado|intcomma}}</td>
                   <td>{{a.monto_renovado|floatformat:2|intcomma}}</td>
@@ -103,6 +98,14 @@
                 </tr>
 		{% endfor %}
               </tbody>
+	      <tfoot>
+		{% for b in total %}
+		<tr>
+                  <th>TOTAL</th>
+                  <th>{{b.total_q|intcomma}}</th>
+                  <th>{{b.total_m|floatformat:2|intcomma}}</th>
+	        {% endfor %}
+	      </tfoot>
             </table>
           </div>
 {% endblock %}
@@ -128,7 +131,6 @@
 				{   y: {{i.q_pld}}, label: "CONSUMO",  },
 				{   y: {{i.q_veh}}, label: "AUTO"  }, 
 				{   y: {{i.q_subrogacion}}, label: "SUBROGACION"  },
-				{   y: {{i.q_tc_entry_level}},label: "REFINANCIACIÓN"  },
 				{   y: {{i.q_renovado}}, label: "RENOVADOS"  },
 				{   y: {{i.q_auto_2da}}, label: "AUTO DE 2DA"  },
 				{   y: {{i.q_adelanto_sueldo}}, label: "SUBROGACIÓN PLUS"  },

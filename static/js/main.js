@@ -389,6 +389,11 @@ $("#scoxdictamen_periodo, #scoxdictamen_analista").change(function(e){
   });
 })
 
+$("#resumen_periodo").change(function(e){
+  console.log($("#resumen_periodo").val());
+
+  window.location.href = "/reports/campanas/resumen/"+$("#resumen_periodo").val()+"/";
+})
 
 $("#top20terr_periodo, #top20terr_analista").change(function(e){
   console.log($("#top20terr_periodo").val());

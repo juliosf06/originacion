@@ -2277,7 +2277,13 @@ th {
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
-.table > tfoot > tr > th,
+.table > tfoot > tr > th{
+  vertical-align: bottom;
+  background: #094fa4;
+  color: #ffffff;
+  height: 30px;
+  border-bottom: 2px solid #ddd;
+}
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {

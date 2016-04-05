@@ -10,7 +10,9 @@ urlpatterns = [
     #url(r'^$', views.campana_ofertas, name='campana_ofertas'),
 
     # URLS para reportes de campaña
-    url(r'^campanas/$', views.campana_ofertas, name='campana_ofertas'),
+    url(r'^campanas/$', views.campana_resumen, name='campana_resumen'),
+    url(r'^campanas/resumen/$', views.campana_resumen, name='campana_resumen'),
+    url(r'^campanas/resumen/(?P<fecha>[0-9]{6})/$', views.campana2_resumen, name='campana2_resumen'),
     url(r'^campanas/ofertas/$', views.campana_ofertas, name='campana_ofertas'),
     url(r'^campanas/ofertas/(?P<fecha>[0-9]{6})/$', views.campana2_ofertas, name='campana2_ofertas'),
     url(r'^campanas/detalles/$', views.campana_detalles, name='campana_detalles'),
