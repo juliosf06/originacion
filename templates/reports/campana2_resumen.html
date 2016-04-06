@@ -8,10 +8,10 @@
 
 {% block content %}
 
-          <center><h1 class="page-header">Resumen Campaña</h1></center>
+          <center><h1 class="page-header">Resumen de Ofertas de Campaña</h1></center>
           <center><div class="form-inline">
             &nbsp;&nbsp;
-            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <label class="control-label">Periodo de vigencia:&nbsp;&nbsp;</label>
             <select class="form-control" id="resumen_periodo">
               <option value="201604" {% if fecha == '201604' %}selected {% endif %}>Abril 2016</option>
               <option value="201603" {% if fecha == '201603' %}selected {% endif %}>Marzo 2016</option>
@@ -20,7 +20,7 @@
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div></center>
-          <h2 class="sub-header">1. Resumen de Ofertas</h2>
+          <h2 class="sub-header">1. Ofertas por Producto</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -94,7 +94,7 @@
             </table>
           </div>
 
-          <h2 class="sub-header">2. Clientes por Segmento</h2>
+          <h2 class="sub-header">2. Ofertas por Segmento</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -102,7 +102,7 @@
                   <th>Segmento</th>
                   <th>Fast</th>
                   <th>Contratación Sencilla</th>
-                  <th>TOTAL</th>
+                  <th>Total</th>
               </thead>
               <tbody id="tabla_detalles">
 		{% for a,b,c,d,e,f in segmento %}
@@ -142,7 +142,7 @@
             </table>
           </div>
 
-          <h2 class="sub-header">3. Flujo Operativo vs Verificaciones Total Ofertas</h2>
+          <h2 class="sub-header">3. Flujo Operativo vs Verificaciones - Total Ofertas</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -150,7 +150,7 @@
                   <th>Segmento</th>
                   <th>Fast</th>
                   <th>Contratación Sencilla</th>
-                  <th>TOTAL</th>
+                  <th>Total</th>
               </thead>
               <tbody id="tabla_detalles">
 		{% for a,b,c in flujo %}
@@ -174,7 +174,7 @@
             </table>
           </div>
 
-          <h2 class="sub-header">4. Flujo Operativo vs Verificaciones Ofertas Tdc</h2>
+          <h2 class="sub-header">4. Flujo Operativo vs Verificaciones - Ofertas Tdc</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -214,7 +214,7 @@
                   <th>Flujo</th>
                   <th>Fast</th>
                   <th>Contratación Sencilla</th>
-                  <th>TOTAL</th>
+                  <th>Total</th>
               </thead>
               <tbody id="tabla_detalles">
 		{% for a,b,c in prestamo %}

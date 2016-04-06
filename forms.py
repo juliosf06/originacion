@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from models import RVGL, Campana2, Caida, Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras
+from models import RVGL, Campana2, Caida, Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento
 from adaptor.model import CsvDbModel
 
 class UploadRVGL(forms.Form):
@@ -97,5 +97,37 @@ class UploadMoras(forms.Form):
 class MorasCsv(CsvDbModel):
     class Meta:
         dbModel = Moras
+        delimiter = ","
+
+class UploadAdelantoSueldo(forms.Form):
+    adelantosueldo = forms.FileField()
+
+class AdelantoSueldoCsv(CsvDbModel):
+    class Meta:
+        dbModel = AdelantoSueldo
+        delimiter = ","
+
+class UploadPrestInmediato(forms.Form):
+    prestinmediato = forms.FileField()
+
+class PrestInmediatoCsv(CsvDbModel):
+    class Meta:
+        dbModel = PrestInmediato
+        delimiter = ","
+
+class UploadAltasEmpresa(forms.Form):
+    altasempresa = forms.FileField()
+
+class AltasEmpresaCsv(CsvDbModel):
+    class Meta:
+        dbModel = AltasEmpresa
+        delimiter = ","
+
+class UploadAltasSegmento(forms.Form):
+    altassegmento = forms.FileField()
+
+class AltasSegmentoCsv(CsvDbModel):
+    class Meta:
+        dbModel = AltasSegmento
         delimiter = ","
 

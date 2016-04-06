@@ -1,0 +1,300 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Seguimiento Adelanto Sueldo{% endblock %}
+
+{% block content %}
+
+          <h1 class="page-header">Seguimiento Adelanto Sueldo</h1>
+          <div class="form-inline">
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          </div>
+          <div class="rows placeholders">
+		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer4" style="height: 300px; width: 100%;"></div>
+          </div>
+
+{% endblock %}
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Formalizados"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			name: "#Form",
+			indexLabelFontColor: "darkblue",			
+			//indexLabel: "{y}",
+			yValueFormatString: "#,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in formalizados %}
+				{ y: {{a.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Ticket Promedio (S/.)",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}",
+			yValueFormatString: "###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in formalizados %}
+				{ y: {{b.formalizado}}/{{a.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Rango de Ingresos"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[0-1,000]",
+			indexLabelFontColor: "white",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.",			
+			//indexLabel: "#percent%",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in rangos1 %}
+				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[1,000-1,500]",
+			indexLabelFontColor: "white",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.",			
+			//indexLabel: "#percent%",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in rangos2 %}
+				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[1,500-2,000]",
+			indexLabelFontColor: "white",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.",			
+			//indexLabel: "#percent%",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in rangos3 %}
+				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[2,000-2,500]",
+			indexLabelFontColor: "white",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.",			
+			//indexLabel: "#percent%",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in rangos4 %}
+				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[2,500-3,500]",
+			indexLabelFontColor: "white",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.",			
+			//indexLabel: "#percent%",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in rangos5 %}
+				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[3,500-a más>",
+			indexLabelFontColor: "white",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.",			
+			//indexLabel: "#percent%",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in rangos6 %}
+				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer3", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Buró"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[G1-G4]",
+			indexLabelFontColor: "white",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.",			
+			//indexLabel: "#percent%",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in buros1 %}
+				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[G5]",
+			indexLabelFontColor: "white",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.",			
+			//indexLabel: "#percent%",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in buros2 %}
+				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[G6-G8]",
+			indexLabelFontColor: "white",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.",			
+			//indexLabel: "#percent%",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in buros3 %}
+				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[NB]",
+			indexLabelFontColor: "white",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.",			
+			//indexLabel: "#percent%",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in buros4 %}
+				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer4", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Situación Actual"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			name: "#Incumpl. 30d",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}",
+			yValueFormatString: "#,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in mora %}
+				{ y: {{a.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "%Incumpl. 30d",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}%",
+			yValueFormatString: "###.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in mora %}
+				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+
+    }
+  </script>
+{% endblock %}
+

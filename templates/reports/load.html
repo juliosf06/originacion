@@ -147,6 +147,42 @@
 	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Moras" ></div>
             </form>
           </div>
+          <div class="row">
+            <form action="carga_adelantosueldo/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reportes Adelanto Sueldo</label>
+		<input type="file" id="adelantosueldo" name="adelantosueldo">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load AdelantoSueldo" ></div>
+            </form>
+          </div>
+          <div class="row">
+            <form action="carga_prestinmediato/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reportes Prestamo Inmediato</label>
+		<input type="file" id="prestinmediato" name="prestinmediato">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load PrestInmediato" ></div>
+            </form>
+          </div>
+          <div class="row">
+            <form action="carga_altasempresa/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reportes Altas Empresa</label>
+		<input type="file" id="altasempresa" name="altasempresa">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load AltasEmpresa" ></div>
+            </form>
+          </div>
+          <div class="row">
+            <form action="carga_altassegmento/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reportes Altas Segmento</label>
+		<input type="file" id="altassegmento" name="altassegmento">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load AltasSegmento" ></div>
+            </form>
+          </div>
 
         </div>
       </div>

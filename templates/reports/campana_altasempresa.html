@@ -1,0 +1,71 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Altas Empresas{% endblock %}
+
+{% block content %}
+
+          <h1 class="page-header">Altas Empresas</h1>
+          <div class="form-inline">
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          </div>
+          <div class="rows placeholders">
+		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          </div>
+{% endblock %}
+
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Set 15",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in alta1 %}
+				{   y: {{i.num_alta1}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in alta2 %}
+				{   y: {{i.num_alta2}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in alta3 %}
+				{   y: {{i.num_alta3}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+    }
+  </script>
+{% endblock %}
+
+

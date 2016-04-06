@@ -12,21 +12,20 @@ urlpatterns = [
     # URLS para reportes de campaña
     url(r'^campanas/$', views.campana_resumen, name='campana_resumen'),
     url(r'^campanas/resumen/$', views.campana_resumen, name='campana_resumen'),
-    url(r'^campanas/resumen/(?P<fecha>[0-9]{6})/$', views.campana2_resumen, name='campana2_resumen'),
+    url(r'^campanas/resumen/(?P<fecha>[0-9]{6})/$', views.campana_resumen, name='campana_resumen'),
     url(r'^campanas/ofertas/$', views.campana_ofertas, name='campana_ofertas'),
     url(r'^campanas/ofertas/(?P<fecha>[0-9]{6})/$', views.campana2_ofertas, name='campana2_ofertas'),
     url(r'^campanas/detalles/$', views.campana_detalles, name='campana_detalles'),
-    url(r'^campanas/detalles/(?P<segmento>[\w|\W]+)/(?P<fecha>[0-9]{6})/$', views.campana2_detalles, name='campana2_detalles'),
+    url(r'^campanas/detalles/(?P<segmento>[\w|\W]+)/(?P<fecha>[0-9]{6})/$', views.campana_detalles, name='campana_detalles'),
     url(r'^campanas/caidas/$', views.campana_caidas, name='campana_caidas'),
     url(r'^campanas/caidas/(?P<fecha>[0-9]{6})/$', views.campana2_caidas, name='campana2_caidas'),
     url(r'^campanas/exoneraciones/$', views.campana_exoneraciones, name='campana_exoneraciones'),
     url(r'^campanas/exoneraciones/(?P<segmento>[\w|\W]+)/$', views.campana2_exoneraciones, name='campana2_exoneraciones'),
     url(r'^campanas/flujo/$', views.campana_flujo, name='campana_flujo'),
     url(r'^campanas/flujo/(?P<fecha>[0-9]{6})/$', views.campana2_flujo, name='campana2_flujo'),
-    url(r'^campanas/altas_sf/$', views.dummy, name='dummy'),
-    url(r'^campanas/altas_buro/$', views.dummy, name='dummy'),
+    url(r'^campanas/altasempresa/$', views.campana_altasempresa, name='campana_altasempresa'),
     url(r'^campanas/altas_personas/$', views.dummy, name='dummy'),
-    url(r'^campanas/otros/$', views.dummy, name='dummy'),
+    #url(r'^campanas/otros/$', views.dummy, name='dummy'),
 
     # URLS para reportes de RVGL
     url(r'^rvgl/$', views.rvgl_banca, name='rvgl_banca'),
@@ -72,6 +71,7 @@ urlpatterns = [
     url(r'^seguimiento/tarjeta/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
     url(r'^seguimiento/pld/$', views.seguimiento_pld, name='seguimiento_pld'),
     url(r'^seguimiento/auto/$', views.seguimiento_auto, name='seguimiento_auto'),
+    url(r'^seguimiento/adelanto/$', views.seguimiento_adelanto, name='seguimiento_adelanto'),
 
     # URLS para reportes de Hipotecario
     url(r'^hipotecario/$', views.hipoteca_ssff, name='hipoteca_ssff'),
@@ -92,6 +92,10 @@ urlpatterns = [
     url(r'^load_data/carga_hipotecassff/$', views.carga_hipotecassff, name='carga_hipotecassff'),
     url(r'^load_data/carga_hipotecaconce/$', views.carga_hipotecaconce, name='carga_hipotecaconce'),
     url(r'^load_data/carga_moras/$', views.carga_moras, name='carga_moras'),
+    url(r'^load_data/carga_adelantosueldo/$', views.carga_adelantosueldo, name='carga_adelantosueldo'),
+    url(r'^load_data/carga_prestinmediato/$', views.carga_prestinmediato, name='carga_prestinmediato'),
+    url(r'^load_data/carga_altasempresa/$', views.carga_altasempresa, name='carga_altasempresa'),
+    url(r'^load_data/carga_altassegmento/$', views.carga_altassegmento, name='carga_altassegmento'),
     url(r'^load_data/$', views.load, name='load'),
     url(r'^mapa/$', views.mapa, name='mapa'),
 ]

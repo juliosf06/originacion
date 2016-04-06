@@ -156,6 +156,57 @@ class Seguimiento1(models.Model):
     def __str__(self):
         return self.mes_vigencia+' '+self.segmento+' '+self.producto
 
+class AdelantoSueldo(models.Model):
+    mes_vigencia = models.CharField(max_length=10)
+    rng_buro = models.CharField(max_length=15)
+    tipo_importe = models.CharField(max_length=30)
+    rng_suelgo = models.CharField(max_length=40)
+    flg_prestamo = models.CharField(max_length=20)
+    estado_cred = models.CharField(max_length=50)
+    ctas = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    fact = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.mes_vigencia+' '+self.rng_buro+' '+self.tipo_importe
+
+class PrestInmediato(models.Model):
+    mes_vigencia = models.CharField(max_length=10)
+    rng_ingreso = models.CharField(max_length=30)
+    segmento = models.CharField(max_length=10)
+    rng_buro = models.CharField(max_length=20)
+    subproducto = models.CharField(max_length=60)
+    estado_cred = models.CharField(max_length=50)
+    ctas = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    fact = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora12 = models.IntegerField(default=0)
+    mora6 = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.mes_vigencia+' '+self.segmento+' '+self.rng_ingreso
+
+class AltasEmpresa(models.Model):
+    empresa = models.CharField(max_length=20)
+    grupo = models.CharField(max_length=30)
+    m1 = models.IntegerField(default=0)
+    m2 = models.IntegerField(default=0)
+    m3 = models.IntegerField(default=0)
+    m4 = models.IntegerField(default=0)
+    m5 = models.IntegerField(default=0)
+    m6 = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.empresa+' '+self.grupo
+
+class AltasSegmento(models.Model):
+    segmento = models.CharField(max_length=20)
+    empresa = models.CharField(max_length=20)
+    grupo = models.CharField(max_length=30)
+    cantidad = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.empresa+' '+self.segmento+' '+self.grupo
+
 class MoraDistrito(models.Model):
     departamento = models.CharField(max_length=100)
     provincia = models.CharField(max_length=100)

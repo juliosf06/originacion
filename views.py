@@ -52,67 +52,16 @@ def dummy(request):
                   context_instance=RequestContext(request))
 
 # 2.- Vistas para reportes de Campaña
-
-def campana_resumen(request):
-    detalles = Campana2.objects.filter(mes_vigencia='201604').values('mes_vigencia').annotate(q_tc=Sum('q_tc'), q_pld=Sum('q_pld'), q_veh=Sum('q_veh'),q_subrogacion=Sum('q_subrogacion'), q_renovado=Sum('q_renovado'), q_auto_2da=Sum('q_auto_2da'), q_adelanto_sueldo=Sum('q_adelanto_sueldo'), q_efectivo_plus=Sum('q_efectivo_plus'), q_prestamo_inmediato=Sum('q_prestamo_inmediato'),q_incr_linea=Sum('q_incr_linea'),monto_tc=Sum(F('monto_tc')/1000000), monto_pld=Sum(F('monto_pld')/1000000), monto_veh=Sum(F('monto_veh')/1000000), monto_subrogacion=Sum(F('monto_subrogacion')/1000000), monto_tc_entry_level=Sum(F('monto_tc_entry_level')/1000000), monto_renovado=Sum(F('monto_renovado')/1000000), monto_auto_2da=Sum(F('monto_auto_2da')/1000000), monto_adelanto_sueldo=Sum(F('monto_adelanto_sueldo')/1000000), monto_efectivo_plus=Sum(F('monto_efectivo_plus')/1000000), monto_prestamo_inmediato=Sum(F('monto_prestamo_inmediato')/1000000), monto_incr_linea=Sum(F('monto_incr_linea')/1000000))
-    total = Campana2.objects.filter(mes_vigencia='201604').values('mes_vigencia').annotate(total_q=Sum(F('q_tc')+F('q_pld')+F('q_veh')+F('q_subrogacion')+F('q_renovado')+F('q_auto_2da')+F('q_adelanto_sueldo')+F('q_efectivo_plus')+F('q_prestamo_inmediato')+F('q_incr_linea')),total_m=Sum(F('monto_tc')/1000000+F('monto_pld')/1000000+F('monto_veh')/1000000+F('monto_subrogacion')/1000000+F('monto_renovado')/1000000+F('monto_auto_2da')/1000000+F('monto_adelanto_sueldo')/1000000+F('monto_efectivo_plus')/1000000+F('monto_prestamo_inmediato')/1000000+F('monto_incr_linea')/1000000))
-    detalles2 = zip(detalles,total)
-
-    segmento_fast = Campana2.objects.values('segmento','tipo_clie' ).exclude(segmento__in=['NO CLIENTE','EMPLEADO']).filter( mes_vigencia='201604', tipo_clie='A1' ).annotate(cantidad=Sum('ofertas')).order_by('segmento')
-    segmento_cs = Campana2.objects.filter(mes_vigencia='201604', tipo_clie='1A').exclude(segmento__in=['NO CLIENTE','EMPLEADO']).values('segmento','tipo_clie').annotate(cantidad=Sum('ofertas')).order_by('segmento')
-    seg_tot = Campana2.objects.filter(mes_vigencia='201604').values('segmento').exclude(segmento__in=['NO CLIENTE','EMPLEADO']).annotate(total=Sum('ofertas')).order_by('segmento')
-    segmento_cs2 = Campana2.objects.filter(mes_vigencia='201604', tipo_clie='1A',segmento='NO CLIENTE').values('segmento','tipo_clie' ).annotate(cantidad=Sum('ofertas')).order_by('segmento')
-    seg_tot2 = Campana2.objects.filter(mes_vigencia='201604', segmento='NO CLIENTE').values('segmento').annotate(total=Sum('ofertas')).order_by('segmento')
-    segmento = itertools.izip_longest(segmento_fast, segmento_cs,seg_tot)
-    total2_fast = Campana2.objects.filter(mes_vigencia='201604', tipo_clie='A1' ).values('tipo_clie').annotate(total_f=Sum('ofertas')).order_by('tipo_clie')
-    total2_cs = Campana2.objects.filter(mes_vigencia='201604', tipo_clie='1A').values('tipo_clie').annotate(total_c=Sum('ofertas')).order_by('tipo_clie')
-    total2_tot = Campana2.objects.filter(mes_vigencia='201604').values('mes_vigencia').annotate(total_t=Sum('ofertas'))
-    empleado_fast = Campana2.objects.values('tipo_clie').filter(mes_vigencia='201604', tipo_clie='A1',segmento='EMPLEADO').annotate(cantidad=Sum('ofertas'))
-    empleado_cs = Campana2.objects.values('tipo_clie').filter(mes_vigencia='201604', tipo_clie='1A',segmento='EMPLEADO').annotate(cantidad=Sum('ofertas'))
-    empleado_total = Campana2.objects.values('mes_vigencia').filter(mes_vigencia='201604', segmento='EMPLEADO').annotate(cantidad=Sum('ofertas'))
-    empleado = itertools.izip_longest(empleado_fast, empleado_cs, empleado_total)
-    total2 = zip(total2_fast,total2_cs,total2_tot,total2_tot)
-    no_clie = zip(segmento_cs2,seg_tot2)
-
-    flujo_fast_tdc = Campana2.objects.values('verificacion','tipo_clie' ).filter(mes_vigencia='201604',tipo_clie='A1').annotate(cantidad=Sum('q_tc')).order_by('verificacion')
-    flujo_cs_tdc = Campana2.objects.values('verificacion','tipo_clie' ).filter(mes_vigencia='201604',tipo_clie='1A').annotate(cantidad=Sum('q_tc')).order_by('verificacion')
-    flujo_total1_tdc= Campana2.objects.values('verificacion').filter(mes_vigencia='201604').annotate(total=Sum('q_tc')).order_by('verificacion')
-    total_fast_tdc= Campana2.objects.values('mes_vigencia').filter(mes_vigencia='201604',tipo_clie='A1').annotate(total=Sum('q_tc'))
-    total_cs_tdc= Campana2.objects.values('mes_vigencia').filter(mes_vigencia='201604',tipo_clie='1A').annotate(total=Sum('q_tc'))
-    total3_tot = Campana2.objects.filter(mes_vigencia='201604').values('mes_vigencia').annotate(total_t=Sum('q_tc'))
-    total3_tdc = zip(total_fast_tdc,total_cs_tdc,total3_tot)
-    flujo_tdc = zip(flujo_fast_tdc,flujo_cs_tdc,flujo_total1_tdc)
-
-    flujo_fast = Campana2.objects.values('verificacion','tipo_clie' ).filter(mes_vigencia='201604',tipo_clie='A1').annotate(cantidad=Sum('ofertas')).order_by('verificacion')
-    flujo_cs = Campana2.objects.values('verificacion','tipo_clie' ).filter(mes_vigencia='201604',tipo_clie='1A').annotate(cantidad=Sum('ofertas')).order_by('verificacion')
-    flujo_total1= Campana2.objects.values('verificacion').filter(mes_vigencia='201604').annotate(total=Sum('ofertas')).order_by('verificacion')
-    total_fast= Campana2.objects.values('mes_vigencia').filter(mes_vigencia='201604',tipo_clie='A1').annotate(total=Sum('ofertas'))
-    total_cs= Campana2.objects.values('mes_vigencia').filter(mes_vigencia='201604',tipo_clie='1A').annotate(total=Sum('ofertas'))
-    total3 = zip(total_fast,total_cs,total2_tot)
-    flujo = zip(flujo_fast,flujo_cs,flujo_total1)
-
-    prestamo_fast = Campana2.objects.values('mes_vigencia').filter(mes_vigencia='201604',tipo_clie='A1').annotate(pld=Sum('q_pld'),pat=Sum('q_prestamo_inmediato'))
-    prestamo_cs = Campana2.objects.values('mes_vigencia').filter(mes_vigencia='201604',tipo_clie='1A').annotate(pld=Sum('q_pld'),pat=Sum('q_prestamo_inmediato'))
-    prestamo_total = Campana2.objects.values('mes_vigencia').filter(mes_vigencia='201604').annotate(pld=Sum('q_pld'),pat=Sum('q_prestamo_inmediato'))
-    prestamo = zip(prestamo_fast,prestamo_cs,prestamo_total)
-
-    print empleado_fast
-    static_url=settings.STATIC_URL
-    tipo_side = 1
-    return render('reports/campana2_resumen.html', locals(),
-                  context_instance=RequestContext(request))
-
-
-def campana2_resumen(request,fecha):
+def campana_resumen(request,fecha='201604'):
     detalles = Campana2.objects.filter(mes_vigencia=fecha).values('mes_vigencia').annotate(q_tc=Sum('q_tc'), q_pld=Sum('q_pld'), q_veh=Sum('q_veh'),q_subrogacion=Sum('q_subrogacion'), q_renovado=Sum('q_renovado'), q_auto_2da=Sum('q_auto_2da'), q_adelanto_sueldo=Sum('q_adelanto_sueldo'), q_efectivo_plus=Sum('q_efectivo_plus'), q_prestamo_inmediato=Sum('q_prestamo_inmediato'),q_incr_linea=Sum('q_incr_linea'),monto_tc=Sum(F('monto_tc')/1000000), monto_pld=Sum(F('monto_pld')/1000000), monto_veh=Sum(F('monto_veh')/1000000), monto_subrogacion=Sum(F('monto_subrogacion')/1000000), monto_tc_entry_level=Sum(F('monto_tc_entry_level')/1000000), monto_renovado=Sum(F('monto_renovado')/1000000), monto_auto_2da=Sum(F('monto_auto_2da')/1000000), monto_adelanto_sueldo=Sum(F('monto_adelanto_sueldo')/1000000), monto_efectivo_plus=Sum(F('monto_efectivo_plus')/1000000), monto_prestamo_inmediato=Sum(F('monto_prestamo_inmediato')/1000000), monto_incr_linea=Sum(F('monto_incr_linea')/1000000))
     total = Campana2.objects.filter(mes_vigencia=fecha).values('mes_vigencia').annotate(total_q=Sum(F('q_tc')+F('q_pld')+F('q_veh')+F('q_subrogacion')+F('q_renovado')+F('q_auto_2da')+F('q_adelanto_sueldo')+F('q_efectivo_plus')+F('q_prestamo_inmediato')+F('q_incr_linea')),total_m=Sum(F('monto_tc')/1000000+F('monto_pld')/1000000+F('monto_veh')/1000000+F('monto_subrogacion')/1000000+F('monto_renovado')/1000000+F('monto_auto_2da')/1000000+F('monto_adelanto_sueldo')/1000000+F('monto_efectivo_plus')/1000000+F('monto_prestamo_inmediato')/1000000+F('monto_incr_linea')/1000000))
     detalles2 = zip(detalles,total)
 
-    segmento_fast = Campana2.objects.values('segmento','tipo_clie' ).exclude(segmento__in=['NO CLIENTE','EMPLEADO']).filter( mes_vigencia=fecha, tipo_clie='A1' ).annotate(cantidad=Sum('ofertas')).order_by('segmento')
-    segmento_cs = Campana2.objects.filter(mes_vigencia=fecha, tipo_clie='1A').exclude(segmento__in=['NO CLIENTE','EMPLEADO']).values('segmento','tipo_clie').annotate(cantidad=Sum('ofertas')).order_by('segmento')
-    seg_tot = Campana2.objects.filter(mes_vigencia=fecha).values('segmento').exclude(segmento__in=['NO CLIENTE','EMPLEADO']).annotate(total=Sum('ofertas')).order_by('segmento')
-    segmento_cs2 = Campana2.objects.filter(mes_vigencia=fecha, tipo_clie='1A',segmento='NO CLIENTE').values('segmento','tipo_clie' ).annotate(cantidad=Sum('ofertas')).order_by('segmento')
-    seg_tot2 = Campana2.objects.filter(mes_vigencia=fecha, segmento='NO CLIENTE').values('segmento').annotate(total=Sum('ofertas')).order_by('segmento')
+    segmento_fast = Campana2.objects.values('segmento','tipo_clie' ).exclude(segmento__in=['NoCli','EMPLEADO']).filter( mes_vigencia=fecha, tipo_clie='A1' ).annotate(cantidad=Sum('ofertas')).order_by('segmento')
+    segmento_cs = Campana2.objects.filter(mes_vigencia=fecha, tipo_clie='1A').exclude(segmento__in=['NoCli','EMPLEADO']).values('segmento','tipo_clie').annotate(cantidad=Sum('ofertas')).order_by('segmento')
+    seg_tot = Campana2.objects.filter(mes_vigencia=fecha).values('segmento').exclude(segmento__in=['NoCli','EMPLEADO']).annotate(total=Sum('ofertas')).order_by('segmento')
+    segmento_cs2 = Campana2.objects.filter(mes_vigencia=fecha, tipo_clie='1A',segmento='NoCli').values('segmento','tipo_clie' ).annotate(cantidad=Sum('ofertas')).order_by('segmento')
+    seg_tot2 = Campana2.objects.filter(mes_vigencia=fecha, segmento='NoCli').values('segmento').annotate(total=Sum('ofertas')).order_by('segmento')
     segmento = itertools.izip_longest(segmento_fast, segmento_cs,seg_tot)
     total2_fast = Campana2.objects.filter(mes_vigencia=fecha, tipo_clie='A1' ).values('tipo_clie').annotate(total_f=Sum('ofertas')).order_by('tipo_clie')
     total2_cs = Campana2.objects.filter(mes_vigencia=fecha, tipo_clie='1A').values('tipo_clie').annotate(total_c=Sum('ofertas')).order_by('tipo_clie')
@@ -146,7 +95,6 @@ def campana2_resumen(request,fecha):
     prestamo_total = Campana2.objects.values('mes_vigencia').filter(mes_vigencia=fecha).annotate(pld=Sum('q_pld'),pat=Sum('q_prestamo_inmediato'))
     prestamo = zip(prestamo_fast, prestamo_cs, prestamo_total)  
   
-    print empleado
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana2_resumen.html', locals(),
@@ -199,19 +147,8 @@ def campana2_ofertas(request, fecha):
     #return render('reports/campana_detalles.html', locals(),
                   #context_instance=RequestContext(request))
 
-def campana_detalles(request):
-    detalles = Campana2.objects.filter(mes_vigencia='201604').values('mes_vigencia').annotate(q_tc=Sum('q_tc'), q_pld=Sum('q_pld'), q_veh=Sum('q_veh'),q_subrogacion=Sum('q_subrogacion'), q_renovado=Sum('q_renovado'), q_auto_2da=Sum('q_auto_2da'), q_adelanto_sueldo=Sum('q_adelanto_sueldo'), q_efectivo_plus=Sum('q_efectivo_plus'),q_prestamo_inmediato=Sum('q_prestamo_inmediato'),q_incr_linea=Sum('q_incr_linea'),monto_tc=Sum(F('monto_tc')/1000000), monto_pld=Sum(F('monto_pld')/1000000), monto_veh=Sum(F('monto_veh')/1000000),monto_subrogacion=Sum(F('monto_subrogacion')/1000000), monto_tc_entry_level=Sum(F('monto_tc_entry_level')/1000000), monto_renovado=Sum(F('monto_renovado')/1000000), monto_auto_2da=Sum(F('monto_auto_2da')/1000000), monto_adelanto_sueldo=Sum(F('monto_adelanto_sueldo')/1000000),monto_efectivo_plus=Sum(F('monto_efectivo_plus')/1000000),monto_prestamo_inmediato=Sum(F('monto_prestamo_inmediato')/1000000), monto_incr_linea=Sum(F('monto_incr_linea')/1000000))
-    total = Campana2.objects.filter(mes_vigencia='201604').values('mes_vigencia').annotate(total_q=Sum(F('q_tc')+F('q_pld')+F('q_veh')+F('q_subrogacion')+F('q_renovado')+F('q_auto_2da')+F('q_adelanto_sueldo')+F('q_efectivo_plus')+F('q_prestamo_inmediato')+F('q_incr_linea')),total_m=Sum(F('monto_tc')/1000000+F('monto_pld')/1000000+F('monto_veh')/1000000+F('monto_subrogacion')/1000000+F('monto_renovado')/1000000+F('monto_auto_2da')/1000000+F('monto_adelanto_sueldo')/1000000+F('monto_efectivo_plus')/1000000+F('monto_prestamo_inmediato')/1000000+F('monto_incr_linea')/1000000))
-    control_segmentos = Campana2.objects.all().values('segmento').distinct('segmento')
-    detalles2 = zip(detalles,total)
-    print total
-    static_url=settings.STATIC_URL
-    tipo_side = 1
-    return render('reports/campana2_detalles.html', locals(),
-                  context_instance=RequestContext(request))
-
 @login_required
-def campana2_detalles(request, segmento, fecha):
+def campana_detalles(request, segmento='TOTAL', fecha='201604'):
     if segmento == 'TOTAL':
        detalles = Campana2.objects.filter(mes_vigencia=fecha).values('mes_vigencia').annotate(q_tc=Sum('q_tc'), q_pld=Sum('q_pld'), q_veh=Sum('q_veh'),q_subrogacion=Sum('q_subrogacion'), q_renovado=Sum('q_renovado'), q_auto_2da=Sum('q_auto_2da'), q_adelanto_sueldo=Sum('q_adelanto_sueldo'),q_efectivo_plus=Sum('q_efectivo_plus'),q_prestamo_inmediato=Sum('q_prestamo_inmediato'),q_incr_linea=Sum('q_incr_linea')).annotate(monto_tc=Sum(F('monto_tc')/1000000), monto_pld=Sum(F('monto_pld')/1000000), monto_veh=Sum(F('monto_veh')/1000000),monto_subrogacion=Sum(F('monto_subrogacion')/1000000), monto_tc_entry_level=Sum(F('monto_tc_entry_level')/1000000), monto_renovado=Sum(F('monto_renovado')/1000000), monto_auto_2da=Sum(F('monto_auto_2da')/1000000), monto_adelanto_sueldo=Sum(F('monto_adelanto_sueldo')/1000000),monto_efectivo_plus=Sum(F('monto_efectivo_plus')/1000000),monto_prestamo_inmediato=Sum(F('monto_prestamo_inmediato')/1000000), monto_incr_linea=Sum(F('monto_incr_linea')/1000000))
     else:
@@ -360,6 +297,18 @@ def campana2_flujo(request, fecha):
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana2_flujo.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def campana_altasempresa(request):
+    alta1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m1')).order_by('empresa')
+    alta2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m1')).order_by('empresa')
+    alta3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m1')).order_by('empresa')
+    #flujo = zip(flujo1, flujo2, flujo3, flujo4)
+    alta = AltasEmpresa.objects.values('empresa','grupo').annotate(num_alta1=Sum('m1')).order_by('empresa')
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana_altasempresa.html', locals(),
                   context_instance=RequestContext(request))
 
 
@@ -704,15 +653,50 @@ def seguimiento_auto(request):
     total_ctas = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     mora = zip(mora12,mora18,mora24,total_ctas)
     print mora12
-    print mora18
-    print mora24
-    print total_ctas
-    print mora
     static_url=settings.STATIC_URL
     tipo_side = 4
 
     return render('reports/seguimiento_auto.html', locals(),
                   context_instance=RequestContext(request))
+
+@login_required
+def seguimiento_adelanto(request):
+    total_form = AdelantoSueldo.objects.values('mes_vigencia').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    ticket = AdelantoSueldo.objects.values('mes_vigencia').annotate(formalizado=Sum('fact')).order_by('mes_vigencia')
+    formalizados = zip(total_form,ticket)
+
+    rango1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo__in=['01 [0 - 700>','02 [700 - 1000]'],mes_vigencia__in=['201503','201504','201505','201506','201507','201508','201509', '201510','201511','201512','201601','201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='03 [1001 - 1500]',mes_vigencia__in=['201503','201504','201505','201506','201507','201508','201509', '201510','201511','201512','201601','201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='03 [1501 - 2000]',mes_vigencia__in=['201503','201504','201505','201506','201507','201508','201509', '201510','201511','201512','201601','201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='05 [2001 - 2500]',mes_vigencia__in=['201503','201504','201505','201506','201507','201508','201509', '201510','201511','201512','201601','201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango5 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='06 [2501 - 3500]',mes_vigencia__in=['201503','201504','201505','201506','201507','201508','201509', '201510','201511','201512','201601','201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango6 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='07 [3501 - Mas>',mes_vigencia__in=['201503','201504','201505','201506','201507','201508','201509', '201510','201511','201512','201601','201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    total_rango = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505','201506','201507', '201508', '201509', '201510', '201511','201512','201601', '201602']).exclude(rng_suelgo='00 Sin Inf').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rangos1 = zip(rango1,total_rango)
+    rangos2 = zip(rango2,total_rango)
+    rangos3 = zip(rango3,total_rango)
+    rangos4 = zip(rango4,total_rango)
+    rangos5 = zip(rango5,total_rango)
+    rangos6 = zip(rango6,total_rango)
+
+    buro1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]',mes_vigencia__in=['201503','201504','201505', '201506', '201507','201508','201509', '201510','201511', '201512', '201601', '201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='G5',mes_vigencia__in=['201503','201504','201505', '201506', '201507','201508','201509', '201510','201511', '201512', '201601', '201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]',mes_vigencia__in=['201503','201504','201505', '201506', '201507','201508','201509', '201510','201511', '201512', '201601', '201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='NB',mes_vigencia__in=['201503','201504','201505', '201506', '201507','201508','201509', '201510','201511', '201512', '201601', '201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buros1 = zip(buro1,total_rango)
+    buros2 = zip(buro2,total_rango)
+    buros3 = zip(buro3,total_rango)
+    buros4 = zip(buro4,total_rango)
+
+    mora30 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ]).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
+    mora = itertools.izip_longest(mora30,total_rango,fillvalue='0')
+
+    static_url=settings.STATIC_URL
+    tipo_side = 4
+
+    return render('reports/seguimiento_adelanto.html', locals(),
+                  context_instance=RequestContext(request))
+
 
 # 6.- Vistas para reportes de HIPOTECARIO
 @login_required
@@ -1070,6 +1054,54 @@ def carga_moras(request):
         if form.is_valid():
             csv_file = request.FILES['moras']
             MorasCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_adelantosueldo(request):
+    if request.method == 'POST':
+        form = UploadAdelantoSueldo(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['adelantosueldo']
+            AdelantoSueldoCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_prestinmediato(request):
+    if request.method == 'POST':
+        form = UploadPrestInmediato(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['prestinmediato']
+            PrestInmediatoCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_altasempresa(request):
+    if request.method == 'POST':
+        form = UploadAltasEmpresa(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['altasempresa']
+            AltasEmpresaCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_altassegmento(request):
+    if request.method == 'POST':
+        form = UploadAltasSegmento(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['altassegmento']
+            AltasSegmentoCsv.import_data(data = csv_file)
             return campana_ofertas(request)
         else:
             return load(campana_ofertas)
