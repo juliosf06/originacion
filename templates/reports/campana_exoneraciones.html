@@ -69,8 +69,8 @@
 			name: "Exonerado de Ambas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in exoneraciones %}
-				{ label: "{{i.mes_vigencia}}",  y: {{i.exoambas}}  },
+				{% for i,j,k,l in exoneraciones %}
+				{ label: "{{i.mes_vigencia}}",  y: {{i.cantidad}}  },
 				{% endfor %}
 			]
 		},
@@ -80,8 +80,8 @@
 			name: "Exoneración VL",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in exoneraciones %}
-				{ label: "{{i.mes_vigencia}}",  y: {{i.solovl}}  },
+				{% for i,j,k,l in exoneraciones %}
+				{ label: "{{k.mes_vigencia}}",  y: {{k.cantidad}}  },
 				{% endfor %}
 			]
 		},
@@ -91,8 +91,8 @@
 			name: "Exoneración VD",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in exoneraciones %}
-				{ label: "{{i.mes_vigencia}}",  y: {{i.solovd}}  },
+				{% for i,j,k,l in exoneraciones %}
+				{ label: "{{j.mes_vigencia}}",  y: {{j.cantidad}}  },
 				{% endfor %}
 			]
 		},
@@ -102,8 +102,8 @@
 			name: "Requiere Ambas",
 			showInLegend: "true",
 			dataPoints: [
-				{% for i in exoneraciones %}
-				{ label: "{{i.mes_vigencia}}",  y: {{i.reqambas}}  },
+				{% for i,j,k,l in exoneraciones %}
+				{ label: "{{l.mes_vigencia}}",  y: {{l.cantidad}}  },
 				{% endfor %}
 			]
 		},
@@ -114,7 +114,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for i in exoneraciones %}
-				{ label: "{{i.mes_vigencia}}",  y: {{i.exovltc}}  },
+				{ label: "{{i.mes_vigencia}}",  y: {{i.cantidad}}  },
 				{% endfor %}
 			]
 		}

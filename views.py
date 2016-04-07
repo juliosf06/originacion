@@ -227,8 +227,11 @@ def campana_exoneraciones(request, segmento='TOTAL'):
         exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
     control_segmentos = Campana2.objects.all().values('segmento').distinct('segmento')
-    exoneraciones = zip(exo_ambas, exo_vd, exo_vl, req_ambas)
-    #print tot_ambas
+    exoneraciones = itertools.izip_longest(exo_ambas,exo_vl,exo_vd,req_ambas)
+    print exo_ambas
+    print exo_vl
+    print exo_vd
+    print req_ambas
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana2_exoneraciones.html', locals(),
