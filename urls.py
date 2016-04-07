@@ -72,6 +72,7 @@ urlpatterns = [
     url(r'^seguimiento/pld/$', views.seguimiento_pld, name='seguimiento_pld'),
     url(r'^seguimiento/auto/$', views.seguimiento_auto, name='seguimiento_auto'),
     url(r'^seguimiento/adelanto/$', views.seguimiento_adelanto, name='seguimiento_adelanto'),
+    url(r'^seguimiento/prestinmediato/$', views.seguimiento_prestinmediato, name='seguimiento_prestinmediato'),
 
     # URLS para reportes de Hipotecario
     url(r'^hipotecario/$', views.hipoteca_ssff, name='hipoteca_ssff'),

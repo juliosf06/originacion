@@ -281,11 +281,36 @@ def campana2_flujo(request, fecha):
 
 @login_required
 def campana_altasempresa(request):
-    alta1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m1')).order_by('empresa')
-    alta2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m1')).order_by('empresa')
-    alta3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m1')).order_by('empresa')
-    #flujo = zip(flujo1, flujo2, flujo3, flujo4)
-    alta = AltasEmpresa.objects.values('empresa','grupo').annotate(num_alta1=Sum('m1')).order_by('empresa')
+    alta1_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m1')).order_by('empresa')
+    alta2_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m1')).order_by('empresa')
+    alta3_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m1')).order_by('empresa')
+    alta_m1 = AltasEmpresa.objects.values('empresa').annotate(num_alta=Sum('m1')).order_by('empresa')
+
+    alta1_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m2')).order_by('empresa')
+    alta2_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m2')).order_by('empresa')
+    alta3_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m2')).order_by('empresa')
+    alta_m2 = AltasEmpresa.objects.values('empresa').annotate(num_alta=Sum('m2')).order_by('empresa')
+
+    alta1_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m3')).order_by('empresa')
+    alta2_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m3')).order_by('empresa')
+    alta3_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m3')).order_by('empresa')
+    alta_m3 = AltasEmpresa.objects.values('empresa').annotate(num_alta=Sum('m3')).order_by('empresa')
+
+    alta1_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m4')).order_by('empresa')
+    alta2_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m4')).order_by('empresa')
+    alta3_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m4')).order_by('empresa')
+    alta_m4 = AltasEmpresa.objects.values('empresa').annotate(num_alta=Sum('m4')).order_by('empresa')
+
+    alta1_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m5')).order_by('empresa')
+    alta2_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m5')).order_by('empresa')
+    alta3_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m5')).order_by('empresa')
+    alta_m5 = AltasEmpresa.objects.values('empresa').annotate(num_alta=Sum('m5')).order_by('empresa')
+
+    alta1_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m6')).order_by('empresa')
+    alta2_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m6')).order_by('empresa')
+    alta3_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m6')).order_by('empresa')
+    alta_m6 = AltasEmpresa.objects.values('empresa').annotate(num_alta=Sum('m6')).order_by('empresa')
+    print alta_m1
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana_altasempresa.html', locals(),
@@ -675,6 +700,31 @@ def seguimiento_adelanto(request):
     tipo_side = 4
 
     return render('reports/seguimiento_adelanto.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def seguimiento_prestinmediato(request):
+    form = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    fact = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ]).annotate(cantidad=Sum('fact')).order_by('mes_vigencia')
+    ticket_ava = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],segmento='Vip').annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
+    ticket_ms = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],segmento='MS').annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
+    rango1 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],rng_ingreso='05 [1K - 1.5K]').annotate(cantidad=Sum('ctas')).order_by('-mes_vigencia')
+    rango2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],rng_ingreso='04 [1.5K - 2K]').annotate(cantidad=Sum('ctas')).order_by('-mes_vigencia')
+    rango3 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],rng_ingreso='03 [2K - 2.5K]').annotate(cantidad=Sum('ctas')).order_by('-mes_vigencia')
+    rango4 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],rng_ingreso='02 [2.5K - 3.5K]').annotate(cantidad=Sum('ctas')).order_by('-mes_vigencia')
+    rango5 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],rng_ingreso='01 [3.5K-...]').annotate(cantidad=Sum('ctas')).order_by('-mes_vigencia')
+    rango_tot = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ]).annotate(cantidad=Sum('ctas')).order_by('-mes_vigencia')
+    rangos1 = itertools.izip_longest(rango1,rango_tot,fillvalue='0')    
+    rangos2 = itertools.izip_longest(rango2,rango_tot,fillvalue='0')
+    rangos3 = itertools.izip_longest(rango3,rango_tot,fillvalue='0')
+    rangos4 = itertools.izip_longest(rango4,rango_tot,fillvalue='0')
+    rangos5 = itertools.izip_longest(rango5,rango_tot,fillvalue='0')
+
+    print rangos1
+    #print ticket_ms 
+    static_url=settings.STATIC_URL
+    tipo_side = 4
+    return render('reports/seguimiento_prestinmediato.html', locals(),
                   context_instance=RequestContext(request))
 
 

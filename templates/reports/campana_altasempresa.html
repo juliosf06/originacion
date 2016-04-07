@@ -13,8 +13,17 @@
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
           <div class="rows placeholders">
-		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+		<div id="chartContainer" style="height: 350px; width: 30%; display: inline-block;"></div>
+		<div id="chartContainer2" style="height: 350px; width: 30%; display: inline-block;"></div>
+		<div id="chartContainer3" style="height: 350px; width: 30%; display: inline-block;"></div>
           </div>
+
+          <div class="rows placeholders">
+		<div id="chartContainer4" style="height: 350px; width: 30%; display: inline-block;"></div>
+		<div id="chartContainer5" style="height: 350px; width: 30%; display: inline-block;"></div>
+		<div id="chartContainer6" style="height: 350px; width: 30%; display: inline-block;"></div>
+          </div>
+
 {% endblock %}
 
 
@@ -23,8 +32,19 @@
     window.onload = function () {
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
+		//backgroundColor: "#B5E5F9",
 		title:{
 			text: "Set 15",
+			verticalAlign: "bottom",
+                },
+		axisX:{
+			labelAngle: 90,
+                },
+		axisY:{
+			interval: 3500,
+			labelFontColor: "white",
+			gridThickness: 0,
+			tickColor: "white",
                 },
 		animationEnabled: true,   // change to true
 		data: [              
@@ -32,9 +52,9 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			//name: "{{i.empresa}}",
-			showInLegend: "true",
+			//showInLegend: "true",
 			dataPoints: [
-				{% for i in alta1 %}
+				{% for i in alta1_m1 %}
 				{   y: {{i.num_alta1}}, label: "{{i.empresa}}"  },
 				 {% endfor %}
 			]
@@ -43,9 +63,9 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			//name: "{{i.empresa}}",
-			showInLegend: "true",
+			//showInLegend: "true",
 			dataPoints: [
-				{% for i in alta2 %}
+				{% for i in alta2_m1 %}
 				{   y: {{i.num_alta2}}, label: "{{i.empresa}}"  },
 				 {% endfor %}
 			]
@@ -54,16 +74,388 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			//name: "{{i.empresa}}",
-			showInLegend: "true",
+			//showInLegend: "true",
 			dataPoints: [
-				{% for i in alta3 %}
+				{% for i in alta3_m1 %}
 				{   y: {{i.num_alta3}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			//name: "{{i.empresa}}",
+			color : "#094FA4",
+			indexLabel : "-  {y}",
+			indexLabelPlacement : "outside",
+			indexLabelOrientation: "vertical",
+			indexLabelFontColor : "#094FA4",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta_m1 %}
+				{   y: {{i.num_alta}}, label: "{{i.empresa}}"  },
 				 {% endfor %}
 			]
 		},
 		]
 	});
 	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+
+		title:{
+			text: "Oct 15",
+			verticalAlign: "bottom",
+                },
+		axisX:{
+			labelAngle: 90,
+                },
+		axisY:{
+			interval: 3800,
+			labelFontColor: "white",
+			gridThickness: 0,
+			tickColor: "white",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta1_m2 %}
+				{   y: {{i.num_alta1}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta2_m2 %}
+				{   y: {{i.num_alta2}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta3_m2 %}
+				{   y: {{i.num_alta3}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			//name: "{{i.empresa}}",
+			color : "#094FA4",
+			indexLabel : "-  {y}",
+			indexLabelPlacement : "outside",
+			indexLabelOrientation: "vertical",
+			indexLabelFontColor : "#094FA4",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta_m2 %}
+				{   y: {{i.num_alta}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer3", {
+		theme: "theme2",//theme1
+		//backgroundColor: "#B5E5F9",
+		title:{
+			text: "Nov 15",
+			verticalAlign: "bottom",
+                },
+		axisX:{
+			labelAngle: 90,
+                },
+		axisY:{
+			interval: 3500,
+			labelFontColor: "white",
+			gridThickness: 0,
+			tickColor: "white",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta1_m3 %}
+				{   y: {{i.num_alta1}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta2_m3 %}
+				{   y: {{i.num_alta2}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta3_m3 %}
+				{   y: {{i.num_alta3}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			//name: "{{i.empresa}}",
+			color : "#094FA4",
+			indexLabel : "-  {y}",
+			indexLabelPlacement : "outside",
+			indexLabelOrientation: "vertical",
+			indexLabelFontColor : "#094FA4",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta_m3 %}
+				{   y: {{i.num_alta}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer4", {
+		theme: "theme2",//theme1
+		//backgroundColor: "#B5E5F9",
+		title:{
+			text: "Dic 15",
+			verticalAlign: "bottom",
+                },
+		axisX:{
+			labelAngle: 90,
+                },
+		axisY:{
+			interval: 3500,
+			labelFontColor: "white",
+			gridThickness: 0,
+			tickColor: "white",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta1_m4 %}
+				{   y: {{i.num_alta1}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta2_m4 %}
+				{   y: {{i.num_alta2}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta3_m4 %}
+				{   y: {{i.num_alta3}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			//name: "{{i.empresa}}",
+			color : "#094FA4",
+			indexLabel : "-  {y}",
+			indexLabelPlacement : "outside",
+			indexLabelOrientation: "vertical",
+			indexLabelFontColor : "#094FA4",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta_m4 %}
+				{   y: {{i.num_alta}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer5", {
+		theme: "theme2",//theme1
+		//backgroundColor: "#B5E5F9",
+		title:{
+			text: "Ene 15",
+			verticalAlign: "bottom",
+                },
+		axisX:{
+			labelAngle: 90,
+                },
+		axisY:{
+			interval: 3500,
+			labelFontColor: "white",
+			gridThickness: 0,
+			tickColor: "white",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta1_m5 %}
+				{   y: {{i.num_alta1}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta2_m5 %}
+				{   y: {{i.num_alta2}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta3_m5 %}
+				{   y: {{i.num_alta3}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			//name: "{{i.empresa}}",
+			color : "#094FA4",
+			indexLabel : "-  {y}",
+			indexLabelPlacement : "outside",
+			indexLabelOrientation: "vertical",
+			indexLabelFontColor : "#094FA4",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta_m5 %}
+				{   y: {{i.num_alta}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer6", {
+		theme: "theme2",//theme1
+		//backgroundColor: "#B5E5F9",
+		title:{
+			text: "Feb 15",
+			verticalAlign: "bottom",
+                },
+		axisX:{
+			labelAngle: 90,
+                },
+		axisY:{
+			interval: 3500,
+			labelFontColor: "white",
+			gridThickness: 0,
+			tickColor: "white",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta1_m6 %}
+				{   y: {{i.num_alta1}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta2_m6 %}
+				{   y: {{i.num_alta2}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			//name: "{{i.empresa}}",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta3_m6 %}
+				{   y: {{i.num_alta3}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			//name: "{{i.empresa}}",
+			color : "#094FA4",
+			indexLabel : "-  {y}",
+			indexLabelPlacement : "outside",
+			indexLabelOrientation: "vertical",
+			indexLabelFontColor : "#094FA4",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta_m6 %}
+				{   y: {{i.num_alta}}, label: "{{i.empresa}}"  },
+				 {% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
     }
   </script>
 {% endblock %}
