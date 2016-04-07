@@ -213,45 +213,22 @@ def campana2_caidas(request, fecha):
     return render('reports/campana_caidas.html', locals(),
                   context_instance=RequestContext(request))
 
-#@login_required
-#def campana_exoneraciones(request):
-    #exoneraciones = Verificaciones.objects.values('mes_vigencia').annotate(exoambas=Sum('exonera_ambas'), solovl=Sum('exonera_solo_vl'), solovd=Sum('exonera_solo_vd'), reqambas=Sum('requiere_ambas'), exovltc=Sum('exonera_vl_tc')).order_by('mes_vigencia')
-    #control_segmentos = Verificaciones.objects.all().values('segmento').distinct('segmento')
-    #print control_segmentos
-    #static_url=settings.STATIC_URL
-    #tipo_side = 1
-    #return render('reports/campana_exoneraciones.html', locals(),
-                  #context_instance=RequestContext(request))
 
 @login_required
-def campana_exoneraciones(request):
-    exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-    exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-    exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-    req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+def campana_exoneraciones(request, segmento='TOTAL'):
+    if segmento == 'TOTAL':
+        exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+    else:
+        exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
     control_segmentos = Campana2.objects.all().values('segmento').distinct('segmento')
     exoneraciones = zip(exo_ambas, exo_vd, exo_vl, req_ambas)
     #print tot_ambas
-    static_url=settings.STATIC_URL
-    tipo_side = 1
-    return render('reports/campana2_exoneraciones.html', locals(),
-                  context_instance=RequestContext(request))
-
-@login_required
-def campana2_exoneraciones(request, segmento):
-    if segmento == 'TOTAL':
-       exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-       exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-       exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-       req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-       exoneraciones = zip(exo_ambas, exo_vd, exo_vl, req_ambas)
-    else:
-       exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS',segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-       exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL',segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-       exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD',segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-       req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS',segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-       exoneraciones = zip(exo_ambas, exo_vd, exo_vl, req_ambas)
-    control_segmentos = Campana2.objects.all().values('segmento').distinct('segmento')
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana2_exoneraciones.html', locals(),
