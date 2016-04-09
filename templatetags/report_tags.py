@@ -46,4 +46,11 @@ def convert_date(value):
 def format_date(value):
     return FECHAS_NOMBRES[value[4:6]]+' '+value[0:4]
 
+@register.filter(name='sort')
+def listsort(value):
+    if isinstance(value, list):
+	return sorted(value, key=lambda k:k[0])
+    else:
+	return value
+
 

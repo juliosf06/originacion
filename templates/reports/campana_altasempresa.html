@@ -24,6 +24,11 @@
 		<div id="chartContainer6" style="height: 350px; width: 30%; display: inline-block;"></div>
           </div>
 
+          <div class="rows placeholders">
+		<div id="chartContainer7" style="height: 250px; width: 50%; display: inline-block;"></div>
+		<div id="chartContainer8" style="height: 250px; width: 50%; display: inline-block;"></div>
+          </div>
+
 {% endblock %}
 
 
@@ -452,6 +457,85 @@
 				 {% endfor %}
 			]
 		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer7", {
+		theme: "theme2",//theme1
+		//backgroundColor: "#B5E5F9",
+		title:{
+			text: "Altas por Segmentos",
+			//verticalAlign: "bottom",
+                },
+		axisX:{
+			includeZero: true,
+                },
+		axisY:{
+			interval: 100,
+			labelFontColor: "white",
+			gridThickness: 0,
+			tickColor: "white",
+                },
+		animationEnabled: true,   // change to true
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar",
+			name: "Ofertas < SF",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta_s1 %}
+				{   y: {{i.num_alta}}, label: "{{i.segmento}}"  },
+				 {% endfor %}
+			]
+		},  
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar",
+			name: "Ofertas >= SF",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta_s2 %}
+				{   y: {{i.num_alta}}, label: "{{i.segmento}}"  },
+				 {% endfor %}
+			]
+		},  
+ 		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer8", {
+		theme: "theme2",//theme1
+		//backgroundColor: "#B5E5F9",
+		title:{
+			text: "Totales",
+			//verticalAlign: "bottom",
+                },
+		axisX:{
+			//includeZero: true,
+                },
+		axisY:{
+			//interval: 100,
+			//labelFontColor: "white",
+			//gridThickness: 0,
+			//tickColor: "white",
+                },
+		animationEnabled: true,   // change to true
+		data: [
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Total",
+			indexLabel : "{y}",
+			indexLabelFontColor : "#094FA4",
+			//showInLegend: "true",
+			dataPoints: [
+				{% for i in alta_st %}
+				{   label: "{{i.segmento}}",y: {{i.num_alta}}  },
+				 {% endfor %}
+			]
+		},         
 		]
 	});
 	chart.render();

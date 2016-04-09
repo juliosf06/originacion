@@ -1,0 +1,16 @@
+{
+  "downward":{
+    "direction":"downward",
+    "name":"origin",
+    "children":[
+      {
+        "name":"Rest Seg.: 662,349",
+        "children":[]
+      },
+      {
+        "name":"MS:87,231/AVA:20,405",
+        "children":[]
+      }
+    ]  
+  }
+}

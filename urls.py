@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^campanas/flujo/$', views.campana_flujo, name='campana_flujo'),
     url(r'^campanas/flujo/(?P<fecha>[0-9]{6})/$', views.campana_flujo, name='campana_flujo'),
     url(r'^campanas/altasempresa/$', views.campana_altasempresa, name='campana_altasempresa'),
+    url(r'^campanas/prestinmediato/$', views.campana_prestinmediato, name='campana_prestinmediato'),
     url(r'^campanas/altas_personas/$', views.dummy, name='dummy'),
     #url(r'^campanas/otros/$', views.dummy, name='dummy'),
 
