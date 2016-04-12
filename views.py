@@ -551,10 +551,10 @@ def seguimiento_tarjeta(request):
     seg_nocli = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', segmento__in=['NoCli','']).annotate(seg=Sum('form')).order_by('mes_vigencia')
     camp_seg = zip(seg_ava, seg_ms, seg_noph, seg_nocli, camp_form)
 
-    mora6 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora6')).order_by('mes_form')
-    mora9 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505']).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
-    mora12 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502']).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
-    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+    mora6 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('mora6')).order_by('mes_form')
+    mora9 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte='201410', mes_form__lte ='201505').annotate(sum_mora=Sum('mora9')).order_by('mes_form')
+    mora12 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte='201410', mes_form__lte ='201502').annotate(sum_mora=Sum('mora12')).order_by('mes_form')
+    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     mora_6 = zip(mora6,total_ctas)
     mora_9 = zip(mora9,total_ctas)
     mora_12 = zip(mora12,total_ctas)
@@ -581,10 +581,10 @@ def seguimiento_pld(request):
     seg_nocli = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='01 Consumo', segmento__in=['NoCli','']).annotate(seg=Sum('form')).order_by('mes_vigencia')
     camp_seg = zip(seg_ava, seg_ms, seg_noph, seg_nocli, camp_form)
 
-    mora6 = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora6')).order_by('mes_form')
-    mora9 = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505']).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
-    mora12 = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__in=['201410','201411','201412','201501','201502']).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
-    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+    mora6 = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('mora6')).order_by('mes_form')
+    mora9 = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__gte='201410', mes_form__lte ='201505').annotate(sum_mora=Sum('mora9')).order_by('mes_form')
+    mora12 = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__gte='201410', mes_form__lte ='201502').annotate(sum_mora=Sum('mora12')).order_by('mes_form')
+    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     mora_6 = zip(mora6,total_ctas)
     mora_9 = zip(mora9,total_ctas)
     mora_12 = zip(mora12,total_ctas)
@@ -606,11 +606,13 @@ def seguimiento_auto(request):
     fact_camp = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='02 Auto', riesgos='CAMP').annotate(facturacion=Sum('facturacion')).order_by('mes_vigencia')
     ticket = zip(fact_uno, fact_camp, uno_form, camp_form)
 
-    mora12 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
-    mora18 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora18')).order_by('mes_form')
-    mora24 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('mora24')).order_by('mes_form')
-    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__in=['201410','201411','201412','201501','201502', '201503','201504','201505','201506','201507','201508']).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
-    mora = zip(mora12,mora18,mora24,total_ctas)
+    mora12 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('mora12')).order_by('mes_form')
+    mora18 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte='201410', mes_form__lte ='201502').annotate(sum_mora=Sum('mora18')).order_by('mes_form')
+    mora24 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte='201410', mes_form__lte ='201502').annotate(sum_mora=Sum('mora24')).order_by('mes_form')
+    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+    moras12 = zip(mora12,total_ctas)
+    moras18 = zip(mora18,total_ctas)
+    moras24 = zip(mora24,total_ctas)
     print mora12
     static_url=settings.STATIC_URL
     tipo_side = 4
@@ -684,19 +686,57 @@ def seguimiento_adelanto(request):
              break
        	  else:
              rango6_dict[i['mes_vigencia']]= 0
-    #total_rango1 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
 
-    buro1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]',mes_vigencia__in=['201503','201504','201505', '201506', '201507','201508','201509', '201510','201511', '201512', '201601', '201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
-    buro2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='G5',mes_vigencia__in=['201503','201504','201505', '201506', '201507','201508','201509', '201510','201511', '201512', '201601', '201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
-    buro3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]',mes_vigencia__in=['201503','201504','201505', '201506', '201507','201508','201509', '201510','201511', '201512', '201601', '201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
-    buro4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='NB',mes_vigencia__in=['201503','201504','201505', '201506', '201507','201508','201509', '201510','201511', '201512', '201601', '201602']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
-    buros1 = zip(buro1,total_rango)
-    buros2 = zip(buro2,total_rango)
-    buros3 = zip(buro3,total_rango)
-    buros4 = zip(buro4,total_rango)
+    buro1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]',mes_vigencia__gte='201503', mes_vigencia__lte='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro1_dict = {}
+    for i in meses:
+       for j in buro1:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro1_dict[i['mes_vigencia']]=j['formalizado']*100/rango_tot[i['mes_vigencia']]
+             break
+       	  else:
+             buro1_dict[i['mes_vigencia']]= 0
+    buro2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='G5',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro2_dict = {}
+    for i in meses:
+       for j in buro2:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro2_dict[i['mes_vigencia']]=j['formalizado']*100/rango_tot[i['mes_vigencia']]
+             break
+       	  else:
+             buro2_dict[i['mes_vigencia']]= 0
+    buro3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro3_dict = {}
+    for i in meses:
+       for j in buro3:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro3_dict[i['mes_vigencia']]=j['formalizado']*100/rango_tot[i['mes_vigencia']]
+             break
+       	  else:
+             buro3_dict[i['mes_vigencia']]= 0
+    buro4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='NB',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro4_dict = {}
+    for i in meses:
+       for j in buro4:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro4_dict[i['mes_vigencia']]=j['formalizado']*100/rango_tot[i['mes_vigencia']]
+             break
+       	  else:
+             buro4_dict[i['mes_vigencia']]= 0
 
-    mora30 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ]).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
+    mora30 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
     mora = itertools.izip_longest(mora30,total_rango,fillvalue='0')
+    mora30_dict1 = {}
+    mora30_dict2 = {}
+    for i in meses:
+       for j in mora30:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             mora30_dict1[i['mes_vigencia']]=j['formalizado']*100/rango_tot[i['mes_vigencia']]
+             mora30_dict2[i['mes_vigencia']]=j['formalizado']
+             break
+       	  else:
+             mora30_dict1[i['mes_vigencia']]= 0
+             mora30_dict2[i['mes_vigencia']]= 0
 
     static_url=settings.STATIC_URL
     tipo_side = 4
@@ -706,24 +746,103 @@ def seguimiento_adelanto(request):
 
 @login_required
 def seguimiento_prestinmediato(request):
-    form = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    fact = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ]).annotate(cantidad=Sum('fact')).order_by('mes_vigencia')
-    ticket_ava = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],segmento='Vip').annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
-    ticket_ms = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],segmento='MS').annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
-    rango1 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],rng_ingreso='05 [1K - 1.5K]').annotate(cantidad=Sum('ctas')).order_by('-mes_vigencia')
-    rango2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],rng_ingreso='04 [1.5K - 2K]').annotate(cantidad=Sum('ctas')).order_by('-mes_vigencia')
-    rango3 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],rng_ingreso='03 [2K - 2.5K]').annotate(cantidad=Sum('ctas')).order_by('-mes_vigencia')
-    rango4 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],rng_ingreso='02 [2.5K - 3.5K]').annotate(cantidad=Sum('ctas')).order_by('-mes_vigencia')
-    rango5 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ],rng_ingreso='01 [3.5K-...]').annotate(cantidad=Sum('ctas')).order_by('-mes_vigencia')
-    rango_tot = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__in=['201503','201504','201505', '201506', '201507', '201508','201509', '201510','201511', '201512', '201601', '201602' ]).annotate(cantidad=Sum('ctas')).order_by('-mes_vigencia')
-    rangos1 = itertools.izip_longest(rango1,rango_tot,fillvalue='0')    
-    rangos2 = itertools.izip_longest(rango2,rango_tot,fillvalue='0')
-    rangos3 = itertools.izip_longest(rango3,rango_tot,fillvalue='0')
-    rangos4 = itertools.izip_longest(rango4,rango_tot,fillvalue='0')
-    rangos5 = itertools.izip_longest(rango5,rango_tot,fillvalue='0')
+    form = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    fact = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('fact')).order_by('mes_vigencia')
+    ticket_ava = PrestInmediato.objects.values('mes_vigencia').filter(segmento='Vip',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
+    ticket_ms = PrestInmediato.objects.values('mes_vigencia').filter(segmento='MS',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
 
-    print rangos1
-    #print ticket_ms 
+    meses = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602').order_by('mes_vigencia')
+    total_rango = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).exclude(rng_ingreso='').order_by('mes_vigencia')
+    rango_tot = {}
+    for i in total_rango:
+	rango_tot[i['mes_vigencia']]=i['cantidad']
+    rango1 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602',rng_ingreso='05 [1K - 1.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango1_dict = {}
+    for i in meses:
+       for j in rango1:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango1_dict[i['mes_vigencia']]=j['cantidad']*100/rango_tot[i['mes_vigencia']]
+             break
+       	  else:
+             rango1_dict[i['mes_vigencia']]= 0
+    rango2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602',rng_ingreso='04 [1.5K - 2K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango2_dict = {}
+    for i in meses:
+       for j in rango2:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango2_dict[i['mes_vigencia']]=j['cantidad']*100/rango_tot[i['mes_vigencia']]
+             break
+       	  else:
+             rango2_dict[i['mes_vigencia']]= 0
+    rango3 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602',rng_ingreso='03 [2K - 2.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango3_dict = {}
+    for i in meses:
+       for j in rango3:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango3_dict[i['mes_vigencia']]=j['cantidad']*100/rango_tot[i['mes_vigencia']]
+             break
+       	  else:
+             rango3_dict[i['mes_vigencia']]= 0
+    rango4 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602',rng_ingreso='02 [2.5K - 3.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango4_dict = {}
+    for i in meses:
+       for j in rango4:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango4_dict[i['mes_vigencia']]=j['cantidad']*100/rango_tot[i['mes_vigencia']]
+             break
+       	  else:
+             rango4_dict[i['mes_vigencia']]= 0
+    rango5 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602',rng_ingreso='01 [3.5K - ...]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango5_dict = {}
+    for i in meses:
+       for j in rango5:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango5_dict[i['mes_vigencia']]=j['cantidad']*100/rango_tot[i['mes_vigencia']]
+             break
+       	  else:
+             rango5_dict[i['mes_vigencia']]= 0
+    total_rango2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango_tot2 = {}
+    for i in total_rango2:
+	rango_tot2[i['mes_vigencia']]=i['cantidad']
+    buro1 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]',mes_vigencia__gte='201503', mes_vigencia__lte='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro1_dict = {}
+    for i in meses:
+       for j in buro1:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro1_dict[i['mes_vigencia']]=j['cantidad']*100/rango_tot2[i['mes_vigencia']]
+             break
+       	  else:
+             buro1_dict[i['mes_vigencia']]= 0
+    buro2 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='G5',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro2_dict = {}
+    for i in meses:
+       for j in buro2:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro2_dict[i['mes_vigencia']]=j['cantidad']*100/rango_tot2[i['mes_vigencia']]
+             break
+       	  else:
+             buro2_dict[i['mes_vigencia']]= 0
+    buro3 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro3_dict = {}
+    for i in meses:
+       for j in buro3:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro3_dict[i['mes_vigencia']]=j['cantidad']*100/rango_tot2[i['mes_vigencia']]
+             break
+       	  else:
+             buro3_dict[i['mes_vigencia']]= 0
+    buro4 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='NB',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro4_dict = {}
+    for i in meses:
+       for j in buro4:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro4_dict[i['mes_vigencia']]=j['cantidad']*100/rango_tot2[i['mes_vigencia']]
+             break
+       	  else:
+             buro4_dict[i['mes_vigencia']]= 0
+
+
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/seguimiento_prestinmediato.html', locals(),

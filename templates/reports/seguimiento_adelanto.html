@@ -23,11 +23,11 @@
           <div class="rows placeholders">
 		<div id="chartContainer3" style="height: 300px; width: 100%;"></div>
           </div>
+          <h2 class="page-header">Situación Actual - Nivel de Incumplimiento</h2>
 	  &nbsp;
           <div class="rows placeholders">
-		<div id="chartContainer4" style="height: 300px; width: 100%;"></div>
-          </div>
-
+		<div id="chartContainer4" style="height: 250px; width: 50%; display: inline-block;"></div>
+		<div id="chartContainer5" style="height: 250px; width: 50%; display: inline-block;"></div>
           </div>
 
 {% endblock %}
@@ -189,6 +189,9 @@
 		title:{
 			text: "Buró"              
 		},
+		axisY:{
+			maximum: 120,
+		},
 		animationEnabled: true,   // change to true
 		data: [              
 		{
@@ -202,8 +205,8 @@
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in buros1 %}
-				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% for key, value in buro1_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -218,8 +221,8 @@
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in buros2 %}
-				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% for key, value in buro2_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -234,8 +237,8 @@
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in buros3 %}
-				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% for key, value in buro3_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -250,8 +253,8 @@
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in buros4 %}
-				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% for key, value in buro4_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -261,9 +264,9 @@
 
 	var chart = new CanvasJS.Chart("chartContainer4", {
 		theme: "theme2",//theme1
-		title:{
-			text: "Situación Actual"              
-		},
+		//title:{
+			//text: "Situación Actual - Nivel de Incumplimiento"              
+		//},
 		animationEnabled: true,   // change to true
 		data: [              
 		{
@@ -274,23 +277,10 @@
 			indexLabel: "{y}",
 			yValueFormatString: "#,###.",
 			showInLegend: "true",
+			color: "#89D1F3",
 			dataPoints: [
-				{% for a,b in mora %}
-				{ y: {{a.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "%Incumpl. 30d",
-			indexLabelFontColor: "darkblue",			
-			indexLabel: "{y}%",
-			yValueFormatString: "###.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b in mora %}
-				{ y: {{a.formalizado}}*100/{{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% for key, value in mora30_dict2.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -298,6 +288,30 @@
 	});
 	chart.render();
 
+	var chart = new CanvasJS.Chart("chartContainer5", {
+		theme: "theme2",//theme1
+		//title:{
+			//text: "Situación Actual - Nivel de Incumplimiento"              
+		//},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "%Incumpl. 30d",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora30_dict1.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
 
     }
   </script>

@@ -17,6 +17,10 @@
           </div>
 	 &nbsp;
           <div class="rows placeholders">
+		<select name="Ver1">
+		<option id="show1" selected>show1</option>
+		<option id="show2">show2</option>
+		</select>
 		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
           </div>
 	 &nbsp;
@@ -52,11 +56,26 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "CAMPAÑA REGULAR",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			color: "#094FA4",
+			dataPoints: [
+				{% for a,b,c in formalizados %}
+				{ y: {{c.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "# FORMALIZADOS",
 			indexLabelFontColor: "darkblue",			
 			indexLabel: "{y}",
-			//indexLabelPlacement: "inside",
+			color: "#009EE5",
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c in formalizados %}
@@ -64,25 +83,11 @@
 				{% endfor %}
 			]
 		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "CAMPAÑA REGULAR",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b,c in formalizados %}
-				{ y: {{c.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
-				{% endfor %}
-			]
-		},
 		]
 	});
 	chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer2", {
+	var chart2 = new CanvasJS.Chart("chartContainer2", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Ticket Promedio"              
@@ -94,7 +99,7 @@
 			type: "spline",
 			name: "UNO A UNO",
 			indexLabelFontColor: "#89D1F3",			
-			//indexLabel: "{y}",
+			indexLabel: "{y}",
 			yValueFormatString: "##,###",
 			showInLegend: "true",
 			dataPoints: [
@@ -108,7 +113,7 @@
 			type: "spline",
 			name: "CAMPAÑAS",
 			indexLabelFontColor: "#009EE5",			
-			indexLabel: "{y}",
+			//indexLabel: "{y}",
 			yValueFormatString: "##,###.",
 			showInLegend: "true",
 			dataPoints: [
@@ -119,7 +124,18 @@
 		},
 		]
 	});
-	chart.render();
+	chart2.render();
+	$("#show1").click(function () {
+	chart2.options.data[0].indexLabel = "{y}";
+	chart2.options.data[1].indexLabel = "";
+        chart2.render();
+	});
+	chart2.render();
+	$("#show2").click(function () {
+	chart2.options.data[0].indexLabel = "";
+	chart2.options.data[1].indexLabel = "{y}";
+        chart2.render();
+	});
 
 	var chart = new CanvasJS.Chart("chartContainer3", {
 		theme: "theme2",//theme1
@@ -137,8 +153,8 @@
 			yValueFormatString: "#0.0#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in mora %}
-				{ y: {{a.sum_mora}}*100/{{d.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% for a,b in moras12 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -152,8 +168,8 @@
 			yValueFormatString: "#0.0#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in mora %}
-				{ y: {{b.sum_mora}}*100/{{d.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% for a,b in moras18 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -167,8 +183,8 @@
 			yValueFormatString: "#0.0#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in mora %}
-				{ y: {{c.sum_mora}}*100/{{d.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% for a,b in moras24 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
 				{% endfor %}
 			]
 		},
