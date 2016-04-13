@@ -186,17 +186,24 @@ class PrestInmediato(models.Model):
         return self.mes_vigencia+' '+self.segmento+' '+self.rng_ingreso
 
 class AltasEmpresa(models.Model):
+    mes_vigencia = models.CharField(max_length=10,default=0)
     empresa = models.CharField(max_length=20)
     grupo = models.CharField(max_length=30)
-    m1 = models.IntegerField(default=0)
-    m2 = models.IntegerField(default=0)
-    m3 = models.IntegerField(default=0)
-    m4 = models.IntegerField(default=0)
-    m5 = models.IntegerField(default=0)
-    m6 = models.IntegerField(default=0)
+    cantidad = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     def __str__(self):
-        return self.empresa+' '+self.grupo
+        return self.mes_vigencia+' '+self.empresa+' '+self.grupo
+
+class IncreLinea(models.Model):
+    mes_vigencia = models.CharField(max_length=10)
+    buro = models.CharField(max_length=20)
+    segmento = models.CharField(max_length=20)
+    rng_sueldo = models.CharField(max_length=30)
+    ctas = models.DecimalField(max_digits=8, decimal_places=2)
+    cantidad = models.DecimalField(max_digits=12, decimal_places=8)
+
+    def __str__(self):
+        return self.mes_vigencia+' '+self.buro+' '+self.segmento
 
 class AltasSegmento(models.Model):
     segmento = models.CharField(max_length=20)

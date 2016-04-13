@@ -224,40 +224,40 @@ def campana_flujo(request, fecha=fecha_actual):
 
 @login_required
 def campana_altasempresa(request):
-    alta1_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m1')).order_by('empresa')
-    alta2_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m1')).order_by('empresa')
-    alta3_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m1')).order_by('empresa')
-    alta_m1 = AltasEmpresa.objects.values('empresa').annotate(num_alta=Sum('m1')).order_by('empresa')
+    alta1_m1 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia='201509').annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia='201509').annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia='201509').annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m1 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia='201509').annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m2')).order_by('empresa')
-    alta2_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m2')).order_by('empresa')
-    alta3_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m2')).order_by('empresa')
-    alta_m2 = AltasEmpresa.objects.values('empresa').annotate(num_alta=Sum('m2')).order_by('empresa')
+    alta1_m2 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia='201510').annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia='201510').annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia='201510').annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m2 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia='201510').annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m3')).order_by('empresa')
-    alta2_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m3')).order_by('empresa')
-    alta3_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m3')).order_by('empresa')
-    alta_m3 = AltasEmpresa.objects.values('empresa').annotate(num_alta=Sum('m3')).order_by('empresa')
+    alta1_m3 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia='201511').annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia='201511').annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia='201511').annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m3 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia='201511').annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m4')).order_by('empresa')
-    alta2_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m4')).order_by('empresa')
-    alta3_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m4')).order_by('empresa')
-    alta_m4 = AltasEmpresa.objects.values('empresa').annotate(num_alta=Sum('m4')).order_by('empresa')
+    alta1_m4 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia='201512').annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia='201512').annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia='201512').annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m4 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia='201512').annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m5')).order_by('empresa')
-    alta2_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m5')).order_by('empresa')
-    alta3_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m5')).order_by('empresa')
-    alta_m5 = AltasEmpresa.objects.values('empresa').annotate(num_alta=Sum('m5')).order_by('empresa')
+    alta1_m5 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia='201601').annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia='201601').annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia='201601').annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m5 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia='201601').annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta1=Sum('m6')).order_by('empresa')
-    alta2_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta2=Sum('m6')).order_by('empresa')
-    alta3_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC').annotate(num_alta3=Sum('m6')).order_by('empresa')
-    alta_m6 = AltasEmpresa.objects.values('empresa').annotate(num_alta=Sum('m6')).order_by('empresa')
+    alta1_m6 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia='201602').annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia='201602').annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia='201602').annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m6 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia='201602').annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
     alta_s1 = AltasSegmento.objects.values('segmento','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta=Sum('cantidad')).order_by('segmento')
     alta_s2 = AltasSegmento.objects.values('segmento','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta=Sum('cantidad')).order_by('segmento')
     alta_st = AltasSegmento.objects.values('segmento').annotate(num_alta=Sum('cantidad')).order_by('segmento')
-    print alta_st
+    alta_tot = AltasEmpresa.objects.values('mes_vigencia').annotate(total=Sum('cantidad')).order_by('mes_vigencia')
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana_altasempresa.html', locals(),
@@ -841,11 +841,79 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              buro4_dict[i['mes_vigencia']]= 0
-
-
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/seguimiento_prestinmediato.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def seguimiento_increlinea(request):
+    meses = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601').order_by('mes_vigencia')
+    form = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    form_dict = {}
+    for i in form:
+	form_dict[i['mes_vigencia']]=i['cantidad']
+    ticket = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601').annotate(cantidad=Sum('cantidad')).order_by('mes_vigencia')
+    ticket_dict = {}
+    for i in meses:
+       for j in ticket:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             ticket_dict[i['mes_vigencia']]=j['cantidad']*1000000/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             ticket_dict[i['mes_vigencia']]= 0
+    form2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601').exclude(segmento='').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    form2_dict = {}
+    for i in form2:
+	form2_dict[i['mes_vigencia']]=i['cantidad']
+    ava = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201601',segmento__in=['Vip','Premium']).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    ava_dict = {}
+    for i in meses:
+       for j in ava:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             ava_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             ava_dict[i['mes_vigencia']]= 0
+    ms = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201601',segmento='MS').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    ms_dict = {}
+    for i in meses:
+       for j in ms:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             ms_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             ms_dict[i['mes_vigencia']]= 0
+    pasivo = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201601',segmento='Pasivo').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    pasivo_dict = {}
+    for i in meses:
+       for j in pasivo:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             pasivo_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             pasivo_dict[i['mes_vigencia']]= 0
+    noph = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201601',segmento='No PH').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    noph_dict = {}
+    for i in meses:
+       for j in noph:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             noph_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             noph_dict[i['mes_vigencia']]= 0
+    noclie = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201601',segmento='NoCli').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    noclie_dict = {}
+    for i in meses:
+       for j in noclie:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             noclie_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             noclie_dict[i['mes_vigencia']]= 0
+    static_url=settings.STATIC_URL
+    tipo_side = 4
+    return render('reports/seguimiento_increlinea.html', locals(),
                   context_instance=RequestContext(request))
 
 
@@ -1253,6 +1321,18 @@ def carga_altassegmento(request):
         if form.is_valid():
             csv_file = request.FILES['altassegmento']
             AltasSegmentoCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_increlinea(request):
+    if request.method == 'POST':
+        form = UploadIncreLinea(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['increlinea']
+            IncreLineaCsv.import_data(data = csv_file)
             return campana_ofertas(request)
         else:
             return load(campana_ofertas)

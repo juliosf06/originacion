@@ -13,11 +13,20 @@
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
           <div class="rows placeholders">
+		<div id="chartContainer9" style="height: 250px; width: 100%;"></div>
+          </div>
+          <div class="rows placeholders">
 		<div id="chartContainer" style="height: 350px; width: 30%; display: inline-block;"></div>
 		<div id="chartContainer2" style="height: 350px; width: 30%; display: inline-block;"></div>
 		<div id="chartContainer3" style="height: 350px; width: 30%; display: inline-block;"></div>
           </div>
-
+	  <div>
+	  <center>
+	  <font color="#89D1F3">■ </font><font color="#094FA4" size=2>Con Oferta TDC >= SF</font>&nbsp;&nbsp;&nbsp;
+	  <font color="#009EE5">■ </font><font color="#094FA4" size=2>Con Oferta TDC <' SF</font>&nbsp;&nbsp;&nbsp;
+	  <font color="#094FA4">■ </font><font color="#094FA4" size=2>Sin Oferta TDC</font>
+	  </center>
+	  </div>
           <div class="rows placeholders">
 		<div id="chartContainer4" style="height: 350px; width: 30%; display: inline-block;"></div>
 		<div id="chartContainer5" style="height: 350px; width: 30%; display: inline-block;"></div>
@@ -43,7 +52,7 @@
 			verticalAlign: "bottom",
                 },
 		axisX:{
-			labelAngle: 90,
+			labelAngle: 91,
                 },
 		axisY:{
 			interval: 3500,
@@ -114,7 +123,7 @@
 			verticalAlign: "bottom",
                 },
 		axisX:{
-			labelAngle: 90,
+			labelAngle: 91,
                 },
 		axisY:{
 			interval: 3800,
@@ -185,7 +194,7 @@
 			verticalAlign: "bottom",
                 },
 		axisX:{
-			labelAngle: 90,
+			labelAngle: 91,
                 },
 		axisY:{
 			interval: 3500,
@@ -256,10 +265,10 @@
 			verticalAlign: "bottom",
                 },
 		axisX:{
-			labelAngle: 90,
+			labelAngle: 91,
                 },
 		axisY:{
-			interval: 3500,
+			interval: 3700,
 			labelFontColor: "white",
 			gridThickness: 0,
 			tickColor: "white",
@@ -323,11 +332,11 @@
 		theme: "theme2",//theme1
 		//backgroundColor: "#B5E5F9",
 		title:{
-			text: "Ene 15",
+			text: "Ene 16",
 			verticalAlign: "bottom",
                 },
 		axisX:{
-			labelAngle: 90,
+			labelAngle: 91,
                 },
 		axisY:{
 			interval: 3500,
@@ -394,11 +403,11 @@
 		theme: "theme2",//theme1
 		//backgroundColor: "#B5E5F9",
 		title:{
-			text: "Feb 15",
+			text: "Feb 16",
 			verticalAlign: "bottom",
                 },
 		axisX:{
-			labelAngle: 90,
+			labelAngle: 91,
                 },
 		axisY:{
 			interval: 3500,
@@ -483,7 +492,7 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedBar",
 			name: "Ofertas < SF",
-			//showInLegend: "true",
+			showInLegend: "true",
 			dataPoints: [
 				{% for i in alta_s1 %}
 				{   y: {{i.num_alta}}, label: "{{i.segmento}}"  },
@@ -494,7 +503,7 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedBar",
 			name: "Ofertas >= SF",
-			//showInLegend: "true",
+			showInLegend: "true",
 			dataPoints: [
 				{% for i in alta_s2 %}
 				{   y: {{i.num_alta}}, label: "{{i.segmento}}"  },
@@ -530,6 +539,40 @@
 		]
 	});
 	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer9", {
+		theme: "theme2",//theme1
+		//backgroundColor: "#B5E5F9",
+		title:{
+			text: "Evolución",
+                },
+		axisY:{
+			interval: 400,
+			minimum: 14600,
+			maximum: 18600,
+			labelFontColor: "white",
+			gridThickness: 0,
+			tickColor: "white",
+                },
+		animationEnabled: true,   // change to true
+		data: [
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stepLine",//stepLine, area
+			name: "Totales",
+			indexLabel : "{y}",
+			indexLabelFontColor : "#094FA4",
+			showInLegend: "true",
+			dataPoints: [
+				{% for i in alta_tot %}
+				{   label: "{{i.mes_vigencia|convert_date}}",y: {{i.total}}  },
+				 {% endfor %}
+			]
+		},  
+		]
+	});
+	chart.render();
+
 
     }
   </script>

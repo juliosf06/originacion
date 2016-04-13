@@ -74,6 +74,7 @@ urlpatterns = [
     url(r'^seguimiento/auto/$', views.seguimiento_auto, name='seguimiento_auto'),
     url(r'^seguimiento/adelanto/$', views.seguimiento_adelanto, name='seguimiento_adelanto'),
     url(r'^seguimiento/prestinmediato/$', views.seguimiento_prestinmediato, name='seguimiento_prestinmediato'),
+    url(r'^seguimiento/increlinea/$', views.seguimiento_increlinea, name='seguimiento_increlinea'),
 
     # URLS para reportes de Hipotecario
     url(r'^hipotecario/$', views.hipoteca_ssff, name='hipoteca_ssff'),
@@ -98,6 +99,7 @@ urlpatterns = [
     url(r'^load_data/carga_prestinmediato/$', views.carga_prestinmediato, name='carga_prestinmediato'),
     url(r'^load_data/carga_altasempresa/$', views.carga_altasempresa, name='carga_altasempresa'),
     url(r'^load_data/carga_altassegmento/$', views.carga_altassegmento, name='carga_altassegmento'),
+    url(r'^load_data/carga_increlinea/$', views.carga_increlinea, name='carga_increlinea'),
     url(r'^load_data/$', views.load, name='load'),
     url(r'^mapa/$', views.mapa, name='mapa'),
 ]
