@@ -4,11 +4,11 @@
 
 {% load humanize %}
 
-{% block title %}Seguimiento Prestamo Inmediato{% endblock %}
+{% block title %}Seguimiento Hipoteca{% endblock %}
 
 {% block content %}
 
-          <h1 class="page-header">Seguimiento Préstamo Inmediato</h1>
+          <h1 class="page-header">Seguimiento Hipoteca</h1>
           <div class="form-inline">
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
@@ -17,10 +17,6 @@
           </div>
  	  &nbsp;
           <div class="rows placeholders">
-		<select name="Ver1">
-		<option id="show1" selected>show1</option>
-		<option id="show2">show2</option>
-		</select>
 		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
           </div>
 	  &nbsp;
@@ -40,40 +36,32 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Formalizados"              
+			text: "Formalizados-Facturación"              
 		},
 		axisY:{
-			interval: 500,
-			//labelFontColor: "white",              
-		},
-		axisY2:{
-			interval: 60,
-			maximum: 300,
-			labelFontColor: "white",              
+			interval: 250              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "column",
-			name: "Fact M (S/.)",
-			indexLabelFontColor: "white",			
+			type: "spline",
+			name: "Facturación MM (S/.)",
+			indexLabelFontColor: "#89D1F3",			
 			indexLabel: "{y}",
-			indexLabelPlacement: "inside",
-			yValueFormatString: "#,###.",
+			yValueFormatString: "###.",
 			showInLegend: "true",
 			dataPoints: [
 				{% for a in fact %}
-				{ y: {{a.cantidad}}/1000 , label: '{{a.mes_vigencia|convert_date}}' },
+				{ y: {{a.cantidad}} , label: '{{a.mes_vigencia|convert_date}}' },
 				{% endfor %}
 			]
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			axisYType: "secondary",
 			type: "spline",
 			name: "#Form",
-			indexLabelFontColor: "darkblue",			
+			indexLabelFontColor: "#009EE5",			
 			indexLabel: "{y}",
 			yValueFormatString: "###.",
 			showInLegend: "true",
@@ -87,58 +75,7 @@
 	});
 	chart.render();
 
-	var chart2 = new CanvasJS.Chart("chartContainer2", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Ticket Promedio"              
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "AVA",
-			indexLabelFontColor: "#89D1F3",			
-			indexLabel: "{y}",
-			yValueFormatString: "##,###",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a in ticket_ava %}
-				{ y: {{a.cantidad2}}/{{a.cantidad}} , label: '{{a.mes_vigencia|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "CAMPAÑAS",
-			indexLabelFontColor: "#009EE5",			
-			//indexLabel: "{y}",
-			yValueFormatString: "##,###.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a in ticket_ms %}
-				{ y: {{a.cantidad2}}/{{a.cantidad}} , label: '{{a.mes_vigencia|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart2.render();
-	$("#show1").click(function () {
-	chart2.options.data[0].indexLabel = "{y}";
-	chart2.options.data[1].indexLabel = "";
-        chart2.render();
-	});
-	chart2.render();
-	$("#show2").click(function () {
-	chart2.options.data[0].indexLabel = "";
-	chart2.options.data[1].indexLabel = "{y}";
-        chart2.render();
-	});
-
-
-	var chart = new CanvasJS.Chart("chartContainer3", {
+	var chart = new CanvasJS.Chart("chartContainer2", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Rango de Ingresos"              
@@ -148,28 +85,12 @@
 		},
 		animationEnabled: true,   // change to true
 		data: [              
-/*		{
+		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			name: "[0-1,000]",
 			indexLabelFontColor: "white",
-			indexLabel: "{y}%",
-			yValueFormatString: "#0.",			
-			//indexLabel: "#percent%",
-			//percentFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in rango1_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},*/
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "[1,000-1,500]",
-			indexLabelFontColor: "white",
-			indexLabel: "{y}%",
+			//indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
 			//indexLabel: "#percent%",
 			//percentFormatString: "#0.",
@@ -183,9 +104,9 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
-			name: "[1,500-2,000]",
+			name: "[1,000-1,500]",
 			indexLabelFontColor: "white",
-			indexLabel: "{y}%",
+			//indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
 			//indexLabel: "#percent%",
 			//percentFormatString: "#0.",
@@ -199,15 +120,31 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
-			name: "[2,000-2,500]",
+			name: "[1,500-2,000]",
 			indexLabelFontColor: "white",
-			indexLabel: "{y}%",
+			//indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
 			//indexLabel: "#percent%",
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in rango3_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[2,000-2,500]",
+			indexLabelFontColor: "white",
+			//indexLabel: "{y}%",
+			yValueFormatString: "#0.",			
+			//indexLabel: "#percent%",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in rango4_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
@@ -223,7 +160,7 @@
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for key, value in rango4_dict.items|sort %}
+				{% for key, value in rango5_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
@@ -239,8 +176,62 @@
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for key, value in rango5_dict.items|sort %}
+				{% for key, value in rango6_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+	var chart = new CanvasJS.Chart("chartContainer3", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora Total"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA6",
+			indexLabelFontColor: "#89D1F3",			
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in mora_6 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA9",
+			indexLabelFontColor: "#094FA4",			
+			indexLabel: "{y}%",
+			color: "#094FA4",
+			yValueFormatString: "#0.0#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in mora_9 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA12",
+			indexLabelFontColor: "#86C82D",			
+			indexLabel: "{y}%",
+			color: "#86C82D",
+			yValueFormatString: "#0.0#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in mora_12 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -261,7 +252,7 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
-			name: "[G1-G4]",
+			name: "[G1-G2]",
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
@@ -277,7 +268,7 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
-			name: "[G5]",
+			name: "[G3 - G4]",
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
@@ -293,7 +284,7 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
-			name: "[G6-G8]",
+			name: "[G5-G6]",
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
@@ -309,7 +300,7 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
-			name: "[NB]",
+			name: "[G7 - G8]",
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
@@ -318,6 +309,22 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in buro4_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[NB]",
+			indexLabelFontColor: "white",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.",			
+			//indexLabel: "#percent%",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in buro5_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
