@@ -49,6 +49,12 @@ $("#exoneraciones_segmento").change(function(e){
   window.location.href = "/reports/campanas/exoneraciones/"+$("#exoneraciones_segmento").val()+"/";
 });
 
+$("#prueba_segmento").change(function(e){
+  console.log($("#prueba_segmento").val());
+
+  window.location.href = "/reports/campanas/prueba/"+$("#prueba_segmento").val()+"/";
+});
+
 $("#flujo_periodo").change(function(e){
   console.log($("#flujo_periodo").val());
 

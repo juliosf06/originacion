@@ -195,6 +195,25 @@ def campana_exoneraciones(request, segmento='TOTAL'):
     return render('reports/campana2_exoneraciones.html', locals(),
                   context_instance=RequestContext(request))
 
+@login_required
+def campana_prueba(request, segmento='TOTAL'):
+    if segmento == 'TOTAL':
+        exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+    else:
+        exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+    control_segmentos = Campana2.objects.all().values('segmento').distinct('segmento')
+    exoneraciones = itertools.izip_longest(exo_ambas,exo_vl,exo_vd,req_ambas)
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana2_prueba.html', locals(),
+                  context_instance=RequestContext(request))
+
 #@login_required
 #def campana_flujo(request):
     #flujo1 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia='201603',grupo_exoneracion='EXON. SOLO VL').annotate(num_flujo1=Sum('cantidad')).order_by('tipo')
@@ -911,6 +930,100 @@ def seguimiento_increlinea(request):
              break
        	  else:
              noclie_dict[i['mes_vigencia']]= 0
+    rango1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601',rng_sueldo='01 [-1000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango1_dict = {}
+    for i in meses:
+       for j in rango1:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango1_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango1_dict[i['mes_vigencia']]= 0
+    rango2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601',rng_sueldo='02 [1000-1500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango2_dict = {}
+    for i in meses:
+       for j in rango2:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango2_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango2_dict[i['mes_vigencia']]= 0
+    rango3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601',rng_sueldo='03 [1500-2000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango3_dict = {}
+    for i in meses:
+       for j in rango3:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango3_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango3_dict[i['mes_vigencia']]= 0
+    rango4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601',rng_sueldo='04 [2000-2500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango4_dict = {}
+    for i in meses:
+       for j in rango4:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango4_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango4_dict[i['mes_vigencia']]= 0
+    rango5 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601',rng_sueldo='05 [2500-3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango5_dict = {}
+    for i in meses:
+       for j in rango5:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango5_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango5_dict[i['mes_vigencia']]= 0
+    rango6 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601',rng_sueldo='06 [+3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango6_dict = {}
+    for i in meses:
+       for j in rango6:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango6_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango6_dict[i['mes_vigencia']]= 0
+    buro1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='01 G1-G4').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    print buro1
+    buro1_dict = {}
+    for i in meses:
+       for j in buro1:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro1_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             buro1_dict[i['mes_vigencia']]= 0
+    buro2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='02 G5').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    print buro2
+    buro2_dict = {}
+    for i in meses:
+       for j in buro2:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro2_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             buro2_dict[i['mes_vigencia']]= 0
+    buro3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='03 G6-G8').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    print buro3
+    buro3_dict = {}
+    for i in meses:
+       for j in buro3:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro3_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             buro3_dict[i['mes_vigencia']]= 0
+    buro4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='NB').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    print buro4
+    buro4_dict = {}
+    for i in meses:
+       for j in buro4:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro4_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             buro4_dict[i['mes_vigencia']]= 0
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/seguimiento_increlinea.html', locals(),

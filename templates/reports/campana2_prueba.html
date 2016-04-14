@@ -12,12 +12,9 @@
           <div class="form-inline">
             &nbsp;&nbsp;
             <label class="control-label">Segmento:&nbsp;&nbsp;</label>
-            <select class="form-control" id="exoneraciones_segmento">
-	      <option>TOTAL</option>	      
-	    {% for a in control_segmentos %}
-              <option {% if segmento == a.segmento %}selected {% endif %}>{{a.segmento}} </option>
-	    {% endfor %}
-            </select>
+            <form action="" class="form-control" id="prueba_segmento">
+	    
+            </form>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
           <div class="rows placeholders">
@@ -40,8 +37,8 @@
 		<tr>
                   <td>{{a.mes_vigencia}}</td>
                   <td>{{a.cantidad|intcomma}}</td>
-                  <td>{{c.cantidad|intcomma}}</td>
                   <td>{{b.cantidad|intcomma}}</td>
+                  <td>{{c.cantidad|intcomma}}</td>
                   <td>{{d.cantidad|intcomma}}</td>
                 </tr>
 		{% endfor %}
