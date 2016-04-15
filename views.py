@@ -1045,7 +1045,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              ticket_dict[i['mes_vigencia']]= 0
-    form2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602').exclude(segmento='').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    form2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602').exclude(segmento__in=['','PLAN CLIENTE']).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     form2_dict = {}
     for i in form2:
 	form2_dict[i['mes_vigencia']]=i['cantidad']
@@ -1149,7 +1149,6 @@ def seguimiento_lifemiles(request):
        	  else:
              rango6_dict[i['mes_vigencia']]= 0
     buro1 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', buro='01 G1-G4').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    print buro1
     buro1_dict = {}
     for i in meses:
        for j in buro1:
@@ -1159,7 +1158,6 @@ def seguimiento_lifemiles(request):
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
     buro2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', buro='02 G5').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    print buro2
     buro2_dict = {}
     for i in meses:
        for j in buro2:
@@ -1169,7 +1167,6 @@ def seguimiento_lifemiles(request):
        	  else:
              buro2_dict[i['mes_vigencia']]= 0
     buro3 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', buro='03 G6-G8').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    print buro3
     buro3_dict = {}
     for i in meses:
        for j in buro3:
@@ -1179,7 +1176,6 @@ def seguimiento_lifemiles(request):
        	  else:
              buro3_dict[i['mes_vigencia']]= 0
     buro4 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', buro='04 NB').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    print buro4
     buro4_dict = {}
     for i in meses:
        for j in buro4:
@@ -1188,7 +1184,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              buro4_dict[i['mes_vigencia']]= 0
-
+    print sorted(ava_dict.items())
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/seguimiento_lifemiles.html', locals(),
@@ -1247,7 +1243,6 @@ def seguimiento_hipoteca(request):
              break
        	  else:
              rango5_dict[i['mes_vigencia']]= 0
-    print rango5_dict
     rango6 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='01 [3.5K - ...]', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     rango6_dict = {}
     for i in meses:
@@ -1266,7 +1261,6 @@ def seguimiento_hipoteca(request):
              break
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
-    print buro1
     buro2 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', dic_buro__in=['G3','G4'], producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     buro2_dict = {}
     for i in meses:
@@ -1310,7 +1304,8 @@ def seguimiento_hipoteca(request):
     mora_6 = zip(mora6,total_ctas)
     mora_9 = zip(mora9,total_ctas)
     mora_12 = zip(mora12,total_ctas)
-    print mora6
+    print sorted(rango3_dict.items())
+    print sorted(rango4_dict.items())
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/seguimiento_hipoteca.html', locals(),
