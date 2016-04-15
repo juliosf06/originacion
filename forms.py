@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from models import RVGL, Campana2, Caida, Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea
+from models import RVGL, Campana2, Caida, Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles
 from adaptor.model import CsvDbModel
 
 class UploadRVGL(forms.Form):
@@ -137,5 +137,13 @@ class UploadIncreLinea(forms.Form):
 class IncreLineaCsv(CsvDbModel):
     class Meta:
         dbModel = IncreLinea
+        delimiter = ","
+
+class UploadLifemiles(forms.Form):
+    lifemiles = forms.FileField()
+
+class LifemilesCsv(CsvDbModel):
+    class Meta:
+        dbModel = Lifemiles
         delimiter = ","
 

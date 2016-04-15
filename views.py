@@ -1357,6 +1357,8 @@ def load(request):
     #Evaluacionpld.objects.all().delete()
     #Seguimiento1.objects.all().delete()
     #HipotecaConce.objects.all().delete()
+    Moras.objects.all().delete()
+    IncreLinea.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
@@ -1569,6 +1571,18 @@ def carga_increlinea(request):
         if form.is_valid():
             csv_file = request.FILES['increlinea']
             IncreLineaCsv.import_data(data = csv_file)
+            return campana_ofertas(request)
+        else:
+            return load(campana_ofertas)
+    else:
+        return load(campana_ofertas)
+
+def carga_lifemiles(request):
+    if request.method == 'POST':
+        form = UploadLifemiles(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['lifemiles']
+            LifemilesCsv.import_data(data = csv_file)
             return campana_ofertas(request)
         else:
             return load(campana_ofertas)

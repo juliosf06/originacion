@@ -185,6 +185,24 @@ class PrestInmediato(models.Model):
     def __str__(self):
         return self.mes_vigencia+' '+self.segmento+' '+self.rng_ingreso
 
+class Lifemiles(models.Model):
+    mes_vigencia = models.CharField(max_length=10)
+    buro = models.CharField(max_length=20)
+    buro1 = models.CharField(max_length=20)
+    rng_ing = models.CharField(max_length=20)
+    segmento = models.CharField(max_length=20)
+    ctas = models.DecimalField(max_digits=8, decimal_places=2)
+    ctas_saldo = models.DecimalField(max_digits=8, decimal_places=2)
+    mora6_60 = models.DecimalField(max_digits=4, decimal_places=2)
+    mora12_60 = models.DecimalField(max_digits=4, decimal_places=2)
+    mora6_60 = models.DecimalField(max_digits=4, decimal_places=2)
+    mora12_60 = models.DecimalField(max_digits=4, decimal_places=2)
+    imp_sol = models.DecimalField(max_digits=12, decimal_places=8)
+    inv = models.DecimalField(max_digits=12, decimal_places=8)
+
+    def __str__(self):
+        return self.mes_vigencia+' '+self.buro+' '+self.segmento
+
 class AltasEmpresa(models.Model):
     mes_vigencia = models.CharField(max_length=10,default=0)
     empresa = models.CharField(max_length=20)
@@ -201,6 +219,7 @@ class IncreLinea(models.Model):
     rng_sueldo = models.CharField(max_length=30)
     ctas = models.DecimalField(max_digits=8, decimal_places=2)
     cantidad = models.DecimalField(max_digits=12, decimal_places=8)
+    lifemiles = models.IntegerField(default=0)
 
     def __str__(self):
         return self.mes_vigencia+' '+self.buro+' '+self.segmento
@@ -286,9 +305,11 @@ class Moras(models.Model):
     mes_form = models.CharField(max_length=10)
     flg_camp = models.CharField(max_length=25)
     flg_uso = models.IntegerField()
+    segmento = models.CharField(max_length=20, default=0)
     producto = models.CharField(max_length=30)
     ctas = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     ctas_uso = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    mora4 = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     mora6 = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     mora9 = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     mora12 = models.DecimalField(max_digits=6, decimal_places=2, default=0)
@@ -297,4 +318,4 @@ class Moras(models.Model):
     mora36 = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     def __str__(self):
-        return self.trimestre_form+' '+self.producto+' '+self.ctas
+        return self.mes_form+' '+self.segmento+' '+self.producto
