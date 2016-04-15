@@ -1030,6 +1030,171 @@ def seguimiento_increlinea(request):
                   context_instance=RequestContext(request))
 
 @login_required
+def seguimiento_lifemiles(request):
+    meses = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602').order_by('mes_vigencia')
+    form = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    form_dict = {}
+    for i in form:
+	form_dict[i['mes_vigencia']]=i['cantidad']
+    ticket = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602').annotate(cantidad=Sum('imp_sol')).order_by('mes_vigencia')
+    ticket_dict = {}
+    for i in meses:
+       for j in ticket:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             ticket_dict[i['mes_vigencia']]=j['cantidad']*1000000/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             ticket_dict[i['mes_vigencia']]= 0
+    form2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602').exclude(segmento='').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    form2_dict = {}
+    for i in form2:
+	form2_dict[i['mes_vigencia']]=i['cantidad']
+    ava = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602',segmento__in=['Vip','Premium']).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    ava_dict = {}
+    for i in meses:
+       for j in ava:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             ava_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             ava_dict[i['mes_vigencia']]= 0
+    ms = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602',segmento='MS').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    ms_dict = {}
+    for i in meses:
+       for j in ms:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             ms_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             ms_dict[i['mes_vigencia']]= 0
+    pasivo = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602',segmento='Pasivo').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    pasivo_dict = {}
+    for i in meses:
+       for j in pasivo:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             pasivo_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             pasivo_dict[i['mes_vigencia']]= 0
+    noph = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602',segmento='No PH').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    noph_dict = {}
+    for i in meses:
+       for j in noph:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             noph_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             noph_dict[i['mes_vigencia']]= 0
+    noclie = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602',segmento='NoCli').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    noclie_dict = {}
+    for i in meses:
+       for j in noclie:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             noclie_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             noclie_dict[i['mes_vigencia']]= 0
+    rango1 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='01 [-1000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango1_dict = {}
+    for i in meses:
+       for j in rango1:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango1_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango1_dict[i['mes_vigencia']]= 0
+    rango2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='02 [1000-1500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango2_dict = {}
+    for i in meses:
+       for j in rango2:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango2_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango2_dict[i['mes_vigencia']]= 0
+    rango3 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='03 [1500-2000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango3_dict = {}
+    for i in meses:
+       for j in rango3:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango3_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango3_dict[i['mes_vigencia']]= 0
+    rango4 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='04 [2000-2500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango4_dict = {}
+    for i in meses:
+       for j in rango4:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango4_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango4_dict[i['mes_vigencia']]= 0
+    rango5 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='05 [2500-3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango5_dict = {}
+    for i in meses:
+       for j in rango5:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango5_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango5_dict[i['mes_vigencia']]= 0
+    rango6 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='06 [+3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango6_dict = {}
+    for i in meses:
+       for j in rango6:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango6_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango6_dict[i['mes_vigencia']]= 0
+    buro1 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', buro='01 G1-G4').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    print buro1
+    buro1_dict = {}
+    for i in meses:
+       for j in buro1:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro1_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             buro1_dict[i['mes_vigencia']]= 0
+    buro2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', buro='02 G5').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    print buro2
+    buro2_dict = {}
+    for i in meses:
+       for j in buro2:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro2_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             buro2_dict[i['mes_vigencia']]= 0
+    buro3 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', buro='03 G6-G8').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    print buro3
+    buro3_dict = {}
+    for i in meses:
+       for j in buro3:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro3_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             buro3_dict[i['mes_vigencia']]= 0
+    buro4 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', buro='04 NB').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    print buro4
+    buro4_dict = {}
+    for i in meses:
+       for j in buro4:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro4_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             buro4_dict[i['mes_vigencia']]= 0
+
+    static_url=settings.STATIC_URL
+    tipo_side = 4
+    return render('reports/seguimiento_lifemiles.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
 def seguimiento_hipoteca(request):
     form = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     form_dict= {}
@@ -1357,8 +1522,9 @@ def load(request):
     #Evaluacionpld.objects.all().delete()
     #Seguimiento1.objects.all().delete()
     #HipotecaConce.objects.all().delete()
-    Moras.objects.all().delete()
-    IncreLinea.objects.all().delete()
+    #Moras.objects.all().delete()
+    #IncreLinea.objects.all().delete()
+    #Lifemiles.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
