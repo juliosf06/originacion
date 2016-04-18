@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response as render
 from django.template import RequestContext
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from models import *
 from forms import *
 from django.contrib.auth import authenticate, login, logout
@@ -16,6 +16,8 @@ from django.contrib.auth import authenticate, login, logout
 import csv, itertools
 
 fecha_actual = datetime.now().strftime("%Y%m")
+m6 = datetime.now()-timedelta(days=6*30)
+month6 = m6.strftime("%Y%m")
 
 # 1.- Vista para links en contruccion
 def login_reports(request): #agregado
@@ -241,37 +243,50 @@ def campana_flujo(request, fecha=fecha_actual):
     return render('reports/campana2_flujo.html', locals(),
                   context_instance=RequestContext(request))
 
+
 @login_required
 def campana_altasempresa(request):
-    alta1_m1 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia='201509').annotate(num_alta1=Sum('cantidad')).order_by('empresa')
-    alta2_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia='201509').annotate(num_alta2=Sum('cantidad')).order_by('empresa')
-    alta3_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia='201509').annotate(num_alta3=Sum('cantidad')).order_by('empresa')
-    alta_m1 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia='201509').annotate(num_alta=Sum('cantidad')).order_by('empresa')
+    t1 = datetime.now()-timedelta(days=2*30)
+    time1 = t1.strftime("%Y%m")
+    t2 = datetime.now()-timedelta(days=3*30)
+    time2 = t1.strftime("%Y%m")
+    t3 = datetime.now()-timedelta(days=4*30)
+    time3 = t1.strftime("%Y%m")
+    t4 = datetime.now()-timedelta(days=5*30)
+    time4 = t1.strftime("%Y%m")
+    t5 = datetime.now()-timedelta(days=6*30)
+    time5 = t1.strftime("%Y%m")
+    t6 = datetime.now()-timedelta(days=7*30)
+    time6 = t1.strftime("%Y%m")
+    alta1_m1 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=time6).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=time6).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=time6).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m1 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=time6).annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m2 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia='201510').annotate(num_alta1=Sum('cantidad')).order_by('empresa')
-    alta2_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia='201510').annotate(num_alta2=Sum('cantidad')).order_by('empresa')
-    alta3_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia='201510').annotate(num_alta3=Sum('cantidad')).order_by('empresa')
-    alta_m2 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia='201510').annotate(num_alta=Sum('cantidad')).order_by('empresa')
+    alta1_m2 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=time5).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=time5).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=time5).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m2 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=time5).annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m3 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia='201511').annotate(num_alta1=Sum('cantidad')).order_by('empresa')
-    alta2_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia='201511').annotate(num_alta2=Sum('cantidad')).order_by('empresa')
-    alta3_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia='201511').annotate(num_alta3=Sum('cantidad')).order_by('empresa')
-    alta_m3 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia='201511').annotate(num_alta=Sum('cantidad')).order_by('empresa')
+    alta1_m3 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=time4).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=time4).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=time4).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m3 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=time4).annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m4 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia='201512').annotate(num_alta1=Sum('cantidad')).order_by('empresa')
-    alta2_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia='201512').annotate(num_alta2=Sum('cantidad')).order_by('empresa')
-    alta3_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia='201512').annotate(num_alta3=Sum('cantidad')).order_by('empresa')
-    alta_m4 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia='201512').annotate(num_alta=Sum('cantidad')).order_by('empresa')
+    alta1_m4 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=time3).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=time3).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=time3).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m4 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=time3).annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m5 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia='201601').annotate(num_alta1=Sum('cantidad')).order_by('empresa')
-    alta2_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia='201601').annotate(num_alta2=Sum('cantidad')).order_by('empresa')
-    alta3_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia='201601').annotate(num_alta3=Sum('cantidad')).order_by('empresa')
-    alta_m5 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia='201601').annotate(num_alta=Sum('cantidad')).order_by('empresa')
+    alta1_m5 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=time2).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=time2).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=time2).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m5 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=time2).annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m6 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia='201602').annotate(num_alta1=Sum('cantidad')).order_by('empresa')
-    alta2_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia='201602').annotate(num_alta2=Sum('cantidad')).order_by('empresa')
-    alta3_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia='201602').annotate(num_alta3=Sum('cantidad')).order_by('empresa')
-    alta_m6 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia='201602').annotate(num_alta=Sum('cantidad')).order_by('empresa')
+    alta1_m6 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=time1).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=time1).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=time1).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m6 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=time1).annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
     alta_s1 = AltasSegmento.objects.values('segmento','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta=Sum('cantidad')).order_by('segmento')
     alta_s2 = AltasSegmento.objects.values('segmento','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta=Sum('cantidad')).order_by('segmento')
@@ -570,10 +585,10 @@ def seguimiento_tarjeta(request):
     seg_nocli = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', segmento__in=['NoCli','']).annotate(seg=Sum('form')).order_by('mes_vigencia')
     camp_seg = zip(seg_ava, seg_ms, seg_noph, seg_nocli, camp_form)
 
-    mora6 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('mora6')).order_by('mes_form')
-    mora9 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte='201410', mes_form__lte ='201505').annotate(sum_mora=Sum('mora9')).order_by('mes_form')
+    mora6 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte='201410', mes_form__lte ='201602').annotate(sum_mora=Sum('mora6')).order_by('mes_form')
+    mora9 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('mora9')).order_by('mes_form')
     mora12 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte='201410', mes_form__lte ='201502').annotate(sum_mora=Sum('mora12')).order_by('mes_form')
-    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte='201410', mes_form__lte ='201602').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     mora_6 = zip(mora6,total_ctas)
     mora_9 = zip(mora9,total_ctas)
     mora_12 = zip(mora12,total_ctas)
@@ -1184,10 +1199,174 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              buro4_dict[i['mes_vigencia']]= 0
-    print sorted(ava_dict.items())
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/seguimiento_lifemiles.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def seguimiento_increlifemiles(request):
+    meses = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602').order_by('mes_vigencia')
+    form = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    form_dict={}
+    for i in form:
+	form_dict[i['mes_vigencia']]=i['cantidad']
+    form2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', lifemiles='1').exclude(segmento='').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    form2_dict={}
+    for i in form2:
+	form2_dict[i['mes_vigencia']]=i['cantidad']
+    ticket = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',lifemiles='1').annotate(cantidad=Sum('cantidad')).order_by('mes_vigencia')
+    ticket_dict={}
+    for i in meses:
+       for j in ticket:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             ticket_dict[i['mes_vigencia']]=j['cantidad']*1000000/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             ticket_dict[i['mes_vigencia']]= 0
+    ava = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',segmento__in=['Vip','Premium'],lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    ava_dict = {}
+    for i in meses:
+       for j in ava:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             ava_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             ava_dict[i['mes_vigencia']]= 0
+    ms = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602', segmento='MS', lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    ms_dict = {}
+    for i in meses:
+       for j in ms:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             ms_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             ms_dict[i['mes_vigencia']]= 0
+    pasivo = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602', segmento='Pasivo',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    pasivo_dict = {}
+    for i in meses:
+       for j in pasivo:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             pasivo_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             pasivo_dict[i['mes_vigencia']]= 0
+    noph = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602',segmento='No PH',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    noph_dict = {}
+    for i in meses:
+       for j in noph:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             noph_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             noph_dict[i['mes_vigencia']]= 0
+    noclie = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602', segmento='NoCli',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    noclie_dict = {}
+    for i in meses:
+       for j in noclie:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             noclie_dict[i['mes_vigencia']]=j['cantidad']*100/form2_dict[i['mes_vigencia']]
+             break
+       	  else:
+             noclie_dict[i['mes_vigencia']]= 0
+    rango1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_sueldo='01 [-1000>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango1_dict = {}
+    for i in meses:
+       for j in rango1:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango1_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango1_dict[i['mes_vigencia']]= 0
+    rango2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_sueldo='02 [1000-1500>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango2_dict = {}
+    for i in meses:
+       for j in rango2:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango2_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango2_dict[i['mes_vigencia']]= 0
+    rango3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_sueldo='03 [1500-2000>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango3_dict = {}
+    for i in meses:
+       for j in rango3:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango3_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango3_dict[i['mes_vigencia']]= 0
+    rango4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_sueldo='04 [2000-2500>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango4_dict = {}
+    for i in meses:
+       for j in rango4:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango4_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango4_dict[i['mes_vigencia']]= 0
+    rango5 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_sueldo='05 [2500-3500>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango5_dict = {}
+    for i in meses:
+       for j in rango5:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango5_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango5_dict[i['mes_vigencia']]= 0
+    rango6 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_sueldo='06 [+3500>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango6_dict = {}
+    for i in meses:
+       for j in rango6:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             rango6_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             rango6_dict[i['mes_vigencia']]= 0
+    buro1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='01 G1-G4',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    print buro1
+    buro1_dict = {}
+    for i in meses:
+       for j in buro1:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro1_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             buro1_dict[i['mes_vigencia']]= 0
+    buro2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='02 G5',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    print buro2
+    buro2_dict = {}
+    for i in meses:
+       for j in buro2:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro2_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             buro2_dict[i['mes_vigencia']]= 0
+    buro3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='03 G6-G8',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    print buro3
+    buro3_dict = {}
+    for i in meses:
+       for j in buro3:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro3_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             buro3_dict[i['mes_vigencia']]= 0
+    buro4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='NB',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    print buro4
+    buro4_dict = {}
+    for i in meses:
+       for j in buro4:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             buro4_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             break
+       	  else:
+             buro4_dict[i['mes_vigencia']]= 0
+
+    static_url=settings.STATIC_URL
+    tipo_side = 4
+    return render('reports/seguimiento_increlifemiles.html', locals(),
                   context_instance=RequestContext(request))
 
 @login_required

@@ -76,6 +76,7 @@ urlpatterns = [
     url(r'^seguimiento/increlinea/$', views.seguimiento_increlinea, name='seguimiento_increlinea'),
     url(r'^seguimiento/hipoteca/$', views.seguimiento_hipoteca, name='seguimiento_hipoteca'),
     url(r'^seguimiento/lifemiles/$', views.seguimiento_lifemiles, name='seguimiento_lifemiles'),
+    url(r'^seguimiento/increlifemiles/$', views.seguimiento_increlifemiles, name='seguimiento_increlifemiles'),
 
     # URLS para reportes de Hipotecario
     url(r'^hipotecario/$', views.hipoteca_ssff, name='hipoteca_ssff'),
