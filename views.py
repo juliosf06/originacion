@@ -212,7 +212,7 @@ def campana_exoneraciones(request, segmento='TOTAL'):
 	veri2 = Exoneracion.objects.values('cat_cliente').filter(tipo='VD',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
 	equi2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='COMPRA EN EQUIFAX').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
 	ubi2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='UBIGEO EXONERADO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	fast2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='NULL').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+	fast2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='NULL').exclude(cat_cliente='9. No Identificado').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
 	total2 = Exoneracion.objects.values('cat_cliente').filter(tipo='VD').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
 	tv1 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='PREMIUM / VIP').annotate(cantidad=Sum('cantidad'))
 	tv2 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='BUEN PASIVERO / BAJO RIESGO').annotate(cantidad=Sum('cantidad'))
