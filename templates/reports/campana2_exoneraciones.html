@@ -48,6 +48,110 @@
               </tbody>
             </table>
           </div>
+
+	  <h2 class="sub-header">Verificación laboral - Sólo Clientes</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Tipo de Relación Laboral</th>
+                  <th>Es PH</th>
+                  <th>VL válida</th>
+                  <th>Pasiveros<br/> >S/1,000<br/> por 6 meses</th>
+                  <th>Es PH<br/> VIP/PREMIUM</th>
+                  <th>No PH<br/> Alto Valor</th>
+                  <th>Tiene CTS</th>
+                  <th>Tendencia<br/> PLD o<br/> Vehicular<br/> últimos<br/> 12 meses</th>
+                  <th>Dependiente<br/> (Más de 6<br/> meses de<br/> antigüedad<br/> SPP)</th>
+                  <th>Total<br/> Exonerados</th>
+                </tr>
+              </thead>
+              <tbody id="tabla_exoneraciones">
+		{% for a,b,c,d,e,f,g,h,i in motivos %}
+		<tr>
+                  <td>{{a.cat_cliente}}</td>
+                  <td>{{a.cantidad|to_int|intcomma}}</td>
+                  <td>{{b.cantidad|to_int|intcomma}}</td>
+                  <td>{{c.cantidad|to_int|intcomma}}</td>
+                  <td>{{d.cantidad|to_int|intcomma}}</td>
+                  <td>{{e.cantidad|to_int|intcomma}}</td>
+                  <td>{{f.cantidad|to_int|intcomma}}</td>
+                  <td>{{g.cantidad|to_int|intcomma}}</td>
+                  <td>{{h.cantidad|to_int|intcomma}}</td>
+                  <td>{{i.cantidad|to_int|intcomma}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+	      <tfoot>
+		{% for a,b,c,d,e,f,g,h,i in total_vl %}
+		<tr>
+                  <th>TOTAL</th>
+                  <th>{{a.cantidad|to_int|intcomma}}</th>
+                  <th>{{b.cantidad|to_int|intcomma}}</th>
+                  <th>{{c.cantidad|to_int|intcomma}}</th>
+                  <th>{{d.cantidad|to_int|intcomma}}</th>
+                  <th>{{e.cantidad|to_int|intcomma}}</th>
+                  <th>{{f.cantidad|to_int|intcomma}}</th>
+                  <th>{{g.cantidad|to_int|intcomma}}</th>
+                  <th>{{h.cantidad|to_int|intcomma}}</th>
+                  <th>{{i.cantidad|to_int|intcomma}}</th>
+	        {% endfor %}
+	      </tfoot>
+            </table>
+          </div>
+
+	  <h2 class="sub-header">Verificación domiciliaria - Sólo Clientes</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Tipo de Relación Laboral</th>
+                  <th>PREMIUM<br/> /VIP</th>
+                  <th>Buen<br/> Pasivero/<br/> Bajo<br/> Riesgo</th>
+                  <th>PH con<br/> buen<br/> perfil</th>
+                  <th>Con<br/> Hipotecario</th>
+                  <th>Con<br/> Verificación<br/> válida<br/> 12 meses</th>
+                  <th>Pre -<br/> Verificación<br/> Equifax</th>
+                  <th>Ubigeo<br/> Exonerado</th>
+                  <th>Fast buen<br/> perfil</th>
+                  <th>Total<br/> Exonerados</th>
+                </tr>
+              </thead>
+              <tbody id="tabla_exoneraciones">
+		{% for a,b,c,d,e,f,g,h,i in motivos2 %}
+		<tr>
+                  <td>{{a.cat_cliente}}</td>
+                  <td>{{a.cantidad|to_int|intcomma}}</td>
+                  <td>{{b.cantidad|to_int|intcomma}}</td>
+                  <td>{{c.cantidad|to_int|intcomma}}</td>
+                  <td>{{d.cantidad|to_int|intcomma}}</td>
+                  <td>{{e.cantidad|to_int|intcomma}}</td>
+                  <td>{{f.cantidad|to_int|intcomma}}</td>
+                  <td>{{g.cantidad|to_int|intcomma}}</td>
+                  <td>{{h.cantidad|to_int|intcomma}}</td>
+                  <td>{{i.cantidad|to_int|intcomma}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+	      <tfoot>
+		{% for a,b,c,d,e,f,g,h,i in total_vd %}
+		<tr>
+                  <th>TOTAL</th>
+                  <th>{{a.cantidad|to_int|intcomma}}</th>
+                  <th>{{b.cantidad|to_int|intcomma}}</th>
+                  <th>{{c.cantidad|to_int|intcomma}}</th>
+                  <th>{{d.cantidad|to_int|intcomma}}</th>
+                  <th>{{e.cantidad|to_int|intcomma}}</th>
+                  <th>{{f.cantidad|to_int|intcomma}}</th>
+                  <th>{{g.cantidad|to_int|intcomma}}</th>
+                  <th>{{h.cantidad|to_int|intcomma}}</th>
+                  <th>{{i.cantidad|to_int|intcomma}}</th>
+	        {% endfor %}
+	      </tfoot>
+            </table>
+          </div>
+
+
 {% endblock %}
 
 

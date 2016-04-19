@@ -201,6 +201,15 @@
 	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Lifemiles" ></div>
             </form>
           </div>
+          <div class="row">
+            <form action="carga_exoneracion/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reportes Exoneraciones</label>
+		<input type="file" id="exoneracion" name="exoneracion">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Exoneracion" ></div>
+            </form>
+          </div>
 
         </div>
       </div>

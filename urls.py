@@ -103,6 +103,7 @@ urlpatterns = [
     url(r'^load_data/carga_altassegmento/$', views.carga_altassegmento, name='carga_altassegmento'),
     url(r'^load_data/carga_increlinea/$', views.carga_increlinea, name='carga_increlinea'),
     url(r'^load_data/carga_lifemiles/$', views.carga_lifemiles, name='carga_lifemiles'),
+    url(r'^load_data/carga_exoneracion/$', views.carga_exoneracion, name='carga_exoneracion'),
     url(r'^load_data/$', views.load, name='load'),
     url(r'^mapa/$', views.mapa, name='mapa'),
 ]

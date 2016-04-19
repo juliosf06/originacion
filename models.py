@@ -82,6 +82,16 @@ class Verificaciones(models.Model):
     def __str__(self):
         return self.mes_vigencia+' '+self.segmento
 
+class Exoneracion(models.Model):
+    mes_vigencia = models.CharField(max_length=10)
+    tipo = models.CharField(max_length=5)
+    motivo_exo = models.CharField(max_length=50)
+    cat_cliente = models.CharField(max_length=50)
+    cantidad = models.DecimalField(max_digits=12, decimal_places=2)
+
+    def __str__(self):
+        return self.mes_vigencia+' '+self.tipo+' '+self.motivo_exo
+
 class Caida(models.Model):
     mes_vigencia = models.CharField(max_length=10)
     segmento = models.CharField(max_length=20)
