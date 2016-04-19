@@ -2015,7 +2015,7 @@ def carga_exoneracion(request):
         form = UploadExoneracion(request.POST, request.FILES)
         if form.is_valid():
             csv_file = request.FILES['exoneracion']
-            ExoneracionfCsv.import_data(data = csv_file)
+            ExoneracionCsv.import_data(data = csv_file)
             return campana_ofertas(request)
         else:
             return load(campana_ofertas)
