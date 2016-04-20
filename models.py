@@ -195,6 +195,15 @@ class PrestInmediato(models.Model):
     def __str__(self):
         return self.mes_vigencia+' '+self.segmento+' '+self.rng_ingreso
 
+class Forzaje(models.Model):
+    mes_vigencia = models.CharField(max_length=10)
+    dic_global = models.CharField(max_length=10)
+    producto = models.CharField(max_length=30)
+    form = models.DecimalField(max_digits=12, decimal_places=2)
+
+    def __str__(self):
+        return self.mes_vigencia+' '+self.dic_global+' '+self.producto
+
 class Lifemiles(models.Model):
     mes_vigencia = models.CharField(max_length=10)
     buro = models.CharField(max_length=20)

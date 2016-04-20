@@ -2032,3 +2032,15 @@ def carga_exoneracion(request):
     else:
         return load(campana_resumen)
 
+def carga_forzaje(request):
+    if request.method == 'POST':
+        form = UploadForzaje(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['forzaje']
+            ForzajeCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+

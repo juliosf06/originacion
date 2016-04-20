@@ -210,6 +210,15 @@
 	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Exoneracion" ></div>
             </form>
           </div>
+          <div class="row">
+            <form action="carga_forzaje/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reportes Forzaje</label>
+		<input type="file" id="forzaje" name="forzaje">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Forzaje" ></div>
+            </form>
+          </div>
 
         </div>
       </div>
