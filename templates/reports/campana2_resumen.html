@@ -19,6 +19,7 @@
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div></center>
+          <div class="rows placeholders">
           <h2 class="sub-header">1. Ofertas por Producto</h2>
           <div class="table-responsive">
             <table class="table table-striped">
@@ -92,7 +93,18 @@
 	      </tfoot>
             </table>
           </div>
-
+          <div class="rows placeholders">
+		<div id="chartContainer" style="height: 250px; width: 50%; display: inline-block;"></div>
+		<div id="chartContainer2" style="height: 250px; width: 50%; display: inline-block;"></div>
+          </div>
+	  <center>
+	  <font color="#89D1F3">■ </font><font color="#89D1F3" size=2><b>AVA</b></font>&nbsp;&nbsp;&nbsp;
+	  <font color="#009EE5">■ </font><font color="#009EE5" size=2><b>EMPLEADO</b></font>&nbsp;&nbsp;&nbsp;
+	  <font color="#094FA4">■ </font><font color="#094FA4" size=2><b>MS</b></font>&nbsp;&nbsp;&nbsp;
+	  <font color="#86C82D">■ </font><font color="#86C82D" size=2><b>NOCLI</b></font>&nbsp;&nbsp;&nbsp;
+	  <font color="#FDBD2C">■ </font><font color="#FDBD2C" size=2><b>NOPH</b></font>&nbsp;&nbsp;&nbsp;
+	  <font color="#F6891E">■ </font><font color="#F6891E" size=2><b>PLAN CLIENTE</b></font>
+	  </center>
           <h2 class="sub-header">2. Ofertas por Segmento</h2>
           <div class="table-responsive">
             <table class="table table-striped">
@@ -246,33 +258,49 @@
 
 {% endblock %}
 
-<!--
+
 {% block script_final %}
   <script type="text/javascript">
     window.onload = function () {
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Cantidades por Ofertas",
+			text: "Segmentos a nivel contrato",
                 },
 		animationEnabled: true,   // change to true
 		data: [              
-		{
+                {
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "bar",
+			type: "pie",
+			indexLabel: "{y}",
 			//showInLegend: "true",
+			//indexLabelorientatios: "horizontal", 
 			dataPoints: [
-				{% for i in detalles %}
-				{   y: {{i.q_tc}}, label: "TARJETA"  },
-				{   y: {{i.q_pld}}, label: "CONSUMO",  },
-				{   y: {{i.q_veh}}, label: "AUTO"  }, 
-				{   y: {{i.q_subrogacion}}, label: "SUBROGACION"  },
-				{   y: {{i.q_renovado}}, label: "RENOVADOS"  },
-				{   y: {{i.q_auto_2da}}, label: "AUTO DE 2DA"  },
-				{   y: {{i.q_adelanto_sueldo}}, label: "SUBROGACIÓN PLUS"  },
-				{   y: {{i.q_efectivo_plus}}, label: "EFECTIVO PLUS"  },
-				{   y: {{i.q_prestamo_inmediato}}, label: "PRESTAMO AL TOQUE"  },
-				{   y: {{i.q_incr_linea}}, label: "INCREMENTO DE LINEA"  },
+				{% for i in clientes %}
+				{ label: "{{i.segmento}}",  y: {{i.num_clientes}}  },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Segmentos a nivel importe",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+                {
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "doughnut",
+			indexLabel: "{y}",
+			yValueFormatString: "##,###.0 MM",
+			indexLabelorientatios: "horizontal", 
+			dataPoints: [
+				{% for i in montos2 %}
+				{ label: "{{i.segmento}}",  y: {{i.monto}}/1000000  },
 				{% endfor %}
 			]
 		},
@@ -282,5 +310,5 @@
     }
   </script>
 {% endblock %}
--->
+
 

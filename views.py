@@ -57,6 +57,8 @@ def dummy(request):
 
 # 2.- Vistas para reportes de Campaña
 def campana_resumen(request,fecha=fecha_actual):
+    clientes = Campana2.objects.values('segmento').filter(mes_vigencia= fecha).annotate(num_clientes=Sum('ofertas')).order_by('segmento')
+    montos2 = Campana2.objects.values('segmento').annotate(monto=Sum(F('monto_tc')+F('monto_pld')+F('monto_veh')+F('monto_subrogacion')+F('monto_tc_entry_level')+F('monto_renovado')+F('monto_auto_2da')+F('monto_adelanto_sueldo')+F('monto_efectivo_plus')+F('monto_prestamo_inmediato')+F('monto_incr_linea'))).filter(mes_vigencia=fecha).order_by('segmento')
     detalles = Campana2.objects.filter(mes_vigencia=fecha).values('mes_vigencia').annotate(q_tc=Sum('q_tc'), q_pld=Sum('q_pld'), q_veh=Sum('q_veh'),q_subrogacion=Sum('q_subrogacion'), q_renovado=Sum('q_renovado'), q_auto_2da=Sum('q_auto_2da'), q_adelanto_sueldo=Sum('q_adelanto_sueldo'), q_efectivo_plus=Sum('q_efectivo_plus'), q_prestamo_inmediato=Sum('q_prestamo_inmediato'),q_incr_linea=Sum('q_incr_linea'),monto_tc=Sum(F('monto_tc')/1000000), monto_pld=Sum(F('monto_pld')/1000000), monto_veh=Sum(F('monto_veh')/1000000), monto_subrogacion=Sum(F('monto_subrogacion')/1000000), monto_tc_entry_level=Sum(F('monto_tc_entry_level')/1000000), monto_renovado=Sum(F('monto_renovado')/1000000), monto_auto_2da=Sum(F('monto_auto_2da')/1000000), monto_adelanto_sueldo=Sum(F('monto_adelanto_sueldo')/1000000), monto_efectivo_plus=Sum(F('monto_efectivo_plus')/1000000), monto_prestamo_inmediato=Sum(F('monto_prestamo_inmediato')/1000000), monto_incr_linea=Sum(F('monto_incr_linea')/1000000))
     total = Campana2.objects.filter(mes_vigencia=fecha).values('mes_vigencia').annotate(total_q=Sum(F('q_tc')+F('q_pld')+F('q_veh')+F('q_subrogacion')+F('q_renovado')+F('q_auto_2da')+F('q_adelanto_sueldo')+F('q_efectivo_plus')+F('q_prestamo_inmediato')+F('q_incr_linea')),total_m=Sum(F('monto_tc')/1000000+F('monto_pld')/1000000+F('monto_veh')/1000000+F('monto_subrogacion')/1000000+F('monto_renovado')/1000000+F('monto_auto_2da')/1000000+F('monto_adelanto_sueldo')/1000000+F('monto_efectivo_plus')/1000000+F('monto_prestamo_inmediato')/1000000+F('monto_incr_linea')/1000000))
     detalles2 = zip(detalles,total)
@@ -75,7 +77,6 @@ def campana_resumen(request,fecha=fecha_actual):
     empleado_total = Campana2.objects.values('mes_vigencia').filter(mes_vigencia=fecha, segmento='EMPLEADO').annotate(cantidad=Sum('ofertas'))
     empleado=itertools.izip_longest(empleado_fast, empleado_cs, empleado_total)
     total2 = zip(total2_fast,total2_cs,total2_tot,total2_tot)
-    print segmento_cs2
     no_clie = zip(segmento_cs2,seg_tot2)
 
     flujo_fast = Campana2.objects.values('verificacion','tipo_clie' ).filter(mes_vigencia=fecha,tipo_clie='A1').annotate(cantidad=Sum('ofertas')).order_by('verificacion')
@@ -1793,7 +1794,7 @@ def load(request):
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
     else:
-        return campana_ofertas(request)
+        return campana_resumen(request)
 
 
 
@@ -1804,12 +1805,12 @@ def carga_rvgl(request):
         if form.is_valid():
             csv_file = request.FILES['rvgl']
             RVGLCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
             print "no es valido"
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 
 #def carga_campana(request):
@@ -1818,12 +1819,12 @@ def carga_rvgl(request):
         #if form.is_valid():
             #csv_file = request.FILES['campana']
             #CampanaCsv.import_data(data = csv_file)
-            #return campana_ofertas(request)
+            #return campana_resumen(request)
         #else:
             #print "no es valido"
-            #return load(campana_ofertas)
+            #return load(campana_resumen)
     #else:
-        #return load(campana_ofertas)
+        #return load(campana_resumen)
 
 def carga_campana2(request):
     if request.method == 'POST':
@@ -1831,12 +1832,12 @@ def carga_campana2(request):
         if form.is_valid():
             csv_file = request.FILES['campana2']
             Campana2Csv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
             print "no es valido"
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_caidas(request):
     if request.method == 'POST':
@@ -1844,11 +1845,11 @@ def carga_caidas(request):
         if form.is_valid():
             csv_file = request.FILES['caidas']
             CaidaCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_verificaciones(request):
     if request.method == 'POST':
@@ -1856,11 +1857,11 @@ def carga_verificaciones(request):
         if form.is_valid():
             csv_file = request.FILES['verificaciones']
             VerificacionesCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_evaluaciontc(request):
     if request.method == 'POST':
@@ -1868,11 +1869,11 @@ def carga_evaluaciontc(request):
         if form.is_valid():
             csv_file = request.FILES['evaluaciontc']
             EvaluaciontcCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_evaluacionpld(request):
     if request.method == 'POST':
@@ -1880,11 +1881,11 @@ def carga_evaluacionpld(request):
         if form.is_valid():
             csv_file = request.FILES['evaluacionpld']
             EvaluacionpldCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 
 def carga_seguimiento1(request):
@@ -1893,11 +1894,11 @@ def carga_seguimiento1(request):
         if form.is_valid():
             csv_file = request.FILES['seguimiento1']
             Seguimiento1Csv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_flujoperativo(request):
     if request.method == 'POST':
@@ -1905,11 +1906,11 @@ def carga_flujoperativo(request):
         if form.is_valid():
             csv_file = request.FILES['flujoperativo']
             FlujOperativoCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_hipotecassff(request):
     if request.method == 'POST':
@@ -1917,11 +1918,11 @@ def carga_hipotecassff(request):
         if form.is_valid():
             csv_file = request.FILES['hipotecassff']
             HipotecaSSFFCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_hipotecaconce(request):
     if request.method == 'POST':
@@ -1929,11 +1930,11 @@ def carga_hipotecaconce(request):
         if form.is_valid():
             csv_file = request.FILES['hipotecaconce']
             HipotecaConceCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_moras(request):
     if request.method == 'POST':
@@ -1941,11 +1942,11 @@ def carga_moras(request):
         if form.is_valid():
             csv_file = request.FILES['moras']
             MorasCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_adelantosueldo(request):
     if request.method == 'POST':
@@ -1953,11 +1954,11 @@ def carga_adelantosueldo(request):
         if form.is_valid():
             csv_file = request.FILES['adelantosueldo']
             AdelantoSueldoCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_prestinmediato(request):
     if request.method == 'POST':
@@ -1965,11 +1966,11 @@ def carga_prestinmediato(request):
         if form.is_valid():
             csv_file = request.FILES['prestinmediato']
             PrestInmediatoCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_altasempresa(request):
     if request.method == 'POST':
@@ -1977,11 +1978,11 @@ def carga_altasempresa(request):
         if form.is_valid():
             csv_file = request.FILES['altasempresa']
             AltasEmpresaCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_altassegmento(request):
     if request.method == 'POST':
@@ -1989,11 +1990,11 @@ def carga_altassegmento(request):
         if form.is_valid():
             csv_file = request.FILES['altassegmento']
             AltasSegmentoCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_increlinea(request):
     if request.method == 'POST':
@@ -2001,11 +2002,11 @@ def carga_increlinea(request):
         if form.is_valid():
             csv_file = request.FILES['increlinea']
             IncreLineaCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_lifemiles(request):
     if request.method == 'POST':
@@ -2013,11 +2014,11 @@ def carga_lifemiles(request):
         if form.is_valid():
             csv_file = request.FILES['lifemiles']
             LifemilesCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
 def carga_exoneracion(request):
     if request.method == 'POST':
@@ -2025,9 +2026,9 @@ def carga_exoneracion(request):
         if form.is_valid():
             csv_file = request.FILES['exoneracion']
             ExoneracionCsv.import_data(data = csv_file)
-            return campana_ofertas(request)
+            return campana_resumen(request)
         else:
-            return load(campana_ofertas)
+            return load(campana_resumen)
     else:
-        return load(campana_ofertas)
+        return load(campana_resumen)
 
