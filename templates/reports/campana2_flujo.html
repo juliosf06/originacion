@@ -13,10 +13,9 @@
             &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
             <select class="form-control" id="flujo_periodo">
-              <option value="201604" {% if fecha == '201604' %}selected {% endif %}>Abril 2016</option>
-              <option value="201603" {% if fecha == '201603' %}selected {% endif %}>Marzo 2016</option>
-              <option value="201602" {% if fecha == '201602' %}selected {% endif %}>Febrero 2016</option>
-              <option value="201601" {% if fecha == '201601' %}selected {% endif %}>Enero 2016</option>
+              {% for a in control_fecha %}
+              <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+              {% endfor %}
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
@@ -33,10 +32,11 @@
                   <th>Exon. Solo VD</th>
                   <th>Exon. Solo VL</th>
                   <th>Requiere Ambas</th>
+                  <th>Total</th>
                 </tr>
               </thead>
               <tbody>
-		{% for a,b,c,d in flujo %}
+		{% for a,b,c,d,e in flujo %}
 		<tr>
 		  {% if a.tipo_clie == "A1" %}
                      <td>FAST</td>
@@ -47,9 +47,21 @@
                   <td>{{b.num_flujo2|intcomma}}</td>
                   <td>{{c.num_flujo3|intcomma}}</td>
                   <td>{{d.num_flujo4|intcomma}}</td>
+                  <td>{{e.cantidad|intcomma}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
+	      <tfoot>
+		{% for a,b,c,d,e in total %}
+		<tr>
+                  <th>TOTAL</th>
+                  <th>{{a.cantidad|intcomma}}</th>
+                  <th>{{b.cantidad|intcomma}}</th>
+                  <th>{{c.cantidad|intcomma}}</th>
+                  <th>{{d.cantidad|intcomma}}</th>
+                  <th>{{e.cantidad|intcomma}}</th>
+	        {% endfor %}
+	      </tfoot>
             </table>
           </div>
 {% endblock %}

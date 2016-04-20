@@ -13,10 +13,9 @@
             &nbsp;&nbsp;
             <label class="control-label">Periodo de vigencia:&nbsp;&nbsp;</label>
             <select class="form-control" id="resumen_periodo">
-              <option value="201604" {% if fecha == '201604' %}selected {% endif %}>Abril 2016</option>
-              <option value="201603" {% if fecha == '201603' %}selected {% endif %}>Marzo 2016</option>
-              <option value="201602" {% if fecha == '201602' %}selected {% endif %}>Febrero 2016</option>
-              <option value="201601" {% if fecha == '201601' %}selected {% endif %}>Enero 2016</option>
+              {% for a in control_fecha %}
+              <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+              {% endfor %}
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div></center>
