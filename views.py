@@ -300,9 +300,6 @@ def campana_exoneraciones(request, segmento='TOTAL'):
     motivos = itertools.izip_longest(esph,VLvalida,pasiveros,vip,noph, cts, tendencia, dependiente,total1)
     motivos2 = itertools.izip_longest(vip2,pasivero2,esph2,hipo2,veri2, equi2,ubi2,fast2,total2)
     exoneraciones = itertools.izip_longest(exo_ambas,exo_vl,exo_vd,req_ambas)
-    #print exo_ambas_dict
-    for i in exoneraciones:
-        print i
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana2_exoneraciones.html', locals(),
