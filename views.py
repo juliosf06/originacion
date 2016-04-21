@@ -101,7 +101,9 @@ def campana_resumen(request,fecha=fecha_actual):
     prestamo_total = Campana2.objects.values('mes_vigencia').filter(mes_vigencia=fecha).annotate(pld=Sum('q_pld'),pat=Sum('q_prestamo_inmediato'))
     prestamo = zip(prestamo_fast, prestamo_cs, prestamo_total)  
     control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
-
+    segmento_lista = Campana2.objects.values('segmento').exclude(segmento='REFERIDO').filter( mes_vigencia=fecha).order_by('segmento').distinct()
+    #for value in segmento_lista.iteritems():
+	#print  value
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana2_resumen.html', locals(),
@@ -183,8 +185,20 @@ def campana_caidas(request, fecha=fecha_actual):
 
 @login_required
 def campana_exoneraciones(request, segmento='TOTAL'):
+    texto = str(segmento)
+    lista = texto.split(",")
+    meses = Campana2.objects.values('mes_vigencia').distinct().order_by('mes_vigencia')
     if segmento == 'TOTAL':
         exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_ambas_dict = {}
+	for i in meses:
+	    for j in exo_ambas:
+		if i['mes_vigencia'] == j['mes_vigencia']:
+		    exo_ambas_dict[i['mes_vigencia']]=j['cantidad']
+		    break
+		else:
+		    exo_ambas_dict[i['mes_vigencia']]=0
+        print sorted(exo_ambas_dict.iteritems())
         exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
@@ -227,10 +241,20 @@ def campana_exoneraciones(request, segmento='TOTAL'):
 	tv8 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='NULL').annotate(cantidad=Sum('cantidad'))
 	tv9 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD').annotate(cantidad=Sum('cantidad'))
     else:
-        exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_ambas_dict = {}
+	for i in meses:
+	    for j in exo_ambas:
+		if i['mes_vigencia'] == j['mes_vigencia']:
+		    exo_ambas_dict[i['mes_vigencia']]=j['cantidad']
+		    break
+		else:
+		    exo_ambas_dict[i['mes_vigencia']]=0
+        print exo_ambas_dict
+        sorted(exo_ambas_dict.iteritems())
+        exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
 
 	esph = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='MS REGULAR').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
 	VLvalida = Exoneracion.objects.values( 'cat_cliente').filter(tipo='VL',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
@@ -276,25 +300,30 @@ def campana_exoneraciones(request, segmento='TOTAL'):
     motivos = itertools.izip_longest(esph,VLvalida,pasiveros,vip,noph, cts, tendencia, dependiente,total1)
     motivos2 = itertools.izip_longest(vip2,pasivero2,esph2,hipo2,veri2, equi2,ubi2,fast2,total2)
     exoneraciones = itertools.izip_longest(exo_ambas,exo_vl,exo_vd,req_ambas)
+    #print exo_ambas_dict
+    for i in exoneraciones:
+        print i
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana2_exoneraciones.html', locals(),
                   context_instance=RequestContext(request))
 
 @login_required
-def campana_prueba(request, segmento='TOTAL'):
-    if segmento == 'TOTAL':
+def campana_prueba(request, segmento='TODOS'):
+    texto = str(segmento)
+    lista = texto.split(",")
+    if segmento == 'TODOS':
         exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
     else:
-        exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS', segmento=segmento).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
     control_segmentos = Campana2.objects.all().values('segmento').distinct('segmento')
-    exoneraciones = itertools.izip_longest(exo_ambas,exo_vl,exo_vd,req_ambas)
+    exoneraciones = itertools.izip_longest(exo_ambas,exo_vl,exo_vd, req_ambas)
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana2_prueba.html', locals(),

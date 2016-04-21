@@ -23,6 +23,24 @@ $("#tog_menu").click(function(e) {
 });
 
 //Ajax para vistas CAMPANAS
+
+$(".check").click(function(event){
+   var list = [];
+   $('input[class="check"]:checked').map(function(){
+       list.push($(this).val());
+   });
+   console.log($('input[class="check"]:checked').length);
+   if( $('input[class="check"]:checked').length == 0){
+      $(this).prop('checked',true);
+   }
+   else{
+      var string = list.toString();
+      window.location.href = "/reports/campanas/exoneraciones/"+string+"/";
+      console.log(string);
+  }
+});
+
+
 $("#ofertas_periodo").change(function(e){
   console.log($("#ofertas_periodo").val());
 
@@ -43,17 +61,12 @@ $("#caidas_periodo").change(function(e){
   window.location.href = "/reports/campanas/caidas/"+$("#caidas_periodo").val()+"/";
 });
 
-$("#exoneraciones_segmento").change(function(e){
+/*$("#exoneraciones_segmento").change(function(e){
   console.log($("#exoneraciones_segmento").val());
 
   window.location.href = "/reports/campanas/exoneraciones/"+$("#exoneraciones_segmento").val()+"/";
-});
+});*/
 
-$("#prueba_segmento").change(function(e){
-  console.log($("#prueba_segmento").val());
-
-  window.location.href = "/reports/campanas/prueba/"+$("#prueba_segmento").val()+"/";
-});
 
 $("#flujo_periodo").change(function(e){
   console.log($("#flujo_periodo").val());

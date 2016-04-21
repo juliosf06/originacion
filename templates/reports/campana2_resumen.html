@@ -297,7 +297,8 @@
 			type: "doughnut",
 			indexLabel: "{y}",
 			yValueFormatString: "##,###.0 MM",
-			indexLabelorientatios: "horizontal", 
+			indexLabelorientatios: "horizontal",
+			//showInLegend: "true", 
 			dataPoints: [
 				{% for i in montos2 %}
 				{ label: "{{i.segmento}}",  y: {{i.monto}}/1000000  },

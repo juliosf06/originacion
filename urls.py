@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^campanas/altasempresa/$', views.campana_altasempresa, name='campana_altasempresa'),
     url(r'^campanas/prestinmediato/$', views.campana_prestinmediato, name='campana_prestinmediato'),
     url(r'^campanas/prueba/$', views.campana_prueba, name='campana_prueba'),
+    url(r'^campanas/prueba/(?P<segmento>[\w|\W]+)/$', views.campana_prueba, name='campana_prueba'),
 
     # URLS para reportes de RVGL
     url(r'^rvgl/$', views.rvgl_banca, name='rvgl_banca'),

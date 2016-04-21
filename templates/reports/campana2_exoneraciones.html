@@ -12,12 +12,11 @@
           <div class="form-inline">
             &nbsp;&nbsp;
             <label class="control-label">Segmento:&nbsp;&nbsp;</label>
-            <select class="form-control" id="exoneraciones_segmento">
-	      <option>TOTAL</option>	      
-	    {% for a in control_segmentos %}
-              <option {% if segmento == a.segmento %}selected {% endif %}>{{a.segmento}} </option>
+            <form action="" class="form-control" id="prueba_segmento">
+	    {% for i in control_segmentos %}
+	    <input type="checkbox" name="segmento" class="check" value="{{i.segmento}}" {% if i.segmento in lista %}checked{% endif %} >{{i.segmento}}
 	    {% endfor %}
-            </select>
+            </form>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
           <div class="rows placeholders">
