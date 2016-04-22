@@ -57,4 +57,8 @@ def listsort(value):
 def to_int(value):
     return 0 if value=='' else int(value)
 
+@register.filter
+def to_str(value):
+    return 0 if value=='' else str(value)
+
 

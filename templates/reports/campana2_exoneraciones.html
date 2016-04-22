@@ -12,7 +12,7 @@
           <div class="form-inline">
             &nbsp;&nbsp;
             <label class="control-label">Segmento:&nbsp;&nbsp;</label>
-            <form action="" class="form-control" id="prueba_segmento">
+            <form action="" class="form-control" id="exoneracion_segmento">
 	    {% for i in control_segmentos %}
 	    <input type="checkbox" name="segmento" class="check" value="{{i.segmento}}" {% if i.segmento in lista %}checked{% endif %} >{{i.segmento}}
 	    {% endfor %}

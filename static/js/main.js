@@ -61,20 +61,11 @@ $("#caidas_periodo").change(function(e){
   window.location.href = "/reports/campanas/caidas/"+$("#caidas_periodo").val()+"/";
 });
 
-/*$("#exoneraciones_segmento").change(function(e){
-  console.log($("#exoneraciones_segmento").val());
-
-  window.location.href = "/reports/campanas/exoneraciones/"+$("#exoneraciones_segmento").val()+"/";
-});*/
-
-
 $("#flujo_periodo").change(function(e){
   console.log($("#flujo_periodo").val());
 
   window.location.href = "/reports/campanas/flujo/"+$("#flujo_periodo").val()+"/";
 });
-
-
 
 //Ajax para vistas RVGL
 $("#banca_periodo,#banca_analista ").change(function(e){

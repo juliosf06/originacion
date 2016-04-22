@@ -97,14 +97,6 @@
 		<div id="chartContainer" style="height: 250px; width: 50%; display: inline-block;"></div>
 		<div id="chartContainer2" style="height: 250px; width: 50%; display: inline-block;"></div>
           </div>
-	  <center>
-	  <font color="#89D1F3">■ </font><font color="#89D1F3" size=2><b>AVA</b></font>&nbsp;&nbsp;&nbsp;
-	  <font color="#009EE5">■ </font><font color="#009EE5" size=2><b>EMPLEADO</b></font>&nbsp;&nbsp;&nbsp;
-	  <font color="#094FA4">■ </font><font color="#094FA4" size=2><b>MS</b></font>&nbsp;&nbsp;&nbsp;
-	  <font color="#86C82D">■ </font><font color="#86C82D" size=2><b>NOCLI</b></font>&nbsp;&nbsp;&nbsp;
-	  <font color="#FDBD2C">■ </font><font color="#FDBD2C" size=2><b>NOPH</b></font>&nbsp;&nbsp;&nbsp;
-	  <font color="#F6891E">■ </font><font color="#F6891E" size=2><b>PLAN CLIENTE</b></font>
-	  </center>
           <h2 class="sub-header">2. Ofertas por Segmento</h2>
           <div class="table-responsive">
             <table class="table table-striped">
@@ -273,11 +265,11 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "pie",
 			indexLabel: "{y}",
-			//showInLegend: "true",
+			showInLegend: "true",
 			//indexLabelorientatios: "horizontal", 
 			dataPoints: [
 				{% for i in clientes %}
-				{ label: "{{i.segmento}}",  y: {{i.num_clientes}}  },
+				{ label: "{{i.segmento}}",  y: {{i.num_clientes}}, name: "{{i.segmento}}"  },
 				{% endfor %}
 			]
 		},
@@ -290,6 +282,10 @@
 		title:{
 			text: "Segmentos a nivel importe",
                 },
+		Legend:{
+			//horizontalAlign: "left",
+			//verticalAlign: "top",
+                },
 		animationEnabled: true,   // change to true
 		data: [              
                 {
@@ -297,11 +293,11 @@
 			type: "doughnut",
 			indexLabel: "{y}",
 			yValueFormatString: "##,###.0 MM",
-			indexLabelorientatios: "horizontal",
-			//showInLegend: "true", 
+			//indexLabelorientatios: "horizontal",
+			showInLegend: true, 
 			dataPoints: [
 				{% for i in montos2 %}
-				{ label: "{{i.segmento}}",  y: {{i.monto}}/1000000  },
+				{ y: {{i.monto}}/1000000 ,label: "{{i.segmento}}" , name: "{{i.segmento}}" },
 				{% endfor %}
 			]
 		},

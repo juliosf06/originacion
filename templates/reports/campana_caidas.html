@@ -73,10 +73,11 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "rangeBar",
 			showInLegend: "true",
+			toolTipContent:"{cantidad}",
                         legendText:  "Distribución de caídas",
 			dataPoints: [
-				{% for i in coord %}
-				{ x: {{forloop.counter}}*10,  label: "{{i.label}}",  y:[{{i.x}}/1000, {{i.y}}/1000 ] },
+				{% for a,b in diferencia %}
+				{ x: {{forloop.counter}}*10,  label: "{{a.label}}",  y:[{{a.x}}/1000, {{a.y}}/1000 ], cantidad:"{{b.num_caida|intcomma}}"},
 				{% endfor %}
 			]
 		},
