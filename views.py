@@ -20,15 +20,21 @@ m1 = datetime.now()-timedelta(days=1*30)
 before1 = m1.strftime("%Y%m")
 m6 = datetime.now()-timedelta(days=6*30)
 before6 = m6.strftime("%Y%m")
+m7 = datetime.now()-timedelta(days=7*30)
+before7 = m7.strftime("%Y%m")
+m11 = datetime.now()-timedelta(days=11*30)
+before11 = m11.strftime("%Y%m")
 m12 = datetime.now()-timedelta(days=12*30)
 before12 = m12.strftime("%Y%m")
+m14 = datetime.now()-timedelta(days=14*30)
+before14 = m14.strftime("%Y%m")
 m18 = datetime.now()-timedelta(days=18*30)
 before18 = m18.strftime("%Y%m")
-print fecha_actual
-print before1
-print before6
-print before12
-print before18
+#print fecha_actual
+print before7
+#print before6
+#print before12
+#print before18
 
 # 1.- Vista para links en contruccion
 def login_reports(request): #agregado
@@ -717,16 +723,37 @@ def seguimiento_tarjeta(request):
     seg_nocli = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', segmento__in=['NoCli',''], mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
     camp_seg = zip(seg_ava, seg_ms, seg_noph, seg_nocli, camp_form)
 
-    mora6 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =fecha_actual).annotate(sum_mora=Sum('mora6')).order_by('mes_form')
-    mora9 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =before6).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
-    mora12 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =before12).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
-    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =fecha_actual).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+    meses_moras = Moras.objects.values('mes_form').filter(mes_form__gte=before18, mes_form__lte =before7).order_by('mes_form')
+
+    mora6 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =before7).annotate(sum_mora=Sum('mora6')).order_by('mes_form')
+    mora9 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =before11).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
+    mora12 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =before14).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
+    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =before7).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     mora_6 = zip(mora6,total_ctas)
     mora_9 = zip(mora9,total_ctas)
     mora_12 = zip(mora12,total_ctas)
+    
+    total_moraxcamp = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =before7,flg_camp='1. CAMPANA').annotate(sum_ctas=Sum('ctas')).order_by('mes_form')
+    total_moraxcamp_dict = {}
+    for i in meses_moras:
+	for j in total_moraxcamp:
+	    if i['mes_form'] == j['mes_form']:
+               total_moraxcamp_dict[i['mes_form']]=j['sum_ctas']
 
-    meses_moras = Moras.objects.values('mes_form').filter(mes_form__gte=before18, mes_form__lte =fecha_actual).order_by('mes_form')
-    total_morasxseg = Moras.objects.values('mes_form','producto', 'segmento').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =fecha_actual).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+    mora_camp = Moras.objects.values('mes_form','producto', 'flg_camp').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =before7,flg_camp='1. CAMPANA').annotate(sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by('mes_form')
+    mora6_camp_dict = {}
+    mora9_camp_dict = {}
+    mora12_camp_dict = {}
+    for i in meses_moras:
+	for j in mora_camp:
+	    if i['mes_form'] == j['mes_form']:
+		mora6_camp_dict[i['mes_form']]=j['sum_mora6']*100/total_moraxcamp_dict[i['mes_form']]
+		if i['mes_form'] <= before11:
+		   mora9_camp_dict[i['mes_form']]=j['sum_mora9']*100/total_moraxcamp_dict[i['mes_form']]
+		if i['mes_form'] <= before14:
+		   mora12_camp_dict[i['mes_form']]=j['sum_mora12']*100/total_moraxcamp_dict[i['mes_form']]
+
+    total_morasxseg = Moras.objects.values('mes_form','producto', 'segmento').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =before7).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     totalxava_moras_dict = {}
     totalxms_moras_dict = {}
     totalxnoph_moras_dict = {}
@@ -743,7 +770,7 @@ def seguimiento_tarjeta(request):
 		elif j['segmento']=='4.NoCli':
          	   totalxnocli_moras_dict[i['mes_form']]=j['sum_mora']
 
-    moras = Moras.objects.values('mes_form', 'segmento', 'producto').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =fecha_actual).annotate(sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by('mes_form')
+    moras = Moras.objects.values('mes_form', 'segmento', 'producto').filter(producto='03 Tarjeta',mes_form__gte=before18, mes_form__lte =before7).annotate(sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by('mes_form')
     ava_mora6_dict = {}
     ava_mora9_dict = {}
     ava_mora12_dict = {}
@@ -761,27 +788,27 @@ def seguimiento_tarjeta(request):
           if i['mes_form'] == j['mes_form']:
 	     if  j['segmento']=='1.AVA':
              	ava_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxava_moras_dict[i['mes_form']]
-		if i['mes_form'] <= before6:
+		if i['mes_form'] <= before11:
              	   ava_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxava_moras_dict[i['mes_form']]
-		if i['mes_form'] <= before12:
+		if i['mes_form'] <= before14:
              	   ava_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxava_moras_dict[i['mes_form']]		
 	     elif  j['segmento']=='2.MS':
              	ms_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxms_moras_dict[i['mes_form']]
-		if i['mes_form'] <= before6:
+		if i['mes_form'] <= before11:
              	   ms_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxms_moras_dict[i['mes_form']]
-		if i['mes_form'] <= before12:
+		if i['mes_form'] <= before14:
              	   ms_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxms_moras_dict[i['mes_form']]
 	     elif  j['segmento']=='3.NoPH':
              	noph_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxnoph_moras_dict[i['mes_form']]
-		if i['mes_form'] <= before6:
+		if i['mes_form'] <= before11:
              	   noph_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxnoph_moras_dict[i['mes_form']]
-		if i['mes_form'] <= before12:
+		if i['mes_form'] <= before14:
              	   noph_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxnoph_moras_dict[i['mes_form']]
 	     elif  j['segmento']=='4.NoCli':
              	nocli_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxnocli_moras_dict[i['mes_form']]
-		if i['mes_form'] <= before6:
+		if i['mes_form'] <= before11:
              	   nocli_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxnocli_moras_dict[i['mes_form']]
-		if i['mes_form'] <= before12:
+		if i['mes_form'] <= before14:
              	   nocli_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxnocli_moras_dict[i['mes_form']]
 
     total_forzaje = Forzaje.objects.values('mes_vigencia').filter(producto='03 Tarjeta',mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(cantidad=Sum('form')).order_by('mes_vigencia')
