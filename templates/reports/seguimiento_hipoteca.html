@@ -27,6 +27,14 @@
           <div class="rows placeholders">
 		<div id="chartContainer4" style="height: 300px; width: 100%;"></div>
           </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer5" style="height: 300px; width: 100%;"></div>
+          </div>
+<!--	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer6" style="height: 300px; width: 100%;"></div>
+          </div>-->
 
 {% endblock %}
 
@@ -333,7 +341,86 @@
 	});
 	chart.render();
 
+	var chart = new CanvasJS.Chart("chartContainer5", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Nivel de Forzaje"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			name: "Duda",
+			indexLabel: "{y}%",
+			color: "#89D1F3",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in duda_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			name: "Rechazo",
+			indexLabel: "{y}%",
+			color: "#F6891E",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in rechazo_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
 
+/*	var chart = new CanvasJS.Chart("chartContainer6", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Nivel de Forzaje"              
+		},
+		animationEnabled: true,   // change to true
+		{% for a,b in forzaje3 %}
+		{% if a.dic_global == 'DU' %}
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			name: "Duda",
+			//indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}%",
+			color: "#89D1F3",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{ y: {{a.cantidad}} , label: "{{a.mes_vigencia|convert_date}}" },
+			]
+		},
+		{% elif a.dic_global == "RE" %}
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			name: "Rechazo",
+			//indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}%",
+			color: "#F6891E",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{ y: {{a.cantidad}} , label: "{{a.mes_vigencia|convert_date}}" },
+			]
+		},
+		]
+	});
+	chart.render();
+		{% endif %}
+		{% endfor %}*/
     }
   </script>
 {% endblock %}

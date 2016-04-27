@@ -17,15 +17,15 @@
           </div>
 	 &nbsp;
           <div class="rows placeholders">
-		<select name="Ver1">
-		<option id="show1" selected>show1</option>
-		<option id="show2">show2</option>
-		</select>
 		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
           </div>
 	 &nbsp;
           <div class="rows placeholders">
 		<div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+          </div>
+	 &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer4" style="height: 300px; width: 100%;"></div>
           </div>
 
 {% endblock %}
@@ -185,6 +185,47 @@
 			dataPoints: [
 				{% for a,b in moras24 %}
 				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer4", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Nivel de Forzaje"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			name: "Duda",
+			//indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}%",
+			color: "#89D1F3",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c in forzaje %}
+				{ y: {{a.cantidad}}*100/{{c.cantidad}} , label: "{{a.mes_vigencia|convert_date}}" },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			name: "Rechazo",
+			//indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}%",
+			color: "#F6891E",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c in forzaje %}
+				{ y: {{b.cantidad}}*100/{{c.cantidad}} , label: "{{a.mes_vigencia|convert_date}}" },
 				{% endfor %}
 			]
 		},
