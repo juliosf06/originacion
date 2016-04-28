@@ -1969,7 +1969,7 @@ def load(request):
     #RVGL.objects.all().delete()
     #Evaluaciontc.objects.all().delete()
     #Evaluacionpld.objects.all().delete()
-    Seguimiento1.objects.all().delete()
+    #Seguimiento1.objects.all().delete()
     #HipotecaConce.objects.all().delete()
     #Moras.objects.all().delete()
     #IncreLinea.objects.all().delete()
