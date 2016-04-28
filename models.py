@@ -158,9 +158,9 @@ class Seguimiento1(models.Model):
     rng_ing = models.CharField(max_length=20)
     producto = models.CharField(max_length=50)
     riesgos = models.CharField(max_length=20)
-    soli = models.IntegerField(default=0)
-    plazo = models.IntegerField(default=0)
-    form = models.IntegerField(default=0)
+    soli = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    plazo = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    form = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     facturacion = models.DecimalField(max_digits=12, decimal_places=8, default=0)
 
     def __str__(self):
