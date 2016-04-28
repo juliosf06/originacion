@@ -846,17 +846,17 @@ def seguimiento_tarjeta(request):
 
 @login_required
 def seguimiento_pld(request):
-    total_form = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='01 Consumo', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    total_form = Seguimiento1.objects.values('mes_vigencia', 'producto').filter(producto='01 Consumo', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     uno_form = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(producto='01 Consumo', riesgos='UNO A UNO', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     camp_form = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(producto='01 Consumo', riesgos='CAMP', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     camp_fast = Seguimiento1.objects.values('mes_vigencia','origen').filter(producto='01 Consumo', origen='ORIGINACION FAST', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     camp_uno = Seguimiento1.objects.values('mes_vigencia','origen').filter(producto='01 Consumo', origen='ORIGINACION MS', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     formalizados = zip(total_form,uno_form,camp_fast,camp_uno)
-    seg_ava = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='01 Consumo', segmento__in=['Premium','Vip','Decisores','REFERIDO'], mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
-    seg_ms = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='01 Consumo', segmento__in=['MS', 'PLAN CLIENTE'], mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
-    seg_pas = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='01 Consumo', segmento='Pasivo', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
-    seg_noph = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='01 Consumo', segmento='No PH', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
-    seg_nocli = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='01 Consumo', segmento__in=['NoCli',''], mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
+
+    seg_ava = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='01 Consumo', segmento='1.AVA', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
+    seg_ms = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='01 Consumo', segmento='2.MS', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
+    seg_noph = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='01 Consumo', segmento='3.NoPH', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
+    seg_nocli = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(riesgos='CAMP', producto='01 Consumo', segmento='4.NoCli', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
     camp_seg = zip(seg_ava, seg_ms, seg_noph, seg_nocli, camp_form)
 
     mora6 = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('mora6')).order_by('mes_form')

@@ -132,7 +132,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "UNO A UNO",
-			indexLabelFontColor: "#89D1F3",			
+			indexLabelFontColor: "#094FA4",	
+			color: "#094FA4",			
 			indexLabel: "{y}",
 			yValueFormatString: "##,###",
 			showInLegend: "true",
@@ -146,7 +147,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "CAMPAÑAS",
-			indexLabelFontColor: "#009EE5",			
+			indexLabelFontColor: "#86C82D",	
+			color: "#86C82D",		
 			//indexLabel: "{y}",
 			yValueFormatString: "##,###.",
 			showInLegend: "true",
@@ -209,22 +211,9 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
-			name: "Pasivo",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for i in seg_pas %}
-				{ y: {{i.seg}} , label: '{{i.mes_vigencia|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
 			name: "No PH",
-			indexLabelFontColor: "white",			
+			indexLabelFontColor: "white",
+			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -240,6 +229,7 @@
 			name: "NoCli",
 			indexLabelFontColor: "white",			
 			indexLabel: "#percent%",
+			color: "#C8175E",
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
@@ -254,7 +244,7 @@
 			name: "# Formalizados (Miles)",
 			indexLabelFontColor: "darkblue",			
 			indexLabel: "{y}",
-			//percentFormatString: "#0.",
+			color: "#C8175E",
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in camp_seg %}
@@ -277,7 +267,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "MORA6",
-			indexLabelFontColor: "darkblue",			
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",			
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
@@ -291,7 +282,7 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "MORA9",
-			indexLabelFontColor: "darkblue",			
+			indexLabelFontColor: "#094FA4",			
 			indexLabel: "{y}%",
 			color: "#094FA4",
 			yValueFormatString: "#0.#",
@@ -306,7 +297,7 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "MORA12",
-			indexLabelFontColor: "darkblue",			
+			indexLabelFontColor: "#86C82D",			
 			indexLabel: "{y}%",
 			color: "#86C82D",
 			yValueFormatString: "#0.#",
@@ -332,7 +323,7 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "column",
 			name: "Duda",
-			//indexLabelFontColor: "darkblue",			
+			indexLabelFontColor: "#89D1F3",			
 			indexLabel: "{y}%",
 			color: "#89D1F3",
 			yValueFormatString: "#0.",
@@ -347,7 +338,7 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "column",
 			name: "Rechazo",
-			//indexLabelFontColor: "darkblue",			
+			indexLabelFontColor: "#F6891E",			
 			indexLabel: "{y}%",
 			color: "#F6891E",
 			yValueFormatString: "#0.",
