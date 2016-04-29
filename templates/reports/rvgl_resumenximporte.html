@@ -1,0 +1,138 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Resumen de Importes{% endblock %}
+
+{% block content %}
+
+          <center><h1 class="page-header">Importe por Dictamen - Producto</h1></center>
+          <div class="form-inline">
+            &nbsp;&nbsp;
+	    <center>
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control" id="rvglresumenximpo_periodo">
+              {% for a in control_fecha %}
+              <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+              {% endfor %}
+            </select>
+            &nbsp;&nbsp;
+            <label class="control-label">Analista:&nbsp;&nbsp;</label>
+            <select class="form-control" id="rvglresumenximpo_analista">
+              <option selected>TODOS</option>
+	      {% for a in control_analistas %}  
+                  <option {% if analista == a.analista %}selected {% endif %}>{{a.analista}}</option>
+	      {% endfor %}
+            </select>
+	    </center>
+          </div>
+          &nbsp;&nbsp;
+          <div class="rows placeholders">
+             <h2 class="page-header">1. Importe por Dictamen</h2>
+             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+	        <div id="chartContainer" style="height: 400px; width: 100%; display: inline-block;"></div>
+             <h2 class="sub-header">Detalle de Operaciones</h2>
+                <div class="table-responsive">
+                <table class="table table-striped" >
+          	   <thead>
+          	     <tr>
+          	       <th>Dictamen</th>
+              	       <th>Importe</th>
+              	     </tr>
+             	   </thead>
+            	   <tbody id="tabla_importexdict">
+		      {% for a in importexdict %}
+		      <tr>                       
+                      <td>{{a.dictamen}}</td>
+                      <td>S/. {{a.sum_importe|intcomma}}</td>
+               	      </tr>
+		      {% endfor %}
+            	   </tbody>
+                </table>
+                </div>
+             <h2 class="page-header">2. Importe por Producto</h2>
+             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+	        <div id="chartContainer2" style="height: 400px; width: 100%; display: inline-block;"></div>
+             <h2 class="sub-header">Detalle de Operaciones</h2>
+                <div class="table-responsive">
+                <table class="table table-striped">
+              	   <thead>
+                      <tr>
+                        <th>Producto</th>
+                        <th>Importe</th>
+                      </tr>
+              	   </thead>
+              	   <tbody id="tabla_importexprod">
+		      {% for a in importexprod %}
+		      <tr>
+                         <td>{{a.producto_esp}}</td>
+                         <td>S/. {{a.sum_importexprod|intcomma}}</td>
+                      </tr>
+		      {% endfor %}
+              	   </tbody>
+                </table>
+                </div>
+          </div>
+
+
+{% endblock %}
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+                axisY:{
+                  prefix: "S/.",
+                  suffix: "M"
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "bar",
+			indexLabelFontColor: "white",
+			indexLabelPlacement: "inside",			
+			indexLabel: "{y}",
+			yValueFormatString: "###.# MM",
+			dataPoints: [
+				{% for i in importexdict %}
+				{ label: "{{i.dictamen}}",  y: {{i.sum_importe}}/1000000  },
+				{% endfor %}
+			]
+		}
+		],
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+                axisY:{
+                  prefix: "S/.",
+                  suffix: "M"
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "bar",
+			indexLabelFontColor: "white",
+			indexLabelPlacement: "inside",			
+			indexLabel: "{y}",
+			yValueFormatString: "###.# MM",
+			dataPoints: [
+				{% for i in importexprod %}
+				{ label: "{{i.producto_esp}}",  y: {{i.sum_importexprod}}/1000000  },
+				{% endfor %}
+			]
+		}
+		],
+	});
+	chart.render();
+
+    }
+  </script>
+{% endblock %}
+

@@ -1,0 +1,235 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Resumen de Operaciones{% endblock %}
+
+{% block content %}
+
+          <center><h1 class="page-header">Resumen de Operaciones</h1></center>
+          <div class="form-inline">
+            &nbsp;&nbsp;
+	    <center>
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control" id="rvglresumen_periodo">
+              {% for a in control_fecha %}
+              <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+              {% endfor %}
+            </select>
+            &nbsp;&nbsp;
+            <label class="control-label">Analista:&nbsp;&nbsp;</label>
+            <select class="form-control" id="rvglresumen_analista">
+              <option selected>TODOS</option>
+	      {% for a in control_analistas %}  
+                  <option {% if analista == a.analista %}selected {% endif %}>{{a.analista}}</option>
+	      {% endfor %}
+            </select>
+	    </center>
+          </div>
+            &nbsp;&nbsp;
+          <h2 class="page-header">1. Operaciones por Banca</h2>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          <div class="rows placeholders">
+             <div class="table-responsive" style="height: 300px; width: 50%; display: inline-block;">
+             <table class="table table-striped" >
+          	 <thead>
+          	   <tr>
+          	     <th>Seco</th>
+              	     <th>Operaciones</th>
+              	   </tr>
+             	 </thead>
+            	 <tbody id="tabla_banca">
+		   {% for a in banca %}
+		      <tr>                       
+                      <td>{{a.seco}}</td>
+                      <td>{{a.num_seco|intcomma}}</td>
+               	      </tr>
+		   {% endfor %}
+            	 </tbody>
+          	 </table>
+             </div>
+	     <div id="chartContainer" style="height: 400px; width: 50%; display: inline-block;"></div>
+          </div>
+          <h2 class="page-header">2. Operaciones por Dictamen</h2>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          <div class="rows placeholders">
+	     <div id="chartContainer2" style="height: 400px; width: 50%; display: inline-block;"></div>
+             <div class="table-responsive" style="height: 300px; width: 50%; display: inline-block;">
+             <table class="table table-striped">
+              	<thead>
+                   <tr>
+                     <th>Dictamen</th>
+                     <th>Operaciones</th>
+                   </tr>
+              	</thead>
+              	<tbody id="tabla_dictamen">
+		   {% for a in dictamen %}
+		   <tr>
+                     <td>{{a.dictamen}}</td>
+                     <td>{{a.num_dictamen|intcomma}}</td>
+                   </tr>
+		   {% endfor %}
+              	</tbody>
+             </table>
+             </div>
+          </div>
+          <h2 class="page-header">3. Operaciones por Producto</h2>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          <div class="rows placeholders">
+             <div class="table-responsive" style="height: 300px; width: 50%; display: inline-block;">
+             <table class="table table-striped">
+              	<thead>
+                   <tr>
+                     <th>Producto</th>
+                     <th>Operaciones</th>
+                   </tr>
+              	</thead>
+                <tbody id="tabla_producto">
+		  {% for a in producto %}
+		   <tr>
+                     <td>{{a.producto_esp}}</td>
+                     <td>{{a.num_producto|intcomma}}</td>
+                   </tr>
+		  {% endfor %}
+                </tbody>
+             </table>
+             </div>
+	     <div id="chartContainer3" style="height: 400px; width: 50%; display: inline-block;"></div>
+          </div>
+          <h2 class="page-header">4. Operaciones por Buró</h2>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          <div class="rows placeholders">
+	     <div id="chartContainer4" style="height: 400px; width: 50%; display: inline-block;"></div>
+             <div class="table-responsive" style="height: 400px; width: 50%; display: inline-block;">
+             <table class="table table-striped">
+              	<thead>
+                   <tr>
+                     <th>Buró</th>
+                     <th>Operaciones</th>
+                   </tr>
+              	</thead>
+                <tbody id="tabla_buro">
+		  {% for a in buro %}
+		   <tr>
+                     <td>{{a.dic_buro}}</td>
+                     <td>{{a.num_buro|intcomma}}</td>
+                   </tr>
+		  {% endfor %}
+                </tbody>
+             </table>
+             </div>
+          </div>
+
+{% endblock %}
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			//text: "Distribución según Banca"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "pie",
+			indexLabelFontColor: "gray",			
+			indexLabel: "{label} #percent%",
+			percentFormatString: "#0.#",
+			dataPoints: [
+				{% for i in banca %}
+				{ label: "{{i.seco}}",  y: {{i.num_seco}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+		title:{
+			//text: "Operaciones por Dictamen"              
+		},
+		axisY:{
+			labelFontColor: "white",
+			gridColor: "white",
+			interval: 3500,              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			indexLabelFontColor: "white",
+			indexLabelPlacement: "inside",			
+			indexLabel: "{y}",
+			//percentFormatString: "#0.#",
+			dataPoints: [
+				{% for i in dictamen %}
+				{ label: "{{i.dictamen}}",  y: {{i.num_dictamen}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer3", {
+		theme: "theme2",//theme1
+		title:{
+			//text: "Distribución por Producto"              
+		},
+		axisY:{
+			labelFontColor: "white",
+			gridColor: "white",
+			interval: 3500,              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			indexLabelFontColor: "white",
+			indexLabelPlacement: "inside",			
+			indexLabel: "{y}",
+			dataPoints: [
+				{% for i in producto %}
+				{ label: "{{i.producto_esp}}",  y: {{i.num_producto}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer4", {
+		theme: "theme2",//theme1
+		title:{
+			//text: "Distribución según Buro",
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "doughnut",
+			startAngle: 20,
+			indexLabel: "{label}  #percent%",
+			percentFormatString: "##.#",
+			dataPoints: [
+				{% for i in buro %}
+				{ label: "{{i.dic_buro}}",  y: {{i.num_buro}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+    }
+  </script>
+{% endblock %}
+

@@ -450,68 +450,57 @@ def campana_prestinmediato(request):
 
 # 3.- Vistas para reportes de RVGL
 @login_required
-def rvgl_banca(request):
-    banca = RVGL.objects.filter(mes_vigencia='201602').values('seco').annotate(num_seco=Count('seco')).order_by('seco')
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+def rvgl_resumen(request, fecha=before2, analista='TODOS'):
+    control_analistas = RVGL.objects.values('analista').distinct('analista')
+    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    if analista == 'TODOS':
+    	banca = RVGL.objects.filter(mes_vigencia=fecha).values('seco').annotate(num_seco=Count('seco')).order_by('seco')
+  	dictamen = RVGL.objects.filter(mes_vigencia=fecha).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
+        producto = RVGL.objects.filter(mes_vigencia=fecha).values('producto_esp').annotate(num_producto=Count('producto_esp')).order_by('producto_esp')
+    	buro = RVGL.objects.exclude(dic_buro__in =['AL','NULL']).filter(mes_vigencia=fecha).values('dic_buro').annotate(num_buro=Count('dic_buro')).order_by('dic_buro')
+    else:
+    	banca = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('seco').annotate(num_seco=Count('seco')).order_by('seco')
+  	dictamen = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
+        producto = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('producto_esp').annotate(num_producto=Count('producto_esp')).order_by('producto_esp')
+    	buro = RVGL.objects.exclude(dic_buro__in =['AL','NULL']).filter(mes_vigencia=fecha, analista=analista).values('dic_buro').annotate(num_buro=Count('dic_buro')).order_by('dic_buro')
+
     static_url=settings.STATIC_URL
     tipo_side = 2
-    return render('reports/rvgl_banca.html', locals(),
+    return render('reports/rvgl_resumen.html', locals(),
                   context_instance=RequestContext(request))
 
 @login_required
-def rvgl_dictamen(request):
-    dictamen = RVGL.objects.filter(mes_vigencia='201602').values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+def rvgl_resumenximporte(request, fecha=before2, analista='TODOS'):
+    control_analistas = RVGL.objects.values('analista').distinct('analista')
+    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    if analista == 'TODOS':
+  	importexdict = RVGL.objects.filter(mes_vigencia=fecha).values('dictamen').annotate(sum_importe=Sum('importe_solic')).order_by('dictamen')
+        importexprod = RVGL.objects.filter(mes_vigencia=fecha).values('producto_esp').annotate(sum_importexprod=Sum('importe_solic')).order_by('producto_esp')
+
+    else:
+  	importexdict = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('dictamen').annotate(sum_importe=Sum('importe_solic')).order_by('dictamen')
+        importexprod = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('producto_esp').annotate(sum_importexprod=Sum('importe_solic')).order_by('producto_esp')
+
     static_url=settings.STATIC_URL
     tipo_side = 2
-    return render('reports/rvgl_dictamen.html', locals(),
+    return render('reports/rvgl_resumenximporte.html', locals(),
                   context_instance=RequestContext(request))
 
-@login_required
-def rvgl_producto(request):
-    producto = RVGL.objects.filter(mes_vigencia='201602').values('producto_esp').annotate(num_producto=Count('producto_esp')).order_by('producto_esp')
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    return render('reports/rvgl_producto.html', locals(),
-                  context_instance=RequestContext(request))
-
-@login_required
-def rvgl_importexprod(request):
-    importexprod = RVGL.objects.filter(mes_vigencia='201602').values('producto_esp').annotate(sum_importexprod=Sum('importe_solic')).order_by('producto_esp')
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    print importexprod
-    return render('reports/rvgl_importexprod.html', locals(),
-                  context_instance=RequestContext(request))
-
-@login_required
-def rvgl_buro(request):
-    buro = RVGL.objects.exclude(dic_buro='AL').exclude(dic_buro='NULL').filter(mes_vigencia='201602').values('dic_buro').annotate(num_buro=Count('dic_buro')).order_by('dic_buro')
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    return render('reports/rvgl_buro.html', locals(),
-                  context_instance=RequestContext(request))
 
 @login_required
 def rvgl_tiempo(request):
-    tiempo = RVGL.objects.filter(mes_vigencia='201602').values('dias_eval').annotate(num_tiempo=Count('dias_eval')).order_by('dias_eval')
+    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
     control_seco = RVGL.objects.all().values('seco').distinct('seco')
+    tiempo1 = RVGL.objects.values('dias_eval','mes_vigencia' ).filter(mes_vigencia='201602').annotate(num_tiempo=Count('dias_eval')).order_by('dias_eval')
+    
+    tiempo2 = RVGL.objects.values('dias_eval','mes_vigencia' ).filter(mes_vigencia='201602',seco='BP3').annotate(num_tiempo=Count('dias_eval')).order_by('dias_eval')
+
+    print tiempo1
+
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_tiempo.html', locals(),
-                  context_instance=RequestContext(request))
-
-@login_required
-def rvgl_importexdict(request):
-    importexdict = RVGL.objects.filter(mes_vigencia='201602').values('dictamen').annotate(sum_importe=Sum('importe_solic')).order_by('dictamen')
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    return render('reports/rvgl_importexdict.html', locals(),
                   context_instance=RequestContext(request))
 
 @login_required
@@ -549,9 +538,7 @@ def rvgl2_dictamenxsco(request, fecha, analista):
        dictamenxsco_re = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha, analista=analista).filter(dictamen_sco='RE').annotate(num_dictamenxsco_re=Count('dictamen_sco')).order_by('dictamen')
        dictamenxsco = zip(dictamenxsco_ap,dictamenxsco_du,dictamenxsco_re)
     control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    print dictamenxsco_ap
-    print dictamenxsco_du
-    print dictamenxsco_re
+
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_dictamenxsco.html', locals(),
@@ -1963,37 +1950,6 @@ def json_caidas(request):
     caidas = zip(caidas_ms, caidas_ava, caidas_noph, caidas_noclie)
     return HttpResponse(caidas)
 
-# Vistas RVGL para recibir consultas Ajax
-def json_banca(request):
-    periodo = request.POST['periodo']
-    analista = request.POST['analista']
-    #if request.method == 'TODOS'
-    if request.POST['analista'] == 'TODOS':
-    	banca = RVGL.objects.all().filter(mes_vigencia=periodo).values('seco').annotate(num_seco=Count('seco')).order_by('seco')
-    else:
-        banca = RVGL.objects.filter(analista=analista).filter(mes_vigencia=periodo).values('seco').annotate(num_seco=Count('seco')).order_by('seco')
-    return HttpResponse(banca)
-
-def json_dictamen(request):
-    periodo = request.POST['periodo']
-    producto = request.POST['producto']
-    #if request.method == 'TODOS'
-    if request.POST['producto'] == 'TODOS':
-        dictamen = RVGL.objects.all().filter(mes_vigencia=periodo).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')     
-    else:    
-        dictamen = RVGL.objects.filter(producto_esp=producto).filter(mes_vigencia=periodo).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
-    return HttpResponse(dictamen)
-
-def json_producto(request):
-    periodo = request.POST['periodo']
-    analista = request.POST['analista']
-    #if request.method == 'TODOS'
-    if request.POST['analista'] == 'TODOS':
-    	producto = RVGL.objects.all().filter(mes_vigencia=periodo).values('producto_esp').annotate(num_producto=Count('producto_esp')).order_by('producto_esp')
-    else:
-        producto = RVGL.objects.filter(analista=analista).filter(mes_vigencia=periodo).values('producto_esp').annotate(num_producto=Count('producto_esp')).order_by('producto_esp')
-    return HttpResponse(producto)
-
 def json_buro(request):
     periodo = request.POST['periodo']
     analista = request.POST['analista']
@@ -2083,7 +2039,7 @@ def json_scoxdictamen(request):
 def load(request):
     static_url=settings.STATIC_URL
     #Campana2.objects.all().delete()
-    #RVGL.objects.all().delete()
+    RVGL.objects.all().delete()
     #Evaluaciontc.objects.all().delete()
     #Evaluacionpld.objects.all().delete()
     #Seguimiento1.objects.all().delete()

@@ -8,32 +8,29 @@
 
 {% block content %}
 
-          <h1 class="page-header">Operaciones por tiempo dictaminado</h1>
+          <h1 class="page-header">Tiempo Dictaminado BP y CA</h1>
           <div class="form-inline">
             &nbsp;&nbsp;
             <label class="control-label">Banca:&nbsp;&nbsp;</label>
             <select class="form-control" id="tiempo_banca">
               <option selected>TODOS</option>
 	      {% for a in control_seco %}  
-                  <option>{{a.seco}}</option>
+                  <option {% if seco == a.seco %}selected {% endif %}>{{a.seco}}</option>
 	      {% endfor %}
             </select>
             &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
             <select class="form-control" id="tiempo_periodo">
-              <option value="201602" selected>Febrero 2016</option>
-              <option value="201601">Enero 2016</option>
-              <option>Diciembre 2015</option>
-              <option>Noviembre 2015</option>
-              <option>Octubre 2015</option>
-              <option>Septiembre 2015</option>
+              {% for a in control_fecha %}
+              <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+              {% endfor %}
             </select>
             &nbsp;&nbsp;
             <label class="control-label">Analista:&nbsp;&nbsp;</label>
             <select class="form-control" id="tiempo_analista">
               <option selected>TODOS</option>
 	      {% for a in control_analistas %}  
-                  <option>{{a.analista}}</option>
+                  <option {% if analista == a.analista %}selected {% endif %}>{{a.analista}}</option>
 	      {% endfor %}
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
@@ -52,7 +49,7 @@
                 </tr>
               </thead>
               <tbody id="tabla_tiempo">
-		{% for a in tiempo %}
+		{% for a in tiempo1 %}
 		<tr>
                   <td></td>
                   <td>{{a.dias_eval}}</td>
@@ -82,7 +79,7 @@
 			indexLabelPlacement: "outside",			
 			indexLabel: "{y}",
 			dataPoints: [
-				{% for i in tiempo %}
+				{% for i in tiempo1 %}
 				{ label: "{{i.dias_eval}}",  y: {{i.num_tiempo}}  },
 				{% endfor %}
 			]
