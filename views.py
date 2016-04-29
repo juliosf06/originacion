@@ -2039,7 +2039,7 @@ def json_scoxdictamen(request):
 def load(request):
     static_url=settings.STATIC_URL
     #Campana2.objects.all().delete()
-    RVGL.objects.all().delete()
+    #RVGL.objects.all().delete()
     #Evaluaciontc.objects.all().delete()
     #Evaluacionpld.objects.all().delete()
     #Seguimiento1.objects.all().delete()
