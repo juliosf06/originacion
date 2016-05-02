@@ -453,7 +453,7 @@ def campana_prestinmediato(request):
 def rvgl_resumen(request, fecha=before2, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
-    if analista == 'TODOS':
+    if analista == "TODOS":
     	banca = RVGL.objects.filter(mes_vigencia=fecha).values('seco').annotate(num_seco=Count('seco')).order_by('seco')
   	dictamen = RVGL.objects.filter(mes_vigencia=fecha).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
         producto = RVGL.objects.filter(mes_vigencia=fecha).values('producto_esp').annotate(num_producto=Count('producto_esp')).order_by('producto_esp')
@@ -2039,7 +2039,7 @@ def json_scoxdictamen(request):
 def load(request):
     static_url=settings.STATIC_URL
     #Campana2.objects.all().delete()
-    #RVGL.objects.all().delete()
+    RVGL.objects.all().delete()
     #Evaluaciontc.objects.all().delete()
     #Evaluacionpld.objects.all().delete()
     #Seguimiento1.objects.all().delete()
