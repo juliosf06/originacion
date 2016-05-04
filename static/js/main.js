@@ -40,7 +40,6 @@ $(".check").click(function(event){
   }
 });
 
-
 $("#ofertas_periodo").change(function(e){
   console.log($("#ofertas_periodo").val());
 
@@ -83,39 +82,19 @@ $("#rvglresumenximpo_periodo,#rvglresumenximpo_analista").change(function(e){
 });
 
 
-$("#tiempo_banca, #tiempo_periodo, #tiempo_analista").change(function(e){
-  console.log($("#tiempo_banca").val());
+$("#tiempo_periodo, #tiempo_analista").change(function(e){
   console.log($("#tiempo_periodo").val());
   console.log($("#tiempo_analista").val());
 
-  $.ajax({
-    data: {banca: $("#tiempo_banca").val(), 
-           periodo: $("#tiempo_periodo").val(),
-           analista: $("#tiempo_analista").val(),
-           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
-          },
-    type: 'POST',
-    url: '/reports/rvgl/json_tiempo/',
-    success: function(json){
-       var limpia = json.replace(/'dias_eval'/g,'"label"');
-       limpia = limpia.replace(/'num_tiempo'/g,'"y"');
-       limpia = limpia.replace(/: u'/g,": '");
-       limpia = limpia.replace(/}{/g,"},{");
-       limpia = limpia.replace(/'/g,'"');
-       limpia = limpia.replace(/&quot;/ig,'"');
-       console.log(limpia);
-       var result = JSON.parse('['+limpia+']');
-       console.log(result);
-       crear_chart(result, "column", "Distribución por Tiempo Dictaminado");
-       var html = "";
-       for (var datos in result){
-        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
-       };
-       $("#tabla_tiempo").html(html);
-    }
-  });
+  window.location.href = "/reports/rvgl/tiempo/"+$("#tiempo_periodo").val()+"/"+$("#tiempo_analista").val()+"/";
 });
 
+$("#rvglresumenxsco_periodo, #rvglresumenxsco_analista").change(function(e){
+  console.log($("#rvglresumenxsco_periodo").val());
+  console.log($("#rvglresumenxsco_analista").val());
+
+  window.location.href = "/reports/rvgl/resumenxsco/"+$("#rvglresumenxsco_periodo").val()+"/"+$("#rvglresumenxsco_analista").val()+"/";
+});
 
 $("#dictamenxsco_periodo, #dictamenxsco_analista").change(function(e){
   console.log($("#dictamenxsco_periodo").val());
@@ -123,70 +102,6 @@ $("#dictamenxsco_periodo, #dictamenxsco_analista").change(function(e){
 
   window.location.href = "/reports/rvgl/dictamenxsco/"+$("#dictamenxsco_periodo").val()+"/"+$("#dictamenxsco_analista").val()+"/";
 });
-
-
-$("#scoxllenado_periodo, #scoxllenado_analista").change(function(e){
-  console.log($("#scoxllenado_periodo").val());
-  console.log($("#scoxllenado_analista").val());
-
-  $.ajax({
-    data: {periodo: $("#scoxllenado_periodo").val(),
-           analista: $("#scoxllenado_analista").val(),
-           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
-          },
-    type: 'POST',
-    url: '/reports/rvgl/json_scoxllenado/',
-    success: function(json){
-       var limpia = json.replace(/'sco'/g,'"label"');
-       limpia = limpia.replace(/'num_scoxllenado'/g,'"y"');
-       limpia = limpia.replace(/: u'/g,": '");
-       limpia = limpia.replace(/}{/g,"},{");
-       limpia = limpia.replace(/'/g,'"');
-       limpia = limpia.replace(/&quot;/ig,'"');
-       console.log(limpia);
-       var result = JSON.parse('['+limpia+']');
-       console.log(result);
-       crear_chart(result, "pie", "Por llenado de Scoring");
-       var html = "";
-       for (var datos in result){
-        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
-       };
-       $("#tabla_scoxllenado").html(html);
-    }
-  });
-})
-
-
-$("#scoxforzaje_periodo, #scoxforzaje_analista").change(function(e){
-  console.log($("#scoxforzaje_periodo").val());
-  console.log($("#scoxforzaje_analista").val());
-
-  $.ajax({
-    data: {periodo: $("#scoxforzaje_periodo").val(),
-           analista: $("#scoxforzaje_analista").val(),
-           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
-          },
-    type: 'POST',
-    url: '/reports/rvgl/json_scoxforzaje/',
-    success: function(json){
-       var limpia = json.replace(/'seg_prime'/g,'"label"');
-       limpia = limpia.replace(/'num_scoxforzaje'/g,'"y"');
-       limpia = limpia.replace(/: u'/g,": '");
-       limpia = limpia.replace(/}{/g,"},{");
-       limpia = limpia.replace(/'/g,'"');
-       limpia = limpia.replace(/&quot;/ig,'"');
-       console.log(limpia);
-       var result = JSON.parse('['+limpia+']');
-       console.log(result);
-       crear_chart(result, "pie", "Por Nivel de forzaje");
-       var html = "";
-       for (var datos in result){
-        html = html + "<tr> <td></td><td>"+result[datos].label+"</td>"+"<td>"+result[datos].y+"</td></tr>";
-       };
-       $("#tabla_scoxforzaje").html(html);
-    }
-  });
-})
 
 
 $("#scoxdictamen_periodo, #scoxdictamen_analista").change(function(e){

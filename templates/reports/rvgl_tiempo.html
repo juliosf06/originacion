@@ -4,20 +4,12 @@
 
 {% load humanize %}
 
-{% block title %}Distribución por dictamen{% endblock %}
+{% block title %}Distribución por Tiempo dictaminado{% endblock %}
 
 {% block content %}
 
-          <h1 class="page-header">Tiempo Dictaminado BP y CA</h1>
+          <h1 class="page-header">Tiempo Dictaminado BP3, BP y CA</h1>
           <div class="form-inline">
-            &nbsp;&nbsp;
-            <label class="control-label">Banca:&nbsp;&nbsp;</label>
-            <select class="form-control" id="tiempo_banca">
-              <option selected>TODOS</option>
-	      {% for a in control_seco %}  
-                  <option {% if seco == a.seco %}selected {% endif %}>{{a.seco}}</option>
-	      {% endfor %}
-            </select>
             &nbsp;&nbsp;
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
             <select class="form-control" id="tiempo_periodo">
@@ -43,17 +35,38 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>Tiempo Dictaminado</th>
                   <th>Operaciones</th>
                 </tr>
               </thead>
               <tbody id="tabla_tiempo">
-		{% for a in tiempo1 %}
+		{% for key ,value in num_tiempo.items|sort %}
 		<tr>
-                  <td></td>
-                  <td>{{a.dias_eval}}</td>
-                  <td>{{a.num_tiempo|intcomma}}</td>
+                  <td>{{key}}</td>
+                  <td>{{value}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+         <div class="rows placeholders">
+		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+          </div>
+          <h2 class="sub-header">Detalle de Operaciones</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Tiempo Dictaminado</th>
+                  <th>Operaciones</th>
+                </tr>
+              </thead>
+              <tbody id="tabla_tiempo">
+		{% for key ,value in num_tiempo2.items|sort %}
+		<tr>
+                  <td>{{key}}</td>
+                  <td>{{value}}</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -68,7 +81,7 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Distribución por tiempo"              
+			text: "Tiempo Dictaminado BP y CA"              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -79,14 +92,38 @@
 			indexLabelPlacement: "outside",			
 			indexLabel: "{y}",
 			dataPoints: [
-				{% for i in tiempo1 %}
-				{ label: "{{i.dias_eval}}",  y: {{i.num_tiempo}}  },
+				{% for key ,value in num_tiempo.items|sort %}
+				{ label: "{{key}}",  y: {{value}}  },
 				{% endfor %}
 			]
 		}
 		]
 	});
 	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Tiempo Dictaminado BP3"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			indexLabelFontColor: "gray",
+			indexLabelPlacement: "outside",			
+			indexLabel: "{y}",
+			dataPoints: [
+				{% for key ,value in num_tiempo2.items|sort %}
+				{ label: "{{key}}",  y: {{value}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+
     }
   </script>
 {% endblock %}

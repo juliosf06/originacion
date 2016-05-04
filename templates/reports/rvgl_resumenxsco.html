@@ -1,0 +1,262 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Resumen Scoring{% endblock %}
+
+{% block content %}
+
+          <center><h1 class="page-header">Resumen Scoring</h1></center>
+          <div class="form-inline">
+            &nbsp;&nbsp;
+	    <center>
+            <label class="control-label">Periodo:&nbsp;&nbsp;</label>
+            <select class="form-control" id="rvglresumenxsco_periodo">
+              {% for a in control_fecha %}
+              <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+              {% endfor %}
+            </select>
+            &nbsp;&nbsp;
+            <label class="control-label">Analista:&nbsp;&nbsp;</label>
+            <select class="form-control" id="rvglresumenxsco_analista">
+              <option selected>TODOS</option>
+	      {% for a in control_analistas %}  
+                  <option {% if analista == a.analista %}selected {% endif %}>{{a.analista}}</option>
+	      {% endfor %}
+            </select>
+	    </center>
+          </div>
+          &nbsp;&nbsp;
+          <h2 class="page-header">1. Operaciones Dictamen por Scoring</h2>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          <div class="rows placeholders">
+	     <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+             <h3 class="page-header">Detalles de Operación</h2>
+             <div class="table-responsive" style="height: 300px; width: 100%">
+             <table class="table table-striped" >
+          	 <thead>
+          	   <tr>
+          	     <th>Dictamen</th>
+              	     <th>Aprobado</th>
+          	     <th>Duda</th>
+              	     <th>Rechazo</th>
+              	   </tr>
+             	 </thead>
+            	 <tbody id="tabla_dictamenxsco">
+		    <tr>                       
+                      <td>APRO.CON MOD.</td>
+                      <td>{{scolista.0}}</td>
+                      <td>{{scolista.4}}</td>
+                      <td>{{scolista.8}}</td>
+               	    </tr>
+		    <tr>                       
+                      <td>APRO. SIN MOD.</td>
+                      <td>{{scolista.1}}</td>
+                      <td>{{scolista.5}}</td>
+                      <td>{{scolista.9}}</td>
+               	    </tr>
+		    <tr>                       
+                      <td>DENEGADO</td>
+                      <td>{{scolista.2}}</td>
+                      <td>{{scolista.6}}</td>
+                      <td>{{scolista.10}}</td>
+               	    </tr>
+		    <tr>                       
+                      <td>DEVUELTO</td>
+                      <td>{{scolista.3}}</td>
+                      <td>{{scolista.7}}</td>
+                      <td>{{scolista.11}}</td>
+               	    </tr>
+            	 </tbody>
+             </table>
+             </div>
+         <h2 class="page-header">2. Por Llenado de scoring</h2>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+	     <div id="chartContainer2" style="height: 400px; width: 50%; display: inline-block;"></div>
+             <div class="table-responsive" style="height: 300px; width: 50%; display: inline-block;">
+             <table class="table table-striped">
+              	<thead>
+                   <tr>
+                     <th>Tipo Llenado</th>
+                     <th>Operaciones</th>
+                   </tr>
+              	</thead>
+              	<tbody id="tabla_scoxllenado">
+		   {% for a in scoxllenado %}
+		   <tr>
+                     <td>{{a.sco}}</td>
+                     <td>{{a.num_scoxllenado|intcomma}}</td>
+                   </tr>
+		   {% endfor %}
+              	</tbody>
+             </table>
+             <b>(*) No incluye omitidos</b>
+             </div>
+          <h2 class="page-header">3. Por Nivel de Forzaje</h2>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+             <div class="table-responsive" style="height: 300px; width: 50%; display: inline-block;">
+             <table class="table table-striped">
+              	<thead>
+                   <tr>
+                     <th>Nivel de Forzaje</th>
+                     <th>Operaciones</th>
+                   </tr>
+              	</thead>
+                <tbody id="tabla_scoxforzaje">
+		  {% for a in scoxforzaje %}
+		   <tr>
+                     <td>{{a.seg_prime}}</td>
+                     <td>{{a.num_scoxforzaje|intcomma}}</td>
+                   </tr>
+		  {% endfor %}
+                </tbody>
+             </table>
+             <b>(*) Se consideran las Operaciones con dictamen scoring rechazado</b>
+             </div>
+	     <div id="chartContainer3" style="height: 400px; width: 50%; display: inline-block;"></div>
+          <h2 class="page-header">4. Por Dictamen de Scoring</h2>
+             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+	     <div id="chartContainer4" style="height: 400px; width: 50%; display: inline-block;"></div>
+             <div class="table-responsive" style="height: 300px; width: 50%; display: inline-block;">
+             <table class="table table-striped">
+              	<thead>
+                   <tr>
+                     <th>Dictamen</th>
+                     <th>Operaciones</th>
+                   </tr>
+              	</thead>
+                <tbody id="tabla_scoxdictamen">
+		  {% for a in scoxdictamen %}
+		   <tr>
+                     <td>{{a.dictamen_sco}}</td>
+                     <td>{{a.num_scoxdictamen|intcomma}}</td>
+                   </tr>
+		  {% endfor %}
+                </tbody>
+             </table>
+	     <b>(*) Se considera las operaciones con dictamen scoring</b>
+             </div>
+          </div>
+
+{% endblock %}
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			toolTipContent: "<span style='\"'color:{color};'\"'>{name}:{y}</span>",
+			type: "stackedColumn",
+			name: "Aprobados",
+			showInLegend: "true",
+			dataPoints: [
+				{y: {{scolista.0}}, label: "APRO. CON MOD." },
+				{y: {{scolista.1}}, label: "APRO. SIN MOD." },
+				{y: {{scolista.2}}, label: "DENEGADO" },
+				{y: {{scolista.3}}, label: "DEVUELTO" },
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			toolTipContent: "<span style='\"'color:{color};'\"'>{name}:{y}</span>",
+			type: "stackedColumn",
+			name: "Dudas",
+			showInLegend: "true",
+			dataPoints: [
+				{y: {{scolista.4}}, label: "APRO. CON MOD." },
+				{y: {{scolista.5}}, label: "APRO. SIN MOD." },
+				{y: {{scolista.6}}, label: "DENEGADO" },
+				{y: {{scolista.7}}, label: "DEVUELTO" },
+
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			toolTipContent: "<span style='\"'color:{color};'\"'>{name}:{y}</span>",
+			type: "stackedColumn",
+			name: "Rechazos",
+			showInLegend: "true",
+			dataPoints: [
+				{y: {{scolista.8}}, label: "APRO. CON MOD." },
+				{y: {{scolista.9}}, label: "APRO. SIN MOD." },
+				{y: {{scolista.10}}, label: "DENEGADO" },
+				{y: {{scolista.11}}, label: "DEVUELTO" },
+
+			]
+		}
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "pie",
+			indexLabelFontColor: "gray",			
+			indexLabel: "#percent%",
+			showInLegend: "tru",
+			percentFormatString: "#0.#",
+			dataPoints: [
+				{% for i in scoxllenado %}
+				{ name: "{{i.sco}}",  y: {{i.num_scoxllenado}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer3", {
+		theme: "theme2",//theme1
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "pie",
+			indexLabelFontColor: "gray",			
+			indexLabel: "#percent%",
+			showInLegend: "tru",
+			percentFormatString: "#0.#",
+			dataPoints: [
+				{% for i in scoxforzaje %}
+				{ name: "{{i.seg_prime}}",  y: {{i.num_scoxforzaje}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer4", {
+		theme: "theme2",//theme1
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "pie",
+			indexLabelFontColor: "gray",			
+			indexLabel: "#percent%",
+			showInLegend: "tru",
+			percentFormatString: "#0.#",
+			dataPoints: [
+				{% for i in scoxdictamen %}
+				{ name: "{{i.dictamen_sco}}",  y: {{i.num_scoxdictamen}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart.render();
+    }
+  </script>
+{% endblock %}
+

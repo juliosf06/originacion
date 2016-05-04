@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.core.serializers import serialize
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Sum, Avg, Case, When, IntegerField, F, Q, CharField
+from django.db.models import Count, Sum, Avg, Max, Case, When, IntegerField, F, Q, CharField
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response as render
 from django.template import RequestContext
@@ -450,14 +450,19 @@ def campana_prestinmediato(request):
 
 # 3.- Vistas para reportes de RVGL
 @login_required
-def rvgl_resumen(request, fecha=before2, analista='TODOS'):
+def rvgl_resumen(request, fecha=fecha_actual, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    time = {}
+    for i in control_fecha:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
+    evaluacion = RVGL.objects.filter(mes_vigencia=fecha).values('analista').annotate(num_eval=Count('rvgl'),dias=Count('dias_eval')).order_by('analista')
     if analista == "TODOS":
     	banca = RVGL.objects.filter(mes_vigencia=fecha).values('seco').annotate(num_seco=Count('seco')).order_by('seco')
   	dictamen = RVGL.objects.filter(mes_vigencia=fecha).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
         producto = RVGL.objects.filter(mes_vigencia=fecha).values('producto_esp').annotate(num_producto=Count('producto_esp')).order_by('producto_esp')
-    	buro = RVGL.objects.exclude(dic_buro__in =['AL','NULL']).filter(mes_vigencia=fecha).values('dic_buro').annotate(num_buro=Count('dic_buro')).order_by('dic_buro')
+    	buro = RVGL.objects.exclude(dic_buro__in =['AL','NULL', '']).filter(mes_vigencia=fecha).values('dic_buro').annotate(num_buro=Count('dic_buro')).order_by('dic_buro')
     else:
     	banca = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('seco').annotate(num_seco=Count('seco')).order_by('seco')
   	dictamen = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
@@ -470,9 +475,13 @@ def rvgl_resumen(request, fecha=before2, analista='TODOS'):
                   context_instance=RequestContext(request))
 
 @login_required
-def rvgl_resumenximporte(request, fecha=before2, analista='TODOS'):
+def rvgl_resumenximporte(request, fecha=fecha_actual, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    time = {}
+    for i in control_fecha:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
     if analista == 'TODOS':
   	importexdict = RVGL.objects.filter(mes_vigencia=fecha).values('dictamen').annotate(sum_importe=Sum('importe_solic')).order_by('dictamen')
         importexprod = RVGL.objects.filter(mes_vigencia=fecha).values('producto_esp').annotate(sum_importexprod=Sum('importe_solic')).order_by('producto_esp')
@@ -488,15 +497,97 @@ def rvgl_resumenximporte(request, fecha=before2, analista='TODOS'):
 
 
 @login_required
-def rvgl_tiempo(request):
+def rvgl_tiempo(request, fecha=fecha_actual, analista='TODOS'):
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    control_seco = RVGL.objects.all().values('seco').distinct('seco')
-    tiempo1 = RVGL.objects.values('dias_eval','mes_vigencia' ).filter(mes_vigencia='201602').annotate(num_tiempo=Count('dias_eval')).order_by('dias_eval')
-    
-    tiempo2 = RVGL.objects.values('dias_eval','mes_vigencia' ).filter(mes_vigencia='201602',seco='BP3').annotate(num_tiempo=Count('dias_eval')).order_by('dias_eval')
+    time = {}
+    for i in control_fecha:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
+    control_analistas = RVGL.objects.values('analista').distinct('analista')
+    control_seco = RVGL.objects.values('seco').distinct('seco')
+    if analista == 'TODOS':
+       tiempo10 = RVGL.objects.values('mes_vigencia','dias_eval' ).filter(mes_vigencia=fecha, dias_eval__gte='0', dias_eval__lte='3', seco__in=['BP','CA']).annotate(num_tiempo=Count(F('dias_eval') )).order_by('dias_eval')
+       tiempo11 = RVGL.objects.values('mes_vigencia' ).filter(mes_vigencia=fecha, dias_eval__gte='4',dias_eval__lte='15',seco__in=['BP','CA']).annotate(num_tiempo=Count(F('dias_eval'))).order_by('mes_vigencia')
+       tiempo20 = RVGL.objects.values('mes_vigencia','dias_eval' ).filter(mes_vigencia=fecha, dias_eval__gte='0',dias_eval__lte='3', seco='BP3').annotate(num_tiempo=Count(F('dias_eval'))).order_by('dias_eval')
+       tiempo21 = RVGL.objects.values('mes_vigencia' ).filter(mes_vigencia=fecha, dias_eval__gte='4',dias_eval__lte='15', seco='BP3').annotate(num_tiempo=Count(F('dias_eval'))).order_by('mes_vigencia')
+       dias = [".El mismo dia","1 Dia","2 Dias","3 Dias","mas 3 Dias"]
+       lista = []
+       num_tiempo = {}
+       for i in tiempo10:
+	   lista.append(i['num_tiempo'])
+       for i in tiempo11:
+           lista.append(i['num_tiempo'])
+       if len(lista) == 0 :
+           num_tiempo[".El mismo dia"] = 0
+           num_tiempo["1 Dia"] = 0
+           num_tiempo["2 Dias"] = 0
+           num_tiempo["3 Dias"] = 0
+           num_tiempo["mas 3 Dias"] = 0
+       else:
+	   j = 0
+	   while j < len(lista):
+              num_tiempo[dias[j]] = lista[j]
+	      j +=1
 
-    print tiempo1
+       lista2 = []
+       num_tiempo2 = {}
+       for i in tiempo20:
+	   lista2.append(i['num_tiempo'])
+       for i in tiempo21:
+           lista2.append(i['num_tiempo'])
+       if len(lista) == 0 :
+           num_tiempo2[".El mismo dia"] = 0
+           num_tiempo2["1 Dia"] = 0
+           num_tiempo2["2 Dias"] = 0
+           num_tiempo2["3 Dias"] = 0
+           num_tiempo2["mas 3 Dias"] = 0
+       else:
+	   j = 0
+	   while j < len(lista2):
+              num_tiempo2[dias[j]] = lista2[j]
+	      j +=1
+    else:
+       tiempo10 = RVGL.objects.values('mes_vigencia','dias_eval' ).filter(mes_vigencia=fecha, dias_eval__gte='0', dias_eval__lte='3', seco__in=['BP','CA'],analista=analista).annotate(num_tiempo=Count(F('dias_eval')) ).order_by('dias_eval')
+       tiempo11 = RVGL.objects.values('mes_vigencia' ).filter(mes_vigencia=fecha, dias_eval__gte='4',dias_eval__lte='15',seco__in=['BP','CA'],analista=analista).annotate(num_tiempo=Count(F('dias_eval'))).order_by('mes_vigencia')
+       tiempo20 = RVGL.objects.values('mes_vigencia','dias_eval' ).filter(mes_vigencia=fecha, dias_eval__gte='0',dias_eval__lte='3', seco='BP3',analista=analista).annotate(num_tiempo=Count(F('dias_eval'))).order_by('dias_eval')
+       tiempo21 = RVGL.objects.values('mes_vigencia' ).filter(mes_vigencia=fecha, dias_eval__gte='4',dias_eval__lte='15', seco='BP3',analista=analista).annotate(num_tiempo=Count(F('dias_eval'))).order_by('mes_vigencia')
+       dias = [".El mismo dia","1 Dia","2 Dias","3 Dias","mas 3 Dias"]
+       lista = []
+       num_tiempo = {}
+       for i in tiempo10:
+	   lista.append(i['num_tiempo'])
+       for i in tiempo11:
+           lista.append(i['num_tiempo'])
+       if len(lista) == 0 :
+           num_tiempo[".El mismo dia"] = 0
+           num_tiempo["1 Dia"] = 0
+           num_tiempo["2 Dias"] = 0
+           num_tiempo["3 Dias"] = 0
+           num_tiempo["mas 3 Dias"] = 0
+       else:
+	   j = 0
+	   while j < len(lista):
+              num_tiempo[dias[j]] = lista[j]
+	      j +=1
+
+       lista2 = []
+       num_tiempo2 = {}
+       for i in tiempo20:
+	   lista2.append(i['num_tiempo'])
+       for i in tiempo21:
+           lista2.append(i['num_tiempo'])
+       if len(lista) == 0 :
+           num_tiempo2[".El mismo dia"] = 0
+           num_tiempo2["1 Dia"] = 0
+           num_tiempo2["2 Dias"] = 0
+           num_tiempo2["3 Dias"] = 0
+           num_tiempo2["mas 3 Dias"] = 0
+       else:
+	   j = 0
+	   while j < len(lista2):
+              num_tiempo2[dias[j]] = lista2[j]
+	      j +=1
+
 
     static_url=settings.STATIC_URL
     tipo_side = 2
@@ -511,105 +602,152 @@ def mapa(request):
                   context_instance=RequestContext(request))
 
 @login_required
-def rvgl_dictamenxsco(request):
-    dictamenxsco_ap = RVGL.objects.values('dictamen').filter(mes_vigencia='201602').filter(dictamen_sco='AP').annotate(num_dictamenxsco_ap=Count('dictamen_sco')).order_by('dictamen')
-    dictamenxsco_du = RVGL.objects.values('dictamen').filter(mes_vigencia='201602').filter(dictamen_sco='DU').annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
-    dictamenxsco_re = RVGL.objects.values('dictamen').filter(mes_vigencia='201602').filter(dictamen_sco='RE').annotate(num_dictamenxsco_re=Count('dictamen_sco')).order_by('dictamen')
-    dictamenxsco = zip(dictamenxsco_ap,dictamenxsco_du,dictamenxsco_re)
-    print dictamenxsco_ap
-    print dictamenxsco_du
-    print dictamenxsco_re
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    return render('reports/rvgl_dictamenxsco.html', locals(),
-                  context_instance=RequestContext(request))
-
-@login_required
-def rvgl2_dictamenxsco(request, fecha, analista):
+def rvgl_resumenxsco(request, fecha=fecha_actual, analista='TODOS'):
+    control_analistas = RVGL.objects.values('analista').distinct('analista')
+    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    time = {}
+    for i in control_fecha:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
+    dictamen = RVGL.objects.values('dictamen').distinct('dictamen').order_by('dictamen')
     if analista == 'TODOS':
        dictamenxsco_ap = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha).filter(dictamen_sco='AP').annotate(num_dictamenxsco_ap=Count('dictamen_sco')).order_by('dictamen')
+       listadict = ['APC','APS','DEN','DEV']
+       scolista = []
+       ap_dict = {}
+       for i in dictamen:
+	   for j in dictamenxsco_ap:
+	       if i['dictamen'] == j['dictamen']:
+		  ap_dict[i['dictamen']]=j['num_dictamenxsco_ap']
+		  break
+	       else:
+		  ap_dict[i['dictamen']]=0
+       if len(ap_dict) == 0:
+	  scolista.append(0) 
+	  scolista.append(0) 
+	  scolista.append(0) 
+	  scolista.append(0) 
+       else:      
+          for i in dictamen:
+              scolista.append(ap_dict[i['dictamen']])
+       print sorted(ap_dict.items())
        dictamenxsco_du = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha).filter(dictamen_sco='DU').annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
+       du_dict = {}
+       for i in dictamen:
+	   for j in dictamenxsco_du:
+	       if i['dictamen'] == j['dictamen']:
+		  du_dict[i['dictamen']]=j['num_dictamenxsco_du']
+		  break
+	       else:
+		  du_dict[i['dictamen']]=0
+       for i in dictamen:
+           scolista.append(du_dict[i['dictamen']])
        dictamenxsco_re = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha).filter(dictamen_sco='RE').annotate(num_dictamenxsco_re=Count('dictamen_sco')).order_by('dictamen')
-       dictamenxsco = zip(dictamenxsco_ap,dictamenxsco_du,dictamenxsco_re)
+       re_dict = {}
+       for i in dictamen:
+	   for j in dictamenxsco_re:
+	       if i['dictamen'] == j['dictamen']:
+		  re_dict[i['dictamen']]=j['num_dictamenxsco_re']
+		  break
+	       else:
+		  re_dict[i['dictamen']]=0
+       for i in dictamen:
+           scolista.append(re_dict[i['dictamen']])
+       scoxllenado = RVGL.objects.filter(mes_vigencia=fecha).exclude(sco='O').values('sco').annotate(num_scoxllenado=Count('sco')).order_by('sco')
+       scoxforzaje = RVGL.objects.filter(mes_vigencia=fecha).filter(dictamen_sco='RE').exclude(seg_prime='NULL').values('seg_prime').annotate(num_scoxforzaje=Count('seg_prime')).order_by('seg_prime')
+       scoxdictamen = RVGL.objects.filter(mes_vigencia=fecha).exclude(dictamen_sco__in=['NULL','']).values('dictamen_sco' ).annotate(num_scoxdictamen=Count('dictamen_sco')).order_by('dictamen_sco')
     else:
-       dictamenxsco_ap = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha, analista=analista).filter(dictamen_sco='AP').annotate(num_dictamenxsco_ap=Count('dictamen_sco')).order_by('dictamen')
-       dictamenxsco_du = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha, analista=analista).filter(dictamen_sco='DU').annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
-       dictamenxsco_re = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha, analista=analista).filter(dictamen_sco='RE').annotate(num_dictamenxsco_re=Count('dictamen_sco')).order_by('dictamen')
-       dictamenxsco = zip(dictamenxsco_ap,dictamenxsco_du,dictamenxsco_re)
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+       dictamenxsco_ap = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha,analista=analista).filter(dictamen_sco ='AP').annotate(num_dictamenxsco_ap=Count('dictamen_sco')).order_by('dictamen')
+       scolista = []
+       ap_dict = {}
+       for i in dictamen:
+	   for j in dictamenxsco_ap:
+	       if i['dictamen'] == j['dictamen']:
+		  ap_dict[i['dictamen']]=j['num_dictamenxsco_ap']
+		  break
+	       else:
+		  ap_dict[i['dictamen']]=0
+       if len(ap_dict) == 0:
+	  scolista.append(0) 
+	  scolista.append(0) 
+	  scolista.append(0) 
+	  scolista.append(0) 
+       else:      
+          for i in dictamen:
+              scolista.append(ap_dict[i['dictamen']])
+       print sorted(ap_dict.items())
+       dictamenxsco_du = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha).filter(dictamen_sco='DU', analista= analista).annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
+       du_dict = {}
+       for i in dictamen:
+	   for j in dictamenxsco_du:
+	       if i['dictamen'] == j['dictamen']:
+		  du_dict[i['dictamen']]=j['num_dictamenxsco_du']
+		  break
+	       else:
+		  du_dict[i['dictamen']]=0
+       if len(du_dict) == 0:
+	  scolista.append(0) 
+	  scolista.append(0) 
+	  scolista.append(0) 
+	  scolista.append(0) 
+       else:      
+          for i in dictamen:
+              scolista.append(du_dict[i['dictamen']])
+       dictamenxsco_re = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha).filter(dictamen_sco='RE',analista= analista).annotate(num_dictamenxsco_re=Count('dictamen_sco')).order_by('dictamen')
+       re_dict = {}
+       for i in dictamen:
+	   for j in dictamenxsco_re:
+	       if i['dictamen'] == j['dictamen']:
+		  re_dict[i['dictamen']]=j['num_dictamenxsco_re']
+		  break
+	       else:
+		  re_dict[i['dictamen']]=0
+       if len(re_dict) == 0:
+	  scolista.append(0) 
+	  scolista.append(0) 
+	  scolista.append(0) 
+	  scolista.append(0) 
+       else:      
+          for i in dictamen:
+              scolista.append(re_dict[i['dictamen']])
+       scoxllenado = RVGL.objects.filter(mes_vigencia=fecha,analista= analista).exclude(sco='O').values('sco').annotate(num_scoxllenado=Count('sco')).order_by('sco')
+       scoxforzaje = RVGL.objects.filter(mes_vigencia=fecha,analista= analista).filter(dictamen_sco='RE').exclude(seg_prime='NULL').values('seg_prime').annotate(num_scoxforzaje=Count('seg_prime')).order_by('seg_prime')
+       scoxdictamen = RVGL.objects.filter(mes_vigencia=fecha,analista= analista).exclude(dictamen_sco__in=['NULL','']).values('dictamen_sco' ).annotate(num_scoxdictamen=Count('dictamen_sco')).order_by('dictamen_sco')
 
     static_url=settings.STATIC_URL
     tipo_side = 2
-    return render('reports/rvgl_dictamenxsco.html', locals(),
+    return render('reports/rvgl_resumenxsco.html', locals(),
                   context_instance=RequestContext(request))
 
-@login_required
-def rvgl_scoxllenado(request):
-    scoxllenado = RVGL.objects.filter(mes_vigencia='201602').exclude(sco='O').values('sco').annotate(num_scoxllenado=Count('sco')).order_by('sco')
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    return render('reports/rvgl_scoxllenado.html', locals(),
-                  context_instance=RequestContext(request))
-
-@login_required
-def rvgl_scoxforzaje(request):
-    scoxforzaje = RVGL.objects.filter(mes_vigencia='201602').filter(dictamen_sco='RE').exclude(seg_prime='NULL').values('seg_prime').annotate(num_scoxforzaje=Count('seg_prime')).order_by('seg_prime')
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    return render('reports/rvgl_scoxforzaje.html', locals(),
-                  context_instance=RequestContext(request))
-
-@login_required
-def rvgl_scoxdictamen(request):
-    scoxdictamen = RVGL.objects.filter(mes_vigencia='201602').exclude(dictamen_sco='NULL').values('dictamen_sco').annotate(num_scoxdictamen=Count('dictamen_sco')).order_by('dictamen_sco')
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    return render('reports/rvgl_scoxdictamen.html', locals(),
-                  context_instance=RequestContext(request))
-
-@login_required
-def rvgl_top20terr(request):
-    top20terr1 = RVGL.objects.filter(mes_vigencia='201602').exclude(territorio_nuevo='NULL').values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic') ).order_by('-sum_top20terr1')[:20]
-    top20terr2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).exclude(territorio_nuevo='NULL').values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    top20terr = zip(top20terr1, top20terr2)
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    return render('reports/rvgl_top20terr.html', locals(),
-                  context_instance=RequestContext(request))
-
-def rvgl2_top20terr(request, fecha, analista):
+def rvgl_top20terr(request, fecha=fecha_actual, analista='TODOS'):
+    control_analistas = RVGL.objects.values('analista').distinct('analista')
+    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    time = {}
+    for i in control_fecha:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
     if analista == 'TODOS':
        top20terr1 = RVGL.objects.filter(mes_vigencia=fecha).values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
        top20terr2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
        top20terr = zip(top20terr1, top20terr2)
     else:
-       top20terr1 = RVGL.objects.filter(mes_vigencia=fecha).filter(analista=analista).values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
-       top20terr2 = RVGL.objects.filter(mes_vigencia=fecha).filter(analista=analista).exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
+       top20terr1 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
+       top20terr2 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
        top20terr = zip(top20terr1, top20terr2)
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_top20terr.html', locals(),
                   context_instance=RequestContext(request))
 
 @login_required
-def rvgl_top20gest(request):
-    top20gest1 = RVGL.objects.filter(mes_vigencia='201602').values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic'), sum_top20gest1=Sum('importe_solic')).order_by('-sum_top20gest1')[:20]
-    top20gest2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest2=Count('importe_aprob'), sum_top20gest2=Sum('importe_aprob')).order_by('-sum_top20gest2')[:20]
-    top20gest = zip(top20gest1,top20gest2)
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    return render('reports/rvgl_top20gest.html', locals(),
-                  context_instance=RequestContext(request))
-
-@login_required
-def rvgl2_top20gest(request, fecha, analista):
+def rvgl_top20gest(request, fecha=fecha_actual, analista='TODOS'):
+    control_analistas = RVGL.objects.values('analista').distinct('analista')
+    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    time = {}
+    for i in control_fecha:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
     if analista == 'TODOS':
        top20gest1 = RVGL.objects.filter(mes_vigencia=fecha).values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic'), sum_top20gest1=Sum('importe_solic')).order_by('-sum_top20gest1')[:20]
        top20gest2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest2=Count('importe_aprob'), sum_top20gest2=Sum('importe_aprob')).order_by('-sum_top20gest2')[:20]
@@ -618,25 +756,20 @@ def rvgl2_top20gest(request, fecha, analista):
        top20gest1 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic'), sum_top20gest1=Sum('importe_solic')).order_by('-sum_top20gest1')[:20]
        top20gest2 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest2=Count('importe_aprob'), sum_top20gest2=Sum('importe_aprob')).order_by('-sum_top20gest2')[:20]
        top20gest = zip(top20gest1,top20gest2)
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_top20gest.html', locals(),
                   context_instance=RequestContext(request))
 
 @login_required
-def rvgl_top20clie(request):
-    top20clie1 = RVGL.objects.filter(mes_vigencia='201602').values('cliente').annotate(num_top20clie1=Count('importe_solic'), sum_top20clie1=Sum('importe_solic')).order_by('cliente').order_by('-sum_top20clie1')[:20]
-    top20clie2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('cliente').annotate(num_top20clie2=Count('importe_aprob'), sum_top20clie2=Sum('importe_aprob')).order_by('-sum_top20clie2')[:20]
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    top20clie = zip(top20clie1,top20clie2)
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    return render('reports/rvgl_top20clie.html', locals(),
-                  context_instance=RequestContext(request))
-
-@login_required
-def rvgl2_top20clie(request, fecha, analista):
+def rvgl_top20clie(request, fecha=fecha_actual, analista='TODOS'):
+    control_analistas = RVGL.objects.values('analista').distinct('analista')
+    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    time = {}
+    for i in control_fecha:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
     if analista == 'TODOS':
        top20clie1 = RVGL.objects.filter(mes_vigencia=fecha).values('cliente').annotate(num_top20clie1=Count('importe_solic'), sum_top20clie1=Sum('importe_solic')).order_by('cliente').order_by('-sum_top20clie1')[:20]
        top20clie2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('cliente').annotate(num_top20clie2=Count('importe_aprob'), sum_top20clie2=Sum('importe_aprob')).order_by('-sum_top20clie2')[:20]
@@ -645,25 +778,20 @@ def rvgl2_top20clie(request, fecha, analista):
        top20clie1 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('cliente').annotate(num_top20clie1=Count('importe_solic'), sum_top20clie1=Sum('importe_solic')).order_by('cliente').order_by('-sum_top20clie1')[:20]
        top20clie2 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).exclude(importe_aprob=0).values('cliente').annotate(num_top20clie2=Count('importe_aprob'), sum_top20clie2=Sum('importe_aprob')).order_by('-sum_top20clie2')[:20]
        top20clie = zip(top20clie1,top20clie2)
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_top20clie.html', locals(),
                   context_instance=RequestContext(request))
 
 @login_required
-def rvgl_top20ofic(request):
-    top20ofic1 = RVGL.objects.filter(mes_vigencia='201602').values('oficina').annotate(num_top20ofic1=Count('importe_solic'), sum_top20ofic1=Sum('importe_solic')).order_by('-sum_top20ofic1')[:20]
-    top20ofic2 = RVGL.objects.filter(mes_vigencia='201602').exclude(importe_aprob=0).values('oficina').annotate(num_top20ofic2=Count('importe_aprob'), sum_top20ofic2=Sum('importe_aprob')).order_by('-sum_top20ofic2')[:20]
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
-    top20ofic = zip(top20ofic1,top20ofic2)
-    static_url=settings.STATIC_URL
-    tipo_side = 2
-    return render('reports/rvgl_top20ofic.html', locals(),
-                  context_instance=RequestContext(request))
-
-@login_required
-def rvgl2_top20ofic(request, fecha, analista):
+def rvgl_top20ofic(request, fecha=fecha_actual, analista='TODOS'):
+    control_analistas = RVGL.objects.values('analista').distinct('analista')
+    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    time = {}
+    for i in control_fecha:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
     if analista == 'TODOS':
        top20ofic1 = RVGL.objects.filter(mes_vigencia=fecha).values('oficina').annotate(num_top20ofic1=Count('importe_solic'), sum_top20ofic1=Sum('importe_solic')).order_by('-sum_top20ofic1')[:20]
        top20ofic2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('oficina').annotate(num_top20ofic2=Count('importe_aprob'), sum_top20ofic2=Sum('importe_aprob')).order_by('-sum_top20ofic2')[:20]
@@ -672,7 +800,7 @@ def rvgl2_top20ofic(request, fecha, analista):
        top20ofic1 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('oficina').annotate(num_top20ofic1=Count('importe_solic'), sum_top20ofic1=Sum('importe_solic')).order_by('-sum_top20ofic1')[:20]
        top20ofic2 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).exclude(importe_aprob=0).values('oficina').annotate(num_top20ofic2=Count('importe_aprob'), sum_top20ofic2=Sum('importe_aprob')).order_by('-sum_top20ofic2')[:20]
        top20ofic = zip(top20ofic1,top20ofic2)
-    control_analistas = RVGL.objects.all().values('analista').distinct('analista')
+
     static_url=settings.STATIC_URL
     tipo_side = 2
     return render('reports/rvgl_top20ofic.html', locals(),
