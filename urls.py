@@ -13,8 +13,6 @@ urlpatterns = [
     url(r'^campanas/$', views.campana_resumen, name='campana_resumen'),
     url(r'^campanas/resumen/$', views.campana_resumen, name='campana_resumen'),
     url(r'^campanas/resumen/(?P<fecha>[0-9]{6})/$', views.campana_resumen, name='campana_resumen'),
-    url(r'^campanas/ofertas/$', views.campana_ofertas, name='campana_ofertas'),
-    url(r'^campanas/ofertas/(?P<fecha>[0-9]{6})/$', views.campana_ofertas, name='campana_ofertas'),
     url(r'^campanas/detalles/$', views.campana_detalles, name='campana_detalles'),
     url(r'^campanas/detalles/(?P<segmento>[\w|\W]+)/(?P<fecha>[0-9]{6})/$', views.campana_detalles, name='campana_detalles'),
     url(r'^campanas/caidas/$', views.campana_caidas, name='campana_caidas'),
@@ -25,8 +23,7 @@ urlpatterns = [
     url(r'^campanas/flujo/(?P<fecha>[0-9]{6})/$', views.campana_flujo, name='campana_flujo'),
     url(r'^campanas/altasempresa/$', views.campana_altasempresa, name='campana_altasempresa'),
     url(r'^campanas/prestinmediato/$', views.campana_prestinmediato, name='campana_prestinmediato'),
-    url(r'^campanas/prueba/$', views.campana_prueba, name='campana_prueba'),
-    url(r'^campanas/prueba/(?P<segmento>[\w|\W]+)/$', views.campana_prueba, name='campana_prueba'),
+
 
     # URLS para reportes de RVGL
     url(r'^rvgl/$', views.rvgl_resumen, name='rvgl_resumen'),

@@ -36,8 +36,8 @@ m14 = datetime.now()-timedelta(days=14*30)
 before14 = m14.strftime("%Y%m")
 m18 = datetime.now()-timedelta(days=18*30)
 before18 = m18.strftime("%Y%m")
-#print fecha_actual
-print before14
+print fecha_actual
+#print before14
 #print before6
 #print before12
 #print before18
@@ -80,6 +80,12 @@ def dummy(request):
 
 # 2.- Vistas para reportes de Campaña
 def campana_resumen(request,fecha=fecha_actual):
+    control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
+    time = {}
+    for i in control_fecha:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
+    segmento_lista = Campana2.objects.values('segmento').exclude(segmento='REFERIDO').filter( mes_vigencia=fecha).order_by('segmento').distinct()
     clientes = Campana2.objects.values('segmento').filter(mes_vigencia= fecha).exclude(segmento='REFERIDO').annotate(num_clientes=Sum('ofertas')).order_by('segmento')
     montos2 = Campana2.objects.values('segmento').exclude(segmento='REFERIDO').annotate(monto=Sum(F('monto_tc')+F('monto_pld')+F('monto_veh')+F('monto_subrogacion')+F('monto_tc_entry_level')+F('monto_renovado')+F('monto_auto_2da')+F('monto_adelanto_sueldo')+F('monto_efectivo_plus')+F('monto_prestamo_inmediato')+F('monto_incr_linea'))).filter(mes_vigencia=fecha).order_by('segmento')
     detalles = Campana2.objects.filter(mes_vigencia=fecha).values('mes_vigencia').annotate(q_tc=Sum('q_tc'), q_pld=Sum('q_pld'), q_veh=Sum('q_veh'),q_subrogacion=Sum('q_subrogacion'), q_renovado=Sum('q_renovado'), q_auto_2da=Sum('q_auto_2da'), q_adelanto_sueldo=Sum('q_adelanto_sueldo'), q_efectivo_plus=Sum('q_efectivo_plus'), q_prestamo_inmediato=Sum('q_prestamo_inmediato'),q_incr_linea=Sum('q_incr_linea'),monto_tc=Sum(F('monto_tc')/1000000), monto_pld=Sum(F('monto_pld')/1000000), monto_veh=Sum(F('monto_veh')/1000000), monto_subrogacion=Sum(F('monto_subrogacion')/1000000), monto_tc_entry_level=Sum(F('monto_tc_entry_level')/1000000), monto_renovado=Sum(F('monto_renovado')/1000000), monto_auto_2da=Sum(F('monto_auto_2da')/1000000), monto_adelanto_sueldo=Sum(F('monto_adelanto_sueldo')/1000000), monto_efectivo_plus=Sum(F('monto_efectivo_plus')/1000000), monto_prestamo_inmediato=Sum(F('monto_prestamo_inmediato')/1000000), monto_incr_linea=Sum(F('monto_incr_linea')/1000000))
@@ -123,35 +129,12 @@ def campana_resumen(request,fecha=fecha_actual):
     prestamo_cs = Campana2.objects.values('mes_vigencia').filter(mes_vigencia=fecha,tipo_clie='1A').annotate(pld=Sum('q_pld'),pat=Sum('q_prestamo_inmediato'))
     prestamo_total = Campana2.objects.values('mes_vigencia').filter(mes_vigencia=fecha).annotate(pld=Sum('q_pld'),pat=Sum('q_prestamo_inmediato'))
     prestamo = zip(prestamo_fast, prestamo_cs, prestamo_total)  
-    control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
-    segmento_lista = Campana2.objects.values('segmento').exclude(segmento='REFERIDO').filter( mes_vigencia=fecha).order_by('segmento').distinct()
+
     #for value in segmento_lista.iteritems():
 	#print  value
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana2_resumen.html', locals(),
-                  context_instance=RequestContext(request))
-
-#@login_required
-#def campana_ofertas(request):
-    #clientes = Verificaciones.objects.values('segmento').annotate(num_clientes=Sum(F('exonera_ambas')+F('exonera_solo_vl')+F('exonera_solo_vd')+F('requiere_ambas'))).filter(mes_vigencia='201604').order_by('segmento')
-    #ofertas = Campana.objects.all().filter(mes_vigencia='201604').order_by('segmento')
-    #montos = Campana.objects.values('segmento').annotate(monto=Sum(F('monto_tc')+F('monto_pld')+F('monto_veh')+F('monto_subrogacion')+F('monto_tc_entry_level')+F('monto_renovado')+F('monto_auto_2da')+F('monto_adelanto_sueldo')+F('monto_efectivo_plus')+F('monto_prestamo_inmediato')+F('monto_incr_linea'))).filter(mes_vigencia='201604').order_by('segmento')
-    #ofer = zip(ofertas, clientes, montos)
-    #static_url=settings.STATIC_URL
-    #tipo_side = 1
-    #return render('reports/campana_ofertas.html', locals(),
-                  #context_instance=RequestContext(request))
-
-@login_required
-def campana_ofertas(request, fecha=fecha_actual):
-    clientes = Campana2.objects.values('segmento').filter(mes_vigencia= fecha).annotate(num_clientes=Sum('ofertas')).order_by('segmento')
-    ofertas = Campana2.objects.values('codigo_campana','segmento', 'mes_vigencia').filter(mes_vigencia=fecha).annotate(q_tc=Sum('q_tc'), q_pld=Sum('q_pld'), q_veh=Sum('q_veh'),q_subrogacion=Sum('q_subrogacion'), q_tc_entry_level=Sum('q_tc_entry_level'), q_renovado=Sum('q_renovado'), q_auto_2da=Sum('q_auto_2da'), q_adelanto_sueldo=Sum('q_adelanto_sueldo'),q_efectivo_plus=Sum('q_efectivo_plus'),q_prestamo_inmediato=Sum('q_prestamo_inmediato'),q_incr_linea=Sum('q_incr_linea')).order_by('segmento')
-    montos = Campana2.objects.values('segmento').filter(mes_vigencia=fecha).annotate(monto=Sum(F('monto_tc')+F('monto_pld')+F('monto_veh')+F('monto_subrogacion')+F('monto_tc_entry_level')+F('monto_renovado')+F('monto_auto_2da')+F('monto_adelanto_sueldo')+F('monto_efectivo_plus')+F('monto_prestamo_inmediato')+F('monto_incr_linea'))).order_by('segmento')
-    ofer = zip(ofertas, clientes, montos)
-    static_url=settings.STATIC_URL
-    tipo_side = 1
-    return render('reports/campana2_ofertas.html', locals(),
                   context_instance=RequestContext(request))
 
 #@login_required
@@ -168,12 +151,17 @@ def campana_ofertas(request, fecha=fecha_actual):
 def campana_detalles(request, segmento='TOTAL', fecha=fecha_actual):
     texto = str(segmento)
     lista = texto.split(",")
+    control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
+    time = {}
+    for i in control_fecha:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
+    control_segmentos = Campana2.objects.all().values('segmento').distinct('segmento')
     if segmento == 'TOTAL':
        detalles = Campana2.objects.filter(mes_vigencia=fecha).values('mes_vigencia').annotate(q_tc=Sum('q_tc'), q_pld=Sum('q_pld'), q_veh=Sum('q_veh'),q_subrogacion=Sum('q_subrogacion'), q_renovado=Sum('q_renovado'), q_auto_2da=Sum('q_auto_2da'), q_adelanto_sueldo=Sum('q_adelanto_sueldo'),q_efectivo_plus=Sum('q_efectivo_plus'),q_prestamo_inmediato=Sum('q_prestamo_inmediato'),q_incr_linea=Sum('q_incr_linea')).annotate(monto_tc=Sum(F('monto_tc')/1000000), monto_pld=Sum(F('monto_pld')/1000000), monto_veh=Sum(F('monto_veh')/1000000),monto_subrogacion=Sum(F('monto_subrogacion')/1000000), monto_tc_entry_level=Sum(F('monto_tc_entry_level')/1000000), monto_renovado=Sum(F('monto_renovado')/1000000), monto_auto_2da=Sum(F('monto_auto_2da')/1000000), monto_adelanto_sueldo=Sum(F('monto_adelanto_sueldo')/1000000),monto_efectivo_plus=Sum(F('monto_efectivo_plus')/1000000),monto_prestamo_inmediato=Sum(F('monto_prestamo_inmediato')/1000000), monto_incr_linea=Sum(F('monto_incr_linea')/1000000))
     else:
        detalles = Campana2.objects.filter(segmento=segmento).filter(mes_vigencia=fecha).values('mes_vigencia').annotate(q_tc=Sum('q_tc'), q_pld=Sum('q_pld'), q_veh=Sum('q_veh'),q_subrogacion=Sum('q_subrogacion'), q_renovado=Sum('q_renovado'), q_auto_2da=Sum('q_auto_2da'), q_adelanto_sueldo=Sum('q_adelanto_sueldo'),q_efectivo_plus=Sum('q_efectivo_plus'),q_prestamo_inmediato=Sum('q_prestamo_inmediato'),q_incr_linea=Sum('q_incr_linea')).annotate(monto_tc=Sum(F('monto_tc')/1000000), monto_pld=Sum(F('monto_pld')/1000000), monto_veh=Sum(F('monto_veh')/1000000),monto_subrogacion=Sum(F('monto_subrogacion')/1000000), monto_tc_entry_level=Sum(F('monto_tc_entry_level')/1000000), monto_renovado=Sum(F('monto_renovado')/1000000), monto_auto_2da=Sum(F('monto_auto_2da')/1000000), monto_adelanto_sueldo=Sum(F('monto_adelanto_sueldo')/1000000),monto_efectivo_plus=Sum(F('monto_efectivo_plus')/1000000),monto_prestamo_inmediato=Sum(F('monto_prestamo_inmediato')/1000000), monto_incr_linea=Sum(F('monto_incr_linea')/1000000))
-    control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
-    control_segmentos = Campana2.objects.all().values('segmento').distinct('segmento')
+
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana2_detalles.html', locals(),
@@ -182,11 +170,15 @@ def campana_detalles(request, segmento='TOTAL', fecha=fecha_actual):
 
 @login_required
 def campana_caidas(request, fecha=fecha_actual):
+    combo_fechas = Caida.objects.values('mes_vigencia').distinct('mes_vigencia').order_by('-mes_vigencia')
+    time = {}
+    for i in combo_fechas:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
     caidas_ms = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='MS').annotate(num_caidaxms=Sum('cantidad')).order_by('caida')
     caidas_ava = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='AVA').annotate(num_caidaxava=Sum('cantidad')).order_by('caida')
     caidas_noph = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='NO PH + PASIVO').annotate(num_caidaxnoph=Sum('cantidad')).order_by('caida')
     caidas_noclie = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='NO CLIENTE').annotate(num_caidaxnoclie=Sum('cantidad')).order_by('caida')
-    combo_fechas = Caida.objects.values('mes_vigencia').distinct('mes_vigencia').order_by('-mes_vigencia')
     caidas = zip(caidas_ms, caidas_ava, caidas_noph, caidas_noclie)
     static_url=settings.STATIC_URL
     grafica  = Caida.objects.values('caida').filter(mes_vigencia=fecha).exclude(segmento='PNN').annotate(num_caida=Sum('cantidad')).order_by('caida')
@@ -331,26 +323,6 @@ def campana_exoneraciones(request, segmento='TOTAL'):
     return render('reports/campana2_exoneraciones.html', locals(),
                   context_instance=RequestContext(request))
 
-@login_required
-def campana_prueba(request, segmento='TODOS'):
-    texto = str(segmento)
-    lista = texto.split(",")
-    if segmento == 'TODOS':
-        exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-    else:
-        exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-    control_segmentos = Campana2.objects.all().values('segmento').distinct('segmento')
-    exoneraciones = itertools.izip_longest(exo_ambas,exo_vl,exo_vd, req_ambas)
-    static_url=settings.STATIC_URL
-    tipo_side = 1
-    return render('reports/campana2_prueba.html', locals(),
-                  context_instance=RequestContext(request))
 
 #@login_required
 #def campana_flujo(request):
@@ -368,6 +340,11 @@ def campana_prueba(request, segmento='TODOS'):
 
 @login_required
 def campana_flujo(request, fecha=fecha_actual):
+    control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
+    time = {}
+    for i in control_fecha:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
     flujo1 = Campana2.objects.values('tipo_clie','verificacion').filter(mes_vigencia=fecha,verificacion='EXONERADO AMBAS').annotate(num_flujo1=Sum('ofertas')).order_by('tipo_clie')
     flujo2 = Campana2.objects.values('tipo_clie','verificacion').filter(mes_vigencia=fecha,verificacion='EXONERADO SOLO VD').annotate(num_flujo2=Sum('ofertas')).order_by('tipo_clie')
     flujo3 = Campana2.objects.values('tipo_clie','verificacion').filter(mes_vigencia=fecha,verificacion='EXONERADO SOLO VL').annotate(num_flujo3=Sum('ofertas')).order_by('tipo_clie')
@@ -379,7 +356,6 @@ def campana_flujo(request, fecha=fecha_actual):
     t4 = Campana2.objects.values('mes_vigencia').filter(mes_vigencia=fecha,verificacion='REQUIERE AMBAS').annotate(cantidad=Sum('ofertas')).order_by('verificacion')
     t5 = Campana2.objects.values('mes_vigencia').filter(mes_vigencia=fecha).annotate(cantidad=Sum('ofertas'))
     total = zip(t1,t2,t3,t4,t5)
-    control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
     flujo = zip(flujo1, flujo2, flujo3, flujo4,total1)
     static_url=settings.STATIC_URL
     tipo_side = 1
@@ -389,8 +365,14 @@ def campana_flujo(request, fecha=fecha_actual):
 
 @login_required
 def campana_altasempresa(request):
+    control_fecha = AltasEmpresa.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    time = {}
+    for i in control_fecha:
+        time[i['mes_vigencia']]=i['mes_vigencia']
+    fecha = max(time.values())
+    print control_fecha
     t1 = datetime.now()-timedelta(days=2*30)
-    time1 = t1.strftime("%Y%m")
+    time1 = fecha
     t2 = datetime.now()-timedelta(days=3*30)
     time2 = t1.strftime("%Y%m")
     t3 = datetime.now()-timedelta(days=4*30)
