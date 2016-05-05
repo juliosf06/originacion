@@ -366,52 +366,45 @@ def campana_flujo(request, fecha=fecha_actual):
 @login_required
 def campana_altasempresa(request):
     control_fecha = AltasEmpresa.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
-    time = {}
+    fecha = []
     for i in control_fecha:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
-    print control_fecha
-    t1 = datetime.now()-timedelta(days=2*30)
-    time1 = fecha
-    t2 = datetime.now()-timedelta(days=3*30)
-    time2 = t1.strftime("%Y%m")
-    t3 = datetime.now()-timedelta(days=4*30)
-    time3 = t1.strftime("%Y%m")
-    t4 = datetime.now()-timedelta(days=5*30)
-    time4 = t1.strftime("%Y%m")
-    t5 = datetime.now()-timedelta(days=6*30)
-    time5 = t1.strftime("%Y%m")
-    t6 = datetime.now()-timedelta(days=7*30)
-    time6 = t1.strftime("%Y%m")
-    alta1_m1 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=time6).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
-    alta2_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=time6).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
-    alta3_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=time6).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
-    alta_m1 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=time6).annotate(num_alta=Sum('cantidad')).order_by('empresa')
+        fecha.append(i['mes_vigencia'])
+    fecha1= fecha[0]
+    fecha2= fecha[1]
+    fecha3= fecha[2]
+    fecha4= fecha[3]
+    fecha5= fecha[4]
+    fecha6= fecha[5]
 
-    alta1_m2 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=time5).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
-    alta2_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=time5).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
-    alta3_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=time5).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
-    alta_m2 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=time5).annotate(num_alta=Sum('cantidad')).order_by('empresa')
+    alta1_m1 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=fecha6).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=fecha6).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m1 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=fecha6).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m1 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=fecha6).annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m3 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=time4).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
-    alta2_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=time4).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
-    alta3_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=time4).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
-    alta_m3 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=time4).annotate(num_alta=Sum('cantidad')).order_by('empresa')
+    alta1_m2 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=fecha5).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=fecha5).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m2 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=fecha5).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m2 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=fecha5).annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m4 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=time3).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
-    alta2_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=time3).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
-    alta3_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=time3).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
-    alta_m4 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=time3).annotate(num_alta=Sum('cantidad')).order_by('empresa')
+    alta1_m3 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=fecha4).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=fecha4).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m3 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=fecha4).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m3 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=fecha4).annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m5 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=time2).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
-    alta2_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=time2).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
-    alta3_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=time2).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
-    alta_m5 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=time2).annotate(num_alta=Sum('cantidad')).order_by('empresa')
+    alta1_m4 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=fecha3).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=fecha3).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m4 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=fecha3).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m4 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=fecha3).annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
-    alta1_m6 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=time1).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
-    alta2_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=time1).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
-    alta3_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=time1).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
-    alta_m6 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=time1).annotate(num_alta=Sum('cantidad')).order_by('empresa')
+    alta1_m5 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=fecha2).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=fecha2).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m5 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=fecha2).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m5 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=fecha2).annotate(num_alta=Sum('cantidad')).order_by('empresa')
+
+    alta1_m6 = AltasEmpresa.objects.values('empresa', 'grupo').filter(grupo='2.Oferta >= SF',mes_vigencia=fecha1).annotate(num_alta1=Sum('cantidad')).order_by('empresa')
+    alta2_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='1.Oferta < SF',mes_vigencia=fecha1).annotate(num_alta2=Sum('cantidad')).order_by('empresa')
+    alta3_m6 = AltasEmpresa.objects.values('empresa','grupo').filter(grupo='0.Sin Oferta TDC',mes_vigencia=fecha1).annotate(num_alta3=Sum('cantidad')).order_by('empresa')
+    alta_m6 = AltasEmpresa.objects.values('empresa').filter(mes_vigencia=fecha1).annotate(num_alta=Sum('cantidad')).order_by('empresa')
 
     alta_s1 = AltasSegmento.objects.values('segmento','grupo').filter(grupo='1.Oferta < SF').annotate(num_alta=Sum('cantidad')).order_by('segmento')
     alta_s2 = AltasSegmento.objects.values('segmento','grupo').filter(grupo='2.Oferta >= SF').annotate(num_alta=Sum('cantidad')).order_by('segmento')
@@ -1125,16 +1118,21 @@ def seguimiento_auto(request):
 
 @login_required
 def seguimiento_adelanto(request):
+    control_fecha = AdelantoSueldo.objects.values('mes_vigencia' ).distinct('mes_vigencia').order_by('-mes_vigencia')
+    time = []
+    for i in control_fecha:
+        time.append(i['mes_vigencia'])
+    fecha1= time[0]
     total_form = AdelantoSueldo.objects.values('mes_vigencia').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     ticket = AdelantoSueldo.objects.values('mes_vigencia').annotate(formalizado=Sum('fact')).order_by('mes_vigencia')
     formalizados = zip(total_form,ticket)
     
-    meses = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte='201602').distinct('mes_vigencia').order_by('mes_vigencia')
-    total_rango = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte='201602').exclude(rng_suelgo='00 Sin Inf').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    meses = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).distinct('mes_vigencia').order_by('mes_vigencia')
+    total_rango = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).exclude(rng_suelgo='00 Sin Inf').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango_tot = {}
     for i in total_rango:
 	rango_tot[i['mes_vigencia']]=i['formalizado']
-    rango1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo__in=['01 [0 - 700>','02 [700 - 1000]'], mes_vigencia__gte='201503', mes_vigencia__lte='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo__in=['01 [0 - 700>','02 [700 - 1000]'], mes_vigencia__gte=time[13], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango1_dict = {}
     for i in meses:
        for j in rango1:
@@ -1143,8 +1141,7 @@ def seguimiento_adelanto(request):
 	     break
        	  else:
              rango1_dict[i['mes_vigencia']]= 0
-    print rango1_dict
-    rango2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='03 [1001 - 1500]',mes_vigencia__gte='201503', mes_vigencia__lte='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='03 [1001 - 1500]',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango2_dict = {}
     for i in meses:
        for j in rango2:
@@ -1153,7 +1150,7 @@ def seguimiento_adelanto(request):
 	     break
        	  else:
              rango2_dict[i['mes_vigencia']]= 0
-    rango3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='04 [1501 - 2000]',mes_vigencia__gte='201503', mes_vigencia__lte='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='04 [1501 - 2000]',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango3_dict = {}
     for i in meses:
        for j in rango3:
@@ -1162,7 +1159,7 @@ def seguimiento_adelanto(request):
 	     break
        	  else:
              rango3_dict[i['mes_vigencia']]= 0
-    rango4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='05 [2001 - 2500]',mes_vigencia__gte='201503', mes_vigencia__lte='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='05 [2001 - 2500]',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango4_dict = {}
     for i in meses:
        for j in rango4:
@@ -1171,7 +1168,7 @@ def seguimiento_adelanto(request):
 	     break
        	  else:
              rango4_dict[i['mes_vigencia']]= 0
-    rango5 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='06 [2501 - 3500]',mes_vigencia__gte='201503', mes_vigencia__lte='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango5 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='06 [2501 - 3500]',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango5_dict = {}
     for i in meses:
        for j in rango5:
@@ -1180,7 +1177,7 @@ def seguimiento_adelanto(request):
 	     break
        	  else:
              rango5_dict[i['mes_vigencia']]= 0
-    rango6 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='07 [3501 - Mas>',mes_vigencia__gte='201503', mes_vigencia__lte='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango6 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='07 [3501 - Mas>',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango6_dict = {}
     for i in meses:
        for j in rango6:
@@ -1190,7 +1187,7 @@ def seguimiento_adelanto(request):
        	  else:
              rango6_dict[i['mes_vigencia']]= 0
 
-    buro1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]',mes_vigencia__gte='201503', mes_vigencia__lte='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     buro1_dict = {}
     for i in meses:
        for j in buro1:
@@ -1199,7 +1196,7 @@ def seguimiento_adelanto(request):
              break
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
-    buro2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='G5',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='G5',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     buro2_dict = {}
     for i in meses:
        for j in buro2:
@@ -1208,7 +1205,7 @@ def seguimiento_adelanto(request):
              break
        	  else:
              buro2_dict[i['mes_vigencia']]= 0
-    buro3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     buro3_dict = {}
     for i in meses:
        for j in buro3:
@@ -1217,7 +1214,7 @@ def seguimiento_adelanto(request):
              break
        	  else:
              buro3_dict[i['mes_vigencia']]= 0
-    buro4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='NB',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='NB',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     buro4_dict = {}
     for i in meses:
        for j in buro4:
@@ -1227,7 +1224,7 @@ def seguimiento_adelanto(request):
        	  else:
              buro4_dict[i['mes_vigencia']]= 0
 
-    mora30 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
+    mora30 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
     mora = itertools.izip_longest(mora30,total_rango,fillvalue='0')
     mora30_dict1 = {}
     mora30_dict2 = {}
