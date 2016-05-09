@@ -15,7 +15,7 @@ from django.contrib.auth import authenticate, login, logout
 
 import csv, itertools
 import sys
-from PIL import Image
+
 
 fecha_actual = datetime.now().strftime("%Y%m")
 m1 = datetime.now()-timedelta(days=1*30)
