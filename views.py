@@ -14,6 +14,8 @@ from forms import *
 from django.contrib.auth import authenticate, login, logout
 
 import csv, itertools
+import sys
+from PIL import Image
 
 fecha_actual = datetime.now().strftime("%Y%m")
 m1 = datetime.now()-timedelta(days=1*30)
@@ -785,6 +787,7 @@ def rvgl_top20ofic(request, fecha=fecha_actual, analista='TODOS'):
 @login_required
 def evaluacion_evaluaciontc(request):
     evaluaciontc = Evaluaciontc.objects.all().order_by('cliente').distinct('cliente')
+
     static_url=settings.STATIC_URL
     tipo_side = 3
     return render('reports/evaluacion_evaluaciontc.html', locals(),
@@ -1246,17 +1249,22 @@ def seguimiento_adelanto(request):
 
 @login_required
 def seguimiento_prestinmediato(request):
-    form = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    fact = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('fact')).order_by('mes_vigencia')
-    ticket_ava = PrestInmediato.objects.values('mes_vigencia').filter(segmento='Vip',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
-    ticket_ms = PrestInmediato.objects.values('mes_vigencia').filter(segmento='MS',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
+    meses = PrestInmediato.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    time = []
+    for i in meses:
+        time.append(i['mes_vigencia'])
+    fecha1= time[0]
+    print time
+    form = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    fact = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('fact')).order_by('mes_vigencia')
+    ticket_ava = PrestInmediato.objects.values('mes_vigencia').filter(segmento='Vip',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
+    ticket_ms = PrestInmediato.objects.values('mes_vigencia').filter(segmento='MS',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
 
-    meses = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602').order_by('mes_vigencia')
-    total_rango = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).exclude(rng_ingreso='').order_by('mes_vigencia')
+    total_rango = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).exclude(rng_ingreso='').order_by('mes_vigencia')
     rango_tot = {}
     for i in total_rango:
 	rango_tot[i['mes_vigencia']]=i['cantidad']
-    rango1 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602',rng_ingreso='05 [1K - 1.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango1 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ingreso='05 [1K - 1.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango1_dict = {}
     for i in meses:
        for j in rango1:
@@ -1265,7 +1273,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              rango1_dict[i['mes_vigencia']]= 0
-    rango2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602',rng_ingreso='04 [1.5K - 2K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ingreso='04 [1.5K - 2K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango2_dict = {}
     for i in meses:
        for j in rango2:
@@ -1274,7 +1282,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              rango2_dict[i['mes_vigencia']]= 0
-    rango3 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602',rng_ingreso='03 [2K - 2.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango3 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ingreso='03 [2K - 2.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango3_dict = {}
     for i in meses:
        for j in rango3:
@@ -1283,7 +1291,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              rango3_dict[i['mes_vigencia']]= 0
-    rango4 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602',rng_ingreso='02 [2.5K - 3.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango4 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ingreso='02 [2.5K - 3.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango4_dict = {}
     for i in meses:
        for j in rango4:
@@ -1292,7 +1300,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              rango4_dict[i['mes_vigencia']]= 0
-    rango5 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602',rng_ingreso='01 [3.5K - ...]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango5 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ingreso='01 [3.5K - ...]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango5_dict = {}
     for i in meses:
        for j in rango5:
@@ -1301,11 +1309,11 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              rango5_dict[i['mes_vigencia']]= 0
-    total_rango2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    total_rango2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango_tot2 = {}
     for i in total_rango2:
 	rango_tot2[i['mes_vigencia']]=i['cantidad']
-    buro1 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]',mes_vigencia__gte='201503', mes_vigencia__lte='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro1 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro1_dict = {}
     for i in meses:
        for j in buro1:
@@ -1314,7 +1322,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
-    buro2 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='G5',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro2 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='G5',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro2_dict = {}
     for i in meses:
        for j in buro2:
@@ -1323,7 +1331,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              buro2_dict[i['mes_vigencia']]= 0
-    buro3 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro3 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro3_dict = {}
     for i in meses:
        for j in buro3:
@@ -1332,7 +1340,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              buro3_dict[i['mes_vigencia']]= 0
-    buro4 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='NB',mes_vigencia__gte='201503', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro4 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='NB',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro4_dict = {}
     for i in meses:
        for j in buro4:
@@ -1348,12 +1356,16 @@ def seguimiento_prestinmediato(request):
 
 @login_required
 def seguimiento_increlinea(request):
-    meses = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601').order_by('mes_vigencia')
-    form = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    meses = IncreLinea.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    time = []
+    for i in meses:
+	time.append(i['mes_vigencia'])
+    print time
+    form = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     form_dict = {}
     for i in form:
 	form_dict[i['mes_vigencia']]=i['cantidad']
-    ticket = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601').annotate(cantidad=Sum('cantidad')).order_by('mes_vigencia')
+    ticket = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('cantidad')).order_by('mes_vigencia')
     ticket_dict = {}
     for i in meses:
        for j in ticket:
@@ -1362,11 +1374,11 @@ def seguimiento_increlinea(request):
              break
        	  else:
              ticket_dict[i['mes_vigencia']]= 0
-    form2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601').exclude(segmento='').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    form2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).exclude(segmento='').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     form2_dict = {}
     for i in form2:
 	form2_dict[i['mes_vigencia']]=i['cantidad']
-    ava = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201601',segmento__in=['Vip','Premium']).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    ava = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0],segmento__in=['Vip','Premium']).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     ava_dict = {}
     for i in meses:
        for j in ava:
@@ -1375,7 +1387,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              ava_dict[i['mes_vigencia']]= 0
-    ms = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201601',segmento='MS').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    ms = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0],segmento='MS').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     ms_dict = {}
     for i in meses:
        for j in ms:
@@ -1384,7 +1396,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              ms_dict[i['mes_vigencia']]= 0
-    pasivo = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201601',segmento='Pasivo').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    pasivo = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0],segmento='Pasivo').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     pasivo_dict = {}
     for i in meses:
        for j in pasivo:
@@ -1393,7 +1405,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              pasivo_dict[i['mes_vigencia']]= 0
-    noph = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201601',segmento='No PH').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    noph = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0],segmento='No PH').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     noph_dict = {}
     for i in meses:
        for j in noph:
@@ -1402,7 +1414,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              noph_dict[i['mes_vigencia']]= 0
-    noclie = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201601',segmento='NoCli').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    noclie = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0],segmento='NoCli').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     noclie_dict = {}
     for i in meses:
        for j in noclie:
@@ -1411,7 +1423,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              noclie_dict[i['mes_vigencia']]= 0
-    rango1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601',rng_sueldo='01 [-1000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_sueldo='01 [-1000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango1_dict = {}
     for i in meses:
        for j in rango1:
@@ -1420,7 +1432,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              rango1_dict[i['mes_vigencia']]= 0
-    rango2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601',rng_sueldo='02 [1000-1500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_sueldo='02 [1000-1500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango2_dict = {}
     for i in meses:
        for j in rango2:
@@ -1429,7 +1441,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              rango2_dict[i['mes_vigencia']]= 0
-    rango3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601',rng_sueldo='03 [1500-2000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_sueldo='03 [1500-2000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango3_dict = {}
     for i in meses:
        for j in rango3:
@@ -1438,7 +1450,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              rango3_dict[i['mes_vigencia']]= 0
-    rango4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601',rng_sueldo='04 [2000-2500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_sueldo='04 [2000-2500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango4_dict = {}
     for i in meses:
        for j in rango4:
@@ -1447,7 +1459,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              rango4_dict[i['mes_vigencia']]= 0
-    rango5 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601',rng_sueldo='05 [2500-3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango5 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_sueldo='05 [2500-3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango5_dict = {}
     for i in meses:
        for j in rango5:
@@ -1456,7 +1468,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              rango5_dict[i['mes_vigencia']]= 0
-    rango6 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601',rng_sueldo='06 [+3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango6 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_sueldo='06 [+3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango6_dict = {}
     for i in meses:
        for j in rango6:
@@ -1465,7 +1477,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              rango6_dict[i['mes_vigencia']]= 0
-    buro1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='01 G1-G4').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='01 G1-G4').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     print buro1
     buro1_dict = {}
     for i in meses:
@@ -1475,7 +1487,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
-    buro2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='02 G5').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='02 G5').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     print buro2
     buro2_dict = {}
     for i in meses:
@@ -1485,7 +1497,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              buro2_dict[i['mes_vigencia']]= 0
-    buro3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='03 G6-G8').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='03 G6-G8').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     print buro3
     buro3_dict = {}
     for i in meses:
@@ -1495,7 +1507,7 @@ def seguimiento_increlinea(request):
              break
        	  else:
              buro3_dict[i['mes_vigencia']]= 0
-    buro4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='NB').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='NB').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     print buro4
     buro4_dict = {}
     for i in meses:
@@ -1512,12 +1524,16 @@ def seguimiento_increlinea(request):
 
 @login_required
 def seguimiento_lifemiles(request):
-    meses = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602').order_by('mes_vigencia')
-    form = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    meses = IncreLinea.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    time = []
+    for i in meses:
+	time.append(i['mes_vigencia'])
+    print time
+    form = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     form_dict = {}
     for i in form:
 	form_dict[i['mes_vigencia']]=i['cantidad']
-    ticket = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602').annotate(cantidad=Sum('imp_sol')).order_by('mes_vigencia')
+    ticket = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('imp_sol')).order_by('mes_vigencia')
     ticket_dict = {}
     for i in meses:
        for j in ticket:
@@ -1526,11 +1542,11 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              ticket_dict[i['mes_vigencia']]= 0
-    form2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602').exclude(segmento__in=['','PLAN CLIENTE']).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    form2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).exclude(segmento__in=['','PLAN CLIENTE']).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     form2_dict = {}
     for i in form2:
 	form2_dict[i['mes_vigencia']]=i['cantidad']
-    ava = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602',segmento__in=['Vip','Premium']).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    ava = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0],segmento__in=['Vip','Premium']).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     ava_dict = {}
     for i in meses:
        for j in ava:
@@ -1539,7 +1555,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              ava_dict[i['mes_vigencia']]= 0
-    ms = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602',segmento='MS').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    ms = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0],segmento='MS').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     ms_dict = {}
     for i in meses:
        for j in ms:
@@ -1548,7 +1564,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              ms_dict[i['mes_vigencia']]= 0
-    pasivo = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602',segmento='Pasivo').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    pasivo = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0],segmento='Pasivo').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     pasivo_dict = {}
     for i in meses:
        for j in pasivo:
@@ -1557,7 +1573,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              pasivo_dict[i['mes_vigencia']]= 0
-    noph = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602',segmento='No PH').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    noph = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0],segmento='No PH').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     noph_dict = {}
     for i in meses:
        for j in noph:
@@ -1566,7 +1582,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              noph_dict[i['mes_vigencia']]= 0
-    noclie = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602',segmento='NoCli').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    noclie = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0],segmento='NoCli').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     noclie_dict = {}
     for i in meses:
        for j in noclie:
@@ -1575,7 +1591,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              noclie_dict[i['mes_vigencia']]= 0
-    rango1 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='01 [-1000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango1 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ing='01 [-1000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango1_dict = {}
     for i in meses:
        for j in rango1:
@@ -1584,7 +1600,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              rango1_dict[i['mes_vigencia']]= 0
-    rango2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='02 [1000-1500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ing='02 [1000-1500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango2_dict = {}
     for i in meses:
        for j in rango2:
@@ -1593,7 +1609,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              rango2_dict[i['mes_vigencia']]= 0
-    rango3 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='03 [1500-2000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango3 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ing='03 [1500-2000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango3_dict = {}
     for i in meses:
        for j in rango3:
@@ -1602,7 +1618,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              rango3_dict[i['mes_vigencia']]= 0
-    rango4 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='04 [2000-2500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango4 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ing='04 [2000-2500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango4_dict = {}
     for i in meses:
        for j in rango4:
@@ -1611,7 +1627,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              rango4_dict[i['mes_vigencia']]= 0
-    rango5 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='05 [2500-3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango5 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ing='05 [2500-3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango5_dict = {}
     for i in meses:
        for j in rango5:
@@ -1620,7 +1636,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              rango5_dict[i['mes_vigencia']]= 0
-    rango6 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_ing='06 [+3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango6 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ing='06 [+3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango6_dict = {}
     for i in meses:
        for j in rango6:
@@ -1629,7 +1645,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              rango6_dict[i['mes_vigencia']]= 0
-    buro1 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', buro='01 G1-G4').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro1 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='01 G1-G4').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro1_dict = {}
     for i in meses:
        for j in buro1:
@@ -1638,7 +1654,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
-    buro2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', buro='02 G5').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='02 G5').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro2_dict = {}
     for i in meses:
        for j in buro2:
@@ -1647,7 +1663,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              buro2_dict[i['mes_vigencia']]= 0
-    buro3 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', buro='03 G6-G8').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro3 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='03 G6-G8').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro3_dict = {}
     for i in meses:
        for j in buro3:
@@ -1656,7 +1672,7 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              buro3_dict[i['mes_vigencia']]= 0
-    buro4 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', buro='04 NB').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro4 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='04 NB').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro4_dict = {}
     for i in meses:
        for j in buro4:
@@ -1672,16 +1688,20 @@ def seguimiento_lifemiles(request):
 
 @login_required
 def seguimiento_increlifemiles(request):
-    meses = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602').order_by('mes_vigencia')
-    form = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    meses = IncreLinea.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    time = []
+    for i in meses:
+	time.append(i['mes_vigencia'])
+    print time
+    form = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     form_dict={}
     for i in form:
 	form_dict[i['mes_vigencia']]=i['cantidad']
-    form2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602', lifemiles='1').exclude(segmento='').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    form2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], lifemiles='1').exclude(segmento='').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     form2_dict={}
     for i in form2:
 	form2_dict[i['mes_vigencia']]=i['cantidad']
-    ticket = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',lifemiles='1').annotate(cantidad=Sum('cantidad')).order_by('mes_vigencia')
+    ticket = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],lifemiles='1').annotate(cantidad=Sum('cantidad')).order_by('mes_vigencia')
     ticket_dict={}
     for i in meses:
        for j in ticket:
@@ -1690,7 +1710,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              ticket_dict[i['mes_vigencia']]= 0
-    ava = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',segmento__in=['Vip','Premium'],lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    ava = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],segmento__in=['Vip','Premium'],lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     ava_dict = {}
     for i in meses:
        for j in ava:
@@ -1699,7 +1719,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              ava_dict[i['mes_vigencia']]= 0
-    ms = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602', segmento='MS', lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    ms = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0], segmento='MS', lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     ms_dict = {}
     for i in meses:
        for j in ms:
@@ -1708,7 +1728,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              ms_dict[i['mes_vigencia']]= 0
-    pasivo = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602', segmento='Pasivo',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    pasivo = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0], segmento='Pasivo',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     pasivo_dict = {}
     for i in meses:
        for j in pasivo:
@@ -1717,7 +1737,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              pasivo_dict[i['mes_vigencia']]= 0
-    noph = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602',segmento='No PH',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    noph = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0],segmento='No PH',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     noph_dict = {}
     for i in meses:
        for j in noph:
@@ -1726,7 +1746,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              noph_dict[i['mes_vigencia']]= 0
-    noclie = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= '201502', mes_vigencia__lte ='201602', segmento='NoCli',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    noclie = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte= time[12], mes_vigencia__lte =time[0], segmento='NoCli',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     noclie_dict = {}
     for i in meses:
        for j in noclie:
@@ -1735,7 +1755,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              noclie_dict[i['mes_vigencia']]= 0
-    rango1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_sueldo='01 [-1000>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_sueldo='01 [-1000>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango1_dict = {}
     for i in meses:
        for j in rango1:
@@ -1744,7 +1764,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              rango1_dict[i['mes_vigencia']]= 0
-    rango2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_sueldo='02 [1000-1500>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_sueldo='02 [1000-1500>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango2_dict = {}
     for i in meses:
        for j in rango2:
@@ -1753,7 +1773,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              rango2_dict[i['mes_vigencia']]= 0
-    rango3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_sueldo='03 [1500-2000>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_sueldo='03 [1500-2000>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango3_dict = {}
     for i in meses:
        for j in rango3:
@@ -1762,7 +1782,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              rango3_dict[i['mes_vigencia']]= 0
-    rango4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_sueldo='04 [2000-2500>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_sueldo='04 [2000-2500>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango4_dict = {}
     for i in meses:
        for j in rango4:
@@ -1771,7 +1791,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              rango4_dict[i['mes_vigencia']]= 0
-    rango5 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_sueldo='05 [2500-3500>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango5 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_sueldo='05 [2500-3500>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango5_dict = {}
     for i in meses:
        for j in rango5:
@@ -1780,7 +1800,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              rango5_dict[i['mes_vigencia']]= 0
-    rango6 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201602',rng_sueldo='06 [+3500>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango6 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_sueldo='06 [+3500>',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango6_dict = {}
     for i in meses:
        for j in rango6:
@@ -1789,7 +1809,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              rango6_dict[i['mes_vigencia']]= 0
-    buro1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='01 G1-G4',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='01 G1-G4',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     print buro1
     buro1_dict = {}
     for i in meses:
@@ -1799,7 +1819,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
-    buro2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='02 G5',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='02 G5',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     print buro2
     buro2_dict = {}
     for i in meses:
@@ -1809,7 +1829,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              buro2_dict[i['mes_vigencia']]= 0
-    buro3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='03 G6-G8',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='03 G6-G8',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     print buro3
     buro3_dict = {}
     for i in meses:
@@ -1819,7 +1839,7 @@ def seguimiento_increlifemiles(request):
              break
        	  else:
              buro3_dict[i['mes_vigencia']]= 0
-    buro4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502', mes_vigencia__lte ='201601', buro='NB',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='NB',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     print buro4
     buro4_dict = {}
     for i in meses:
@@ -1991,11 +2011,14 @@ def hipoteca_ssff(request):
 	    timex.append(i['mes_vigencia'])
     for i in control_fecha:
 	time.append(i['mes_vigencia'])
-    for i in range(4):
-	timez.append(anual[i])
     for i in range(3):
-    	if timex[i] > anual[0]:
-	   timez.append(timex[i])
+	if time[i] == anual[0]:
+	   timez.append(anual[0])
+	else:
+	   timez.append(time[i])
+	   timez.append(anual[1])
+	   timez.append(anual[2])
+	   timez.append(anual[4])
     print anual
     print timex  
     print timez
