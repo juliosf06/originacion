@@ -1259,6 +1259,8 @@ def seguimiento_prestinmediato(request):
     fact = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('fact')).order_by('mes_vigencia')
     ticket_ava = PrestInmediato.objects.values('mes_vigencia').filter(segmento='Vip',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
     ticket_ms = PrestInmediato.objects.values('mes_vigencia').filter(segmento='MS',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
+    #print ticket_ava
+    #print ticket_ms
 
     total_rango = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).exclude(rng_ingreso='').order_by('mes_vigencia')
     rango_tot = {}
@@ -2194,6 +2196,7 @@ def load(request):
     #HipotecaConce.objects.all().delete()
     #Moras.objects.all().delete()
     #IncreLinea.objects.all().delete()
+    PrestInmediato.objects.all().delete()
     #Lifemiles.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
