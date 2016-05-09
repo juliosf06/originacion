@@ -1249,16 +1249,16 @@ def seguimiento_adelanto(request):
 
 @login_required
 def seguimiento_prestinmediato(request):
-    meses = PrestInmediato.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    meses_tot = PrestInmediato.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
     time = []
-    for i in meses:
+    for i in meses_tot:
         time.append(i['mes_vigencia'])
     fecha1= time[0]
-    print time
+    meses = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).order_by('-mes_vigencia').distinct()
     form = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     fact = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('fact')).order_by('mes_vigencia')
-    ticket_ava = PrestInmediato.objects.values('mes_vigencia').filter(segmento='Vip',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
-    ticket_ms = PrestInmediato.objects.values('mes_vigencia').filter(segmento='MS',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
+    ticket_ava = PrestInmediato.objects.values('mes_vigencia').filter(segmento='1.AVA',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
+    ticket_ms = PrestInmediato.objects.values('mes_vigencia').filter(segmento='2.MS',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
     #print ticket_ava
     #print ticket_ms
 
@@ -2196,7 +2196,7 @@ def load(request):
     #HipotecaConce.objects.all().delete()
     #Moras.objects.all().delete()
     #IncreLinea.objects.all().delete()
-    PrestInmediato.objects.all().delete()
+    #PrestInmediato.objects.all().delete()
     #Lifemiles.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
