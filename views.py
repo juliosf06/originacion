@@ -703,12 +703,12 @@ def rvgl_top20terr(request, fecha=fecha_actual, analista='TODOS'):
         time[i['mes_vigencia']]=i['mes_vigencia']
     fecha = max(time.values())
     if analista == 'TODOS':
-       top20terr1 = RVGL.objects.filter(mes_vigencia=fecha).values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
-       top20terr2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
+       top20terr1 = RVGL.objects.filter(mes_vigencia=fecha).values('territorio_nuevo').exclude(territorio_nuevo='').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
+       top20terr2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0, territorio_nuevo='').values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
        top20terr = zip(top20terr1, top20terr2)
     else:
-       top20terr1 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('territorio_nuevo').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
-       top20terr2 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).exclude(importe_aprob=0).values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
+       top20terr1 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).values('territorio_nuevo').exclude(territorio_nuevo='').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
+       top20terr2 = RVGL.objects.filter(mes_vigencia=fecha, analista=analista).exclude(importe_aprob=0, territorio_nuevo='').values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
        top20terr = zip(top20terr1, top20terr2)
 
     static_url=settings.STATIC_URL
@@ -1158,8 +1158,8 @@ def seguimiento_adelanto(request):
     for i in control_fecha:
         time.append(i['mes_vigencia'])
     fecha1= time[0]
-    total_form = AdelantoSueldo.objects.values('mes_vigencia').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
-    ticket = AdelantoSueldo.objects.values('mes_vigencia').annotate(formalizado=Sum('fact')).order_by('mes_vigencia')
+    total_form = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    ticket = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('fact')).order_by('mes_vigencia')
     formalizados = zip(total_form,ticket)
     
     meses = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).distinct('mes_vigencia').order_by('mes_vigencia')
