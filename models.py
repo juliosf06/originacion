@@ -70,6 +70,27 @@ class Campana2(models.Model):
     def __str__(self):
         return self.codigo_campana+' '+self.segmento+' '+self.tipo_clie
 
+class CampanaWeb(models.Model):
+    fecha_desde = models.CharField(max_length=10)
+    fecha_hasta = models.CharField(max_length=10)
+    fecha_recepcion = models.CharField(max_length=10)
+    num_clientes = models.DecimalField(max_digits=12, decimal_places=2)
+    form_tdc = models.DecimalField(max_digits=12, decimal_places=2)
+    form_pld = models.DecimalField(max_digits=12, decimal_places=2)
+    total_filtros = models.DecimalField(max_digits=12, decimal_places=2)
+    tdc_moi = models.DecimalField(max_digits=12, decimal_places=2)
+    tdc_il = models.DecimalField(max_digits=12, decimal_places=2)
+    tdc_nueva = models.DecimalField(max_digits=12, decimal_places=2)
+    tdc_total = models.DecimalField(max_digits=12, decimal_places=2)
+    tdc_porcentaje = models.DecimalField(max_digits=12, decimal_places=2)
+    pld_moi = models.DecimalField(max_digits=12, decimal_places=2)
+    pld_nueva = models.DecimalField(max_digits=12, decimal_places=2)
+    pld_total = models.DecimalField(max_digits=12, decimal_places=2)
+    pld_porcentaje = models.DecimalField(max_digits=12, decimal_places=2)
+
+    def __str__(self):
+        return self.fecha_recepcion+' '+self.num_clientes
+
 class Verificaciones(models.Model):
     mes_vigencia = models.CharField(max_length=10)
     segmento = models.CharField(max_length=20)
@@ -173,8 +194,8 @@ class AdelantoSueldo(models.Model):
     rng_suelgo = models.CharField(max_length=40)
     flg_prestamo = models.CharField(max_length=20)
     estado_cred = models.CharField(max_length=50)
-    ctas = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    fact = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    ctas = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    fact = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     mora = models.IntegerField(default=0)
 
     def __str__(self):

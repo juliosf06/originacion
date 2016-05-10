@@ -1986,10 +1986,13 @@ def seguimiento_hipoteca(request):
              break
        	  else:
              buro5_dict[i['mes_vigencia']]= 0
-    mora6 = Moras.objects.values('mes_form','producto').filter(producto='04 Hipotecario',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('mora6')).order_by('mes_form')
-    mora9 = Moras.objects.values('mes_form','producto').filter(producto='04 Hipotecario',mes_form__gte='201410', mes_form__lte ='201505').annotate(sum_mora=Sum('mora9')).order_by('mes_form')
-    mora12 = Moras.objects.values('mes_form','producto').filter(producto='04 Hipotecario',mes_form__gte='201410', mes_form__lte ='201502').annotate(sum_mora=Sum('mora12')).order_by('mes_form')
-    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='04 Hipotecario',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+
+    meses_moras = Moras.objects.values('mes_form').filter(mes_form__gte=before18, mes_form__lte =before8).order_by('mes_form')
+
+    mora6 = Moras.objects.values('mes_form','producto').filter(producto='04 Hipotecario',mes_form__gte=before18, mes_form__lte =before8).annotate(sum_mora=Sum('mora6')).order_by('mes_form')
+    mora9 = Moras.objects.values('mes_form','producto').filter(producto='04 Hipotecario',mes_form__gte=before18, mes_form__lte =before11).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
+    mora12 = Moras.objects.values('mes_form','producto').filter(producto='04 Hipotecario',mes_form__gte=before18, mes_form__lte =before14).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
+    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='04 Hipotecario',mes_form__gte=before18, mes_form__lte =before8).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     mora_6 = zip(mora6,total_ctas)
     mora_9 = zip(mora9,total_ctas)
     mora_12 = zip(mora12,total_ctas)
@@ -2001,7 +2004,7 @@ def seguimiento_hipoteca(request):
 	    if i['mes_vigencia'] == j['mes_vigencia']:
 		forzaje_dict[j['mes_vigencia']]=j['cantidad']
 
-    forzaje2 = Forzaje.objects.values('mes_vigencia', 'dic_global').filter(producto = '04 Hipotecario',mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).exclude(dic_global='AP').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    forzaje2 = Forzaje.objects.values('mes_vigencia', 'dic_global').filter(producto = '04 Hipotecario', mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).exclude(dic_global='AP').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     duda_dict = {}
     rechazo_dict = {}
     for i in meses:
