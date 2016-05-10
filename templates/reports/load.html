@@ -67,6 +67,15 @@
             </form>
           </div>
 	  <div class="row">
+            <form action="carga_campanaweb/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reporte Campañas Web</label>
+		<input type="file" id="campanaweb" name="campanaweb">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Campana2" ></div>
+            </form>
+          </div>
+	  <div class="row">
             <form action="carga_caidas/" method="post" enctype="multipart/form-data">{% csrf_token %}
               <div class="form_group">
                 <label>Reporte de Caidas</label>

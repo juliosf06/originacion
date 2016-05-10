@@ -424,6 +424,15 @@ def campana_prestinmediato(request):
     return render('reports/campana_prestinmediato.html', locals(),
                   context_instance=RequestContext(request))
 
+@login_required
+def campanaweb(request):
+    campanaweb = CampanaWeb.objects.all().order_by('fecha_desde')
+
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana_web.html', locals(),
+                  context_instance=RequestContext(request))
+
 
 # 3.- Vistas para reportes de RVGL
 @login_required
@@ -2263,6 +2272,19 @@ def carga_campana2(request):
         if form.is_valid():
             csv_file = request.FILES['campana2']
             Campana2Csv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            print "no es valido"
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_campanaweb(request):
+    if request.method == 'POST':
+        form = UploadCampanaWeb(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['campanaweb']
+            CampanaWebCsv.import_data(data = csv_file)
             return campana_resumen(request)
         else:
             print "no es valido"

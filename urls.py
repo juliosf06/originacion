@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^campanas/flujo/(?P<fecha>[0-9]{6})/$', views.campana_flujo, name='campana_flujo'),
     url(r'^campanas/altasempresa/$', views.campana_altasempresa, name='campana_altasempresa'),
     url(r'^campanas/prestinmediato/$', views.campana_prestinmediato, name='campana_prestinmediato'),
+    url(r'^campanas/campanaweb/$', views.campanaweb, name='campanaweb'),
 
 
     # URLS para reportes de RVGL
@@ -89,6 +90,7 @@ urlpatterns = [
     url(r'^load_data/carga_lifemiles/$', views.carga_lifemiles, name='carga_lifemiles'),
     url(r'^load_data/carga_exoneracion/$', views.carga_exoneracion, name='carga_exoneracion'),
     url(r'^load_data/carga_forzaje/$', views.carga_forzaje, name='carga_forzaje'),
+    url(r'^load_data/carga_campanaweb/$', views.carga_campanaweb, name='carga_campanaweb'),
     url(r'^load_data/$', views.load, name='load'),
     url(r'^mapa/$', views.mapa, name='mapa'),
 ]
