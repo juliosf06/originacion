@@ -179,89 +179,6 @@
 	var chart = new CanvasJS.Chart("chartContainer3", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Segmentos"              
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "AVA",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{a.seg}} , label: '{{a.mes_vigencia|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "MS",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{b.seg}} , label: '{{b.mes_vigencia|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "No PH",
-			indexLabelFontColor: "white",
-			color: '#86C82D',			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{c.seg}} , label: '{{c.mes_vigencia|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "NoCli",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			color: "#C8175E",
-			percentFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{d.seg}} , label: '{{d.mes_vigencia|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "scatter",
-			name: "# Formalizados (Miles)",
-			indexLabelFontColor: "darkblue",			
-			indexLabel: "{y}",
-			color: "#C8175E",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{e.formalizado}} , label: '{{d.mes_vigencia|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart.render();
-
-	var chart = new CanvasJS.Chart("chartContainer4", {
-		theme: "theme2",//theme1
-		title:{
 			text: "Rango de Ingresos:"              
 		},
 		axisY:{
@@ -362,6 +279,90 @@
 		]
 	});
 	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer4", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Segmentos"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "AVA",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in camp_seg %}
+				{ y: {{a.seg}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "MS",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in camp_seg %}
+				{ y: {{b.seg}} , label: '{{b.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "No PH",
+			indexLabelFontColor: "white",
+			color: '#86C82D',			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in camp_seg %}
+				{ y: {{c.seg}} , label: '{{c.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "NoCli",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			color: "#C8175E",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in camp_seg %}
+				{ y: {{d.seg}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			name: "# Formalizados (Miles)",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}",
+			color: "#C8175E",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in camp_seg %}
+				{ y: {{e.formalizado}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
 
 	var chart = new CanvasJS.Chart("chartContainer5", {
 		theme: "theme2",//theme1

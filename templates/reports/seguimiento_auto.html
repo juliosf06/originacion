@@ -27,6 +27,10 @@
           <div class="rows placeholders">
 		<div id="chartContainer4" style="height: 300px; width: 100%;"></div>
           </div>
+	 &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer5" style="height: 300px; width: 100%;"></div>
+          </div>
 
 {% endblock %}
 
@@ -87,7 +91,7 @@
 	});
 	chart.render();
 
-	var chart2 = new CanvasJS.Chart("chartContainer2", {
+	var chart = new CanvasJS.Chart("chartContainer2", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Ticket Promedio"              
@@ -98,7 +102,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "UNO A UNO",
-			indexLabelFontColor: "#89D1F3",			
+			indexLabelFontColor: "#094FA4",	
+			color: "#094FA4",		
 			indexLabel: "{y}",
 			yValueFormatString: "##,###",
 			showInLegend: "true",
@@ -112,8 +117,9 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "CAMPAÑAS",
-			indexLabelFontColor: "#009EE5",			
-			//indexLabel: "{y}",
+			indexLabelFontColor: "#86C82D",	
+			color: "#86C82D",			
+			indexLabel: "{y}",
 			yValueFormatString: "##,###.",
 			showInLegend: "true",
 			dataPoints: [
@@ -124,67 +130,105 @@
 		},
 		]
 	});
-	chart2.render();
-	$("#show1").click(function () {
-	chart2.options.data[0].indexLabel = "{y}";
-	chart2.options.data[1].indexLabel = "";
-        chart2.render();
-	});
-	chart2.render();
-	$("#show2").click(function () {
-	chart2.options.data[0].indexLabel = "";
-	chart2.options.data[1].indexLabel = "{y}";
-        chart2.render();
-	});
+	chart.render();
 
 	var chart = new CanvasJS.Chart("chartContainer3", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora Total"              
+			text: "Rango de Ingresos:"              
+		},
+		axisY:{
+			maximum: 120,              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "MORA12",
-			indexLabelFontColor: "darkblue",			
-			indexLabel: "{y}%",
-			yValueFormatString: "#0.0#",
+			type: "stackedColumn",
+			name: "[0 - 1,000]",
+			//indexLabel: "{y}%",
+			//indexLabelFontColor: "white",
+			color: "#B5E5F9",
+			yValueFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in moras12 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% for key, value in rango6_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "MORA18",
-			indexLabelFontColor: "darkblue",			
+			type: "stackedColumn",
+			name: "[1,000 - 1,500]",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "white",
+			color: "#C8175E",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in rango5_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[1,500 - 2,000]",
 			indexLabel: "{y}%",
+			indexLabelFontColor: "white",
+			color: "#89D1F3",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in rango4_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[2,000 - 2,500]",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "white",
+			color: "#009EE5",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in rango3_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[2,500 - 3,500]",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "white",
 			color: "#094FA4",
-			yValueFormatString: "#0.0#",
+			yValueFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in moras18 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% for key, value in rango2_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "MORA24",
-			indexLabelFontColor: "darkblue",			
+			type: "stackedColumn",
+			name: "[3,500 - a más]",
 			indexLabel: "{y}%",
+			indexLabelFontColor: "white",
 			color: "#86C82D",
-			yValueFormatString: "#0.0#",
+			yValueFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in moras24 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% for key, value in rango1_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -195,6 +239,62 @@
 	var chart = new CanvasJS.Chart("chartContainer4", {
 		theme: "theme2",//theme1
 		title:{
+			text: "Mora Total"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA6",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",			
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in moras6 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA9",
+			indexLabelFontColor: "#094FA4",			
+			indexLabel: "{y}%",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in moras9 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA12",
+			indexLabelFontColor: "#86C82D",			
+			indexLabel: "{y}%",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in moras12 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer5", {
+		theme: "theme2",//theme1
+		title:{
 			text: "Nivel de Forzaje"              
 		},
 		animationEnabled: true,   // change to true
@@ -203,7 +303,7 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "column",
 			name: "Duda",
-			//indexLabelFontColor: "darkblue",			
+			indexLabelFontColor: "#89D1F3",			
 			indexLabel: "{y}%",
 			color: "#89D1F3",
 			yValueFormatString: "#0.",
@@ -218,7 +318,7 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "column",
 			name: "Rechazo",
-			//indexLabelFontColor: "darkblue",			
+			indexLabelFontColor: "#F6891E",			
 			indexLabel: "{y}%",
 			color: "#F6891E",
 			yValueFormatString: "#0.",

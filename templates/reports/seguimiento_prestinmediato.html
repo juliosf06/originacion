@@ -98,7 +98,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "AVA",
-			indexLabelFontColor: "#89D1F3",			
+			indexLabelFontColor: "#094FA4",	
+			color: "#094FA4",		
 			indexLabel: "{y}",
 			yValueFormatString: "##,###",
 			showInLegend: "true",
@@ -112,8 +113,9 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "CAMPAÑAS",
-			indexLabelFontColor: "#009EE5",			
-			//indexLabel: "{y}",
+			indexLabelFontColor: "#86C82D",	
+			color: "#86C82D",			
+			indexLabel: "{y}",
 			yValueFormatString: "##,###.",
 			showInLegend: "true",
 			dataPoints: [
@@ -171,8 +173,7 @@
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
-			//indexLabel: "#percent%",
-			//percentFormatString: "#0.",
+			color: "#FDBD2C",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in rango1_dict.items|sort %}
@@ -187,8 +188,7 @@
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
-			//indexLabel: "#percent%",
-			//percentFormatString: "#0.",
+			color: "#89D1F3",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in rango2_dict.items|sort %}
@@ -203,8 +203,7 @@
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
-			//indexLabel: "#percent%",
-			//percentFormatString: "#0.",
+			color: "#009EE5",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in rango3_dict.items|sort %}
@@ -219,8 +218,7 @@
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
-			//indexLabel: "#percent%",
-			//percentFormatString: "#0.",
+			color: "#094FA4",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in rango4_dict.items|sort %}
@@ -235,8 +233,7 @@
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
-			//indexLabel: "#percent%",
-			//percentFormatString: "#0.",
+			color: "#86C82D",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in rango5_dict.items|sort %}

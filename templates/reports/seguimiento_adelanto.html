@@ -40,14 +40,20 @@
 		title:{
 			text: "Formalizados"              
 		},
+		axisY2:{
+			//interval: 60,
+			//maximum: 300,
+			labelFontColor: "white",              
+		},
 		animationEnabled: true,   // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "column",
 			name: "#Form",
-			indexLabelFontColor: "darkblue",			
-			//indexLabel: "{y}",
+			indexLabelFontColor: "white",			
+			indexLabel: "{y}",
+			indexLabelPlacement: "inside",
 			yValueFormatString: "#,###.",
 			showInLegend: "true",
 			dataPoints: [
@@ -58,6 +64,7 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
+			axisYType: "secondary",
 			type: "spline",
 			name: "Ticket Promedio (S/.)",
 			indexLabelFontColor: "darkblue",			
@@ -90,9 +97,8 @@
 			name: "[0-1,000]",
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
+			color: "#C8175E",
 			yValueFormatString: "#0.",			
-			//indexLabel: "#percent%",
-			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in rango1_dict.items|sort %}
@@ -106,9 +112,8 @@
 			name: "[1,000-1,500]",
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
+			color: "#B5E5F9",
 			yValueFormatString: "#0.",			
-			//indexLabel: "#percent%",
-			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in rango2_dict.items|sort %}
@@ -123,8 +128,7 @@
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
-			//indexLabel: "#percent%",
-			//percentFormatString: "#0.",
+			color: "#89D1F3",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in rango3_dict.items|sort %}
@@ -139,8 +143,7 @@
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
-			//indexLabel: "#percent%",
-			//percentFormatString: "#0.",
+			color: "#009EE5",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in rango4_dict.items|sort %}
@@ -155,8 +158,7 @@
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
-			//indexLabel: "#percent%",
-			//percentFormatString: "#0.",
+			color: "#094FA4",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in rango5_dict.items|sort %}
@@ -171,8 +173,7 @@
 			indexLabelFontColor: "white",
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.",			
-			//indexLabel: "#percent%",
-			//percentFormatString: "#0.",
+			color: "#86C82D",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in rango6_dict.items|sort %}

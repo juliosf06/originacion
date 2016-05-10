@@ -607,7 +607,6 @@ def rvgl_resumenxsco(request, fecha=fecha_actual, analista='TODOS'):
        else:      
           for i in dictamen:
               scolista.append(ap_dict[i['dictamen']])
-       print sorted(ap_dict.items())
        dictamenxsco_du = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha).filter(dictamen_sco='DU').annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
        du_dict = {}
        for i in dictamen:
@@ -1090,27 +1089,60 @@ def seguimiento_pld(request):
 
 @login_required
 def seguimiento_auto(request):
-    total_form = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='02 Auto').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
-    uno_form = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(producto='02 Auto', riesgos='UNO A UNO').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
-    camp_form = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(producto='02 Auto', riesgos='CAMP').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
-    camp_reg = Seguimiento1.objects.values('mes_vigencia','origen').filter(producto='02 Auto', origen__in=['ORIGINACION FAST','ORIGINACION MS']).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    meses_total = Seguimiento1.objects.values('mes_vigencia').distinct('mes_vigencia').order_by('-mes_vigencia')
+    time = []
+    for i in meses_total:
+        time.append(i['mes_vigencia'])
+    meses = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).distinct('mes_vigencia').order_by('mes_vigencia')
+    total_form = Seguimiento1.objects.values('mes_vigencia', 'producto').filter(producto='02 Auto',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    total_form_dict = {}
+    for j in total_form:
+	total_form_dict[j['mes_vigencia']]=j['formalizado']
+    uno_form = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(producto='02 Auto', riesgos='UNO A UNO',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    camp_form = Seguimiento1.objects.values('mes_vigencia','riesgos').filter(producto='02 Auto', riesgos='CAMP',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    camp_reg = Seguimiento1.objects.values('mes_vigencia','origen').filter(producto='02 Auto', origen__in=['ORIGINACION FAST','ORIGINACION MS'],mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     formalizados = zip(total_form,uno_form,camp_form)
 
-    fact_uno = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='02 Auto', riesgos='UNO A UNO').annotate(facturacion=Sum('facturacion')).order_by('mes_vigencia')
-    fact_camp = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='02 Auto', riesgos='CAMP').annotate(facturacion=Sum('facturacion')).order_by('mes_vigencia')
+    fact_uno = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='02 Auto', riesgos='UNO A UNO',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(facturacion=Sum('facturacion')).order_by('mes_vigencia')
+    fact_camp = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='02 Auto', riesgos='CAMP',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(facturacion=Sum('facturacion')).order_by('mes_vigencia')
     ticket = zip(fact_uno, fact_camp, uno_form, camp_form)
 
-    mora12 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('mora12')).order_by('mes_form')
-    mora18 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte='201410', mes_form__lte ='201502').annotate(sum_mora=Sum('mora18')).order_by('mes_form')
-    mora24 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte='201410', mes_form__lte ='201502').annotate(sum_mora=Sum('mora24')).order_by('mes_form')
-    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte='201410', mes_form__lte ='201508').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
-    moras12 = zip(mora12,total_ctas)
-    moras18 = zip(mora18,total_ctas)
-    moras24 = zip(mora24,total_ctas)
+    rangos = Seguimiento1.objects.values('mes_vigencia','producto', 'rng_ing').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],producto='02 Auto').annotate(num_rango=Sum('form')).order_by('mes_vigencia')
+    rango1_dict = {}; rango2_dict = {}; rango3_dict = {}
+    rango4_dict = {}; rango5_dict = {}; rango6_dict = {}
+    for i in meses:
+	for j in rangos:
+	   if i['mes_vigencia'] == j['mes_vigencia']:
+		if j['rng_ing'] == '01 [3.5K - ...]':
+		   rango1_dict[i['mes_vigencia']]=j['num_rango']*100/total_form_dict[i['mes_vigencia']]
+		elif j['rng_ing'] == '02 [2.5K - 3.5K]':
+		   rango2_dict[i['mes_vigencia']]=j['num_rango']*100/total_form_dict[i['mes_vigencia']]
+		elif j['rng_ing'] == '03 [2K - 2.5K]':
+		   rango3_dict[i['mes_vigencia']]=j['num_rango']*100/total_form_dict[i['mes_vigencia']]
+		elif j['rng_ing'] == '04 [1.5K - 2K]':
+		   rango4_dict[i['mes_vigencia']]=j['num_rango']*100/total_form_dict[i['mes_vigencia']]
+		elif j['rng_ing'] == '05 [1K - 1.5K]':
+		   rango5_dict[i['mes_vigencia']]=j['num_rango']*100/total_form_dict[i['mes_vigencia']]
+		if j['rng_ing'] == '06 [0 - 1K]':
+		   rango6_dict[i['mes_vigencia']]=j['num_rango']*100/total_form_dict[i['mes_vigencia']]
+		else:
+		   rango6_dict[i['mes_vigencia']]=0
 
-    duda = Forzaje.objects.values('mes_vigencia').filter(producto='02 Auto',mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, dic_global='DU').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
-    rechazo = Forzaje.objects.values('mes_vigencia').filter(producto='02 Auto',mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, dic_global='RE').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
-    total_forzaje = Forzaje.objects.values('mes_vigencia').filter(producto='02 Auto',mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual).annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    meses_moras = Moras.objects.values('mes_form').order_by('-mes_form').distinct()
+    moratime = []
+    for i in meses_moras:
+	moratime.append(i['mes_form'])
+    mora6 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte=moratime[16], mes_form__lte =moratime[6]).annotate(sum_mora=Sum('mora6')).order_by('mes_form')
+    mora9 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte=moratime[16], mes_form__lte =moratime[9]).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
+    mora12 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte=moratime[16], mes_form__lte =moratime[12]).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
+    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte=moratime[16], mes_form__lte =moratime[6]).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+    moras6 = zip(mora6,total_ctas)
+    moras9 = zip(mora9,total_ctas)
+    moras12 = zip(mora12,total_ctas)
+
+    duda = Forzaje.objects.values('mes_vigencia').filter(producto='02 Auto',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0], dic_global='DU').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    rechazo = Forzaje.objects.values('mes_vigencia').filter(producto='02 Auto',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0], dic_global='RE').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    total_forzaje = Forzaje.objects.values('mes_vigencia').filter(producto='02 Auto',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     forzaje = zip(duda,rechazo,total_forzaje)
 
     static_url=settings.STATIC_URL
@@ -1259,8 +1291,6 @@ def seguimiento_prestinmediato(request):
     fact = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('fact')).order_by('mes_vigencia')
     ticket_ava = PrestInmediato.objects.values('mes_vigencia').filter(segmento='1.AVA',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
     ticket_ms = PrestInmediato.objects.values('mes_vigencia').filter(segmento='2.MS',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
-    #print ticket_ava
-    #print ticket_ms
 
     total_rango = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).exclude(rng_ingreso='').order_by('mes_vigencia')
     rango_tot = {}
@@ -1358,11 +1388,11 @@ def seguimiento_prestinmediato(request):
 
 @login_required
 def seguimiento_increlinea(request):
-    meses = IncreLinea.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    meses_total = IncreLinea.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
     time = []
-    for i in meses:
+    for i in meses_total:
 	time.append(i['mes_vigencia'])
-    print time
+    meses = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).order_by('-mes_vigencia').distinct()
     form = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     form_dict = {}
     for i in form:
@@ -1480,7 +1510,6 @@ def seguimiento_increlinea(request):
        	  else:
              rango6_dict[i['mes_vigencia']]= 0
     buro1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='01 G1-G4').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    print buro1
     buro1_dict = {}
     for i in meses:
        for j in buro1:
@@ -1490,7 +1519,6 @@ def seguimiento_increlinea(request):
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
     buro2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='02 G5').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    print buro2
     buro2_dict = {}
     for i in meses:
        for j in buro2:
@@ -1500,7 +1528,6 @@ def seguimiento_increlinea(request):
        	  else:
              buro2_dict[i['mes_vigencia']]= 0
     buro3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='03 G6-G8').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    print buro3
     buro3_dict = {}
     for i in meses:
        for j in buro3:
@@ -1510,7 +1537,6 @@ def seguimiento_increlinea(request):
        	  else:
              buro3_dict[i['mes_vigencia']]= 0
     buro4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='NB').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    print buro4
     buro4_dict = {}
     for i in meses:
        for j in buro4:
@@ -1526,11 +1552,11 @@ def seguimiento_increlinea(request):
 
 @login_required
 def seguimiento_lifemiles(request):
-    meses = IncreLinea.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    meses_total = IncreLinea.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
     time = []
-    for i in meses:
+    for i in meses_total:
 	time.append(i['mes_vigencia'])
-    print time
+    meses = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).order_by('-mes_vigencia').distinct()
     form = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     form_dict = {}
     for i in form:
@@ -1690,11 +1716,11 @@ def seguimiento_lifemiles(request):
 
 @login_required
 def seguimiento_increlifemiles(request):
-    meses = IncreLinea.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    meses_total = IncreLinea.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
     time = []
-    for i in meses:
+    for i in meses_total:
 	time.append(i['mes_vigencia'])
-    print time
+    meses = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).order_by('-mes_vigencia').distinct()
     form = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     form_dict={}
     for i in form:
@@ -1812,7 +1838,6 @@ def seguimiento_increlifemiles(request):
        	  else:
              rango6_dict[i['mes_vigencia']]= 0
     buro1 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='01 G1-G4',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    print buro1
     buro1_dict = {}
     for i in meses:
        for j in buro1:
@@ -1822,7 +1847,6 @@ def seguimiento_increlifemiles(request):
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
     buro2 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='02 G5',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    print buro2
     buro2_dict = {}
     for i in meses:
        for j in buro2:
@@ -1832,7 +1856,6 @@ def seguimiento_increlifemiles(request):
        	  else:
              buro2_dict[i['mes_vigencia']]= 0
     buro3 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='03 G6-G8',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    print buro3
     buro3_dict = {}
     for i in meses:
        for j in buro3:
@@ -1842,7 +1865,6 @@ def seguimiento_increlifemiles(request):
        	  else:
              buro3_dict[i['mes_vigencia']]= 0
     buro4 = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0], buro='NB',lifemiles='1').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    print buro4
     buro4_dict = {}
     for i in meses:
        for j in buro4:
@@ -2021,9 +2043,7 @@ def hipoteca_ssff(request):
 	   timez.append(anual[1])
 	   timez.append(anual[2])
 	   timez.append(anual[4])
-    print anual
-    print timex  
-    print timez
+
     saldo_bcp = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='BCP',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
     saldo_bbva = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='BBVA',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
     saldo_sco = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='SCO',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')

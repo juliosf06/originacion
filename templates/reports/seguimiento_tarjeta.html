@@ -25,29 +25,29 @@
           </div>
 	  &nbsp;
           <div class="rows placeholders">
-		<div id="chartContainer11" style="height: 300px; width: 100%;"></div>
-          </div>
-	  &nbsp;
-          <div class="rows placeholders">
 		<div id="chartContainer4" style="height: 300px; width: 100%;"></div>
           </div>
 	  &nbsp;
           <div class="rows placeholders">
-		<div id="chartContainer10" style="height: 300px; width: 100%;"></div>
-          </div>
-	  &nbsp;
-          <div class="rows placeholders">
-		<div id="chartContainer6" style="height: 300px; width: 50%; display: inline-block;"></div>
-		<div id="chartContainer7" style="height: 300px; width: 50%; display: inline-block;"></div>
-          </div>
-	  &nbsp;
-          <div class="rows placeholders">
-		<div id="chartContainer8" style="height: 300px; width: 50%; display: inline-block;"></div>
-		<div id="chartContainer9" style="height: 300px; width: 50%; display: inline-block;"></div>
-          </div>
-	  &nbsp;
-          <div class="rows placeholders">
 		<div id="chartContainer5" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer6" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer7" style="height: 300px; width: 50%; display: inline-block;"></div>
+		<div id="chartContainer8" style="height: 300px; width: 50%; display: inline-block;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer9" style="height: 300px; width: 50%; display: inline-block;"></div>
+		<div id="chartContainer10" style="height: 300px; width: 50%; display: inline-block;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer11" style="height: 300px; width: 100%;"></div>
           </div>
 
 
@@ -177,7 +177,64 @@
         chart2.render();
 	});
 
-	var chart = new CanvasJS.Chart("chartContainer3", {
+
+	var chart = new CanvasJS.Chart("chartContainer5", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora Total"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA6",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",			
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in mora_6 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA9",
+			indexLabelFontColor: "#094FA4",			
+			indexLabel: "{y}%",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in mora_9 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA12",
+			indexLabelFontColor: "#86C82D",			
+			indexLabel: "{y}%",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b in mora_12 %}
+				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer4", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Segmentos"              
@@ -260,63 +317,7 @@
 	});
 	chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer4", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Mora Total"              
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "MORA6",
-			indexLabelFontColor: "#89D1F3",
-			color: "#89D1F3",			
-			indexLabel: "{y}%",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b in mora_6 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "MORA9",
-			indexLabelFontColor: "#094FA4",			
-			indexLabel: "{y}%",
-			color: "#094FA4",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b in mora_9 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "MORA12",
-			indexLabelFontColor: "#86C82D",			
-			indexLabel: "{y}%",
-			color: "#86C82D",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b in mora_12 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart.render();
-
-	var chart = new CanvasJS.Chart("chartContainer5", {
+	var chart = new CanvasJS.Chart("chartContainer11", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Nivel de Forzaje"              
@@ -357,7 +358,7 @@
 	});
 	chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer6", {
+	var chart = new CanvasJS.Chart("chartContainer7", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Mora - Segmento AVA"              
@@ -413,7 +414,7 @@
 	});
 	chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer7", {
+	var chart = new CanvasJS.Chart("chartContainer8", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Mora - Segmento MS"              
@@ -469,7 +470,7 @@
 	});
 	chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer8", {
+	var chart = new CanvasJS.Chart("chartContainer9", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Mora - Segmento NoPH"              
@@ -525,7 +526,7 @@
 	});
 	chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer9", {
+	var chart = new CanvasJS.Chart("chartContainer10", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Mora - Segmento NoCli"              
@@ -581,7 +582,7 @@
 	});
 	chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer10", {
+	var chart = new CanvasJS.Chart("chartContainer6", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Mora Campaña"              
@@ -637,7 +638,7 @@
 	});
 	chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer11", {
+	var chart = new CanvasJS.Chart("chartContainer3", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Rango de Ingresos:"              
