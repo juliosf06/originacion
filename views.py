@@ -426,7 +426,7 @@ def campana_prestinmediato(request):
 
 @login_required
 def campanaweb(request):
-    campanaweb = CampanaWeb.objects.all().order_by('fecha_desde')
+    campanaweb = CampanaWeb.objects.all().order_by('fecha_recepcion')
 
     static_url=settings.STATIC_URL
     tipo_side = 1

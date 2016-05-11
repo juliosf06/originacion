@@ -61,4 +61,8 @@ def to_int(value):
 def to_str(value):
     return 0 if value=='' else str(value)
 
+@register.filter
+def x_cien(value):
+    return value*100
+
 
