@@ -270,8 +270,7 @@ def campana_exoneraciones(request, segmento='TOTAL'):
 		    break
 		else:
 		    exo_ambas_dict[i['mes_vigencia']]=0
-        print exo_ambas_dict
-        sorted(exo_ambas_dict.iteritems())
+
         exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
@@ -660,7 +659,7 @@ def rvgl_resumenxsco(request, fecha=fecha_actual, analista='TODOS'):
        else:      
           for i in dictamen:
               scolista.append(ap_dict[i['dictamen']])
-       print sorted(ap_dict.items())
+
        dictamenxsco_du = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha).filter(dictamen_sco='DU', analista= analista).annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
        du_dict = {}
        for i in dictamen:
@@ -2087,7 +2086,6 @@ def hipoteca_ssff(request):
 		timez.append(anual[3])
   
     saldo_bcp = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(banco='BCP',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
-    print saldo_bcp
     saldo_bbva = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='BBVA',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
     saldo_sco = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='SCO',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
     saldo_ibk = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='IBK',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
@@ -2113,7 +2111,7 @@ def hipoteca_ssff(request):
 @login_required
 def hipoteca_conce(request):
     conce = HipotecaConce.objects.values('mes','territorio').filter(mes='201512').annotate(sum_inv=Sum('inversion')).order_by('territorio')
-    print conce
+
     static_url=settings.STATIC_URL
     tipo_side = 5
     return render('reports/hipoteca_conce.html', locals(),
@@ -2130,7 +2128,7 @@ def hipoteca_segui(request):
     mora18 = zip(evo_mora18, total)
     mora24 = zip(evo_mora24, total)
     mora36 = zip(evo_mora36, total)
-    print evo_mora12
+
     static_url=settings.STATIC_URL
     tipo_side = 5
     return render('reports/hipoteca_seguimiento.html', locals(),
@@ -2181,7 +2179,6 @@ def json_importexprod(request):
         importexprod = RVGL.objects.filter(mes_vigencia=periodo).values('producto_esp').annotate(sum_importexprod=Sum('importe_solic')).order_by('producto_esp')
     else:
         importexprod = RVGL.objects.filter(analista=analista).filter(mes_vigencia=periodo).values('producto_esp').annotate(sum_importexprod=Sum('importe_solic')).order_by('producto_esp')
-    print importexprod
     return HttpResponse(importexprod)
 
 def json_tiempo(request):
