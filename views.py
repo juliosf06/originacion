@@ -2038,32 +2038,63 @@ def seguimiento_hipoteca(request):
 @login_required
 def hipoteca_ssff(request):
     control_fecha = HipotecaSSFF.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
-    time = []; timex = []; timez = []
+    time = []; timex = []; timez = []; timeu = []
     anual = []
+    for i in control_fecha:
+	time.append(i['mes_vigencia'])
+
     for i in control_fecha:
     	if '12' in i['mes_vigencia']:
 	    anual.append(i['mes_vigencia'])
 	else:
 	    timex.append(i['mes_vigencia'])
     for i in control_fecha:
-	time.append(i['mes_vigencia'])
-    for i in range(3):
-	if time[i] == anual[0]:
-	   timez.append(anual[0])
-	else:
-	   timez.append(time[i])
-	   timez.append(anual[1])
-	   timez.append(anual[2])
-	   timez.append(anual[4])
+	if i['mes_vigencia'] > anual[0]:
+	    timeu.append(i['mes_vigencia'])
 
-    saldo_bcp = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='BCP',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
-    saldo_bbva = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='BBVA',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
-    saldo_sco = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='SCO',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
-    saldo_ibk = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='IBK',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
-    saldo2_bcp = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='BCP',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
-    saldo2_bbva = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='BBVA',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
-    saldo2_sco = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='SCO',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
-    saldo2_ibk = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='IBK',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    if time[0] == anual[0]:
+		timez.append(anual[0])
+	 	timez.append(timex[0])
+		timez.append(timex[1])
+		timez.append(timex[2])
+		timez.append(anual[1])
+		timez.append(anual[2])
+		timez.append(anual[3])
+    else:
+	    if len(timeu) == 1:
+		timez.append(timeu[0])
+	 	timez.append(anual[0])
+		timez.append(timex[0])
+		timez.append(timex[1])
+		timez.append(anual[1])
+		timez.append(anual[2])
+		timez.append(anual[3])
+	    elif len(timeu) == 2:
+		timez.append(timeu[0])
+		timez.append(timeu[1])
+	 	timez.append(anual[0])
+		timez.append(timex[0])
+		timez.append(anual[1])
+		timez.append(anual[2])
+		timez.append(anual[3])
+	    else:
+		timez.append(timeu[0])
+		timez.append(timeu[1])
+		timez.append(timeu[2])
+	 	timez.append(anual[0])
+		timez.append(anual[1])
+		timez.append(anual[2])
+		timez.append(anual[3])
+  
+    saldo_bcp = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(banco='BCP',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
+    print saldo_bcp
+    saldo_bbva = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='BBVA',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
+    saldo_sco = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='SCO',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
+    saldo_ibk = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='IBK',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
+    saldo2_bcp = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='BCP',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    saldo2_bbva = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='BBVA',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    saldo2_sco = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='SCO',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    saldo2_ibk = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='IBK',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
     bcp = zip(saldo_bcp, saldo2_bcp)
     bbva = zip(saldo_bbva, saldo2_bbva)
     sco = zip(saldo_sco, saldo2_sco)

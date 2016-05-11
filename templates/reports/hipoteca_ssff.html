@@ -23,7 +23,7 @@
 	  &nbsp;
 	  &nbsp;
           <div class="rows placeholders">
-		<div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+		<div id="chartContainer3" style="height: 350px; width: 50%;"></div>
           </div>
 
 {% endblock %}
@@ -195,15 +195,15 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			//bevelEnabled: true,
-			indexLabel: "{y}%",
+			indexLabel: "{y}",
 			indexLabelFontColor: "white",
-			yValueFormatString: "##.#",
+			yValueFormatString: "###",
 			name: "Refinanciado",
 			//color: "#C8175E",			
 			showInLegend: "true",
 			dataPoints: [
 			{% for a,b,c,d in grafica2 %} 			
-				{ y: {{c.sum_ref}}*100/{{d.total}}  , label: "{{a.banco}}" },
+				{ y: {{c.sum_ref}}/1000000  , label: "{{a.banco}}" },
 		        {% endfor %}
 			]
 
@@ -213,15 +213,15 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			//bevelEnabled: true,
-			indexLabel: "{y}%",
+			indexLabel: "{y}",
 			indexLabelFontColor: "white",
-			yValueFormatString: "##.#",
+			yValueFormatString: "###",
 			name: "Vencidos",
 			color: "#C8175E",			
 			showInLegend: "true",
 			dataPoints: [
 			{% for a,b,c,d in grafica2 %} 			
-				{  y: {{b.sum_ven}}*100/{{d.total}} , label: "{{a.banco}}" },
+				{  y: {{b.sum_ven}}/1000000 , label: "{{a.banco}}" },
 		        {% endfor %}
 			]
 
@@ -230,15 +230,15 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			//bevelEnabled: true,
-			indexLabel: "{y}%",
+			indexLabel: "{y}",
 			indexLabelFontColor: "white",
-			yValueFormatString: "##.#",
+			yValueFormatString: "###",
 			name: "Judicial",
 			//color: "#F6891E",			
 			showInLegend: "true",
 			dataPoints: [
 			{% for a,b,c,d in grafica2 %} 			
-				{  y: {{a.sum_jud}}*100/{{d.total}}  ,label: "{{a.banco}}" },
+				{  y: {{a.sum_jud}}/1000000 ,label: "{{a.banco}}" },
 		        {% endfor %}
 			]
 
