@@ -64,6 +64,7 @@
 	      </tfoot>
             </table>
           </div>
+
 {% endblock %}
 
 
@@ -76,6 +77,7 @@
 			text: "Flujo Operativo",
                 },
 		animationEnabled: true,   // change to true
+		exportEnabled: true,
 		data: [
                 {% for a,b,c,d in flujo %}              
                 {
@@ -101,7 +103,13 @@
 	});
 	chart.render();
     }
+
+/*    function exportReport() {
+	console.log("Starting export...");
+	var ids = ["chartContainer"]
+    }*/
   </script>
+
 {% endblock %}
 
 

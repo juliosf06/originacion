@@ -132,8 +132,6 @@ def campana_resumen(request,fecha=fecha_actual):
     prestamo_total = Campana2.objects.values('mes_vigencia').filter(mes_vigencia=fecha).annotate(pld=Sum('q_pld'),pat=Sum('q_prestamo_inmediato'))
     prestamo = zip(prestamo_fast, prestamo_cs, prestamo_total)  
 
-    #for value in segmento_lista.iteritems():
-	#print  value
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana2_resumen.html', locals(),
@@ -198,7 +196,7 @@ def campana_caidas(request, fecha=fecha_actual):
     #coord = reversed(coord)
     diferencia = zip(coord,[{ 'caida': 'Total Evaluados', 'num_caida': total[0]['total'] }]+list(grafica))
     diferencia = reversed(diferencia)
-    #print diferencia
+
     return render('reports/campana_caidas.html', locals(),
                   context_instance=RequestContext(request))
 
@@ -218,7 +216,7 @@ def campana_exoneraciones(request, segmento='TOTAL'):
 		    break
 		else:
 		    exo_ambas_dict[i['mes_vigencia']]=0
-        print sorted(exo_ambas_dict.iteritems())
+
         exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
