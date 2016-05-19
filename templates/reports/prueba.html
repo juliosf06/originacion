@@ -1,0 +1,50 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Sistema Financiero y BBVA{% endblock %}
+
+{% block content %}
+
+          <h1 class="page-header">Mapa del Perú</h1>
+          <div class="box-map">
+	    <div class="highcharts-container" id="chart-0" style="position:relative; overflow:hidden; height:100px; width:50%; text-align:left; line-height:normal; z-index:0;display:inline-block;"></div>
+	       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Peru_-_estadisticas_de_pobreza.png/250px-Peru_-_estadisticas_de_pobreza.png" alt="" usemap="#Map" />
+    	       <map name="Map" id="Map">
+    		    <area alt="Madre de Dios" title="Madre de Dios" border="10px solid black" href="http://localhost:8080/reports/seguimiento/" shape="poly" coords="206,211,192,219,181,227,184,243,193,253,205,258,218,258,228,263,236,261,243,259,246,256,249,250,244,235,238,223,230,218" />
+    		    <area alt="Loreto" title="Loreto" href="http://localhost:8080/reports/campanas/" shape="poly" coords="108,170,111,162,106,148,106,141,110,135,116,137,117,130,116,123,110,121,102,119,96,119,86,114,79,110,72,101,75,91,76,83,75,77,72,66,71,61,85,56,98,49,107,43,113,35,116,28,119,22,120,17,121,12,118,8,116,5,120,2,125,5,130,7,137,14,141,23,151,27,156,33,160,39,163,46,164,51,171,51,182,50,192,48,198,49,210,50,222,55,213,74,225,86,210,86,195,91,185,93,172,102,163,121,162,132,153,135,149,147,135,147,132,157" />
+	       </map>
+            </div>
+            <div class="table-responsive" style="margin-top:10px; height: 300px; width: 30%; display:inline-block;">
+             <table class="table table-striped" >
+          	 <thead>
+          	   <tr>
+          	     <th>Seco</th>
+              	     <th>Operaciones</th>
+              	   </tr>
+             	 </thead>
+            	 <tbody id="tabla_banca">
+		   {% for a in banca %}
+		      <tr>                       
+                      <td>{{a.seco}}</td>
+                      <td>{{a.num_seco|intcomma}}</td>
+               	      </tr>
+		   {% endfor %}
+            	 </tbody>
+          	 </table>
+             </div>
+          </div>
+
+
+
+{% endblock %}
+
+
+{% block script_final %}
+
+
+
+{% endblock %}
+

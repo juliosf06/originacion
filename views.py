@@ -80,6 +80,14 @@ def dummy(request):
     return render('reports/dummy.html', locals(),
                   context_instance=RequestContext(request))
 
+def prueba(request):
+    banca = RVGL.objects.filter(mes_vigencia='201602').values('seco').annotate(num_seco=Count('seco')).order_by('seco')
+    dictamen = RVGL.objects.filter(mes_vigencia='201602').values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
+    static_url=settings.STATIC_URL
+
+    return render('reports/prueba.html', locals(),
+                  context_instance=RequestContext(request))
+
 # 2.- Vistas para reportes de Campaña
 def campana_resumen(request,fecha=fecha_actual):
     control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
