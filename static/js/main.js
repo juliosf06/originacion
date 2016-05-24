@@ -22,7 +22,13 @@ $("#tog_menu").click(function(e) {
   $("#wrapper").toggleClass("toggled");
 });
 
-//Ajax para vistas CAMPANAS
+$("#ancon").hover(function(){
+   $("#ancon").attr("fill","#ff0000");
+});
+
+$("carabayllo").click(function(e){
+   $("carabayllo").attr("fill","#ff0000");
+});
 
 $(".check").click(function(event){
    var list = [];
