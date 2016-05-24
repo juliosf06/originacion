@@ -30,6 +30,8 @@ m7 = datetime.now()-timedelta(days=7*30)
 before7 = m7.strftime("%Y%m")
 m8 = datetime.now()-timedelta(days=8*30)
 before8 = m8.strftime("%Y%m")
+m9 = datetime.now()-timedelta(days=9*30)
+before9 = m9.strftime("%Y%m")
 m11 = datetime.now()-timedelta(days=11*30)
 before11 = m11.strftime("%Y%m")
 m12 = datetime.now()-timedelta(days=12*30)
@@ -39,7 +41,7 @@ before14 = m14.strftime("%Y%m")
 m18 = datetime.now()-timedelta(days=18*30)
 before18 = m18.strftime("%Y%m")
 print fecha_actual
-#print before14
+print before9
 #print before6
 #print before12
 #print before18
@@ -2425,6 +2427,7 @@ def carga_hipotecaconce(request):
         return load(campana_resumen)
 
 def carga_moras(request):
+    Moras.objects.filter(mes_form__gte=before9, mes_form__lte =fecha_actual).delete()
     if request.method == 'POST':
         form = UploadMoras(request.POST, request.FILES)
         if form.is_valid():
