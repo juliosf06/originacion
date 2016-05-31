@@ -2348,6 +2348,7 @@ def json_mapa(request):
     ubigeo = Mapa.objects.values('ubigeo').order_by('ubigeo').distinct()
     distrito = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA').annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
     distrito1 = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA', codmes=fecha).annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
+    print distrito1
     dict_moras = {}; dict_moras1 = {}; 
     dict_moras2 = {}; dict_moras3 = {};
     for i in distrito:
