@@ -62,6 +62,9 @@ urlpatterns = [
     url(r'^seguimiento/hipoteca/$', views.seguimiento_hipoteca, name='seguimiento_hipoteca'),
     url(r'^seguimiento/lifemiles/$', views.seguimiento_lifemiles, name='seguimiento_lifemiles'),
     url(r'^seguimiento/increlifemiles/$', views.seguimiento_increlifemiles, name='seguimiento_increlifemiles'),
+    url(r'^seguimiento/mapa/$', views.seguimiento_mapa, name='seguimiento_mapa'),
+    url(r'^seguimiento/json_mapa/$', views.json_mapa, name='json_mapa'),
+
 
     # URLS para reportes de Hipotecario
     url(r'^hipotecario/$', views.hipoteca_ssff, name='hipoteca_ssff'),
@@ -94,6 +97,7 @@ urlpatterns = [
     url(r'^load_data/carga_exoneracion/$', views.carga_exoneracion, name='carga_exoneracion'),
     url(r'^load_data/carga_forzaje/$', views.carga_forzaje, name='carga_forzaje'),
     url(r'^load_data/carga_campanaweb/$', views.carga_campanaweb, name='carga_campanaweb'),
+    url(r'^load_data/carga_mapa/$', views.carga_mapa, name='carga_mapa'),
     url(r'^load_data/$', views.load, name='load'),
-    url(r'^mapa/$', views.mapa, name='mapa'),
+    #url(r'^mapa/$', views.mapa, name='mapa'),
 ]

@@ -22,13 +22,52 @@ $("#tog_menu").click(function(e) {
   $("#wrapper").toggleClass("toggled");
 });
 
+//distritos
 $("#ancon").hover(function(){
-   $("#ancon").attr("fill","#ff0000");
+   $(this).css("cursor","pointer");
+
 });
 
-$("carabayllo").click(function(e){
-   $("carabayllo").attr("fill","#ff0000");
+$("#ancon").click(function(){
+   $("#ancon").attr("fill","#ffff00");
+   alert("hola mundo");
 });
+
+// sliders
+$('#ex1').slider({
+	formatter: function(value) {
+		return 'Current value: ' + value;
+	}
+});
+
+$("#ex13").change(function(e){
+  console.log($("#ex13").val());
+
+  $.ajax({
+    data: {periodo: $("#ex13").val(),
+           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
+          },
+    type: 'POST',
+    url: '/reports/seguimiento/json_mapa/',
+    success: function(json){
+       //console.log(json);
+       var limpia = json.replace(/Decimal\('/g,'');
+       limpia = limpia.replace(/'\)/g,'');
+       limpia = limpia.replace(/: u'/g,": '");
+       limpia = limpia.replace(/}{/g,"},{");
+       limpia = limpia.replace(/'/g,'"');
+       limpia = limpia.replace(/&quot;/ig,'"');
+       var result = JSON.parse('['+limpia+']');
+       console.log(result);
+       var html = "";
+       for (var datos in result){
+        html = html + "<tr><td>"+result[datos].ubigeo+"</td>"+"<td>"+result[datos].distrito+"</td>"+"<td>"+result[datos].mora.toFixed(2)+"</td></tr>";
+       };
+       $("#tabla_mapa").html(html);
+    }
+  });
+})
+
 
 $(".check").click(function(event){
    var list = [];

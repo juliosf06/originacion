@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from models import RVGL, Campana2, Caida, Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles, Exoneracion, Forzaje, CampanaWeb
+from models import RVGL, Campana2, Caida, Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles, Exoneracion, Forzaje, CampanaWeb, Mapa
 from adaptor.model import CsvDbModel
 
 class UploadRVGL(forms.Form):
@@ -169,5 +169,13 @@ class UploadForzaje(forms.Form):
 class ForzajeCsv(CsvDbModel):
     class Meta:
         dbModel = Forzaje
+        delimiter = ","
+
+class UploadMapa(forms.Form):
+    mapa = forms.FileField()
+
+class MapaCsv(CsvDbModel):
+    class Meta:
+        dbModel = Mapa
         delimiter = ","
 

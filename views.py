@@ -588,8 +588,87 @@ def rvgl_tiempo(request, fecha=fecha_actual, analista='TODOS'):
                   context_instance=RequestContext(request))
 
 @login_required
-def mapa(request):
-    distrito = MoraDistrito.objects.filter(provincia='Lima')
+def seguimiento_mapa(request, fecha='201312'):
+    meses = Mapa.objects.values('codmes').order_by('codmes').distinct()
+    list_meses=[]; d=0
+    for i in meses:
+	list_meses.append(i['codmes'])
+    d = len(list_meses)
+    ubigeo = Mapa.objects.values('ubigeo').order_by('ubigeo').distinct()
+    distrito = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA').annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
+    distrito1 = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA', codmes=fecha).annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
+    dict_moras = {}; dict_moras1 = {}; 
+    dict_moras2 = {}; dict_moras3 = {};
+    for i in distrito:
+	if i['codmes']=='201312':
+	   if i['mora']>3:
+	      dict_moras[i['ubigeo']]='#E31A1C'
+	   if i['mora']>2 and i['mora']<=3:
+	      dict_moras[i['ubigeo']]='#FC4E2A'
+	   if i['mora']>1.5 and i['mora']<=2:
+	      dict_moras[i['ubigeo']]='#FB8D29'
+	   if i['mora']>1.2 and i['mora']<=1.5:
+	      dict_moras[i['ubigeo']]='#FEB228'
+	   if i['mora']>0.9 and i['mora']<=1.2:
+	      dict_moras[i['ubigeo']]='#FED976'
+	   if i['mora']>0.6 and i['mora']<=0.9:
+	      dict_moras[i['ubigeo']]='#FBE975'
+	   if i['mora']>0.3 and i['mora']<=0.6:
+	      dict_moras[i['ubigeo']]='#A6D974'
+	   if i['mora']<=0.3:
+	      dict_moras[i['ubigeo']]='#66BD63'
+	if i['codmes']=='201412':
+	   if i['mora']>3:
+	      dict_moras1[i['ubigeo']]='#E31A1C'
+	   if i['mora']>2 and i['mora']<=3:
+	      dict_moras1[i['ubigeo']]='#FC4E2A'
+	   if i['mora']>1.5 and i['mora']<=2:
+	      dict_moras1[i['ubigeo']]='#FB8D29'
+	   if i['mora']>1.2 and i['mora']<=1.5:
+	      dict_moras1[i['ubigeo']]='#FEB228'
+	   if i['mora']>0.9 and i['mora']<=1.2:
+	      dict_moras1[i['ubigeo']]='#FED976'
+	   if i['mora']>0.6 and i['mora']<=0.9:
+	      dict_moras1[i['ubigeo']]='#FBE975'
+	   if i['mora']>0.3 and i['mora']<=0.6:
+	      dict_moras1[i['ubigeo']]='#A6D974'
+	   if i['mora']<=0.3:
+	      dict_moras1[i['ubigeo']]='#66BD63'
+	if i['codmes']=='201512':
+	   if i['mora']>3:
+	      dict_moras2[i['ubigeo']]='#E31A1C'
+	   if i['mora']>2 and i['mora']<=3:
+	      dict_moras2[i['ubigeo']]='#FC4E2A'
+	   if i['mora']>1.5 and i['mora']<=2:
+	      dict_moras2[i['ubigeo']]='#FB8D29'
+	   if i['mora']>1.2 and i['mora']<=1.5:
+	      dict_moras2[i['ubigeo']]='#FEB228'
+	   if i['mora']>0.9 and i['mora']<=1.2:
+	      dict_moras2[i['ubigeo']]='#FED976'
+	   if i['mora']>0.6 and i['mora']<=0.9:
+	      dict_moras2[i['ubigeo']]='#FBE975'
+	   if i['mora']>0.3 and i['mora']<=0.6:
+	      dict_moras2[i['ubigeo']]='#A6D974'
+	   if i['mora']<=0.3:
+	      dict_moras2[i['ubigeo']]='#66BD63'
+	if i['codmes']=='201604':
+	   if i['mora']>3:
+	      dict_moras3[i['ubigeo']]='#E31A1C'
+	   if i['mora']>2 and i['mora']<=3:
+	      dict_moras3[i['ubigeo']]='#FC4E2A'
+	   if i['mora']>1.5 and i['mora']<=2:
+	      dict_moras3[i['ubigeo']]='#FB8D29'
+	   if i['mora']>1.2 and i['mora']<=1.5:
+	      dict_moras3[i['ubigeo']]='#FEB228'
+	   if i['mora']>0.9 and i['mora']<=1.2:
+	      dict_moras3[i['ubigeo']]='#FED976'
+	   if i['mora']>0.6 and i['mora']<=0.9:
+	      dict_moras3[i['ubigeo']]='#FBE975'
+	   if i['mora']>0.3 and i['mora']<=0.6:
+	      dict_moras3[i['ubigeo']]='#A6D974'
+	   if i['mora']<=0.3:
+	      dict_moras3[i['ubigeo']]='#66BD63'
+
     static_url=settings.STATIC_URL
     return render('reports/mapa.html', locals(),
                   context_instance=RequestContext(request))
@@ -2251,6 +2330,97 @@ def json_scoxdictamen(request):
        scoxdictamen = RVGL.objects.filter(mes_vigencia=periodo).filter(analista=analista).exclude(dictamen_sco='NULL').values('dictamen_sco').annotate(num_scoxdictamen=Count('dictamen_sco')).order_by('dictamen_sco')
     return HttpResponse(scoxdictamen)
 
+def json_mapa(request):
+    periodo = request.POST['periodo']
+    if periodo == '1':
+	fecha='201312'
+    elif periodo == '2':
+	fecha='201412'
+    elif periodo == '3':
+	fecha='201512'
+    elif periodo == '4':
+	fecha='201604'
+    meses = Mapa.objects.values('codmes').order_by('codmes').distinct()
+    list_meses=[]; d=0
+    for i in meses:
+	list_meses.append(i['codmes'])
+    d = len(list_meses)
+    ubigeo = Mapa.objects.values('ubigeo').order_by('ubigeo').distinct()
+    distrito = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA').annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
+    distrito1 = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA', codmes=fecha).annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
+    dict_moras = {}; dict_moras1 = {}; 
+    dict_moras2 = {}; dict_moras3 = {};
+    for i in distrito:
+	if i['codmes']=='201312':
+	   if i['mora']>3:
+	      dict_moras[i['ubigeo']]='#E31A1C'
+	   if i['mora']>2 and i['mora']<=3:
+	      dict_moras[i['ubigeo']]='#FC4E2A'
+	   if i['mora']>1.5 and i['mora']<=2:
+	      dict_moras[i['ubigeo']]='#FB8D29'
+	   if i['mora']>1.2 and i['mora']<=1.5:
+	      dict_moras[i['ubigeo']]='#FEB228'
+	   if i['mora']>0.9 and i['mora']<=1.2:
+	      dict_moras[i['ubigeo']]='#FED976'
+	   if i['mora']>0.6 and i['mora']<=0.9:
+	      dict_moras[i['ubigeo']]='#FBE975'
+	   if i['mora']>0.3 and i['mora']<=0.6:
+	      dict_moras[i['ubigeo']]='#A6D974'
+	   if i['mora']<=0.3:
+	      dict_moras[i['ubigeo']]='#66BD63'
+	if i['codmes']=='201412':
+	   if i['mora']>3:
+	      dict_moras1[i['ubigeo']]='#E31A1C'
+	   if i['mora']>2 and i['mora']<=3:
+	      dict_moras1[i['ubigeo']]='#FC4E2A'
+	   if i['mora']>1.5 and i['mora']<=2:
+	      dict_moras1[i['ubigeo']]='#FB8D29'
+	   if i['mora']>1.2 and i['mora']<=1.5:
+	      dict_moras1[i['ubigeo']]='#FEB228'
+	   if i['mora']>0.9 and i['mora']<=1.2:
+	      dict_moras1[i['ubigeo']]='#FED976'
+	   if i['mora']>0.6 and i['mora']<=0.9:
+	      dict_moras1[i['ubigeo']]='#FBE975'
+	   if i['mora']>0.3 and i['mora']<=0.6:
+	      dict_moras1[i['ubigeo']]='#A6D974'
+	   if i['mora']<=0.3:
+	      dict_moras1[i['ubigeo']]='#66BD63'
+	if i['codmes']=='201512':
+	   if i['mora']>3:
+	      dict_moras2[i['ubigeo']]='#E31A1C'
+	   if i['mora']>2 and i['mora']<=3:
+	      dict_moras2[i['ubigeo']]='#FC4E2A'
+	   if i['mora']>1.5 and i['mora']<=2:
+	      dict_moras2[i['ubigeo']]='#FB8D29'
+	   if i['mora']>1.2 and i['mora']<=1.5:
+	      dict_moras2[i['ubigeo']]='#FEB228'
+	   if i['mora']>0.9 and i['mora']<=1.2:
+	      dict_moras2[i['ubigeo']]='#FED976'
+	   if i['mora']>0.6 and i['mora']<=0.9:
+	      dict_moras2[i['ubigeo']]='#FBE975'
+	   if i['mora']>0.3 and i['mora']<=0.6:
+	      dict_moras2[i['ubigeo']]='#A6D974'
+	   if i['mora']<=0.3:
+	      dict_moras2[i['ubigeo']]='#66BD63'
+	if i['codmes']=='201604':
+	   if i['mora']>3:
+	      dict_moras3[i['ubigeo']]='#E31A1C'
+	   if i['mora']>2 and i['mora']<=3:
+	      dict_moras3[i['ubigeo']]='#FC4E2A'
+	   if i['mora']>1.5 and i['mora']<=2:
+	      dict_moras3[i['ubigeo']]='#FB8D29'
+	   if i['mora']>1.2 and i['mora']<=1.5:
+	      dict_moras3[i['ubigeo']]='#FEB228'
+	   if i['mora']>0.9 and i['mora']<=1.2:
+	      dict_moras3[i['ubigeo']]='#FED976'
+	   if i['mora']>0.6 and i['mora']<=0.9:
+	      dict_moras3[i['ubigeo']]='#FBE975'
+	   if i['mora']>0.3 and i['mora']<=0.6:
+	      dict_moras3[i['ubigeo']]='#A6D974'
+	   if i['mora']<=0.3:
+	      dict_moras3[i['ubigeo']]='#66BD63'
+    return HttpResponse(distrito1)
+
 
 
 # Vistas para carga de csv
@@ -2266,6 +2436,7 @@ def load(request):
     #IncreLinea.objects.all().delete()
     #PrestInmediato.objects.all().delete()
     #Lifemiles.objects.all().delete()
+    #Mapa.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
@@ -2529,6 +2700,18 @@ def carga_forzaje(request):
         if form.is_valid():
             csv_file = request.FILES['forzaje']
             ForzajeCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_mapa(request):
+    if request.method == 'POST':
+        form = UploadMapa(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['mapa']
+            MapaCsv.import_data(data = csv_file)
             return campana_resumen(request)
         else:
             return load(campana_resumen)

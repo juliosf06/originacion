@@ -187,6 +187,21 @@ class Seguimiento1(models.Model):
     def __str__(self):
         return self.mes_vigencia+' '+self.segmento+' '+self.producto
 
+class Mapa(models.Model):
+    cod_ofic = models.CharField(max_length=10)
+    ubigeo = models.CharField(max_length=15)
+    lima_prov = models.CharField(max_length=15, default=0)
+    departamento = models.CharField(max_length=50)
+    provincia = models.CharField(max_length=50)
+    distrito = models.CharField(max_length=60)
+    inv = models.DecimalField(max_digits=16, decimal_places=10)
+    catrasada = models.DecimalField(max_digits=16, decimal_places=10)
+    ctas = models.DecimalField(max_digits=8, decimal_places=2)
+    codmes = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.cod_ofic+' '+self.ubigeo+' '+self.departamento
+
 class AdelantoSueldo(models.Model):
     mes_vigencia = models.CharField(max_length=10)
     rng_buro = models.CharField(max_length=15)
