@@ -598,7 +598,7 @@ def seguimiento_mapa(request, fecha='201312'):
     distrito = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA').annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
     distrito1 = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA', codmes=fecha).annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
     dict_moras = {}; dict_moras1 = {}; 
-    dict_moras2 = {}; dict_moras3 = {};
+    dict_moras2 = {}; dict_moras3 = {};dict_moras4 = {};
     for i in distrito:
 	if i['codmes']=='201312':
 	   if i['mora']>3:
@@ -668,6 +668,7 @@ def seguimiento_mapa(request, fecha='201312'):
 	      dict_moras3[i['ubigeo']]='#A6D974'
 	   if i['mora']<=0.3:
 	      dict_moras3[i['ubigeo']]='#66BD63'
+
 
     static_url=settings.STATIC_URL
     return render('reports/mapa.html', locals(),
@@ -2348,7 +2349,6 @@ def json_mapa(request):
     ubigeo = Mapa.objects.values('ubigeo').order_by('ubigeo').distinct()
     distrito = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA').annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
     distrito1 = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA', codmes=fecha).annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
-    print distrito1
     dict_moras = {}; dict_moras1 = {}; 
     dict_moras2 = {}; dict_moras3 = {};
     for i in distrito:
@@ -2420,6 +2420,7 @@ def json_mapa(request):
 	      dict_moras3[i['ubigeo']]='#A6D974'
 	   if i['mora']<=0.3:
 	      dict_moras3[i['ubigeo']]='#66BD63'
+
     return HttpResponse(distrito1)
 
 
