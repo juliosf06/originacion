@@ -23,7 +23,7 @@ $("#tog_menu").click(function(e) {
 });
 
 //distritos
-$("#ancon").hover(function(){
+/*$("#ancon").hover(function(){
    $(this).css("cursor","pointer");
 
 });
@@ -32,7 +32,7 @@ $("#ancon").click(function(){
    $("#ancon").attr("fill","#ffff00");
    alert("hola mundo");
 });
-
+*/
 // sliders
 $('#ex1').slider({
 	formatter: function(value) {

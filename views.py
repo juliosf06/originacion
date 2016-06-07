@@ -668,7 +668,7 @@ def seguimiento_mapa(request, fecha='201312'):
 	      dict_moras3[i['ubigeo']]='#A6D974'
 	   if i['mora']<=0.3:
 	      dict_moras3[i['ubigeo']]='#66BD63'
-
+    print dict_moras
 
     static_url=settings.STATIC_URL
     return render('reports/mapa.html', locals(),
