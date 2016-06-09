@@ -596,6 +596,8 @@ def seguimiento_mapa(request, fecha='201312'):
     d = len(list_meses)
     ubigeo = Mapa.objects.values('ubigeo').order_by('ubigeo').distinct()
     distrito = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA').annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
+    numero=Mapa.objects.values('ubigeo','codmes').filter(provincia='LIMA', codmes=fecha).annotate(num=Sum('ctas')).order_by('ubigeo')
+    print numero
     distrito1 = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA', codmes=fecha).annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
     dict_moras = {}; dict_moras1 = {}; 
     dict_moras2 = {}; dict_moras3 = {};dict_moras4 = {};
@@ -668,10 +670,17 @@ def seguimiento_mapa(request, fecha='201312'):
 	      dict_moras3[i['ubigeo']]='#A6D974'
 	   if i['mora']<=0.3:
 	      dict_moras3[i['ubigeo']]='#66BD63'
-    print dict_moras
 
     static_url=settings.STATIC_URL
     return render('reports/mapa.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def departamentos_web(request):
+
+
+    static_url=settings.STATIC_URL
+    return render('reports/departamentos_web.html', locals(),
                   context_instance=RequestContext(request))
 
 @login_required
