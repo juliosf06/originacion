@@ -99,6 +99,7 @@ urlpatterns = [
     url(r'^load_data/carga_forzaje/$', views.carga_forzaje, name='carga_forzaje'),
     url(r'^load_data/carga_campanaweb/$', views.carga_campanaweb, name='carga_campanaweb'),
     url(r'^load_data/carga_mapa/$', views.carga_mapa, name='carga_mapa'),
+    url(r'^load_data/carga_departamentosweb/$', views.carga_departamentosweb, name='carga_departamentosweb'),
     url(r'^load_data/$', views.load, name='load'),
     #url(r'^mapa/$', views.mapa, name='mapa'),
 ]

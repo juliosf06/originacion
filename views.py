@@ -597,7 +597,6 @@ def seguimiento_mapa(request, fecha='201312'):
     ubigeo = Mapa.objects.values('ubigeo').order_by('ubigeo').distinct()
     distrito = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA').annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
     numero=Mapa.objects.values('ubigeo','codmes').filter(provincia='LIMA', codmes=fecha).annotate(num=Sum('ctas')).order_by('ubigeo')
-    print numero
     distrito1 = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA', codmes=fecha).annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
     dict_moras = {}; dict_moras1 = {}; 
     dict_moras2 = {}; dict_moras3 = {};dict_moras4 = {};
@@ -672,14 +671,18 @@ def seguimiento_mapa(request, fecha='201312'):
 	      dict_moras3[i['ubigeo']]='#66BD63'
 
     static_url=settings.STATIC_URL
+    tipo_side = 4
     return render('reports/mapa.html', locals(),
                   context_instance=RequestContext(request))
 
 @login_required
 def departamentos_web(request):
-
-
+    ofertas_tc = DepartamentosWeb.objects.values('base').exclude(oferta_tc='0').annotate(num_tdc=Count('oferta_tc'),sum_tdc=Sum('oferta_tc')).order_by('base')
+    ofertas_pld = DepartamentosWeb.objects.values('base').exclude(oferta_pld='0').annotate(num_pld=Count('oferta_pld'),sum_pld=Sum('oferta_pld')).order_by('base')
+    ofertas=zip(ofertas_tc,ofertas_pld)
+    print ofertas_pld
     static_url=settings.STATIC_URL
+    tipo_side = 4
     return render('reports/departamentos_web.html', locals(),
                   context_instance=RequestContext(request))
 
@@ -2448,6 +2451,7 @@ def load(request):
     #PrestInmediato.objects.all().delete()
     #Lifemiles.objects.all().delete()
     #Mapa.objects.all().delete()
+    #DepartamentosWeb.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
@@ -2723,6 +2727,18 @@ def carga_mapa(request):
         if form.is_valid():
             csv_file = request.FILES['mapa']
             MapaCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_departamentosweb(request):
+    if request.method == 'POST':
+        form = UploadDepartamentosWeb(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['departamentosweb']
+            DepartamentosWebCsv.import_data(data = csv_file)
             return campana_resumen(request)
         else:
             return load(campana_resumen)

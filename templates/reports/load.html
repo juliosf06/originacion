@@ -237,6 +237,15 @@
 	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load Mapa" ></div>
             </form>
           </div>
+          <div class="row">
+            <form action="carga_departamentosweb/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reporte DepartamentosWeb</label>
+		<input type="file" id="departamentosweb" name="departamentosweb">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load DepartamentosWeb" ></div>
+            </form>
+          </div>
 
         </div>
       </div>

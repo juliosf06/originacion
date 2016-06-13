@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Campana2, MoraDistrito, RVGL, Verificaciones, Caida, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles, Exoneracion, Forzaje, CampanaWeb, Mapa
+from .models import Campana2, MoraDistrito, RVGL, Verificaciones, Caida, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles, Exoneracion, Forzaje, CampanaWeb, Mapa, DepartamentosWeb
 
 #admin.site.register(Campana) importar model para uso
 admin.site.register(Campana2)
@@ -25,5 +25,6 @@ admin.site.register(Exoneracion)
 admin.site.register(Forzaje)
 admin.site.register(CampanaWeb)
 admin.site.register(Mapa)
+admin.site.register(DepartamentosWeb)
 
 # Register your models here.

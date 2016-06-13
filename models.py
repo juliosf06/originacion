@@ -202,6 +202,28 @@ class Mapa(models.Model):
     def __str__(self):
         return self.cod_ofic+' '+self.ubigeo+' '+self.departamento
 
+class DepartamentosWeb(models.Model):
+    tip_doc = models.CharField(max_length=5)
+    documento = models.CharField(max_length=25)
+    segmento = models.CharField(max_length=25)
+    oferta_tc = models.DecimalField(max_digits=10, decimal_places=2)
+    plastico_tc = models.CharField(max_length=25)
+    oferta_inc = models.DecimalField(max_digits=10, decimal_places=2)
+    oferta_pld = models.DecimalField(max_digits=10, decimal_places=2)
+    plazo_pld = models.DecimalField(max_digits=5, decimal_places=2)
+    verf_lab = models.CharField(max_length=5)
+    Verf_dom = models.CharField(max_length=5)
+    fuente = models.CharField(max_length=25)
+    base = models.IntegerField()
+    departamento = models.CharField(max_length=50)
+    provincia = models.CharField(max_length=50)
+    fecha_envio = models.CharField(max_length=25)
+    edad = models.CharField(max_length=5)
+    buro = models.CharField(max_length=5)
+
+    def __str__(self):
+        return self.documento+' '+self.segmento+' '+self.departamento
+
 class AdelantoSueldo(models.Model):
     mes_vigencia = models.CharField(max_length=10)
     rng_buro = models.CharField(max_length=15)
