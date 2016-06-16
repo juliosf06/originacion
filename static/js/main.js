@@ -22,6 +22,12 @@ $("#tog_menu").click(function(e) {
   $("#wrapper").toggleClass("toggled");
 });
 
+$("#resumen_evaluacion").change(function(e){
+  console.log($("#resumen_evaluacion").val());
+
+  //window.location.href = "/reports/seguimiento/departamentos_web/"+$("#resumen_evaluacion").val()+"/";
+});
+
 //distritos
 /*$("#ancon").hover(function(){
    $(this).css("cursor","pointer");
@@ -84,6 +90,7 @@ $(".check").click(function(event){
       console.log(string);
   }
 });
+
 
 $("#ofertas_periodo").change(function(e){
   console.log($("#ofertas_periodo").val());

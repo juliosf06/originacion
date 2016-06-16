@@ -260,6 +260,9 @@ th {
     border: 1px solid #ddd !important;
   }
 }
+  .textbox div {
+    background-color: #094FA4 !important;
+}
 
 @font-face {
   font-family: 'BBVA';

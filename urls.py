@@ -65,6 +65,7 @@ urlpatterns = [
     url(r'^seguimiento/mapa/$', views.seguimiento_mapa, name='seguimiento_mapa'),
     url(r'^seguimiento/json_mapa/$', views.json_mapa, name='json_mapa'),
     url(r'^seguimiento/departamentos_web/$', views.departamentos_web, name='departamentos_web'),
+    #url(r'^seguimiento/departamentos_web/(?P<base>[\w|\W]+)/$', views.departamentos_web, name='departamentos_web'),
 
 
     # URLS para reportes de Hipotecario
