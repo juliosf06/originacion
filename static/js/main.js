@@ -24,56 +24,8 @@ $("#tog_menu").click(function(e) {
 
 $("#resumen_evaluacion").change(function(e){
   console.log($("#resumen_evaluacion").val());
-
-  //window.location.href = "/reports/seguimiento/departamentos_web/"+$("#resumen_evaluacion").val()+"/";
+  window.location.href = "/reports/seguimiento/departamentos_web/"+$("#resumen_evaluacion").val()+"/";
 });
-
-//distritos
-/*$("#ancon").hover(function(){
-   $(this).css("cursor","pointer");
-
-});
-
-$("#ancon").click(function(){
-   $("#ancon").attr("fill","#ffff00");
-   alert("hola mundo");
-});
-*/
-// sliders
-$('#ex1').slider({
-	formatter: function(value) {
-		return 'Current value: ' + value;
-	}
-});
-
-$("#ex13").change(function(e){
-  console.log($("#ex13").val());
-
-  $.ajax({
-    data: {periodo: $("#ex13").val(),
-           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
-          },
-    type: 'POST',
-    url: '/reports/seguimiento/json_mapa/',
-    success: function(json){
-       //console.log(json);
-       var limpia = json.replace(/Decimal\('/g,'');
-       limpia = limpia.replace(/'\)/g,'');
-       limpia = limpia.replace(/: u'/g,": '");
-       limpia = limpia.replace(/}{/g,"},{");
-       limpia = limpia.replace(/'/g,'"');
-       limpia = limpia.replace(/&quot;/ig,'"');
-       var result = JSON.parse('['+limpia+']');
-       console.log(result);
-       var html = "";
-       for (var datos in result){
-        html = html + "<tr><td>"+result[datos].ubigeo+"</td>"+"<td>"+result[datos].distrito+"</td>"+"<td>"+result[datos].mora.toFixed(2)+"</td></tr>";
-       };
-       $("#tabla_mapa").html(html);
-    }
-  });
-})
-
 
 $(".check").click(function(event){
    var list = [];
@@ -133,7 +85,6 @@ $("#rvglresumenximpo_periodo,#rvglresumenximpo_analista").change(function(e){
   window.location.href = "/reports/rvgl/resumenximporte/"+$("#rvglresumenximpo_periodo").val()+"/"+$("#rvglresumenximpo_analista").val()+"/";
 });
 
-
 $("#tiempo_periodo, #tiempo_analista").change(function(e){
   console.log($("#tiempo_periodo").val());
   console.log($("#tiempo_analista").val());
@@ -154,7 +105,6 @@ $("#dictamenxsco_periodo, #dictamenxsco_analista").change(function(e){
 
   window.location.href = "/reports/rvgl/dictamenxsco/"+$("#dictamenxsco_periodo").val()+"/"+$("#dictamenxsco_analista").val()+"/";
 });
-
 
 $("#scoxdictamen_periodo, #scoxdictamen_analista").change(function(e){
   console.log($("#scoxdictamen_periodo").val());
@@ -185,38 +135,87 @@ $("#scoxdictamen_periodo, #scoxdictamen_analista").change(function(e){
        $("#tabla_scoxdictamen").html(html);
     }
   });
-})
+});
 
 $("#resumen_periodo").change(function(e){
   console.log($("#resumen_periodo").val());
 
   window.location.href = "/reports/campanas/resumen/"+$("#resumen_periodo").val()+"/";
-})
+});
 
 $("#top20terr_periodo, #top20terr_analista").change(function(e){
   console.log($("#top20terr_periodo").val());
   console.log($("#top20terr_analista").val());
 
   window.location.href = "/reports/rvgl/top20terr/"+$("#top20terr_periodo").val()+"/"+$("#top20terr_analista").val()+"/";
-})
+});
 
 $("#top20gest_periodo, #top20gest_analista").change(function(e){
   console.log($("#top20gest_periodo").val());
   console.log($("#top20gest_analista").val());
 
   window.location.href = "/reports/rvgl/top20gest/"+$("#top20gest_periodo").val()+"/"+$("#top20gest_analista").val()+"/";
-})
+});
 
 $("#top20clie_periodo, #top20clie_analista").change(function(e){
   console.log($("#top20clie_periodo").val());
   console.log($("#top20clie_analista").val());
 
   window.location.href = "/reports/rvgl/top20clie/"+$("#top20clie_periodo").val()+"/"+$("#top20clie_analista").val()+"/";
-})
+});
 
 $("#top20ofic_periodo, #top20ofic_analista").change(function(e){
   console.log($("#top20ofic_periodo").val());
   console.log($("#top20ofic_analista").val());
 
   window.location.href = "/reports/rvgl/top20ofic/"+$("#top20ofic_periodo").val()+"/"+$("#top20ofic_analista").val()+"/";
+});
+
+//distritos
+/*$("#ancon").hover(function(){
+   $(this).css("cursor","pointer");
+
+});
+
+$("#ancon").click(function(){
+   $("#ancon").attr("fill","#ffff00");
+   alert("hola mundo");
+});
+*/
+// sliders
+$('#ex1').slider({
+	formatter: function(value) {
+		return 'Current value: ' + value;
+	}
+});
+
+$("#ex13").change(function(e){
+  console.log($("#ex13").val());
+
+  $.ajax({
+    data: {periodo: $("#ex13").val(),
+           csrfmiddlewaretoken: $("#csrfmiddlewaretoken").val()
+          },
+    type: 'POST',
+    url: '/reports/seguimiento/json_mapa/',
+    success: function(json){
+       //console.log(json);
+       var limpia = json.replace(/Decimal\('/g,'');
+       limpia = limpia.replace(/'\)/g,'');
+       limpia = limpia.replace(/: u'/g,": '");
+       limpia = limpia.replace(/}{/g,"},{");
+       limpia = limpia.replace(/'/g,'"');
+       limpia = limpia.replace(/&quot;/ig,'"');
+       var result = JSON.parse('['+limpia+']');
+       console.log(result);
+       var html = "";
+       for (var datos in result){
+        html = html + "<tr><td>"+result[datos].ubigeo+"</td>"+"<td>"+result[datos].distrito+"</td>"+"<td>"+result[datos].mora.toFixed(2)+"</td></tr>";
+       };
+       $("#tabla_mapa").html(html);
+    }
+  });
 })
+
+
+

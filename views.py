@@ -676,10 +676,11 @@ def seguimiento_mapa(request, fecha='201312'):
                   context_instance=RequestContext(request))
 
 @login_required
-def departamentos_web(request,base='5'):
+def departamentos_web(request,base=5):
+    print base
     control_evaluacion=DepartamentosWeb.objects.values('base').distinct().order_by('base')
     departamentos = DepartamentosWeb.objects.values('departamento').distinct().order_by('departamento')
-    eval_tc = DepartamentosWeb.objects.values('base', 'departamento').exclude(oferta_tc='0').filter(base='5').annotate(num_tdc=Count('oferta_tc')).order_by('base')
+    eval_tc = DepartamentosWeb.objects.values('base', 'departamento').exclude(oferta_tc='0').filter(base=base).annotate(num_tdc=Count('oferta_tc')).order_by('base')
     dict_tc = {}
     for i in departamentos:
 	for j in eval_tc:
@@ -688,7 +689,7 @@ def departamentos_web(request,base='5'):
 		break
 	   else:
 		dict_tc[i['departamento']]=0
-    eval_pld = DepartamentosWeb.objects.values('base', 'departamento').exclude(oferta_pld='0').filter(base='5').annotate(num_pld=Count('oferta_pld')).order_by('base')
+    eval_pld = DepartamentosWeb.objects.values('base', 'departamento').exclude(oferta_pld='0').filter(base=base).annotate(num_pld=Count('oferta_pld')).order_by('base')
     dict_pld = {}
     for i in departamentos:
 	for j in eval_pld:
@@ -697,7 +698,7 @@ def departamentos_web(request,base='5'):
 		break
 	   else:
 		dict_pld[i['departamento']]=0
-    print departamentos  
+
     ofertas_tc = DepartamentosWeb.objects.values('base').exclude(oferta_tc='0').annotate(num_tdc=Count('oferta_tc'),sum_tdc=Sum('oferta_tc')).order_by('base')
     ofertas_pld = DepartamentosWeb.objects.values('base').exclude(oferta_pld='0').annotate(num_pld=Count('oferta_pld'),sum_pld=Sum('oferta_pld')).order_by('base')
     ofertas=zip(ofertas_tc,ofertas_pld)
@@ -2471,7 +2472,7 @@ def load(request):
     #PrestInmediato.objects.all().delete()
     #Lifemiles.objects.all().delete()
     #Mapa.objects.all().delete()
-    #DepartamentosWeb.objects.all().delete()
+    DepartamentosWeb.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
