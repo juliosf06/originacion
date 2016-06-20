@@ -708,7 +708,9 @@ def departamentos_web(request,base=1):
     for i in departamentos:
 	for j in efectividad:
 	   if i['departamento']==j['departamento']:
-		if j['num_efec']<20:
+		if j['num_efec']=0:
+		   dict_efec[i['departamento']]='silver'
+		if j['num_efec']>0 and j['num_efec']<20:
 		   dict_efec[i['departamento']]='#66BD63'
 		if j['num_efec']>=20 and j['num_efec']<40:
 		   dict_efec[i['departamento']]='#A6D974'
