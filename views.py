@@ -676,7 +676,7 @@ def seguimiento_mapa(request, fecha='201312'):
                   context_instance=RequestContext(request))
 
 @login_required
-def departamentos_web(request,base=5):
+def departamentos_web(request,base=1):
     print base
     control_evaluacion=DepartamentosWeb.objects.values('base').distinct().order_by('base')
     departamentos = DepartamentosWeb.objects.values('departamento').distinct().order_by('departamento')
@@ -702,6 +702,38 @@ def departamentos_web(request,base=5):
     ofertas_tc = DepartamentosWeb.objects.values('base').exclude(oferta_tc='0').annotate(num_tdc=Count('oferta_tc'),sum_tdc=Sum('oferta_tc')).order_by('base')
     ofertas_pld = DepartamentosWeb.objects.values('base').exclude(oferta_pld='0').annotate(num_pld=Count('oferta_pld'),sum_pld=Sum('oferta_pld')).order_by('base')
     ofertas=zip(ofertas_tc,ofertas_pld)
+    efectividad = DepartamentosWeb.objects.values('base', 'departamento').filter(base=base).annotate(num_ofer=Sum('ofertas'),num_form=Sum('formalizado'),num_efec=Sum(F('formalizado'))*100/Sum(F('ofertas'))).order_by('base')
+    dict_efec = {}; dict_ofer = {};
+    dict_form = {}; dict_efect = {}; 
+    for i in departamentos:
+	for j in efectividad:
+	   if i['departamento']==j['departamento']:
+		if j['num_efec']<20:
+		   dict_efec[i['departamento']]='#66BD63'
+		if j['num_efec']>=20 and j['num_efec']<40:
+		   dict_efec[i['departamento']]='#A6D974'
+		if j['num_efec']>=40 and j['num_efec']<60:
+		   dict_efec[i['departamento']]='#FED976'
+		if j['num_efec']>=60 and j['num_efec']<80:
+		   dict_efec[i['departamento']]='#FB8D29'
+		if j['num_efec']>=80 and j['num_efec']<=100:
+		   dict_efec[i['departamento']]='#E31A1C'
+		break
+	   else:
+		dict_efec[i['departamento']]='silver'
+
+    for i in departamentos:
+	for j in efectividad:
+	   if i['departamento']==j['departamento']:
+		dict_form[i['departamento']]=j['num_form']
+		dict_ofer[i['departamento']]=j['num_ofer']
+		dict_efect[i['departamento']]=j['num_efec']
+		break
+	   else:
+		dict_form[i['departamento']]=0
+		dict_ofer[i['departamento']]=0
+		dict_efect[i['departamento']]=0
+    print dict_efec
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/departamentos_web.html', locals(),
@@ -1341,7 +1373,7 @@ def seguimiento_adelanto(request):
 	     break
        	  else:
              rango5_dict[i['mes_vigencia']]= 0
-    rango6 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='07 [3501 - Mas>',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango6 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo__in=['07 [3501 - Mas>','07 [3501 - 5000]','08 [5001 - Mas>'],mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango6_dict = {}
     for i in meses:
        for j in rango6:
@@ -2472,7 +2504,7 @@ def load(request):
     #PrestInmediato.objects.all().delete()
     #Lifemiles.objects.all().delete()
     #Mapa.objects.all().delete()
-    DepartamentosWeb.objects.all().delete()
+    #DepartamentosWeb.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))

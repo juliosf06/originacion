@@ -217,9 +217,10 @@ class DepartamentosWeb(models.Model):
     base = models.IntegerField()
     departamento = models.CharField(max_length=50)
     provincia = models.CharField(max_length=50)
-    fecha_envio = models.CharField(max_length=25)
     edad = models.CharField(max_length=5)
     buro = models.CharField(max_length=5)
+    ofertas = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    formalizado = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     def __str__(self):
         return self.documento+' '+self.segmento+' '+self.departamento
