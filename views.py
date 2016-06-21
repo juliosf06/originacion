@@ -677,7 +677,7 @@ def seguimiento_mapa(request, fecha='201312'):
 
 @login_required
 def departamentos_web(request,base=1):
-    print base
+    orden = int(base)
     control_evaluacion=DepartamentosWeb.objects.values('base').distinct().order_by('base')
     departamentos = DepartamentosWeb.objects.values('departamento').distinct().order_by('departamento')
     eval_tc = DepartamentosWeb.objects.values('base', 'departamento').exclude(oferta_tc='0').filter(base=base).annotate(num_tdc=Count('oferta_tc')).order_by('base')
@@ -703,6 +703,7 @@ def departamentos_web(request,base=1):
     ofertas_pld = DepartamentosWeb.objects.values('base').exclude(oferta_pld='0').annotate(num_pld=Count('oferta_pld'),sum_pld=Sum('oferta_pld')).order_by('base')
     ofertas=zip(ofertas_tc,ofertas_pld)
     efectividad = DepartamentosWeb.objects.values('base', 'departamento').filter(base=base).annotate(num_ofer=Sum('ofertas'),num_form=Sum('formalizado'),num_efec=Sum(F('formalizado'))*100/Sum(F('ofertas'))).order_by('base')
+    efectividad2 = DepartamentosWeb.objects.values('base', 'departamento').filter(base=base,departamento='Tacna').annotate(num_ofer=Sum('ofertas'),num_form=Sum('formalizado'),num_efec=Sum(F('formalizado'))*100/Sum(F('ofertas'))).order_by('base')
     dict_efec = {}; dict_ofer = {};
     dict_form = {}; dict_efect = {}; 
     for i in departamentos:
@@ -735,7 +736,6 @@ def departamentos_web(request,base=1):
 		dict_form[i['departamento']]=0
 		dict_ofer[i['departamento']]=0
 		dict_efect[i['departamento']]=0
-    print dict_efec
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/departamentos_web.html', locals(),

@@ -15,7 +15,7 @@
             <label class="control-label">N° Eval:&nbsp;&nbsp;</label>
             <select class="form-control" id="resumen_evaluacion">
               {% for a in control_evaluacion %}
-              <option value="{{a.base}}" {% if base == a.base %} selected {% endif %}>{{a.base}}</option>
+              <option value="{{a.base}}" {% if orden == a.base %} selected {% endif %}>{{a.base}}</option>
               {% endfor %}
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
@@ -44,152 +44,152 @@
               <tbody id="tabla_departamentos">
 		<tr>
                   <td id="id1">Amazonas</td>
-                  <td >{{dict_ofer.Amazonas}}</td>
-                  <td >{{dict_form.Amazonas}}</td>
+                  <td >{{dict_ofer.Amazonas|floatformat:0}}</td>
+                  <td >{{dict_form.Amazonas|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Amazonas}}'> </td>
 		</tr>
 		<tr>
                   <td id="id2">Ancash</td>
-                  <td >{{dict_ofer.Ancash}}</td>
-                  <td >{{dict_form.Ancash}}</td>
+                  <td >{{dict_ofer.Ancash|floatformat:0}}</td>
+                  <td >{{dict_form.Ancash|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Ancash}}'> </td>
 		</tr>
 		<tr>
                   <td id="id3">Apurimac</td>
-                  <td >{{dict_ofer.Apurimac}}</td>
-                  <td >{{dict_form.Apurimac}}</td>
+                  <td >{{dict_ofer.Apurimac|floatformat:0}}</td>
+                  <td >{{dict_form.Apurimac|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Apurimac}}'> </td>
 		</tr>
 		<tr>
                   <td id="id4">Arequipa</td>
-                  <td >{{dict_ofer.Arequipa}}</td>
-                  <td >{{dict_form.Arequipa}}</td>
+                  <td >{{dict_ofer.Arequipa|floatformat:0}}</td>
+                  <td >{{dict_form.Arequipa|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Arequipa}}'> </td>
 		</tr>
 		<tr>
                   <td id="id5">Ayacucho</td>
-                  <td >{{dict_ofer.Ayacucho}}</td>
-                  <td >{{dict_form.Ayacucho}}</td>
+                  <td >{{dict_ofer.Ayacucho|floatformat:0}}</td>
+                  <td >{{dict_form.Ayacucho|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Ayacucho}}'> </td>
 		</tr>
 		<tr>
                   <td id="id6">Cajamarca</td>
-                  <td >{{dict_ofer.Cajamarca}}</td>
-                  <td >{{dict_form.Cajamarca}}</td>
+                  <td >{{dict_ofer.Cajamarca|floatformat:0}}</td>
+                  <td >{{dict_form.Cajamarca|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Cajamarca}}'> </td>
 		</tr>
 		<tr>
                   <td id="id7">Callao</td>
-                  <td >{{dict_ofer.Callao}}</td>
-                  <td >{{dict_form.Callao}}</td>
+                  <td >{{dict_ofer.Callao|floatformat:0}}</td>
+                  <td >{{dict_form.Callao|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Callao}}'> </td>
 		</tr>
 		<tr>
                   <td id="id8">Cusco</td>
-                  <td >{{dict_ofer.Cusco}}</td>
-                  <td >{{dict_form.Cusco}}</td>
+                  <td >{{dict_ofer.Cusco|floatformat:0}}</td>
+                  <td >{{dict_form.Cusco|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Cusco}}'> </td>
 		</tr>
 		<tr>
                   <td id="id9">Huancavelica</td>
-                  <td >{{dict_ofer.Huancavelica}}</td>
-                  <td >{{dict_form.Huancavelica}}</td>
+                  <td >{{dict_ofer.Huancavelica|floatformat:0}}</td>
+                  <td >{{dict_form.Huancavelica|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Huancavelica}}'> </td>
 		</tr>
 		<tr>
                   <td id="id10">Huanuco</td>
-                  <td >{{dict_ofer.Huanuco}}</td>
-                  <td >{{dict_form.Huanuco}}</td>
+                  <td >{{dict_ofer.Huanuco|floatformat:0}}</td>
+                  <td >{{dict_form.Huanuco|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Huanuco}}'> </td>
 		</tr>
 		<tr>
                   <td id="id11">Ica</td>
-                  <td >{{dict_ofer.Ica}}</td>
-                  <td >{{dict_form.Ica}}</td>
+                  <td >{{dict_ofer.Ica|floatformat:0}}</td>
+                  <td >{{dict_form.Ica|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Ica}}'> </td>
 		</tr>
 		<tr>
                   <td id="id12">Junin</td>
-                  <td >{{dict_ofer.Junin}}</td>
-                  <td >{{dict_form.Junin}}</td>
+                  <td >{{dict_ofer.Junin|floatformat:0}}</td>
+                  <td >{{dict_form.Junin|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Junin}}'> </td>
 		</tr>
 		<tr>
                   <td id="id13">Lambayeque</td>
-                  <td >{{dict_ofer.Lambayeque}}</td>
-                  <td >{{dict_form.Lambayeque}}</td>
+                  <td >{{dict_ofer.Lambayeque|floatformat:0}}</td>
+                  <td >{{dict_form.Lambayeque|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Lambayeque}}'> </td>
 		</tr>
 		<tr>
                   <td id="id14">La Libertad</td>
-                  <td >{{dict_ofer.LaLibertad}}</td>
-                  <td >{{dict_form.LaLibertad}}</td>
+                  <td >{{dict_ofer.LaLibertad|floatformat:0}}</td>
+                  <td >{{dict_form.LaLibertad|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.LaLibertad}}'> </td>
 		</tr>
 		<tr>
                   <td id="id15">Lima</td>
-                  <td >{{dict_ofer.Lima}}</td>
-                  <td >{{dict_form.Lima}}</td>
+                  <td >{{dict_ofer.Lima|floatformat:0}}</td>
+                  <td >{{dict_form.Lima|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Lima}}'> </td>
 		</tr>
 		<tr>
                   <td id="id16">Loreto</td>
-                  <td >{{dict_ofer.Loreto}}</td>
-                  <td >{{dict_form.Loreto}}</td>
+                  <td >{{dict_ofer.Loreto|floatformat:0}}</td>
+                  <td >{{dict_form.Loreto|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Loreto}}'> </td>
 		</tr>
 		<tr>
                   <td id="id17">Madre de Dios</td>
-                  <td >{{dict_ofer.MadreDeDios}}</td>
-                  <td >{{dict_form.MadreDeDios}}</td>
+                  <td >{{dict_ofer.MadreDeDios|floatformat:0}}</td>
+                  <td >{{dict_form.MadreDeDios|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.MadreDeDios}}'> </td>
 		</tr>
 		<tr>
                   <td id="id18">Moquegua</td>
-                  <td >{{dict_ofer.Moquegua}}</td>
-                  <td >{{dict_form.Moquegua}}</td>
+                  <td >{{dict_ofer.Moquegua|floatformat:0}}</td>
+                  <td >{{dict_form.Moquegua|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Moquegua}}'> </td>
 		</tr>
 		<tr>
                   <td id="id19">Pasco</td>
-                  <td >{{dict_ofer.Pasco}}</td>
-                  <td >{{dict_form.Pasco}}</td>
+                  <td >{{dict_ofer.Pasco|floatformat:0}}</td>
+                  <td >{{dict_form.Pasco|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Pasco}}'> </td>
 		</tr>
 		<tr>
                   <td id="id20">Piura</td>
-                  <td >{{dict_ofer.Piura}}</td>
-                  <td >{{dict_form.Piura}}</td>
+                  <td >{{dict_ofer.Piura|floatformat:0}}</td>
+                  <td >{{dict_form.Piura|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Piura}}'> </td>
 		</tr>
 		<tr>
                   <td id="id21">Puno</td>
-                  <td >{{dict_ofer.Puno}}</td>
-                  <td >{{dict_form.Puno}}</td>
+                  <td >{{dict_ofer.Puno|floatformat:0}}</td>
+                  <td >{{dict_form.Puno|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Puno}}'> </td>
 		</tr>
 		<tr>
                   <td id="id22">San Martin</td>
-                  <td >{{dict_ofer.SanMartin}}</td>
-                  <td >{{dict_form.SanMartin}}</td>
+                  <td >{{dict_ofer.SanMartin|floatformat:0}}</td>
+                  <td >{{dict_form.SanMartin|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.SanMartin}}'> </td>
 		</tr>
 		<tr>
                   <td id="id23">Tacna</td>
-                  <td >{{dict_ofer.MadreDeDios}}</td>
-                  <td >{{dict_form.MadreDeDios}}</td>
+                  <td >{{dict_ofer.Tacna|floatformat:0}}</td>
+                  <td >{{dict_form.Tacna|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Tacna}}'> </td>
 		</tr>
 		<tr>
                   <td id="id24">Tumbes</td>
-                  <td >{{dict_ofer.Tumbes}}</td>
-                  <td >{{dict_form.Tumbes}}</td>
+                  <td >{{dict_ofer.Tumbes|floatformat:0}}</td>
+                  <td >{{dict_form.Tumbes|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Tumbes}}'> </td>
 		</tr>
 		<tr>
                   <td id="id25">Ucayali</td>
-                  <td >{{dict_ofer.Ucayali}}</td>
-                  <td >{{dict_form.Ucayali}}</td>
+                  <td >{{dict_ofer.Ucayali|floatformat:0}}</td>
+                  <td >{{dict_form.Ucayali|floatformat:0}}</td>
 		  <td width='15%' bgcolor='{{dict_efec.Ucayali}}'> </td>
                 </tr>
               </tbody>
