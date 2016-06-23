@@ -676,11 +676,11 @@ def seguimiento_mapa(request, fecha='201312'):
                   context_instance=RequestContext(request))
 
 @login_required
-def departamentos_web(request,base=1):
-    orden = int(base)
-    control_evaluacion=DepartamentosWeb.objects.values('base').distinct().order_by('base')
+def departamentos_web(request,semana=1):
+    orden = int(semana)
+    control_evaluacion=DepartamentosWeb.objects.values('semana').distinct().order_by('semana')
     departamentos = DepartamentosWeb.objects.values('departamento').distinct().order_by('departamento')
-    eval_tc = DepartamentosWeb.objects.values('base', 'departamento').exclude(oferta_tc='0').filter(base=base).annotate(num_tdc=Count('oferta_tc')).order_by('base')
+    eval_tc = DepartamentosWeb.objects.values('semana', 'departamento').exclude(oferta_tc='0').filter(semana=semana).annotate(num_tdc=Count('oferta_tc')).order_by('semana')
     dict_tc = {}
     for i in departamentos:
 	for j in eval_tc:
@@ -689,7 +689,7 @@ def departamentos_web(request,base=1):
 		break
 	   else:
 		dict_tc[i['departamento']]=0
-    eval_pld = DepartamentosWeb.objects.values('base', 'departamento').exclude(oferta_pld='0').filter(base=base).annotate(num_pld=Count('oferta_pld')).order_by('base')
+    eval_pld = DepartamentosWeb.objects.values('semana', 'departamento').exclude(oferta_pld='0').filter(semana=semana).annotate(num_pld=Count('oferta_pld')).order_by('semana')
     dict_pld = {}
     for i in departamentos:
 	for j in eval_pld:
@@ -699,11 +699,38 @@ def departamentos_web(request,base=1):
 	   else:
 		dict_pld[i['departamento']]=0
 
-    ofertas_tc = DepartamentosWeb.objects.values('base').exclude(oferta_tc='0').annotate(num_tdc=Count('oferta_tc'),sum_tdc=Sum('oferta_tc')).order_by('base')
-    ofertas_pld = DepartamentosWeb.objects.values('base').exclude(oferta_pld='0').annotate(num_pld=Count('oferta_pld'),sum_pld=Sum('oferta_pld')).order_by('base')
+    ofertas_tc = DepartamentosWeb.objects.values('semana').exclude(oferta_tc='0').annotate(num_tdc=Count('oferta_tc'),sum_tdc=Sum('oferta_tc')).order_by('semana')
+    ofertas_pld = DepartamentosWeb.objects.values('semana').exclude(oferta_pld='0').annotate(num_pld=Count('oferta_pld'),sum_pld=Sum('oferta_pld')).order_by('semana')
     ofertas=zip(ofertas_tc,ofertas_pld)
-    efectividad = DepartamentosWeb.objects.values('base', 'departamento').filter(base=base).annotate(num_ofer=Sum('ofertas'),num_form=Sum('formalizado'),num_efec=Sum(F('formalizado'))*100/Sum(F('ofertas'))).order_by('base')
-    efectividad2 = DepartamentosWeb.objects.values('base', 'departamento').filter(base=base,departamento='Tacna').annotate(num_ofer=Sum('ofertas'),num_form=Sum('formalizado'),num_efec=Sum(F('formalizado'))*100/Sum(F('ofertas'))).order_by('base')
+    efectividad = DepartamentosWeb.objects.values('semana', 'departamento').filter(semana=semana).annotate(num_ofer=Sum('ofertas'),num_form=Sum('formalizado'),num_efec=Sum(F('formalizado'))*100/Sum(F('ofertas'))).order_by('semana')
+    total_form = DepartamentosWeb.objects.values('semana').filter(semana=semana).annotate(num_form=Sum('formalizado')).order_by('semana')
+    dict_total = {}; 
+    for i in total_form:
+	dict_total['Total'] = i['num_form']
+    dict_form2 = {}; dict_efec2 = {};
+    for i in departamentos:
+	for j in efectividad:
+	   if i['departamento']==j['departamento']:
+		dict_form2[i['departamento']]=j['num_form']*100/dict_total['Total']
+		break
+	   else:
+		dict_form2[i['departamento']]=0
+
+    for key, value in dict_form2.items():
+	if value==0:
+	   dict_efec2[key]='silver'
+	if value>0 and value<20:
+	   dict_efec2[key]='#89D1F3'
+	if value>=20 and value<40:
+	   dict_efec2[key]='#009EE5'
+	if value>=40 and value<60:
+	   dict_efec2[key]='#094FA4'
+	if value>=60 and value<80:
+	   dict_efec2[key]='#86C82D'
+	if value>=80 and value<=100:
+	   dict_efec2[key]='#FDBD2C'
+
+    print dict_efec2
     dict_efec = {}; dict_ofer = {};
     dict_form = {}; dict_efect = {}; 
     for i in departamentos:

@@ -221,6 +221,7 @@ class DepartamentosWeb(models.Model):
     buro = models.CharField(max_length=5)
     ofertas = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     formalizado = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    semana = models.IntegerField(default=0)
 
     def __str__(self):
         return self.documento+' '+self.segmento+' '+self.departamento
