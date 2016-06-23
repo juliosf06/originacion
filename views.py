@@ -2533,7 +2533,7 @@ def load(request):
     #PrestInmediato.objects.all().delete()
     #Lifemiles.objects.all().delete()
     #Mapa.objects.all().delete()
-    #DepartamentosWeb.objects.all().delete()
+    DepartamentosWeb.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
