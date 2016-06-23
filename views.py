@@ -711,7 +711,10 @@ def departamentos_web(request,semana=1):
     for i in departamentos:
 	for j in efectividad:
 	   if i['departamento']==j['departamento']:
-		dict_form2[i['departamento']]=j['num_form']*100/dict_total['Total']
+		if dict_total['Total']==0:
+		   dict_form2[i['departamento']]=0
+		else:
+		   dict_form2[i['departamento']]=j['num_form']*100/dict_total['Total']
 		break
 	   else:
 		dict_form2[i['departamento']]=0
@@ -730,7 +733,6 @@ def departamentos_web(request,semana=1):
 	if value>=80 and value<=100:
 	   dict_efec2[key]='#FDBD2C'
 
-    print dict_efec2
     dict_efec = {}; dict_ofer = {};
     dict_form = {}; dict_efect = {}; 
     for i in departamentos:
