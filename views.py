@@ -41,7 +41,7 @@ before14 = m14.strftime("%Y%m")
 m18 = datetime.now()-timedelta(days=18*30)
 before18 = m18.strftime("%Y%m")
 print fecha_actual
-print before9
+print before1
 #print before6
 #print before12
 #print before18
@@ -91,12 +91,9 @@ def prueba(request):
                   context_instance=RequestContext(request))
 
 # 2.- Vistas para reportes de Campaña
-def campana_resumen(request,fecha=fecha_actual):
+def campana_resumen(request,fecha=before1):
+
     control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
-    time = {}
-    for i in control_fecha:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
     segmento_lista = Campana2.objects.values('segmento').exclude(segmento='REFERIDO').filter( mes_vigencia=fecha).order_by('segmento').distinct()
     clientes = Campana2.objects.values('segmento').filter(mes_vigencia= fecha).exclude(segmento='REFERIDO').annotate(num_clientes=Sum('ofertas')).order_by('segmento')
     montos2 = Campana2.objects.values('segmento').exclude(segmento='REFERIDO').annotate(monto=Sum(F('monto_tc')+F('monto_pld')+F('monto_veh')+F('monto_subrogacion')+F('monto_tc_entry_level')+F('monto_renovado')+F('monto_auto_2da')+F('monto_adelanto_sueldo')+F('monto_efectivo_plus')+F('monto_prestamo_inmediato')+F('monto_incr_linea'))).filter(mes_vigencia=fecha).order_by('segmento')
@@ -158,14 +155,10 @@ def campana_resumen(request,fecha=fecha_actual):
                   #context_instance=RequestContext(request))
 
 @login_required
-def campana_detalles(request, segmento='TOTAL', fecha=fecha_actual):
+def campana_detalles(request, segmento='TOTAL', fecha=before1):
     texto = str(segmento)
     lista = texto.split(",")
     control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
-    time = {}
-    for i in control_fecha:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
     control_segmentos = Campana2.objects.all().values('segmento').distinct('segmento')
     if segmento == 'TOTAL':
        detalles = Campana2.objects.filter(mes_vigencia=fecha).values('mes_vigencia').annotate(q_tc=Sum('q_tc'), q_pld=Sum('q_pld'), q_veh=Sum('q_veh'),q_subrogacion=Sum('q_subrogacion'), q_renovado=Sum('q_renovado'), q_auto_2da=Sum('q_auto_2da'), q_adelanto_sueldo=Sum('q_adelanto_sueldo'),q_efectivo_plus=Sum('q_efectivo_plus'),q_prestamo_inmediato=Sum('q_prestamo_inmediato'),q_incr_linea=Sum('q_incr_linea')).annotate(monto_tc=Sum(F('monto_tc')/1000000), monto_pld=Sum(F('monto_pld')/1000000), monto_veh=Sum(F('monto_veh')/1000000),monto_subrogacion=Sum(F('monto_subrogacion')/1000000), monto_tc_entry_level=Sum(F('monto_tc_entry_level')/1000000), monto_renovado=Sum(F('monto_renovado')/1000000), monto_auto_2da=Sum(F('monto_auto_2da')/1000000), monto_adelanto_sueldo=Sum(F('monto_adelanto_sueldo')/1000000),monto_efectivo_plus=Sum(F('monto_efectivo_plus')/1000000),monto_prestamo_inmediato=Sum(F('monto_prestamo_inmediato')/1000000), monto_incr_linea=Sum(F('monto_incr_linea')/1000000))
@@ -181,10 +174,6 @@ def campana_detalles(request, segmento='TOTAL', fecha=fecha_actual):
 @login_required
 def campana_caidas(request, fecha=fecha_actual):
     combo_fechas = Caida.objects.values('mes_vigencia').distinct('mes_vigencia').order_by('-mes_vigencia')
-    time = {}
-    for i in combo_fechas:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
     caidas_ms = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='MS').annotate(num_caidaxms=Sum('cantidad')).order_by('caida')
     caidas_ava = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='AVA').annotate(num_caidaxava=Sum('cantidad')).order_by('caida')
     caidas_noph = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='NO PH + PASIVO').annotate(num_caidaxnoph=Sum('cantidad')).order_by('caida')
@@ -350,10 +339,6 @@ def campana_exoneraciones(request, segmento='TOTAL'):
 @login_required
 def campana_flujo(request, fecha=fecha_actual):
     control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
-    time = {}
-    for i in control_fecha:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
     flujo1 = Campana2.objects.values('tipo_clie','verificacion').filter(mes_vigencia=fecha,verificacion='EXONERADO AMBAS').annotate(num_flujo1=Sum('ofertas')).order_by('tipo_clie')
     flujo2 = Campana2.objects.values('tipo_clie','verificacion').filter(mes_vigencia=fecha,verificacion='EXONERADO SOLO VD').annotate(num_flujo2=Sum('ofertas')).order_by('tipo_clie')
     flujo3 = Campana2.objects.values('tipo_clie','verificacion').filter(mes_vigencia=fecha,verificacion='EXONERADO SOLO VL').annotate(num_flujo3=Sum('ofertas')).order_by('tipo_clie')
@@ -446,10 +431,6 @@ def campanaweb(request):
 def rvgl_resumen(request, fecha=fecha_actual, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
-    time = {}
-    for i in control_fecha:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
     evaluacion = RVGL.objects.filter(mes_vigencia=fecha).values('analista').annotate(num_eval=Count('rvgl'),dias=Count('dias_eval')).order_by('analista')
     if analista == "TODOS":
     	banca = RVGL.objects.filter(mes_vigencia=fecha).values('seco').annotate(num_seco=Count('seco')).order_by('seco')
@@ -471,10 +452,6 @@ def rvgl_resumen(request, fecha=fecha_actual, analista='TODOS'):
 def rvgl_resumenximporte(request, fecha=fecha_actual, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
-    time = {}
-    for i in control_fecha:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
     if analista == 'TODOS':
   	importexdict = RVGL.objects.filter(mes_vigencia=fecha).values('dictamen').annotate(sum_importe=Sum('importe_solic')).order_by('dictamen')
         importexprod = RVGL.objects.filter(mes_vigencia=fecha).values('producto_esp').annotate(sum_importexprod=Sum('importe_solic')).order_by('producto_esp')
@@ -492,10 +469,6 @@ def rvgl_resumenximporte(request, fecha=fecha_actual, analista='TODOS'):
 @login_required
 def rvgl_tiempo(request, fecha=fecha_actual, analista='TODOS'):
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
-    time = {}
-    for i in control_fecha:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_seco = RVGL.objects.values('seco').distinct('seco')
     if analista == 'TODOS':
@@ -680,91 +653,177 @@ def departamentos_web(request,semana=1):
     orden = int(semana)
     control_evaluacion=DepartamentosWeb.objects.values('semana').distinct().order_by('semana')
     departamentos = DepartamentosWeb.objects.values('departamento').distinct().order_by('departamento')
-    eval_tc = DepartamentosWeb.objects.values('semana', 'departamento').exclude(oferta_tc='0').filter(semana=semana).annotate(num_tdc=Count('oferta_tc')).order_by('semana')
-    dict_tc = {}
-    for i in departamentos:
-	for j in eval_tc:
-	   if j['departamento']==i['departamento']:
-		dict_tc[i['departamento']]=j['num_tdc']
-		break
-	   else:
-		dict_tc[i['departamento']]=0
-    eval_pld = DepartamentosWeb.objects.values('semana', 'departamento').exclude(oferta_pld='0').filter(semana=semana).annotate(num_pld=Count('oferta_pld')).order_by('semana')
-    dict_pld = {}
-    for i in departamentos:
-	for j in eval_pld:
-	   if i['departamento']==j['departamento']:
-		dict_pld[i['departamento']]=j['num_pld']
-		break
-	   else:
-		dict_pld[i['departamento']]=0
-
     ofertas_tc = DepartamentosWeb.objects.values('semana').exclude(oferta_tc='0').annotate(num_tdc=Count('oferta_tc'),sum_tdc=Sum('oferta_tc')).order_by('semana')
     ofertas_pld = DepartamentosWeb.objects.values('semana').exclude(oferta_pld='0').annotate(num_pld=Count('oferta_pld'),sum_pld=Sum('oferta_pld')).order_by('semana')
     ofertas=zip(ofertas_tc,ofertas_pld)
-    efectividad = DepartamentosWeb.objects.values('semana', 'departamento').filter(semana=semana).annotate(num_ofer=Sum('ofertas'),num_form=Sum('formalizado'),num_efec=Sum(F('formalizado'))*100/Sum(F('ofertas'))).order_by('semana')
-    total_form = DepartamentosWeb.objects.values('semana').filter(semana=semana).annotate(num_form=Sum('formalizado')).order_by('semana')
-    dict_total = {}; 
-    for i in total_form:
-	dict_total['Total'] = i['num_form']
-    dict_form2 = {}; dict_efec2 = {};
-    for i in departamentos:
-	for j in efectividad:
-	   if i['departamento']==j['departamento']:
-		if dict_total['Total']==0:
+    print orden
+    if orden==0:
+        print orden
+        eval_tc = DepartamentosWeb.objects.values('departamento').exclude(oferta_tc='0').annotate(num_tdc=Count('oferta_tc')).order_by('departamento')
+        eval_pld = DepartamentosWeb.objects.values('departamento').exclude(oferta_pld='0').annotate(num_pld=Count('oferta_pld')).order_by('departamento')
+        efectividad = DepartamentosWeb.objects.values('departamento').annotate(num_ofer=Sum('ofertas'),num_form=Sum('formalizado'),num_efec=Sum(F('formalizado'))*100/Sum(F('ofertas'))).order_by('departamento')
+        total_form = DepartamentosWeb.objects.aggregate(num_form=Sum('formalizado'))
+        dict_tc = {}; dict_pld = {};
+        for i in departamentos:
+            for j in eval_tc:
+                if j['departamento']==i['departamento']:
+                    dict_tc[i['departamento']]=j['num_tdc']
+                    break
+	        else:
+		    dict_tc[i['departamento']]=0
+
+    	for i in departamentos:
+	   for j in eval_pld:
+	      if i['departamento']==j['departamento']:
+		 dict_pld[i['departamento']]=j['num_pld']
+		 break
+	      else:
+		 dict_pld[i['departamento']]=0
+
+    	dict_total = {}; 
+    	for i in total_form:
+            dict_total['Total'] = i['num_form']
+    	dict_form2 = {}; dict_efec2 = {};
+    	for i in departamentos:
+	   for j in efectividad:
+	      if i['departamento']==j['departamento']:
+		   if dict_total['Total']==0:
+		      dict_form2[i['departamento']]=0
+		   else:
+		      dict_form2[i['departamento']]=j['num_form']*100/dict_total['Total']
+		   break
+	      else:
 		   dict_form2[i['departamento']]=0
-		else:
-		   dict_form2[i['departamento']]=j['num_form']*100/dict_total['Total']
-		break
-	   else:
-		dict_form2[i['departamento']]=0
 
-    for key, value in dict_form2.items():
-	if value==0:
-	   dict_efec2[key]='silver'
-	if value>0 and value<20:
-	   dict_efec2[key]='#89D1F3'
-	if value>=20 and value<40:
-	   dict_efec2[key]='#009EE5'
-	if value>=40 and value<60:
-	   dict_efec2[key]='#094FA4'
-	if value>=60 and value<80:
-	   dict_efec2[key]='#86C82D'
-	if value>=80 and value<=100:
-	   dict_efec2[key]='#FDBD2C'
+    	for key, value in dict_form2.items():
+	   if value==0:
+	      dict_efec2[key]='silver'
+	   if value>0 and value<20:
+	      dict_efec2[key]='#89D1F3'
+	   if value>=20 and value<40:
+	      dict_efec2[key]='#009EE5'
+	   if value>=40 and value<60:
+	      dict_efec2[key]='#094FA4'
+	   if value>=60 and value<80:
+	      dict_efec2[key]='#86C82D'
+	   if value>=80 and value<=100:
+	      dict_efec2[key]='#FDBD2C'
 
-    dict_efec = {}; dict_ofer = {};
-    dict_form = {}; dict_efect = {}; 
-    for i in departamentos:
-	for j in efectividad:
-	   if i['departamento']==j['departamento']:
-		if j['num_efec']==0:
-		   dict_efec[i['departamento']]='silver'
-		if j['num_efec']>0 and j['num_efec']<20:
-		   dict_efec[i['departamento']]='#66BD63'
-		if j['num_efec']>=20 and j['num_efec']<40:
-		   dict_efec[i['departamento']]='#A6D974'
-		if j['num_efec']>=40 and j['num_efec']<60:
-		   dict_efec[i['departamento']]='#FED976'
-		if j['num_efec']>=60 and j['num_efec']<80:
-		   dict_efec[i['departamento']]='#FB8D29'
-		if j['num_efec']>=80 and j['num_efec']<=100:
-		   dict_efec[i['departamento']]='#E31A1C'
-		break
-	   else:
-		dict_efec[i['departamento']]='silver'
+    	dict_efec = {}; dict_ofer = {};
+    	dict_form = {}; dict_efect = {}; 
+    	for i in departamentos:
+	   for j in efectividad:
+	      if i['departamento']==j['departamento']:
+		  if j['num_efec']==0:
+		     dict_efec[i['departamento']]='silver'
+		  if j['num_efec']>0 and j['num_efec']<20:
+		     dict_efec[i['departamento']]='#66BD63'
+		  if j['num_efec']>=20 and j['num_efec']<40:
+		     dict_efec[i['departamento']]='#A6D974'
+		  if j['num_efec']>=40 and j['num_efec']<60:
+		     dict_efec[i['departamento']]='#FED976'
+		  if j['num_efec']>=60 and j['num_efec']<80:
+		     dict_efec[i['departamento']]='#FB8D29'
+		  if j['num_efec']>=80 and j['num_efec']<=100:
+		     dict_efec[i['departamento']]='#E31A1C'
+		  break
+	      else:
+		  dict_efec[i['departamento']]='silver'
 
-    for i in departamentos:
-	for j in efectividad:
-	   if i['departamento']==j['departamento']:
-		dict_form[i['departamento']]=j['num_form']
-		dict_ofer[i['departamento']]=j['num_ofer']
-		dict_efect[i['departamento']]=j['num_efec']
-		break
-	   else:
-		dict_form[i['departamento']]=0
-		dict_ofer[i['departamento']]=0
-		dict_efect[i['departamento']]=0
+    	for i in departamentos:
+	   for j in efectividad:
+	      if i['departamento']==j['departamento']:
+		 dict_form[i['departamento']]=j['num_form']
+		 dict_ofer[i['departamento']]=j['num_ofer']
+		 dict_efect[i['departamento']]=j['num_efec']
+		 break
+	      else:
+		 dict_form[i['departamento']]=0
+		 dict_ofer[i['departamento']]=0
+		 dict_efect[i['departamento']]=0
+    else:
+    	eval_tc = DepartamentosWeb.objects.values('semana', 'departamento').exclude(oferta_tc='0').filter(semana=semana).annotate(num_tdc=Count('oferta_tc')).order_by('semana')
+    	eval_pld = DepartamentosWeb.objects.values('semana', 'departamento').exclude(oferta_pld='0').filter(semana=semana).annotate(num_pld=Count('oferta_pld')).order_by('semana')
+    	efectividad = DepartamentosWeb.objects.values('semana', 'departamento').filter(semana=semana).annotate(num_ofer=Sum('ofertas'),num_form=Sum('formalizado'),num_efec=Sum(F('formalizado'))*100/Sum(F('ofertas'))).order_by('semana')
+    	total_form = DepartamentosWeb.objects.values('semana').filter(semana=semana).annotate(num_form=Sum('formalizado')).order_by('semana')
+    	dict_tc = {}; dict_pld = {};
+    	for i in departamentos:
+	   for j in eval_tc:
+	      if j['departamento']==i['departamento']:
+		 dict_tc[i['departamento']]=j['num_tdc']
+		 break
+	      else:
+		 dict_tc[i['departamento']]=0
+
+    	for i in departamentos:
+	   for j in eval_pld:
+	      if i['departamento']==j['departamento']:
+		 dict_pld[i['departamento']]=j['num_pld']
+		 break
+	      else:
+		 dict_pld[i['departamento']]=0
+
+    	dict_total = {}; 
+    	for i in total_form:
+	   dict_total['Total'] = i['num_form']
+    	dict_form2 = {}; dict_efec2 = {};
+    	for i in departamentos:
+	   for j in efectividad:
+	      if i['departamento']==j['departamento']:
+		 if dict_total['Total']==0:
+		    dict_form2[i['departamento']]=0
+		 else:
+		    dict_form2[i['departamento']]=j['num_form']*100/dict_total['Total']
+		 break
+	      else:
+		 dict_form2[i['departamento']]=0
+
+    	for key, value in dict_form2.items():
+	   if value==0:
+	      dict_efec2[key]='silver'
+	   if value>0 and value<20:
+	      dict_efec2[key]='#89D1F3'
+	   if value>=20 and value<40:
+	      dict_efec2[key]='#009EE5'
+	   if value>=40 and value<60:
+	      dict_efec2[key]='#094FA4'
+	   if value>=60 and value<80:
+	      dict_efec2[key]='#86C82D'
+	   if value>=80 and value<=100:
+	      dict_efec2[key]='#FDBD2C'
+
+    	dict_efec = {}; dict_ofer = {};
+    	dict_form = {}; dict_efect = {}; 
+    	for i in departamentos:
+	   for j in efectividad:
+	      if i['departamento']==j['departamento']:
+		 if j['num_efec']==0:
+		    dict_efec[i['departamento']]='silver'
+		 if j['num_efec']>0 and j['num_efec']<20:
+		    dict_efec[i['departamento']]='#66BD63'
+		 if j['num_efec']>=20 and j['num_efec']<40:
+		    dict_efec[i['departamento']]='#A6D974'
+		 if j['num_efec']>=40 and j['num_efec']<60:
+		    dict_efec[i['departamento']]='#FED976'
+		 if j['num_efec']>=60 and j['num_efec']<80:
+		    dict_efec[i['departamento']]='#FB8D29'
+		 if j['num_efec']>=80 and j['num_efec']<=100:
+		    dict_efec[i['departamento']]='#E31A1C'
+		 break
+	      else:
+		 dict_efec[i['departamento']]='silver'
+
+    	for i in departamentos:
+	   for j in efectividad:
+	      if i['departamento']==j['departamento']:
+		 dict_form[i['departamento']]=j['num_form']
+		 dict_ofer[i['departamento']]=j['num_ofer']
+		 dict_efect[i['departamento']]=j['num_efec']
+		 break
+	      else:
+		 dict_form[i['departamento']]=0
+		 dict_ofer[i['departamento']]=0
+		 dict_efect[i['departamento']]=0
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/departamentos_web.html', locals(),
@@ -774,10 +833,6 @@ def departamentos_web(request,semana=1):
 def rvgl_resumenxsco(request, fecha=fecha_actual, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
-    time = {}
-    for i in control_fecha:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
     dictamen = RVGL.objects.values('dictamen').distinct('dictamen').order_by('dictamen')
     if analista == 'TODOS':
        dictamenxsco_ap = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha).filter(dictamen_sco='AP').annotate(num_dictamenxsco_ap=Count('dictamen_sco')).order_by('dictamen')
@@ -890,10 +945,6 @@ def rvgl_resumenxsco(request, fecha=fecha_actual, analista='TODOS'):
 def rvgl_top20terr(request, fecha=fecha_actual, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
-    time = {}
-    for i in control_fecha:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
     if analista == 'TODOS':
        top20terr1 = RVGL.objects.filter(mes_vigencia=fecha).values('territorio_nuevo').exclude(territorio_nuevo='').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic')).order_by('-sum_top20terr1')[:20]
        top20terr2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0, territorio_nuevo='').values('territorio_nuevo').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
@@ -912,10 +963,6 @@ def rvgl_top20terr(request, fecha=fecha_actual, analista='TODOS'):
 def rvgl_top20gest(request, fecha=fecha_actual, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
-    time = {}
-    for i in control_fecha:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
     if analista == 'TODOS':
        top20gest1 = RVGL.objects.filter(mes_vigencia=fecha).values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic'), sum_top20gest1=Sum('importe_solic')).order_by('-sum_top20gest1')[:20]
        top20gest2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest2=Count('importe_aprob'), sum_top20gest2=Sum('importe_aprob')).order_by('-sum_top20gest2')[:20]
@@ -934,10 +981,6 @@ def rvgl_top20gest(request, fecha=fecha_actual, analista='TODOS'):
 def rvgl_top20clie(request, fecha=fecha_actual, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
-    time = {}
-    for i in control_fecha:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
     if analista == 'TODOS':
        top20clie1 = RVGL.objects.filter(mes_vigencia=fecha).values('cliente').annotate(num_top20clie1=Count('importe_solic'), sum_top20clie1=Sum('importe_solic')).order_by('cliente').order_by('-sum_top20clie1')[:20]
        top20clie2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('cliente').annotate(num_top20clie2=Count('importe_aprob'), sum_top20clie2=Sum('importe_aprob')).order_by('-sum_top20clie2')[:20]
@@ -956,10 +999,6 @@ def rvgl_top20clie(request, fecha=fecha_actual, analista='TODOS'):
 def rvgl_top20ofic(request, fecha=fecha_actual, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
-    time = {}
-    for i in control_fecha:
-        time[i['mes_vigencia']]=i['mes_vigencia']
-    fecha = max(time.values())
     if analista == 'TODOS':
        top20ofic1 = RVGL.objects.filter(mes_vigencia=fecha).values('oficina').annotate(num_top20ofic1=Count('importe_solic'), sum_top20ofic1=Sum('importe_solic')).order_by('-sum_top20ofic1')[:20]
        top20ofic2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(importe_aprob=0).values('oficina').annotate(num_top20ofic2=Count('importe_aprob'), sum_top20ofic2=Sum('importe_aprob')).order_by('-sum_top20ofic2')[:20]
