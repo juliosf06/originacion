@@ -337,7 +337,7 @@ def campana_exoneraciones(request, segmento='TOTAL'):
 
 
 @login_required
-def campana_flujo(request, fecha=fecha_actual):
+def campana_flujo(request, fecha=before1):
     control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
     flujo1 = Campana2.objects.values('tipo_clie','verificacion').filter(mes_vigencia=fecha,verificacion='EXONERADO AMBAS').annotate(num_flujo1=Sum('ofertas')).order_by('tipo_clie')
     flujo2 = Campana2.objects.values('tipo_clie','verificacion').filter(mes_vigencia=fecha,verificacion='EXONERADO SOLO VD').annotate(num_flujo2=Sum('ofertas')).order_by('tipo_clie')
@@ -658,11 +658,11 @@ def departamentos_web(request,semana=1):
     ofertas=zip(ofertas_tc,ofertas_pld)
     print orden
     if orden==0:
-        print orden
         eval_tc = DepartamentosWeb.objects.values('departamento').exclude(oferta_tc='0').annotate(num_tdc=Count('oferta_tc')).order_by('departamento')
         eval_pld = DepartamentosWeb.objects.values('departamento').exclude(oferta_pld='0').annotate(num_pld=Count('oferta_pld')).order_by('departamento')
         efectividad = DepartamentosWeb.objects.values('departamento').annotate(num_ofer=Sum('ofertas'),num_form=Sum('formalizado'),num_efec=Sum(F('formalizado'))*100/Sum(F('ofertas'))).order_by('departamento')
         total_form = DepartamentosWeb.objects.aggregate(num_form=Sum('formalizado'))
+        print eval_tc
         dict_tc = {}; dict_pld = {};
         for i in departamentos:
             for j in eval_tc:
@@ -682,7 +682,7 @@ def departamentos_web(request,semana=1):
 
     	dict_total = {}; 
     	for i in total_form:
-            dict_total['Total'] = i['num_form']
+	   dict_total['Total'] = i['num_form']
     	dict_form2 = {}; dict_efec2 = {};
     	for i in departamentos:
 	   for j in efectividad:
