@@ -187,3 +187,4 @@ class DepartamentosWebCsv(CsvDbModel):
         dbModel = DepartamentosWeb
         delimiter = ","
 
+

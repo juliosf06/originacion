@@ -172,7 +172,7 @@ def campana_detalles(request, segmento='TOTAL', fecha=before1):
 
 
 @login_required
-def campana_caidas(request, fecha=fecha_actual):
+def campana_caidas(request, fecha=before1):
     combo_fechas = Caida.objects.values('mes_vigencia').distinct('mes_vigencia').order_by('-mes_vigencia')
     caidas_ms = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='MS').annotate(num_caidaxms=Sum('cantidad')).order_by('caida')
     caidas_ava = Caida.objects.values('caida').filter(mes_vigencia=fecha).filter(segmento='AVA').annotate(num_caidaxava=Sum('cantidad')).order_by('caida')
@@ -322,20 +322,6 @@ def campana_exoneraciones(request, segmento='TOTAL'):
                   context_instance=RequestContext(request))
 
 
-#@login_required
-#def campana_flujo(request):
-    #flujo1 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia='201603',grupo_exoneracion='EXON. SOLO VL').annotate(num_flujo1=Sum('cantidad')).order_by('tipo')
-    #flujo2 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia='201603',grupo_exoneracion='EXON. SOLO VD').annotate(num_flujo2=Sum('cantidad')).order_by('tipo')
-    #flujo3 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia='201603',grupo_exoneracion='EXON. AMBAS').annotate(num_flujo3=Sum('cantidad')).order_by('tipo')
-    #flujo4 = FlujOperativo.objects.values('tipo','grupo_exoneracion').filter(mes_vigencia='201603',grupo_exoneracion='REQUIERE AMBAS').annotate(num_flujo4=Sum('cantidad')).order_by('tipo')
-
-    #flujo = zip(flujo1, flujo2, flujo3, flujo4)
-    #static_url=settings.STATIC_URL
-    #tipo_side = 1
-    #return render('reports/campana_flujo.html', locals(),
-                  #context_instance=RequestContext(request))
-
-
 @login_required
 def campana_flujo(request, fecha=before1):
     control_fecha = Campana2.objects.values('mes_vigencia').distinct().order_by('-mes_vigencia')
@@ -418,8 +404,9 @@ def campana_prestinmediato(request):
 
 @login_required
 def campanaweb(request):
-    campanaweb = CampanaWeb.objects.all().order_by('fecha_recepcion')
-
+    campanaweb = CampanaWeb.objects.all().order_by('num_eval')
+    totales = CampanaWeb.objects.aggregate(total1=Sum('tdc_nueva'), total2=Sum('tdc_total'), total3=Sum('pld_nueva'), total4=Sum('pld_total'), total5=Sum('tdc'), total6=Sum('pld'))
+    print totales
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana_web.html', locals(),
@@ -2575,6 +2562,7 @@ def load(request):
     #Lifemiles.objects.all().delete()
     #Mapa.objects.all().delete()
     #DepartamentosWeb.objects.all().delete()
+    #CampanaWeb.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
@@ -2862,6 +2850,18 @@ def carga_departamentosweb(request):
         if form.is_valid():
             csv_file = request.FILES['departamentosweb']
             DepartamentosWebCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_resumenweb(request):
+    if request.method == 'POST':
+        form = UploadResumenWeb(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['ResumenWeb']
+            ResumenWebCsv.import_data(data = csv_file)
             return campana_resumen(request)
         else:
             return load(campana_resumen)

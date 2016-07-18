@@ -71,8 +71,7 @@ class Campana2(models.Model):
         return self.codigo_campana+' '+self.segmento+' '+self.tipo_clie
 
 class CampanaWeb(models.Model):
-    fecha_desde = models.CharField(max_length=10)
-    fecha_hasta = models.CharField(max_length=10)
+    num_eval = models.IntegerField(default=0)
     fecha_recepcion = models.CharField(max_length=10)
     num_clientes = models.DecimalField(max_digits=12, decimal_places=2)
     form_tdc = models.DecimalField(max_digits=12, decimal_places=2)
@@ -87,6 +86,10 @@ class CampanaWeb(models.Model):
     pld_nueva = models.DecimalField(max_digits=12, decimal_places=2)
     pld_total = models.DecimalField(max_digits=12, decimal_places=2)
     pld_porcentaje = models.DecimalField(max_digits=12, decimal_places=2)
+    tdc = models.IntegerField(default=0)
+    tdc_formal = models.DecimalField(max_digits=4, decimal_places=1, default=0)
+    pld = models.IntegerField(default=0)
+    pld_formal = models.DecimalField(max_digits=4, decimal_places=1, default=0)
 
     def __str__(self):
         return self.fecha_recepcion+' '+self.num_clientes

@@ -1,0 +1,311 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Resumen de Campañas{% endblock %}
+
+{% block content %}
+
+          <center><h1 class="page-header">Resumen de Ofertas de Campaña</h1></center>
+          <center><div class="form-inline">
+            &nbsp;&nbsp;
+            <label class="control-label">Periodo de vigencia:&nbsp;&nbsp;</label>
+            <select class="form-control" id="resumen_periodo">
+              {% for a in control_fecha %}
+              <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+              {% endfor %}
+            </select>
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+          </div></center>
+          <div class="rows placeholders">
+          <h2 class="sub-header">1. Ofertas por Producto</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cant. Ofertas</th>
+                  <th>Monto de Oferta (S/. MM)</th>
+              </thead>
+              <tbody id="tabla_detalles">
+		{% for a in detalles %}
+		<tr>
+                  <td>Tarjeta</td>
+                  <td>{{a.q_tc|intcomma}}</td>
+                  <td>{{a.monto_tc|floatformat:2|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Consumo</td>
+                  <td>{{a.q_pld|intcomma}}</td>
+                  <td>{{a.monto_pld|floatformat:2|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Auto</td>
+                  <td>{{a.q_veh|intcomma}}</td>
+                  <td>{{a.monto_veh|floatformat:2|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Subrogación</td>
+                  <td>{{a.q_subrogacion|intcomma}}</td>
+                  <td>{{a.monto_subrogacion|floatformat:2|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Renovados</td>
+                  <td>{{a.q_renovado|intcomma}}</td>
+                  <td>{{a.monto_renovado|floatformat:2|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Auto de 2da</td>
+                  <td>{{a.q_auto_2da|intcomma}}</td>
+                  <td>{{a.monto_auto_2da|floatformat:2|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Subrogación Plus</td>
+                  <td>{{a.q_adelanto_sueldo|intcomma}}</td>
+                  <td>{{a.monto_adelanto_sueldo|floatformat:2|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Efectivo Plus</td>
+                  <td>{{a.q_efectivo_plus|intcomma}}</td>
+                  <td>{{a.monto_efectivo_plus|floatformat:2|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Prestamo al Toque</td>
+                  <td>{{a.q_prestamo_inmediato|intcomma}}</td>
+                  <td>{{a.monto_prestamo_inmediato|floatformat:2|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Incremento de Linea</td>
+                  <td>{{a.q_incr_linea|intcomma}}</td>
+                  <td>{{a.monto_incr_linea|floatformat:2|intcomma}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+	      <tfoot>
+		{% for b in total %}
+		<tr>
+                  <th>TOTAL</th>
+                  <th>{{b.total_q|intcomma}}</th>
+                  <th>{{b.total_m|floatformat:2|intcomma}}</th>
+	        {% endfor %}
+	      </tfoot>
+            </table>
+          </div>
+          <div class="rows placeholders">
+		<div id="chartContainer" style="height: 250px; width: 50%; display: inline-block;"></div>
+		<div id="chartContainer2" style="height: 250px; width: 50%; display: inline-block;"></div>
+          </div>
+          <h2 class="sub-header">2. Ofertas por Segmento</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Segmento</th>
+                  <th>Fast</th>
+                  <th>Contratación Sencilla</th>
+                  <th>Total</th>
+              </thead>
+              <tbody id="tabla_detalles">
+		{% for a,b,c,d,e,f in segmento %}
+		<tr>
+                  <td>{{c.segmento}}</td>
+                  <td>{{a.cantidad|intcomma}}</td>
+                  <td>{{b.cantidad|intcomma}}</td>
+                  <td>{{c.total|intcomma}}</td>
+                </tr>
+		{% endfor %}
+		{% for a,b in no_clie %}
+		<tr>
+                  <td>NO CLIENTE</td>
+                  <td>0</td>
+                  <td>{{a.cantidad|intcomma}}</td>
+                  <td>{{b.total|intcomma}}</td>
+                </tr>
+		{% endfor %}
+		<tr>
+                  <td>EMPLEADO</td>
+		{% for a,b,c in empleado %}
+                  <td>{{a.cantidad|intcomma}}</td>
+                  <td>{{b.cantidad|intcomma}}</td>
+                  <td>{{c.cantidad|intcomma}}</td>
+		{% endfor %}
+              </tbody>
+	      <tfoot>
+		{% for a,b,c in total2 %}
+		<tr>
+                  <th>TOTAL</th>
+                  <th>{{a.total_f|intcomma}}</th>
+                  <th>{{b.total_c|intcomma}}</th>
+                  <th>{{c.total_t|intcomma}}</th>
+	        {% endfor %}
+
+	      </tfoot>
+            </table>
+          </div>
+
+          <h2 class="sub-header">3. Flujo Operativo vs Verificaciones - Total Ofertas</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Tipo</th>
+                  <th>Fast</th>
+                  <th>Contratación Sencilla</th>
+                  <th>Total</th>
+              </thead>
+              <tbody id="tabla_detalles">
+		{% for a,b,c in flujo %}
+		<tr>
+                  <td>{{a.verificacion}}</td>
+                  <td>{{a.cantidad|intcomma}}</td>
+                  <td>{{b.cantidad|intcomma}}</td>
+                  <td>{{c.total|intcomma}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+	      <tfoot>
+		{% for a,b,c in total3 %}
+		<tr>
+                  <th>TOTAL</th>
+                  <th>{{a.total|intcomma}}</th>
+                  <th>{{b.total|intcomma}}</th>
+                  <th>{{c.total_t|intcomma}}</th>
+	        {% endfor %}
+	      </tfoot>
+            </table>
+          </div>
+
+          <h2 class="sub-header">4. Flujo Operativo vs Verificaciones - Ofertas TdC</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Tipo</th>
+                  <th>Fast</th>
+                  <th>Contratación Sencilla</th>
+                  <th>TOTAL</th>
+              </thead>
+              <tbody id="tabla_detalles">
+		{% for a,b,c in flujo_tdc %}
+		<tr>
+                  <td>{{a.verificacion}}</td>
+                  <td>{{a.cantidad|intcomma}}</td>
+                  <td>{{b.cantidad|intcomma}}</td>
+                  <td>{{c.total|intcomma}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+	      <tfoot>
+		{% for a,b,c in total3_tdc %}
+		<tr>
+                  <th>TOTAL</th>
+                  <th>{{a.total|intcomma}}</th>
+                  <th>{{b.total|intcomma}}</th>
+                  <th>{{c.total_t|intcomma}}</th>
+	        {% endfor %}
+	      </tfoot>
+            </table>
+          </div>
+
+          <h2 class="sub-header">4. Préstamo al Toque</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Flujo</th>
+                  <th>Fast</th>
+                  <th>Contratación Sencilla</th>
+                  <th>Total</th>
+              </thead>
+              <tbody id="tabla_detalles">
+		{% for a,b,c in prestamo %}
+		<tr>
+                  <td>Préstamo Libre Disp.</td>
+                  <td>{{a.pld|intcomma}}</td>
+                  <td>{{b.pld|intcomma}}</td>
+                  <td>{{c.pld|intcomma}}</td>
+                </tr>
+		<tr>
+                  <td>Préstamo al Toque</td>
+                  <td>{{a.pat|intcomma}}</td>
+                  <td>{{b.pat|intcomma}}</td>
+                  <td>{{c.pat|intcomma}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+	      <!--<tfoot>
+		{% for b in total %}
+		<tr>
+                  <th>TOTAL</th>
+                  <th>{{b.total_q|intcomma}}</th>
+                  <th>{{b.total_m|floatformat:2|intcomma}}</th>
+	        {% endfor %}
+	      </tfoot>-->
+            </table>
+          </div>
+
+
+
+{% endblock %}
+
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Segmentos a nivel contrato",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+                {
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "pie",
+			indexLabel: "{y}",
+			showInLegend: "true",
+			//indexLabelorientatios: "horizontal", 
+			dataPoints: [
+				{% for i in clientes %}
+				{ label: "{{i.segmento}}",  y: {{i.num_clientes}}, name: "{{i.segmento}}"  },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Segmentos a nivel importe",
+                },
+		Legend:{
+			//horizontalAlign: "left",
+			//verticalAlign: "top",
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+                {
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "doughnut",
+			indexLabel: "{y}",
+			yValueFormatString: "##,###.0 MM",
+			//indexLabelorientatios: "horizontal",
+			showInLegend: true, 
+			dataPoints: [
+				{% for i in montos2 %}
+				{ y: {{i.monto}}/1000000 ,label: "{{i.segmento}}" , name: "{{i.segmento}}" },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+    }
+  </script>
+{% endblock %}
+
+

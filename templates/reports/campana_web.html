@@ -16,52 +16,78 @@
             <table class="table table-campanaweb">
               <thead>
                 <tr>
-                  <th colspan="2" style="vertical-align:middle;">Fecha de Solicitudes</th>
+                  <th rowspan="2" style="vertical-align:middle;">N°<br/>Eval.</th>
                   <th rowspan="2" style="vertical-align:middle;">Recepción<br/> de base</th>
                   <th rowspan="2" style="vertical-align:middle;">Total clientes<br/> recibidos (1)</th>
                   <th colspan="3" style="vertical-align:middle;">Aprueban Filtros Duros (2)</th>
                   <th colspan="5" style="vertical-align:middle;">Ofertas TDC</th>
                   <th colspan="4" style="vertical-align:middle;">Ofertas PLD</th>
+                  <th colspan="4" style="vertical-align:middle;">Efectividad - Formalizados</th>
                 </tr>
                 <tr>
-                  <th style="vertical-align:middle;">Desde</th>
-                  <th style="vertical-align:middle;">Hasta</th>
-                  <th style="vertical-align:middle;">Formulario TDC</th>
-                  <th style="vertical-align:middle;">Formulario PLD</th>
+                  <th style="vertical-align:middle;">Formu. TDC</th>
+                  <th style="vertical-align:middle;">Formu. PLD</th>
                   <th style="vertical-align:middle;">Total</th>
                   <th style="vertical-align:middle;">Oferta<br/> en Moi</th>
-                  <th style="vertical-align:middle;">Oferta<br/> de IL</th>
-                  <th style="vertical-align:middle;">Nueva Oferta</th>
+                  <th style="vertical-align:middle;">Incr.</th>
+                  <th style="vertical-align:middle;">Nueva<br/> Oferta</th>
                   <th style="vertical-align:middle;">Total</th>
                   <th style="vertical-align:middle;">%</th>
                   <th style="vertical-align:middle;">Oferta<br/> en Moi</th>
-                  <th style="vertical-align:middle;">Nueva Oferta</th>
+                  <th style="vertical-align:middle;">Nueva<br/> Oferta</th>
                   <th style="vertical-align:middle;">Total</th>
                   <th style="vertical-align:middle;">%</th>
+                  <th style="vertical-align:middle;">TDC</th>
+                  <th style="vertical-align:middle;">% Form</th>
+                  <th style="vertical-align:middle;">PLD</th>
+                  <th style="vertical-align:middle;">% Form</th>
                 </tr>
               </thead>
               <tbody >
 		{% for a in campanaweb %}
 		<tr>                       
-                  <td>{{a.fecha_desde}}</td>
-                  <td>{{a.fecha_hasta}}</td>
+                  <td>{{a.num_eval}}</td>
                   <td>{{a.fecha_recepcion}}</td>
-                  <td>{{a.num_clientes|to_int|intcomma}}</td>
+                  <td><font color="#094FA4"><b>{{a.num_clientes|to_int|intcomma}}</b></font></td>
                   <td>{{a.form_tdc|to_int|intcomma}}</td>
                   <td>{{a.form_pld|to_int|intcomma}}</td>
-                  <td>{{a.total_filtros|to_int|intcomma}}</td>
+                  <td><font color="#094FA4"><b>{{a.total_filtros|to_int|intcomma}}</b></font></td>
                   <td>{{a.tdc_moi|to_int|intcomma}}</td>
                   <td>{{a.tdc_il|to_int|intcomma}}</td>
                   <td>{{a.tdc_nueva|to_int|intcomma}}</td>
                   <td>{{a.tdc_total|to_int|intcomma}}</td>
-                  <td>{{a.tdc_porcentaje|x_cien|to_int}}%</td>
+                  <td>{{a.tdc_porcentaje|to_int}}%</td>
                   <td>{{a.pld_moi|to_int|intcomma}}</td>
                   <td>{{a.pld_nueva|to_int|intcomma}}</td>
                   <td>{{a.pld_total|to_int|intcomma}}</td>
-                  <td>{{a.pld_porcentaje|x_cien|to_int}}%</td>
+                  <td>{{a.pld_porcentaje|to_int}}%</td>
+                  <td>{{a.tdc|to_int|intcomma}}</td>
+                  <td>{{a.tdc_formal|to_int|intcomma}}</td>
+                  <td>{{a.pld|to_int|intcomma}}</td>
+                  <td>{{a.pld_formal|to_int}}%</td>
                 </tr>
 		{% endfor %}
               </tbody>
+	      <tfoot>
+		<tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th style="vertical-align:middle;">{{totales.total1|to_int|intcomma}}</th>
+                  <th colspan="2" style="vertical-align:middle;">{{totales.total2|to_int|intcomma}}</th>
+                  <th></th>
+                  <th style="vertical-align:middle;">{{totales.total3|to_int|intcomma}}</th>
+                  <th colspan="2" style="vertical-align:middle;">{{totales.total4|to_int|intcomma}}</th>
+                  <th style="vertical-align:middle;">{{totales.total5|to_int|intcomma}}</th>
+                  <th></th>
+                  <th style="vertical-align:middle;">{{totales.total6|to_int|intcomma}}</th>
+                  <th></th>
+	      </tfoot>
             </table>
           </div>
 	  <div>(1) Solo se esta contabilizando una solicitud por cliente, en las bases recibidas se han encontrado más de una solicitud de una misma persona.</div>
