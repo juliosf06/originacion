@@ -2573,7 +2573,6 @@ def load(request):
     #Lifemiles.objects.all().delete()
     #Mapa.objects.all().delete()
     #DepartamentosWeb.objects.all().delete()
-    #CampanaWeb.objects.all().delete()
     if request.user.is_authenticated():
         return render('reports/load.html', locals(),
                   context_instance=RequestContext(request))
@@ -2624,6 +2623,7 @@ def carga_campana2(request):
         return load(campana_resumen)
 
 def carga_campanaweb(request):
+    CampanaWeb.objects.all().delete()
     if request.method == 'POST':
         form = UploadCampanaWeb(request.POST, request.FILES)
         if form.is_valid():
