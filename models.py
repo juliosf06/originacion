@@ -94,6 +94,33 @@ class CampanaWeb(models.Model):
     def __str__(self):
         return self.fecha_recepcion+' '+self.num_clientes
 
+class CampanaEfec(models.Model):
+    id_efec = models.IntegerField(default=0)
+    segmento0 = models.CharField(max_length=50)
+    segmento1 = models.CharField(max_length=50)
+    exo_ambas = models.CharField(max_length=10)
+    exo_solovd = models.CharField(max_length=10)
+    exo_solovl = models.CharField(max_length=10)
+    requiere_ambas = models.CharField(max_length=10)
+    total = models.CharField(max_length=10)
+    total_apro = models.CharField(max_length=10)
+    form = models.CharField(max_length=10)
+    porc_form = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.segmento0+' '+self.segmento1
+
+class CampanaLabSeg(models.Model):
+    filtro0 = models.CharField(max_length=40)
+    filtro1 = models.CharField(max_length=40)
+    filtro2 = models.CharField(max_length=50)
+    form = models.CharField(max_length=10)
+    total_form = models.CharField(max_length=10)
+    porc_form = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.filtro0+' '+self.filtro1+' '+self.filtro2
+
 class Verificaciones(models.Model):
     mes_vigencia = models.CharField(max_length=10)
     segmento = models.CharField(max_length=20)

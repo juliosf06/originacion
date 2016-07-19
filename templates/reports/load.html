@@ -246,6 +246,24 @@
 	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load DepartamentosWeb" ></div>
             </form>
           </div>
+          <div class="row">
+            <form action="carga_campanaefec/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reporte CampanaEfec</label>
+		<input type="file" id="campanaefec" name="campanaefec">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load CampanaEfec" ></div>
+            </form>
+          </div>
+          <div class="row">
+            <form action="carga_campanalabseg/" method="post" enctype="multipart/form-data">{% csrf_token %}
+	      <div class="form_group">
+		<label>Reporte CampanaLabSeg</label>
+		<input type="file" id="campanalabseg" name="campanalabseg">
+	      </div>
+	      <div class="form_group"><input type="submit" class="btn btn-default" value="Load CampanaLabSeg" ></div>
+            </form>
+          </div>
 
         </div>
       </div>

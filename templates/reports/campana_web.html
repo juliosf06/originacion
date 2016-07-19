@@ -92,7 +92,352 @@
           </div>
 	  <div>(1) Solo se esta contabilizando una solicitud por cliente, en las bases recibidas se han encontrado más de una solicitud de una misma persona.</div>
 	  <div>(2) Se retiran aquellos clientes con mal comportamiento en SF, BBVA, Mal buro, bases negativas, edad>75 y aquellos que ya fueron evaluados por el circuito.</div>
-
+          &nbsp;&nbsp;
+	  <center>
+	  <h2>Efectividad por Requerimiento de exoneración - TDC</h2>
+          &nbsp;&nbsp;
+          <div class="table-responsive" style="height: auto; width: 40%; display: inline-block;">
+            <table class="table table-campanaefec">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th style="vertical-align:middle;">Ex.<br/>Ambas</th>
+                  <th style="vertical-align:middle;">Ex. Sólo<br/>VD</th>
+                  <th style="vertical-align:middle;">Ex. Sólo<br/>VL</th>
+                  <th style="vertical-align:middle;">Requiere<br/>ambas</th>
+                  <th style="vertical-align:middle;">Total</th>
+                </tr>
+              </thead>
+              <tbody >
+		{% for a in tdc_campanaefec %}
+		<tr>                       
+                  <td>{{a.segmento1}}</td>
+                  <td>{{a.exo_ambas}}</td>
+                  <td>{{a.exo_solovd}}</td>
+                  <td>{{a.exo_solovl}}</td>
+                  <td>{{a.requiere_ambas}}</td>
+                  <td>{{a.total}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div class="table-responsive" style="height: auto; width: 30%; display: inline-block;">
+            <table class="table table-campanaefec">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th style="vertical-align:middle;">Nueva<br/>Oferta</th>
+                  <th style="vertical-align:middle;">Form</th>
+                  <th style="vertical-align:middle;">%<br/>Form</th>
+                </tr>
+              </thead>
+              <tbody >
+		{% for a in tdc_campanaefec2 %}
+		<tr>                       
+                  <td>{{a.segmento1}}</td>
+                  <td>{{a.total_apro}}</td>
+                  <td>{{a.form}}</td>
+                  <td>{{a.porc_form}}</td>
+                </tr>
+		{% endfor %}
+		<tr>                       
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+		<tr>                       
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive" style="height: auto; width: 50%; display: inline-block;">
+            <table class="table table-campanaefec">
+              <thead>
+                 <tr>
+                  <th bgcolor="white"></th>
+                  <th></th>
+                  <th style="vertical-align:middle;">Ex.<br/>Ambas</th>
+                  <th style="vertical-align:middle;">Ex. Sólo<br/>VD</th>
+                  <th style="vertical-align:middle;">Ex. Sólo<br/>VL</th>
+                  <th style="vertical-align:middle;">Requiere<br/>ambas</th>
+                  <th style="vertical-align:middle;">Total</th>
+                </tr>
+              </thead>
+              <tbody >
+                  <td rowspan="9" style="vertical-align:middle;" bgcolor="skyblue">EQUIFAX</td>
+		{% for a in tdc_equifax %}
+		<tr>                       
+                  <td>{{a.segmento1}}</td>
+                  <td>{{a.exo_ambas}}</td>
+                  <td>{{a.exo_solovd}}</td>
+                  <td>{{a.exo_solovl}}</td>
+                  <td>{{a.requiere_ambas}}</td>
+                  <td>{{a.total}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+	  </center>
+          &nbsp;&nbsp;
+	  <center>
+	  <h2>Efectividad por Requerimiento de exoneración - PLD</h2>
+          &nbsp;&nbsp;
+          <div class="table-responsive" style="height: auto; width: 40%; display: inline-block;">
+            <table class="table table-campanaefec">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th style="vertical-align:middle;">Ex.<br/>Ambas</th>
+                  <th style="vertical-align:middle;">Ex. Sólo<br/>VD</th>
+                  <th style="vertical-align:middle;">Ex. Sólo<br/>VL</th>
+                  <th style="vertical-align:middle;">Requiere<br/>ambas</th>
+                  <th style="vertical-align:middle;">Total</th>
+                </tr>
+              </thead>
+              <tbody >
+		{% for a in pld_campanaefec %}
+		<tr>                       
+                  <td>{{a.segmento1}}</td>
+                  <td>{{a.exo_ambas}}</td>
+                  <td>{{a.exo_solovd}}</td>
+                  <td>{{a.exo_solovl}}</td>
+                  <td>{{a.requiere_ambas}}</td>
+                  <td>{{a.total}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div class="table-responsive" style="height: auto; width: 30%; display: inline-block;">
+            <table class="table table-campanaefec">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th style="vertical-align:middle;">Nueva<br/>Oferta</th>
+                  <th style="vertical-align:middle;">Form</th>
+                  <th style="vertical-align:middle;">%<br/>Form</th>
+                </tr>
+              </thead>
+              <tbody >
+		{% for a in pld_campanaefec2 %}
+		<tr>                       
+                  <td>{{a.segmento1}}</td>
+                  <td>{{a.total_apro}}</td>
+                  <td>{{a.form}}</td>
+                  <td>{{a.porc_form}}</td>
+                </tr>
+		{% endfor %}
+		<tr>                       
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+		<tr>                       
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive" style="height: auto; width: 50%; display: inline-block;">
+            <table class="table table-campanaefec">
+              <thead>
+                 <tr>
+                  <th bgcolor="white"></th>
+                  <th></th>
+                  <th style="vertical-align:middle;">Ex.<br/>Ambas</th>
+                  <th style="vertical-align:middle;">Ex. Sólo<br/>VD</th>
+                  <th style="vertical-align:middle;">Ex. Sólo<br/>VL</th>
+                  <th style="vertical-align:middle;">Requiere<br/>ambas</th>
+                  <th style="vertical-align:middle;">Total</th>
+                </tr>
+              </thead>
+              <tbody >
+                  <td rowspan="9" style="vertical-align:middle;" bgcolor="skyblue">EQUIFAX</td>
+		{% for a in pld_equifax %}
+		<tr>                       
+                  <td>{{a.segmento1}}</td>
+                  <td>{{a.exo_ambas}}</td>
+                  <td>{{a.exo_solovd}}</td>
+                  <td>{{a.exo_solovl}}</td>
+                  <td>{{a.requiere_ambas}}</td>
+                  <td>{{a.total}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+	  </center>
+	  <center>
+	  <h2>Efectividad de Mejoras TDC</h2>
+          &nbsp;&nbsp;
+          <div class="table-responsive" style="height: auto; width: 40%;">
+            <table class="table table-campanaefec">
+              <thead>
+                <tr>
+                  <th bgcolor="white"> </th>
+                  <th style="vertical-align:middle;">Ex.<br/>Ambas</th>
+                  <th style="vertical-align:middle;">Ex. Sólo<br/>VD</th>
+                  <th style="vertical-align:middle;">Ex. Sólo<br/>VL</th>
+                  <th style="vertical-align:middle;">Requiere<br/>ambas</th>
+                  <th style="vertical-align:middle;">Total</th>
+                </tr>
+              </thead>
+              <tbody >
+		{% for a in tdc_mejoras %}
+		<tr>                       
+                  <td>{{a.segmento1}}</td>
+                  <td>{{a.exo_ambas}}</td>
+                  <td>{{a.exo_solovd}}</td>
+                  <td>{{a.exo_solovl}}</td>
+                  <td>{{a.requiere_ambas}}</td>
+                  <td>{{a.total}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+	  </center>
+	  <center>
+	  <h2>Situación Laboral - Segmentos</h2>
+          &nbsp;&nbsp;
+          <div class="table-responsive" style="height: auto; width: 40%; display: inline-block;">
+            <table class="table table-campanaefec">
+              <thead>
+                <tr>
+                  <th colspan="4" style="vertical-align:middle;">Situación Laboral</th>
+                </tr>
+                <tr>
+                  <th bgcolor="white">POWER</th>
+                  <th style="vertical-align:middle;">Form</th>
+                  <th style="vertical-align:middle;">Total</th>
+                  <th style="vertical-align:middle;">% Form</th>
+                </tr>
+              </thead>
+              <tbody >
+		{% for a in power_lab %}
+		<tr>                       
+                  <td>{{a.filtro2}}</td>
+                  <td>{{a.form}}</td>
+                  <td>{{a.total_form}}</td>
+                  <td>{{a.porc_form}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div class="table-responsive" style="height: auto; width: 40%; display: inline-block;">
+            <table class="table table-campanaefec">
+              <thead>
+                <tr>
+                  <th colspan="4" style="vertical-align:middle;">Segmentos</th>
+                </tr>
+                <tr>
+                  <th bgcolor="white">POWER</th>
+                  <th style="vertical-align:middle;">Form</th>
+                  <th style="vertical-align:middle;">Total</th>
+                  <th style="vertical-align:middle;">% Form</th>
+                </tr>
+              </thead>
+              <tbody >
+		{% for a in power_seg %}
+		<tr>                       
+                  <td>{{a.filtro2}}</td>
+                  <td>{{a.form}}</td>
+                  <td>{{a.total_form}}</td>
+                  <td>{{a.porc_form}}</td>
+                </tr>
+		{% endfor %}
+		<tr>                       
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+	  </center>
+	  <center>
+          <div class="table-responsive" style="height: auto; width: 40%; display: inline-block;">
+            <table class="table table-campanaefec">
+              <thead>
+                <tr>
+                  <th colspan="4" style="vertical-align:middle;">Situación Laboral</th>
+                </tr>
+                <tr>
+                  <th bgcolor="white">PULPIN</th>
+                  <th style="vertical-align:middle;">Form</th>
+                  <th style="vertical-align:middle;">Total</th>
+                  <th style="vertical-align:middle;">% Form</th>
+                </tr>
+              </thead>
+              <tbody >
+		{% for a in pulpin_lab %}
+		<tr>                       
+                  <td>{{a.filtro2}}</td>
+                  <td>{{a.form}}</td>
+                  <td>{{a.total_form}}</td>
+                  <td>{{a.porc_form}}</td>
+                </tr>
+		{% endfor %}
+		<tr>                       
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div class="table-responsive" style="height: auto; width: 40%; display: inline-block;">
+            <table class="table table-campanaefec">
+              <thead>
+                <tr>
+                  <th colspan="4" style="vertical-align:middle;">Segmentos</th>
+                </tr>
+                <tr>
+                  <th bgcolor="white">PULPIN</th>
+                  <th style="vertical-align:middle;">Form</th>
+                  <th style="vertical-align:middle;">Total</th>
+                  <th style="vertical-align:middle;">% Form</th>
+                </tr>
+              </thead>
+              <tbody >
+		{% for a in pulpin_seg %}
+		<tr>                       
+                  <td>{{a.filtro2}}</td>
+                  <td>{{a.form}}</td>
+                  <td>{{a.total_form}}</td>
+                  <td>{{a.porc_form}}</td>
+                </tr>
+		{% endfor %}
+              </tbody>
+            </table>
+          </div>
+	  </center>
 
 {% endblock %}
 

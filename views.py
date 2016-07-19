@@ -406,7 +406,18 @@ def campana_prestinmediato(request):
 def campanaweb(request):
     campanaweb = CampanaWeb.objects.all().order_by('num_eval')
     totales = CampanaWeb.objects.aggregate(total1=Sum('tdc_nueva'), total2=Sum('tdc_total'), total3=Sum('pld_nueva'), total4=Sum('pld_total'), total5=Sum('tdc'), total6=Sum('pld'))
-    print totales
+    tdc_campanaefec = CampanaEfec.objects.all().filter(segmento0='TDC').order_by('id_efec')
+    tdc_campanaefec2 = CampanaEfec.objects.all().filter(segmento0='TDC').exclude(segmento1__in=['Total Aprobados','Total Form']).order_by('id_efec')
+    tdc_equifax = CampanaEfec.objects.all().filter(segmento0='TDC-EQUIFAX').order_by('id_efec')
+    pld_campanaefec = CampanaEfec.objects.all().filter(segmento0='PLD').order_by('id_efec')
+    pld_campanaefec2 = CampanaEfec.objects.all().filter(segmento0='PLD').exclude(segmento1__in=['Total Aprobados','Total Form']).order_by('id_efec')
+    pld_equifax = CampanaEfec.objects.all().filter(segmento0='PLD-EQUIFAX').order_by('id_efec')
+    tdc_mejoras = CampanaEfec.objects.all().filter(segmento0='TDC-MEJORAS').order_by('id_efec')
+    power_lab = CampanaLabSeg.objects.all().filter(filtro0='LABORAL',filtro1='POWER').order_by('filtro2')
+    power_seg = CampanaLabSeg.objects.all().filter(filtro0='SEGMENTO',filtro1='POWER').order_by('filtro2')
+    pulpin_lab = CampanaLabSeg.objects.all().filter(filtro0='LABORAL',filtro1='PULPIN').order_by('filtro2')
+    pulpin_seg = CampanaLabSeg.objects.all().filter(filtro0='SEGMENTO',filtro1='PULPIN').order_by('filtro2')
+    #print tdc_campanaefec
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana_web.html', locals(),
@@ -2856,12 +2867,26 @@ def carga_departamentosweb(request):
     else:
         return load(campana_resumen)
 
-def carga_resumenweb(request):
+def carga_campanaefec(request):
+    CampanaEfec.objects.all().delete()
     if request.method == 'POST':
-        form = UploadResumenWeb(request.POST, request.FILES)
+        form = UploadCampanaEfec(request.POST, request.FILES)
         if form.is_valid():
-            csv_file = request.FILES['ResumenWeb']
-            ResumenWebCsv.import_data(data = csv_file)
+            csv_file = request.FILES['campanaefec']
+            CampanaEfecCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_campanalabseg(request):
+    CampanaLabSeg.objects.all().delete()
+    if request.method == 'POST':
+        form = UploadCampanaLabSeg(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['campanalabseg']
+            CampanaLabSegCsv.import_data(data = csv_file)
             return campana_resumen(request)
         else:
             return load(campana_resumen)
