@@ -8,15 +8,22 @@
 
 {% block content %}
 
-          <h1 class="page-header">Resumen Campaña Web</h1>
-          <div class="form-inline">
+          <h1 class="page-header">Resumen Campaña Web </h1>
+          <center><div class="form-inline">
+            &nbsp;&nbsp;
+            <button id="resumen_mes" type="button" value="MES">MES</button>
+	    &nbsp;&nbsp;
+            <button id="resumen_sem" type="button" value="SEMANA">SEMANA</button>
+	    &nbsp;&nbsp;
+            <button id="resumen_eval" type="button" value="EVAL">NRO.EVAL</button>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
-          </div>
+          </div></center>
+            &nbsp;&nbsp;
+	  {% if "MES" == nivel %}
           <div class="table-responsive">
             <table class="table table-campanaweb">
               <thead>
                 <tr>
-                  <th rowspan="2" style="vertical-align:middle;">N°<br/>Eval.</th>
                   <th rowspan="2" style="vertical-align:middle;">Recepción<br/> de base</th>
                   <th rowspan="2" style="vertical-align:middle;">Total clientes<br/> recibidos (1)</th>
                   <th colspan="3" style="vertical-align:middle;">Aprueban Filtros Duros (2)</th>
@@ -44,27 +51,26 @@
                 </tr>
               </thead>
               <tbody >
-		{% for a in campanaweb %}
-		<tr>                       
-                  <td>{{a.num_eval}}</td>
-                  <td>{{a.fecha_recepcion}}</td>
-                  <td><font color="#094FA4"><b>{{a.num_clientes|to_int|intcomma}}</b></font></td>
-                  <td>{{a.form_tdc|to_int|intcomma}}</td>
-                  <td>{{a.form_pld|to_int|intcomma}}</td>
-                  <td><font color="#094FA4"><b>{{a.total_filtros|to_int|intcomma}}</b></font></td>
-                  <td>{{a.tdc_moi|to_int|intcomma}}</td>
-                  <td>{{a.tdc_il|to_int|intcomma}}</td>
-                  <td>{{a.tdc_nueva|to_int|intcomma}}</td>
-                  <td>{{a.tdc_total|to_int|intcomma}}</td>
-                  <td>{{a.tdc_porcentaje|to_int}}%</td>
-                  <td>{{a.pld_moi|to_int|intcomma}}</td>
-                  <td>{{a.pld_nueva|to_int|intcomma}}</td>
-                  <td>{{a.pld_total|to_int|intcomma}}</td>
-                  <td>{{a.pld_porcentaje|to_int}}%</td>
-                  <td>{{a.tdc|to_int|intcomma}}</td>
-                  <td>{{a.tdc_formal|to_int|intcomma}}</td>
-                  <td>{{a.pld|to_int|intcomma}}</td>
-                  <td>{{a.pld_formal|to_int}}%</td>
+		{% for a in campanaweb2 %}
+		<tr>
+                  <td>{{a.mes}}</td>
+                  <td><font color="#094FA4"><b>{{a.tot_clientes|to_int|intcomma}}</b></font></td>
+                  <td>{{a.tot_formtdc|to_int|intcomma}}</td>
+                  <td>{{a.tot_formpld|to_int|intcomma}}</td>
+                  <td><font color="#094FA4"><b>{{a.tot_filtro|to_int|intcomma}}</b></font></td>
+                  <td>{{a.tot_tdcmoi|to_int|intcomma}}</td>
+                  <td>{{a.tot_tdcil|to_int|intcomma}}</td>
+                  <td>{{a.tot_tdnew|to_int|intcomma}}</td>
+                  <td>{{a.tot_tdc|to_int|intcomma}}</td>
+                  <td>{{a.tdc_por|to_int}}%</td>
+                  <td>{{a.tot_pldmoi|to_int|intcomma}}</td>
+                  <td>{{a.tot_pldnew|to_int|intcomma}}</td>
+                  <td>{{a.tot_pld|to_int|intcomma}}</td>
+                  <td>{{a.pld_por|to_int}}%</td>
+                  <td>{{a.efe_tdc|to_int|intcomma}}</td>
+                  <td>{{a.efe_tdcform|to_int|intcomma}}</td>
+                  <td>{{a.efe_pld|to_int|intcomma}}</td>
+                  <td>{{a.efe_pldform|to_int}}%</td>
                 </tr>
 		{% endfor %}
               </tbody>
@@ -90,6 +96,165 @@
 	      </tfoot>
             </table>
           </div>
+	  {% else %}
+	  	{% if "SEMANA" == nivel %}
+		  <div class="table-responsive">
+		    <table class="table table-campanaweb">
+		      <thead>
+		        <tr>
+		          <th rowspan="2" style="vertical-align:middle;">Recepción<br/> de base</th>
+		          <th rowspan="2" style="vertical-align:middle;">Total clientes<br/> recibidos (1)</th>
+		          <th colspan="3" style="vertical-align:middle;">Aprueban Filtros Duros (2)</th>
+		          <th colspan="5" style="vertical-align:middle;">Ofertas TDC</th>
+		          <th colspan="4" style="vertical-align:middle;">Ofertas PLD</th>
+		          <th colspan="4" style="vertical-align:middle;">Efectividad - Formalizados</th>
+		        </tr>
+		        <tr>
+		          <th style="vertical-align:middle;">Formu. TDC</th>
+		          <th style="vertical-align:middle;">Formu. PLD</th>
+		          <th style="vertical-align:middle;">Total</th>
+		          <th style="vertical-align:middle;">Oferta<br/> en Moi</th>
+		          <th style="vertical-align:middle;">Incr.</th>
+		          <th style="vertical-align:middle;">Nueva<br/> Oferta</th>
+		          <th style="vertical-align:middle;">Total</th>
+		          <th style="vertical-align:middle;">%</th>
+		          <th style="vertical-align:middle;">Oferta<br/> en Moi</th>
+		          <th style="vertical-align:middle;">Nueva<br/> Oferta</th>
+		          <th style="vertical-align:middle;">Total</th>
+		          <th style="vertical-align:middle;">%</th>
+		          <th style="vertical-align:middle;">TDC</th>
+		          <th style="vertical-align:middle;">% Form</th>
+		          <th style="vertical-align:middle;">PLD</th>
+		          <th style="vertical-align:middle;">% Form</th>
+		        </tr>
+		      </thead>
+		      <tbody >
+			{% for a in campanaweb3 %}
+			<tr>
+		          <td>{{a.semana}}</td>
+		          <td><font color="#094FA4"><b>{{a.tot_clientes|to_int|intcomma}}</b></font></td>
+		          <td>{{a.tot_formtdc|to_int|intcomma}}</td>
+		          <td>{{a.tot_formpld|to_int|intcomma}}</td>
+		          <td><font color="#094FA4"><b>{{a.tot_filtro|to_int|intcomma}}</b></font></td>
+		          <td>{{a.tot_tdcmoi|to_int|intcomma}}</td>
+		          <td>{{a.tot_tdcil|to_int|intcomma}}</td>
+		          <td>{{a.tot_tdnew|to_int|intcomma}}</td>
+		          <td>{{a.tot_tdc|to_int|intcomma}}</td>
+		          <td>{{a.tdc_por|to_int}}%</td>
+		          <td>{{a.tot_pldmoi|to_int|intcomma}}</td>
+		          <td>{{a.tot_pldnew|to_int|intcomma}}</td>
+		          <td>{{a.tot_pld|to_int|intcomma}}</td>
+		          <td>{{a.pld_por|to_int}}%</td>
+		          <td>{{a.efe_tdc|to_int|intcomma}}</td>
+		          <td>{{a.efe_tdcform|to_int|intcomma}}</td>
+		          <td>{{a.efe_pld|to_int|intcomma}}</td>
+		          <td>{{a.efe_pldform|to_int}}%</td>
+		        </tr>
+			{% endfor %}
+		      </tbody>
+		      <tfoot>
+			<tr>
+		          <th></th>
+		          <th></th>
+		          <th></th>
+		          <th></th>
+		          <th></th>
+		          <th></th>
+		          <th></th>
+		          <th></th>
+		          <th style="vertical-align:middle;">{{totales.total1|to_int|intcomma}}</th>
+		          <th colspan="2" style="vertical-align:middle;">{{totales.total2|to_int|intcomma}}</th>
+		          <th></th>
+		          <th style="vertical-align:middle;">{{totales.total3|to_int|intcomma}}</th>
+		          <th colspan="2" style="vertical-align:middle;">{{totales.total4|to_int|intcomma}}</th>
+		          <th style="vertical-align:middle;">{{totales.total5|to_int|intcomma}}</th>
+		          <th></th>
+		          <th style="vertical-align:middle;">{{totales.total6|to_int|intcomma}}</th>
+		          <th></th>
+		      </tfoot>
+		    </table>
+		  </div>
+	  	{% else %}
+		  <div class="table-responsive">
+		    <table class="table table-campanaweb">
+		      <thead>
+		        <tr>
+		          <th rowspan="2" style="vertical-align:middle;">N°<br/>Eval.</th>
+		          <th rowspan="2" style="vertical-align:middle;">Recepción<br/> de base</th>
+		          <th rowspan="2" style="vertical-align:middle;">Total clientes<br/> recibidos (1)</th>
+		          <th colspan="3" style="vertical-align:middle;">Aprueban Filtros Duros (2)</th>
+		          <th colspan="5" style="vertical-align:middle;">Ofertas TDC</th>
+		          <th colspan="4" style="vertical-align:middle;">Ofertas PLD</th>
+		          <th colspan="4" style="vertical-align:middle;">Efectividad - Formalizados</th>
+		        </tr>
+		        <tr>
+		          <th style="vertical-align:middle;">Formu. TDC</th>
+		          <th style="vertical-align:middle;">Formu. PLD</th>
+		          <th style="vertical-align:middle;">Total</th>
+		          <th style="vertical-align:middle;">Oferta<br/> en Moi</th>
+		          <th style="vertical-align:middle;">Incr.</th>
+		          <th style="vertical-align:middle;">Nueva<br/> Oferta</th>
+		          <th style="vertical-align:middle;">Total</th>
+		          <th style="vertical-align:middle;">%</th>
+		          <th style="vertical-align:middle;">Oferta<br/> en Moi</th>
+		          <th style="vertical-align:middle;">Nueva<br/> Oferta</th>
+		          <th style="vertical-align:middle;">Total</th>
+		          <th style="vertical-align:middle;">%</th>
+		          <th style="vertical-align:middle;">TDC</th>
+		          <th style="vertical-align:middle;">% Form</th>
+		          <th style="vertical-align:middle;">PLD</th>
+		          <th style="vertical-align:middle;">% Form</th>
+		        </tr>
+		      </thead>
+		      <tbody >
+			{% for a in campanaweb %}
+			<tr>
+		          <td>{{a.num_eval}}</td>
+		          <td>{{a.fecha_recepcion}}</td>
+		          <td><font color="#094FA4"><b>{{a.num_clientes|to_int|intcomma}}</b></font></td>
+		          <td>{{a.form_tdc|to_int|intcomma}}</td>
+		          <td>{{a.form_pld|to_int|intcomma}}</td>
+		          <td><font color="#094FA4"><b>{{a.total_filtros|to_int|intcomma}}</b></font></td>
+		          <td>{{a.tdc_moi|to_int|intcomma}}</td>
+		          <td>{{a.tdc_il|to_int|intcomma}}</td>
+		          <td>{{a.tdc_nueva|to_int|intcomma}}</td>
+		          <td>{{a.tdc_total|to_int|intcomma}}</td>
+		          <td>{{a.tdc_porcentaje|to_int}}%</td>
+		          <td>{{a.pld_moi|to_int|intcomma}}</td>
+		          <td>{{a.pld_nueva|to_int|intcomma}}</td>
+		          <td>{{a.pld_total|to_int|intcomma}}</td>
+		          <td>{{a.pld_porcentaje|to_int}}%</td>
+		          <td>{{a.tdc|to_int|intcomma}}</td>
+		          <td>{{a.tdc_formal|to_int|intcomma}}</td>
+		          <td>{{a.pld|to_int|intcomma}}</td>
+		          <td>{{a.pld_formal|to_int}}%</td>
+		        </tr>
+			{% endfor %}
+		      </tbody>
+		      <tfoot>
+			<tr>
+		          <th></th>
+		          <th></th>
+		          <th></th>
+		          <th></th>
+		          <th></th>
+		          <th></th>
+		          <th></th>
+		          <th></th>
+		          <th style="vertical-align:middle;">{{totales.total1|to_int|intcomma}}</th>
+		          <th colspan="2" style="vertical-align:middle;">{{totales.total2|to_int|intcomma}}</th>
+		          <th></th>
+		          <th style="vertical-align:middle;">{{totales.total3|to_int|intcomma}}</th>
+		          <th colspan="2" style="vertical-align:middle;">{{totales.total4|to_int|intcomma}}</th>
+		          <th style="vertical-align:middle;">{{totales.total5|to_int|intcomma}}</th>
+		          <th></th>
+		          <th style="vertical-align:middle;">{{totales.total6|to_int|intcomma}}</th>
+		          <th></th>
+		      </tfoot>
+		    </table>
+		  </div>
+	  	{% endif %}	  	
+	  {% endif %}
 	  <div>(1) Solo se esta contabilizando una solicitud por cliente, en las bases recibidas se han encontrado más de una solicitud de una misma persona.</div>
 	  <div>(2) Se retiran aquellos clientes con mal comportamiento en SF, BBVA, Mal buro, bases negativas, edad>75 y aquellos que ya fueron evaluados por el circuito.</div>
           &nbsp;&nbsp;
@@ -443,36 +608,18 @@
 
 {% block script_final %}
   <script type="text/javascript">
-    window.onload = function () {
-	var chart = new CanvasJS.Chart("chartContainer", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Participación de Inversión por territorio"              
-		},
-		animationEnabled: true,   // change to true
-
-		data: [ 
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "doughnut",
-			indexLabel: "{y}",
-			startAngle: 0,
-			yValueFormatString: "###.##",
-			//name: "BCP",
-			//color: "#F6891E",			
-			//showInLegend: "true",
-			dataPoints: [
-			{% for a in conce %} 			
-				{ y: {{a.sum_inv}} , indexLabel: "{{a.territorio}}"  },
-		        {% endfor %}
-			]
-
-		},
-		]
+	$('#resumen_mes').click(function(){
+	    console.log($("#resumen_mes").val());
+  	    window.location.href = "/reports/campanas/campanaweb/"+$("#resumen_mes").val()+"/";
 	});
-	chart.render();
-
-    }
+	$('#resumen_sem').click(function(){
+	    console.log($("#resumen_sem").val());
+  	    window.location.href = "/reports/campanas/campanaweb/"+$("#resumen_sem").val()+"/";
+	});
+	$('#resumen_eval').click(function(){
+	    console.log($("#resumen_eval").val());
+  	    window.location.href = "/reports/campanas/campanaweb/"+$("#resumen_eval").val()+"/";
+	});
   </script>
 {% endblock %}
 

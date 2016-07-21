@@ -72,6 +72,8 @@ class Campana2(models.Model):
 
 class CampanaWeb(models.Model):
     num_eval = models.IntegerField(default=0)
+    mes = models.CharField(max_length=20,default=0)
+    semana = models.CharField(max_length=10,default=0)
     fecha_recepcion = models.CharField(max_length=10)
     num_clientes = models.DecimalField(max_digits=12, decimal_places=2)
     form_tdc = models.DecimalField(max_digits=12, decimal_places=2)
@@ -86,9 +88,9 @@ class CampanaWeb(models.Model):
     pld_nueva = models.DecimalField(max_digits=12, decimal_places=2)
     pld_total = models.DecimalField(max_digits=12, decimal_places=2)
     pld_porcentaje = models.DecimalField(max_digits=12, decimal_places=2)
-    tdc = models.IntegerField(default=0)
+    tdc = models.DecimalField(max_digits=4, decimal_places=0, default=0)
     tdc_formal = models.DecimalField(max_digits=4, decimal_places=1, default=0)
-    pld = models.IntegerField(default=0)
+    pld = models.DecimalField(max_digits=4, decimal_places=0, default=0)
     pld_formal = models.DecimalField(max_digits=4, decimal_places=1, default=0)
 
     def __str__(self):
@@ -96,6 +98,8 @@ class CampanaWeb(models.Model):
 
 class CampanaEfec(models.Model):
     id_efec = models.IntegerField(default=0)
+    mes = models.CharField(max_length=20,default=0)
+    semana = models.CharField(max_length=10,default=0)
     segmento0 = models.CharField(max_length=50)
     segmento1 = models.CharField(max_length=50)
     exo_ambas = models.CharField(max_length=10)

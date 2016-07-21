@@ -403,8 +403,12 @@ def campana_prestinmediato(request):
                   context_instance=RequestContext(request))
 
 @login_required
-def campanaweb(request):
-    campanaweb = CampanaWeb.objects.all().order_by('num_eval')
+def campanaweb(request,nivel='MES'):
+    print nivel
+    campanaweb = CampanaWeb.objects.all()
+    campanaweb2 = CampanaWeb.objects.values('mes').annotate(tot_clientes=Sum('num_clientes'), tot_formtdc=Sum('form_tdc'), tot_formpld=Sum('form_pld'), tot_filtro=Sum('total_filtros'), tot_tdcmoi=Sum('tdc_moi'), tot_tdcil=Sum('tdc_il'), tot_tdnew=Sum('tdc_nueva'), tot_tdc=Sum('tdc_total'), tot_pldmoi=Sum('pld_moi'), tot_pldnew=Sum('pld_nueva'), tot_pld=Sum('pld_total'), efe_tdc=Sum('tdc'), efe_pld=Sum('pld'), efe_pldform=Sum(F('pld'))*100/Sum(F('pld_total')), efe_tdcform=Sum(F('tdc'))*100/Sum(F('tdc_total')), tdc_por=Sum(F('tdc_total'))*100/Sum(F('form_tdc')), pld_por=Sum(F('pld_total'))*100/Sum(F('form_pld'))).order_by('mes')
+    campanaweb3 = CampanaWeb.objects.values('semana').annotate(tot_clientes=Sum('num_clientes'), tot_formtdc=Sum('form_tdc'), tot_formpld=Sum('form_pld'), tot_filtro=Sum('total_filtros'), tot_tdcmoi=Sum('tdc_moi'), tot_tdcil=Sum('tdc_il'), tot_tdnew=Sum('tdc_nueva'), tot_tdc=Sum('tdc_total'), tot_pldmoi=Sum('pld_moi'), tot_pldnew=Sum('pld_nueva'), tot_pld=Sum('pld_total'), efe_tdc=Sum('tdc'), efe_pld=Sum('pld'), efe_pldform=Sum(F('pld'))*100/Sum(F('pld_total')), efe_tdcform=Sum(F('tdc'))*100/Sum(F('tdc_total')), tdc_por=Sum(F('tdc_total'))*100/Sum(F('form_tdc')), pld_por=Sum(F('pld_total'))*100/Sum(F('form_pld'))).order_by('semana')
+    print campanaweb3
     totales = CampanaWeb.objects.aggregate(total1=Sum('tdc_nueva'), total2=Sum('tdc_total'), total3=Sum('pld_nueva'), total4=Sum('pld_total'), total5=Sum('tdc'), total6=Sum('pld'))
     tdc_campanaefec = CampanaEfec.objects.all().filter(segmento0='TDC').order_by('id_efec')
     tdc_campanaefec2 = CampanaEfec.objects.all().filter(segmento0='TDC').exclude(segmento1__in=['Total Aprobados','Total Form']).order_by('id_efec')
@@ -417,7 +421,7 @@ def campanaweb(request):
     power_seg = CampanaLabSeg.objects.all().filter(filtro0='SEGMENTO',filtro1='POWER').order_by('filtro2')
     pulpin_lab = CampanaLabSeg.objects.all().filter(filtro0='LABORAL',filtro1='PULPIN').order_by('filtro2')
     pulpin_seg = CampanaLabSeg.objects.all().filter(filtro0='SEGMENTO',filtro1='PULPIN').order_by('filtro2')
-    #print tdc_campanaefec
+
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana_web.html', locals(),
