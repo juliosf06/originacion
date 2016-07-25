@@ -250,6 +250,7 @@
 		          <th></th>
 		          <th style="vertical-align:middle;">{{totales.total6|to_int|intcomma}}</th>
 		          <th></th>
+		        </tr>
 		      </tfoot>
 		    </table>
 		  </div>
@@ -273,18 +274,68 @@
                   <th style="vertical-align:middle;">Total</th>
                 </tr>
               </thead>
+	      {% if "MES" == nivel %}
               <tbody >
-		{% for a in tdc_campanaefec %}
+		{% for a in tdc_efec %}
 		<tr>                       
-                  <td>{{a.segmento1}}</td>
-                  <td>{{a.exo_ambas}}</td>
-                  <td>{{a.exo_solovd}}</td>
-                  <td>{{a.exo_solovl}}</td>
-                  <td>{{a.requiere_ambas}}</td>
-                  <td>{{a.total}}</td>
+                  <td>{{a.mes}}</td>
+                  <td>{{a.ambas|to_int|intcomma}}%</td>
+                  <td>{{a.solovd|to_int|intcomma}}%</td>
+                  <td>{{a.solovl|to_int|intcomma}}%</td>
+                  <td>{{a.requiere|to_int|intcomma}}%</td>
+                  <td>{{a.total|to_int|intcomma}}%</td>
                 </tr>
 		{% endfor %}
               </tbody>
+	      {% else %}
+	  	{% if "SEMANA" == nivel %}
+		      <tbody >
+			{% for a in tdc_efec2 %}
+			<tr>                       
+		          <td>{{a.semana}}</td>
+		          <td>{{a.ambas|to_int|intcomma}}%</td>
+		          <td>{{a.solovd|to_int|intcomma}}%</td>
+		          <td>{{a.solovl|to_int|intcomma}}%</td>
+		          <td>{{a.requiere|to_int|intcomma}}%</td>
+		          <td>{{a.total|to_int|intcomma}}%</td>
+		        </tr>
+			{% endfor %}
+		      </tbody>
+	  	{% else %}
+		      <tbody >
+			{% for a in tdc_efec3 %}
+			<tr>                       
+		          <td>{{a.segmento1}}</td>
+		          <td>{{a.ambas|to_int|intcomma}}%</td>
+		          <td>{{a.solovd|to_int|intcomma}}%</td>
+		          <td>{{a.solovl|to_int|intcomma}}%</td>
+		          <td>{{a.requiere|to_int|intcomma}}%</td>
+		          <td>{{a.total|to_int|intcomma}}%</td>
+		        </tr>
+			{% endfor %}
+		      </tbody>
+	  	{% endif %}	  	
+	  {% endif %}
+	      <tfoot>
+		{% for a in tot1 %}
+		<tr>
+		  <th>Total Aprobados</th>
+		  <th>{{a.sol_ambas|to_int|intcomma}}</th>
+		  <th>{{a.sol_solovd|to_int|intcomma}}</th>
+		  <th>{{a.sol_solovl|to_int|intcomma}}</th>
+		  <th>{{a.sol_req|to_int|intcomma}}</th>
+		  <th>{{a.sol_total|to_int|intcomma}}</th>
+		</tr>
+		<tr>
+		  <th>Total Form</th>
+		  <th>{{a.form_ambas|to_int|intcomma}}</th>
+		  <th>{{a.form_solovd|to_int|intcomma}}</th>
+		  <th>{{a.form_solovl|to_int|intcomma}}</th>
+		  <th>{{a.form_req|to_int|intcomma}}</th>
+		  <th>{{a.form_total|to_int|intcomma}}</th>
+		</tr>
+		{% endfor %}
+	      </tfoot>
             </table>
           </div>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -300,13 +351,14 @@
                   <th style="vertical-align:middle;">%<br/>Form</th>
                 </tr>
               </thead>
+	      {% if "MES" == nivel %}
               <tbody >
-		{% for a in tdc_campanaefec2 %}
+		{% for a in tdc_efec %}
 		<tr>                       
-                  <td>{{a.segmento1}}</td>
-                  <td>{{a.total_apro}}</td>
-                  <td>{{a.form}}</td>
-                  <td>{{a.porc_form}}</td>
+                  <td>{{a.mes}}</td>
+                  <td>{{a.nueva|to_int|intcomma}}</td>
+                  <td>{{a.formal|to_int|intcomma}}</td>
+                  <td>{{a.porcentaje|to_int|intcomma}}%</td>
                 </tr>
 		{% endfor %}
 		<tr>                       
@@ -322,6 +374,55 @@
                   <td>-</td>
                 </tr>
               </tbody>
+	      {% else %}
+	  	{% if "SEMANA" == nivel %}
+		      <tbody >
+			{% for a in tdc_efec2 %}
+			<tr>                       
+		          <td>{{a.semana}}</td>
+		          <td>{{a.nueva|to_int|intcomma}}</td>
+		          <td>{{a.formal|to_int|intcomma}}</td>
+		          <td>{{a.porcentaje|to_int|intcomma}}%</td>
+		        </tr>
+			{% endfor %}
+			<tr>                       
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		        </tr>
+			<tr>                       
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		        </tr>
+		      </tbody>
+	  	{% else %}
+		      <tbody >
+			{% for a in tdc_efec3 %}
+			<tr>                       
+		          <td>{{a.segmento1}}</td>
+		          <td>{{a.nueva|to_int|intcomma}}</td>
+		          <td>{{a.formal|to_int|intcomma}}</td>
+		          <td>{{a.porcentaje|to_int|intcomma}}%</td>
+		        </tr>
+			{% endfor %}
+			<tr>                       
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		        </tr>
+			<tr>                       
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		        </tr>
+		      </tbody>
+	  	{% endif %}	  	
+	  {% endif %}
             </table>
           </div>
           <div class="table-responsive" style="height: auto; width: 50%; display: inline-block;">
@@ -341,11 +442,11 @@
                   <td rowspan="9" style="vertical-align:middle;" bgcolor="skyblue">EQUIFAX</td>
 		{% for a in tdc_equifax %}
 		<tr>                       
-                  <td>{{a.segmento1}}</td>
-                  <td>{{a.exo_ambas}}</td>
-                  <td>{{a.exo_solovd}}</td>
-                  <td>{{a.exo_solovl}}</td>
-                  <td>{{a.requiere_ambas}}</td>
+                  <td>{{a.filtro1}}</td>
+                  <td>{{a.ambas}}</td>
+                  <td>{{a.solovd}}</td>
+                  <td>{{a.solovl}}</td>
+                  <td>{{a.req}}</td>
                   <td>{{a.total}}</td>
                 </tr>
 		{% endfor %}
@@ -369,18 +470,68 @@
                   <th style="vertical-align:middle;">Total</th>
                 </tr>
               </thead>
+	      {% if "MES" == nivel %}
               <tbody >
-		{% for a in pld_campanaefec %}
+		{% for a in pld_efec %}
 		<tr>                       
-                  <td>{{a.segmento1}}</td>
-                  <td>{{a.exo_ambas}}</td>
-                  <td>{{a.exo_solovd}}</td>
-                  <td>{{a.exo_solovl}}</td>
-                  <td>{{a.requiere_ambas}}</td>
-                  <td>{{a.total}}</td>
+                  <td>{{a.mes}}</td>
+                  <td>{{a.ambas|to_int|intcomma}}%</td>
+                  <td>{{a.solovd|to_int|intcomma}}%</td>
+                  <td>{{a.solovl|to_int|intcomma}}%</td>
+                  <td>{{a.requiere|to_int|intcomma}}%</td>
+                  <td>{{a.total|to_int|intcomma}}%</td>
                 </tr>
 		{% endfor %}
               </tbody>
+	      {% else %}
+	  	{% if "SEMANA" == nivel %}
+		      <tbody >
+			{% for a in pld_efec2 %}
+			<tr>                       
+		          <td>{{a.semana}}</td>
+		          <td>{{a.ambas|to_int|intcomma}}%</td>
+		          <td>{{a.solovd|to_int|intcomma}}%</td>
+		          <td>{{a.solovl|to_int|intcomma}}%</td>
+		          <td>{{a.requiere|to_int|intcomma}}%</td>
+		          <td>{{a.total|to_int|intcomma}}%</td>
+		        </tr>
+			{% endfor %}
+		      </tbody>
+	  	{% else %}
+		      <tbody >
+			{% for a in pld_efec3 %}
+			<tr>                       
+		          <td>{{a.segmento1}}</td>
+		          <td>{{a.ambas|to_int|intcomma}}%</td>
+		          <td>{{a.solovd|to_int|intcomma}}%</td>
+		          <td>{{a.solovl|to_int|intcomma}}%</td>
+		          <td>{{a.requiere|to_int|intcomma}}%</td>
+		          <td>{{a.total|to_int|intcomma}}%</td>
+		        </tr>
+			{% endfor %}
+		      </tbody>
+	  	{% endif %}	  	
+	  {% endif %}
+	      <tfoot>
+		{% for a in tot2 %}
+		<tr>
+		  <th>Total Aprobados</th>
+		  <th>{{a.sol_ambas|to_int|intcomma}}</th>
+		  <th>{{a.sol_solovd|to_int|intcomma}}</th>
+		  <th>{{a.sol_solovl|to_int|intcomma}}</th>
+		  <th>{{a.sol_req|to_int|intcomma}}</th>
+		  <th>{{a.sol_total|to_int|intcomma}}</th>
+		</tr>
+		<tr>
+		  <th>Total Form</th>
+		  <th>{{a.form_ambas|to_int|intcomma}}</th>
+		  <th>{{a.form_solovd|to_int|intcomma}}</th>
+		  <th>{{a.form_solovl|to_int|intcomma}}</th>
+		  <th>{{a.form_req|to_int|intcomma}}</th>
+		  <th>{{a.form_total|to_int|intcomma}}</th>
+		</tr>
+		{% endfor %}
+	      </tfoot>
             </table>
           </div>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -396,13 +547,14 @@
                   <th style="vertical-align:middle;">%<br/>Form</th>
                 </tr>
               </thead>
+	      {% if "MES" == nivel %}
               <tbody >
-		{% for a in pld_campanaefec2 %}
+		{% for a in pld_efec %}
 		<tr>                       
-                  <td>{{a.segmento1}}</td>
-                  <td>{{a.total_apro}}</td>
-                  <td>{{a.form}}</td>
-                  <td>{{a.porc_form}}</td>
+                  <td>{{a.mes}}</td>
+                  <td>{{a.nueva|to_int|intcomma}}</td>
+                  <td>{{a.formal|to_int|intcomma}}</td>
+                  <td>{{a.porcentaje|to_int|intcomma}}%</td>
                 </tr>
 		{% endfor %}
 		<tr>                       
@@ -418,6 +570,55 @@
                   <td>-</td>
                 </tr>
               </tbody>
+	      {% else %}
+	  	{% if "SEMANA" == nivel %}
+		      <tbody >
+			{% for a in pld_efec2 %}
+			<tr>                       
+		          <td>{{a.semana}}</td>
+		          <td>{{a.nueva|to_int|intcomma}}</td>
+		          <td>{{a.formal|to_int|intcomma}}</td>
+		          <td>{{a.porcentaje|to_int|intcomma}}%</td>
+		        </tr>
+			{% endfor %}
+			<tr>                       
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		        </tr>
+			<tr>                       
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		        </tr>
+		      </tbody>
+	  	{% else %}
+		      <tbody >
+			{% for a in pld_efec3 %}
+			<tr>                       
+		          <td>{{a.segmento1}}</td>
+		          <td>{{a.nueva|to_int|intcomma}}</td>
+		          <td>{{a.formal|to_int|intcomma}}</td>
+		          <td>{{a.porcentaje|to_int|intcomma}}%</td>
+		        </tr>
+			{% endfor %}
+			<tr>                       
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		        </tr>
+			<tr>                       
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		          <td>-</td>
+		        </tr>
+		      </tbody>
+	  	{% endif %}	  	
+	  {% endif %}
             </table>
           </div>
           <div class="table-responsive" style="height: auto; width: 50%; display: inline-block;">
@@ -437,11 +638,11 @@
                   <td rowspan="9" style="vertical-align:middle;" bgcolor="skyblue">EQUIFAX</td>
 		{% for a in pld_equifax %}
 		<tr>                       
-                  <td>{{a.segmento1}}</td>
-                  <td>{{a.exo_ambas}}</td>
-                  <td>{{a.exo_solovd}}</td>
-                  <td>{{a.exo_solovl}}</td>
-                  <td>{{a.requiere_ambas}}</td>
+                  <td>{{a.filtro1}}</td>
+                  <td>{{a.ambas}}</td>
+                  <td>{{a.solovd}}</td>
+                  <td>{{a.solovl}}</td>
+                  <td>{{a.req}}</td>
                   <td>{{a.total}}</td>
                 </tr>
 		{% endfor %}
@@ -467,11 +668,11 @@
               <tbody >
 		{% for a in tdc_mejoras %}
 		<tr>                       
-                  <td>{{a.segmento1}}</td>
-                  <td>{{a.exo_ambas}}</td>
-                  <td>{{a.exo_solovd}}</td>
-                  <td>{{a.exo_solovl}}</td>
-                  <td>{{a.requiere_ambas}}</td>
+                  <td>{{a.filtro1}}</td>
+                  <td>{{a.ambas}}</td>
+                  <td>{{a.solovd}}</td>
+                  <td>{{a.solovl}}</td>
+                  <td>{{a.req}}</td>
                   <td>{{a.total}}</td>
                 </tr>
 		{% endfor %}

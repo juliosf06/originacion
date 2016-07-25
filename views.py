@@ -408,15 +408,24 @@ def campanaweb(request,nivel='MES'):
     campanaweb = CampanaWeb.objects.all()
     campanaweb2 = CampanaWeb.objects.values('mes').annotate(tot_clientes=Sum('num_clientes'), tot_formtdc=Sum('form_tdc'), tot_formpld=Sum('form_pld'), tot_filtro=Sum('total_filtros'), tot_tdcmoi=Sum('tdc_moi'), tot_tdcil=Sum('tdc_il'), tot_tdnew=Sum('tdc_nueva'), tot_tdc=Sum('tdc_total'), tot_pldmoi=Sum('pld_moi'), tot_pldnew=Sum('pld_nueva'), tot_pld=Sum('pld_total'), efe_tdc=Sum('tdc'), efe_pld=Sum('pld'), efe_pldform=Sum(F('pld'))*100/Sum(F('pld_total')), efe_tdcform=Sum(F('tdc'))*100/Sum(F('tdc_total')), tdc_por=Sum(F('tdc_total'))*100/Sum(F('form_tdc')), pld_por=Sum(F('pld_total'))*100/Sum(F('form_pld'))).order_by('mes')
     campanaweb3 = CampanaWeb.objects.values('semana').annotate(tot_clientes=Sum('num_clientes'), tot_formtdc=Sum('form_tdc'), tot_formpld=Sum('form_pld'), tot_filtro=Sum('total_filtros'), tot_tdcmoi=Sum('tdc_moi'), tot_tdcil=Sum('tdc_il'), tot_tdnew=Sum('tdc_nueva'), tot_tdc=Sum('tdc_total'), tot_pldmoi=Sum('pld_moi'), tot_pldnew=Sum('pld_nueva'), tot_pld=Sum('pld_total'), efe_tdc=Sum('tdc'), efe_pld=Sum('pld'), efe_pldform=Sum(F('pld'))*100/Sum(F('pld_total')), efe_tdcform=Sum(F('tdc'))*100/Sum(F('tdc_total')), tdc_por=Sum(F('tdc_total'))*100/Sum(F('form_tdc')), pld_por=Sum(F('pld_total'))*100/Sum(F('form_pld'))).order_by('semana')
-    print campanaweb3
+
     totales = CampanaWeb.objects.aggregate(total1=Sum('tdc_nueva'), total2=Sum('tdc_total'), total3=Sum('pld_nueva'), total4=Sum('pld_total'), total5=Sum('tdc'), total6=Sum('pld'))
-    tdc_campanaefec = CampanaEfec.objects.all().filter(segmento0='TDC').order_by('id_efec')
-    tdc_campanaefec2 = CampanaEfec.objects.all().filter(segmento0='TDC').exclude(segmento1__in=['Total Aprobados','Total Form']).order_by('id_efec')
-    tdc_equifax = CampanaEfec.objects.all().filter(segmento0='TDC-EQUIFAX').order_by('id_efec')
-    pld_campanaefec = CampanaEfec.objects.all().filter(segmento0='PLD').order_by('id_efec')
-    pld_campanaefec2 = CampanaEfec.objects.all().filter(segmento0='PLD').exclude(segmento1__in=['Total Aprobados','Total Form']).order_by('id_efec')
-    pld_equifax = CampanaEfec.objects.all().filter(segmento0='PLD-EQUIFAX').order_by('id_efec')
-    tdc_mejoras = CampanaEfec.objects.all().filter(segmento0='TDC-MEJORAS').order_by('id_efec')
+
+    tdc_efec = CampanaEfec.objects.values('mes').filter(segmento0='TDC').annotate(ambas=Sum(F('form_ambas'))*100/Sum(F('sol_ambas')),solovl=Sum(F('form_solovd'))*100/Sum(F('sol_solovd')),solovd=Sum(F('form_solovl'))*100/Sum(F('sol_solovl')),requiere=Sum(F('form_req'))*100/Sum(F('sol_req')),total=Sum(F('form_total'))*100/Sum(F('sol_total')),nueva=Sum('total_apro'),formal=Sum('form'),porcentaje=Sum(F('form'))*100/Sum(F('total_apro'))).order_by('mes')
+    tdc_efec2 = CampanaEfec.objects.values('semana').filter(segmento0='TDC').annotate(ambas=Sum(F('form_ambas'))*100/Sum(F('sol_ambas')),solovl=Sum(F('form_solovd'))*100/Sum(F('sol_solovd')),solovd=Sum(F('form_solovl'))*100/Sum(F('sol_solovl')),requiere=Sum(F('form_req'))*100/Sum(F('sol_req')),total=Sum(F('form_total'))*100/Sum(F('sol_total')),nueva=Sum('total_apro'),formal=Sum('form'),porcentaje=Sum(F('form'))*100/Sum(F('total_apro'))).order_by('mes')
+    tdc_efec3 = CampanaEfec.objects.values('segmento1').filter(segmento0='TDC').annotate(ambas=Sum(F('form_ambas'))*100/Sum(F('sol_ambas')),solovl=Sum(F('form_solovd'))*100/Sum(F('sol_solovd')),solovd=Sum(F('form_solovl'))*100/Sum(F('sol_solovl')),requiere=Sum(F('form_req'))*100/Sum(F('sol_req')),total=Sum(F('form_total'))*100/Sum(F('sol_total')),nueva=Sum('total_apro'),formal=Sum('form'),porcentaje=Sum(F('form'))*100/Sum(F('total_apro'))).order_by('mes')
+
+    tot1 = CampanaEfec.objects.values('form_ambas', 'form_solovd', 'form_solovl', 'form_req', 'form_total', 'sol_ambas', 'sol_solovd', 'sol_solovl', 'sol_req', 'sol_total', 'total_apro', 'form').filter(segmento1='TDC')
+    tot2 = CampanaEfec.objects.values('form_ambas', 'form_solovd', 'form_solovl', 'form_req', 'form_total', 'sol_ambas', 'sol_solovd', 'sol_solovl', 'sol_req', 'sol_total', 'total_apro', 'form').filter(segmento1='PLD')
+    tdc_equifax = CampanaEquifax.objects.values('filtro1', 'ambas', 'solovd', 'solovl', 'req', 'total').filter(filtro0='TDC-EQUIFAX').order_by('id_equifax')
+    pld_equifax = CampanaEquifax.objects.values('filtro1', 'ambas', 'solovd', 'solovl', 'req', 'total').filter(filtro0='PLD-EQUIFAX').order_by('id_equifax')
+
+    pld_efec = CampanaEfec.objects.values('mes').filter(segmento0='PLD').annotate(ambas=Sum(F('form_ambas'))*100/Sum(F('sol_ambas')),solovl=Sum(F('form_solovd'))*100/Sum(F('sol_solovd')),solovd=Sum(F('form_solovl'))*100/Sum(F('sol_solovl')),requiere=Sum(F('form_req'))*100/Sum(F('sol_req')),total=Sum(F('form_total'))*100/Sum(F('sol_total')),nueva=Sum('total_apro'),formal=Sum('form'),porcentaje=Sum(F('form'))*100/Sum(F('total_apro'))).order_by('mes')
+    pld_efec2 = CampanaEfec.objects.values('semana').filter(segmento0='PLD').annotate(ambas=Sum(F('form_ambas'))*100/Sum(F('sol_ambas')),solovl=Sum(F('form_solovd'))*100/Sum(F('sol_solovd')),solovd=Sum(F('form_solovl'))*100/Sum(F('sol_solovl')),requiere=Sum(F('form_req'))*100/Sum(F('sol_req')),total=Sum(F('form_total'))*100/Sum(F('sol_total')),nueva=Sum('total_apro'),formal=Sum('form'),porcentaje=Sum(F('form'))*100/Sum(F('total_apro'))).order_by('mes')
+    pld_efec3 = CampanaEfec.objects.values('segmento1').filter(segmento0='PLD').annotate(ambas=Sum(F('form_ambas'))*100/Sum(F('sol_ambas')),solovl=Sum(F('form_solovd'))*100/Sum(F('sol_solovd')),solovd=Sum(F('form_solovl'))*100/Sum(F('sol_solovl')),requiere=Sum(F('form_req'))*100/Sum(F('sol_req')),total=Sum(F('form_total'))*100/Sum(F('sol_total')),nueva=Sum('total_apro'),formal=Sum('form'),porcentaje=Sum(F('form'))*100/Sum(F('total_apro'))).order_by('mes')
+
+    tdc_mejoras = CampanaEquifax.objects.values('filtro1', 'ambas', 'solovd', 'solovl', 'req', 'total').filter(filtro0='TDC-MEJORAS').order_by('id_equifax')
+
     power_lab = CampanaLabSeg.objects.all().filter(filtro0='LABORAL',filtro1='POWER').order_by('filtro2')
     power_seg = CampanaLabSeg.objects.all().filter(filtro0='SEGMENTO',filtro1='POWER').order_by('filtro2')
     pulpin_lab = CampanaLabSeg.objects.all().filter(filtro0='LABORAL',filtro1='PULPIN').order_by('filtro2')
@@ -2891,6 +2900,19 @@ def carga_campanalabseg(request):
         if form.is_valid():
             csv_file = request.FILES['campanalabseg']
             CampanaLabSegCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_campanaequifax(request):
+    CampanaEquifax.objects.all().delete()
+    if request.method == 'POST':
+        form = UploadCampanaEquifax(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['campanaequifax']
+            CampanaEquifaxCsv.import_data(data = csv_file)
             return campana_resumen(request)
         else:
             return load(campana_resumen)

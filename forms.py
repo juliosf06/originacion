@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from models import RVGL, Campana2, Caida, Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles, Exoneracion, Forzaje, CampanaWeb, Mapa, DepartamentosWeb, CampanaLabSeg, CampanaEfec
+from models import RVGL, Campana2, Caida, Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles, Exoneracion, Forzaje, CampanaWeb, Mapa, DepartamentosWeb, CampanaLabSeg, CampanaEfec, CampanaEquifax
 from adaptor.model import CsvDbModel
 
 class UploadRVGL(forms.Form):
@@ -201,6 +201,14 @@ class UploadCampanaLabSeg(forms.Form):
 class CampanaLabSegCsv(CsvDbModel):
     class Meta:
         dbModel = CampanaLabSeg
+        delimiter = ","
+
+class UploadCampanaEquifax(forms.Form):
+    campanaequifax = forms.FileField()
+
+class CampanaEquifaxCsv(CsvDbModel):
+    class Meta:
+        dbModel = CampanaEquifax
         delimiter = ","
 
 

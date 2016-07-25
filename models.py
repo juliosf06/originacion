@@ -102,17 +102,34 @@ class CampanaEfec(models.Model):
     semana = models.CharField(max_length=10,default=0)
     segmento0 = models.CharField(max_length=50)
     segmento1 = models.CharField(max_length=50)
-    exo_ambas = models.CharField(max_length=10)
-    exo_solovd = models.CharField(max_length=10)
-    exo_solovl = models.CharField(max_length=10)
-    requiere_ambas = models.CharField(max_length=10)
-    total = models.CharField(max_length=10)
-    total_apro = models.CharField(max_length=10)
-    form = models.CharField(max_length=10)
-    porc_form = models.CharField(max_length=10)
+    form_ambas = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    form_solovd = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    form_solovl = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    form_req = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    form_total = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    sol_ambas = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    sol_solovd = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    sol_solovl = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    sol_req = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    sol_total = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    total_apro = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    form = models.DecimalField(max_digits=12, decimal_places=2, default=0)
 
     def __str__(self):
         return self.segmento0+' '+self.segmento1
+
+class CampanaEquifax(models.Model):
+    id_equifax = models.IntegerField(default=0)
+    filtro0 = models.CharField(max_length=40)
+    filtro1 = models.CharField(max_length=40)
+    ambas = models.CharField(max_length=10)
+    solovd = models.CharField(max_length=10)
+    solovl = models.CharField(max_length=10)
+    req = models.CharField(max_length=10)
+    total = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.filtro0+' '+self.filtro1
 
 class CampanaLabSeg(models.Model):
     filtro0 = models.CharField(max_length=40)
