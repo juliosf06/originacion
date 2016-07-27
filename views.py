@@ -436,6 +436,14 @@ def campanaweb(request,nivel='MES'):
     return render('reports/campana_web.html', locals(),
                   context_instance=RequestContext(request))
 
+@login_required
+def campanareglapat(request):
+
+
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana_reglapat.html', locals(),
+                  context_instance=RequestContext(request))
 
 # 3.- Vistas para reportes de RVGL
 @login_required
