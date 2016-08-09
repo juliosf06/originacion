@@ -1384,14 +1384,15 @@ def seguimiento_auto(request):
 		else:
 		   rango6_dict[i['mes_vigencia']]=0
 
-    meses_moras = Moras.objects.values('mes_form').order_by('-mes_form').distinct()
-    moratime = []
+    meses_moras = Moras.objects.values('mes_form').order_by('mes_form').distinct()
+    morames_list = []
     for i in meses_moras:
-	moratime.append(i['mes_form'])
-    mora6 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte=moratime[16], mes_form__lte =moratime[6]).annotate(sum_mora=Sum('mora6')).order_by('mes_form')
-    mora9 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte=moratime[16], mes_form__lte =moratime[9]).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
-    mora12 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte=moratime[16], mes_form__lte =moratime[12]).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
-    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte=moratime[16], mes_form__lte =moratime[6]).annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+	morames_list.append(i['mes_form'])
+
+    mora6 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto').annotate(sum_mora=Sum('mora6')).order_by('mes_form')
+    mora9 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte=morames_list[0], mes_form__lte =morames_list[9]).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
+    mora12 = Moras.objects.values('mes_form','producto').filter(producto='02 Auto',mes_form__gte=morames_list[0], mes_form__lte =morames_list[6]).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
+    total_ctas = Moras.objects.values('mes_form','producto').filter(producto='02 Auto').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     moras6 = zip(mora6,total_ctas)
     moras9 = zip(mora9,total_ctas)
     moras12 = zip(mora12,total_ctas)
