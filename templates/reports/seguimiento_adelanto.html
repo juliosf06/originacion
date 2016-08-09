@@ -29,6 +29,9 @@
 		<div id="chartContainer4" style="height: 250px; width: 50%; display: inline-block;"></div>
 		<div id="chartContainer5" style="height: 250px; width: 50%; display: inline-block;"></div>
           </div>
+          <div class="rows placeholders">
+		<div id="chartContainer6" style="height: 250px; width: 100%; display: inline-block;"></div>
+          </div>
 
 {% endblock %}
 
@@ -306,6 +309,59 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in mora30_dict1.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer6", {
+		theme: "theme2",//theme1
+		//title:{
+			//text: "Situación Actual - Nivel de Incumplimiento"              
+		//},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Menor 1500",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora0_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "1500 - 2500",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora1_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "2500 a más",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora2_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
