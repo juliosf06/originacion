@@ -1060,6 +1060,7 @@ def seguimiento_tarjeta(request):
     total_form_dict = {}
     for j in total_form:
 	total_form_dict[j['mes_vigencia']]=j['formalizado']
+
     uno_form = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(producto='03 Tarjeta', riesgos='UNO A UNO', mes_vigencia__gte=before14, mes_vigencia__lte =fecha_actual).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     camp_fast = Seguimiento1.objects.values('mes_vigencia', 'origen').filter(producto='03 Tarjeta', origen='ORIGINACION FAST', mes_vigencia__gte=before14, mes_vigencia__lte =fecha_actual).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     camp_uno = Seguimiento1.objects.values('mes_vigencia', 'origen').filter(producto='03 Tarjeta', origen='ORIGINACION MS', mes_vigencia__gte=before14, mes_vigencia__lte =fecha_actual).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
@@ -1127,6 +1128,26 @@ def seguimiento_tarjeta(request):
 		   mora9_camp_dict[i['mes_form']]=j['sum_mora9']*100/total_moraxcamp_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
 		   mora12_camp_dict[i['mes_form']]=j['sum_mora12']*100/total_moraxcamp_dict[i['mes_form']]
+
+    total_moraxuno = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',flg_camp='2. UNO A UNO').annotate(sum_ctas=Sum('ctas')).order_by('mes_form')
+    total_moraxuno_dict = {}
+    for i in meses_moras:
+	for j in total_moraxuno:
+	    if i['mes_form'] == j['mes_form']:
+               total_moraxuno_dict[i['mes_form']]=j['sum_ctas']
+
+    mora_uno = Moras.objects.values('mes_form','producto', 'flg_camp').filter(producto='03 Tarjeta',flg_camp='2. UNO A UNO').annotate(sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by('mes_form')
+    mora6_uno_dict = {}
+    mora9_uno_dict = {}
+    mora12_uno_dict = {}
+    for i in meses_moras:
+	for j in mora_uno:
+	    if i['mes_form'] == j['mes_form']:
+		mora6_uno_dict[i['mes_form']]=j['sum_mora6']*100/total_moraxuno_dict[i['mes_form']]
+		if i['mes_form'] <= morames_list[9]:
+		   mora9_uno_dict[i['mes_form']]=j['sum_mora9']*100/total_moraxuno_dict[i['mes_form']]
+		if i['mes_form'] <= morames_list[6]:
+		   mora12_uno_dict[i['mes_form']]=j['sum_mora12']*100/total_moraxuno_dict[i['mes_form']]
 
     total_morasxseg = Moras.objects.values('mes_form','producto', 'segmento').filter(producto='03 Tarjeta').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     totalxava_moras_dict = {}
@@ -1280,6 +1301,26 @@ def seguimiento_pld(request):
 		   mora9_camp_dict[i['mes_form']]=j['sum_mora9']*100/total_moraxcamp_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
 		   mora12_camp_dict[i['mes_form']]=j['sum_mora12']*100/total_moraxcamp_dict[i['mes_form']]
+
+    total_moraxuno = Moras.objects.values('mes_form','producto').filter(producto='01 Consumo',flg_camp='2. UNO A UNO').annotate(sum_ctas=Sum('ctas')).order_by('mes_form')
+    total_moraxuno_dict = {}
+    for i in meses_moras:
+	for j in total_moraxuno:
+	    if i['mes_form'] == j['mes_form']:
+               total_moraxuno_dict[i['mes_form']]=j['sum_ctas']
+
+    mora_uno = Moras.objects.values('mes_form','producto', 'flg_camp').filter(producto='01 Consumo',flg_camp='2. UNO A UNO').annotate(sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by('mes_form')
+    mora6_uno_dict = {}
+    mora9_uno_dict = {}
+    mora12_uno_dict = {}
+    for i in meses_moras:
+	for j in mora_uno:
+	    if i['mes_form'] == j['mes_form']:
+		mora6_uno_dict[i['mes_form']]=j['sum_mora6']*100/total_moraxuno_dict[i['mes_form']]
+		if i['mes_form'] <= morames_list[9]:
+		   mora9_uno_dict[i['mes_form']]=j['sum_mora9']*100/total_moraxuno_dict[i['mes_form']]
+		if i['mes_form'] <= morames_list[6]:
+		   mora12_uno_dict[i['mes_form']]=j['sum_mora12']*100/total_moraxuno_dict[i['mes_form']]
 
     total_morasxseg = Moras.objects.values('mes_form','producto', 'segmento').filter(producto='01 Consumo').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     totalxava_moras_dict = {}

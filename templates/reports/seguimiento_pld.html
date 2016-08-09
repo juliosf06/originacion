@@ -33,6 +33,10 @@
           </div>
 	 &nbsp;
           <div class="rows placeholders">
+		<div id="chartContainer12" style="height: 300px; width: 100%;"></div>
+          </div>
+	 &nbsp;
+          <div class="rows placeholders">
 		<div id="chartContainer6" style="height: 300px; width: 100%;"></div>
           </div>
 	  &nbsp;
@@ -413,6 +417,62 @@
 			dataPoints: [
 				{% for a,b in mora_12 %}
 				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer12", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora Uno a Uno"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 6",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora6_uno_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 9",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora9_uno_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 12",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora12_uno_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},
