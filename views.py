@@ -1082,7 +1082,6 @@ def seguimiento_tarjeta(request):
     pnn = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', cat_persona='3. PNN', mes_vigencia__gte=before14, mes_vigencia__lte =fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
     no_recon = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', cat_persona='4.No Reconocido', mes_vigencia__gte=before14, mes_vigencia__lte =fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
     camp_cat = zip(depen, indep, pnn, no_recon, camp_form)
-    print no_recon
 
     rangos = Seguimiento1.objects.values('mes_vigencia','producto', 'rng_ing').filter(mes_vigencia__gte=before14, mes_vigencia__lte =fecha_actual,producto='03 Tarjeta').annotate(num_rango=Sum('form')).order_by('mes_vigencia')
     rango1_dict = {}; rango2_dict = {}; rango3_dict = {}
@@ -1206,7 +1205,7 @@ def seguimiento_tarjeta(request):
 		if i['mes_form'] <= morames_list[6]:
              	   nocli_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxnocli_moras_dict[i['mes_form']]
 
-    total_morasxcat = Moras.objects.values('mes_form', 'producto', 'cat_persona').filter(producto='03 Tarjeta').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
+    total_morasxcat = Moras.objects.values('mes_form', 'producto', 'cat_persona').filter(producto='03 Tarjeta', flg_camp='1. CAMPANA').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     totalxdep_moras_dict = {}
     totalxind_moras_dict = {}
     totalxpnn_moras_dict = {}
@@ -1220,10 +1219,10 @@ def seguimiento_tarjeta(request):
              	   totalxind_moras_dict[i['mes_form']]=j['sum_mora']
 		elif j['cat_persona']=='3. PNN':
              	   totalxpnn_moras_dict[i['mes_form']]=j['sum_mora']
-		elif j['cat_persona']=='4. No Reconocido':
+		elif j['cat_persona']=='4.No Reconocido':
          	   totalxnorec_moras_dict[i['mes_form']]=j['sum_mora']
 
-    morascat = Moras.objects.values('mes_form', 'cat_persona', 'producto').filter(producto='03 Tarjeta').annotate(sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by('mes_form')
+    morascat = Moras.objects.values('mes_form', 'cat_persona', 'producto').filter(producto='03 Tarjeta', flg_camp='1. CAMPANA').annotate(sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by('mes_form')
     dep_mora6_dict = {}; dep_mora9_dict = {}; dep_mora12_dict = {}
     indep_mora6_dict = {}; indep_mora9_dict = {}; indep_mora12_dict = {}
     pnn_mora6_dict = {}; pnn_mora9_dict = {}; pnn_mora12_dict = {}
@@ -1232,29 +1231,29 @@ def seguimiento_tarjeta(request):
        for j in morascat:
           if i['mes_form'] == j['mes_form']:
 	     if  j['cat_persona']=='1. Dependiente':
-             	dep_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxava_moras_dict[i['mes_form']]
+             	dep_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxdep_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[9]:
-             	   dep_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxava_moras_dict[i['mes_form']]
+             	   dep_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxdep_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
-             	   dep_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxava_moras_dict[i['mes_form']]		
+             	   dep_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxdep_moras_dict[i['mes_form']]		
 	     elif  j['cat_persona']=='2. Independiente':
-             	indep_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxms_moras_dict[i['mes_form']]
+             	indep_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxind_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[9]:
-             	   indep_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxms_moras_dict[i['mes_form']]
+             	   indep_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxind_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
-             	   indep_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxms_moras_dict[i['mes_form']]
+             	   indep_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxind_moras_dict[i['mes_form']]
 	     elif  j['cat_persona']=='3. PNN':
-             	pnn_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxnoph_moras_dict[i['mes_form']]
+             	pnn_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxpnn_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[9]:
-             	   pnn_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxnoph_moras_dict[i['mes_form']]
+             	   pnn_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxpnn_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
-             	   pnn_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxnoph_moras_dict[i['mes_form']]
+             	   pnn_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxpnn_moras_dict[i['mes_form']]
 	     elif  j['cat_persona']=='4.No Reconocido':
-             	norec_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxnocli_moras_dict[i['mes_form']]
+             	norec_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxnorec_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[9]:
-             	   norec_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxnocli_moras_dict[i['mes_form']]
+             	   norec_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxnorec_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
-             	   norec_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxnocli_moras_dict[i['mes_form']]
+             	   norec_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxnorec_moras_dict[i['mes_form']]
 
     total_forzaje = Forzaje.objects.values('mes_vigencia').filter(producto='03 Tarjeta',mes_vigencia__gte=before14, mes_vigencia__lte =fecha_actual).annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     forzaje_dict = {}
@@ -2848,7 +2847,7 @@ def carga_evaluacionpld(request):
 
 
 def carga_seguimiento1(request):
-    #Seguimiento1.objects.all().delete()
+    Seguimiento1.objects.all().delete()
     #Seguimiento1.objects.filter(mes_vigencia__gte=before3, mes_vigencia__lte =before1).delete()
     if request.method == 'POST':
         form = UploadSeguimiento1(request.POST, request.FILES)
