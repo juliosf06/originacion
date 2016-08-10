@@ -2848,7 +2848,7 @@ def carga_evaluacionpld(request):
 
 def carga_seguimiento1(request):
     #Seguimiento1.objects.all().delete()
-    Seguimiento1.objects.filter(mes_vigencia='201511').delete()
+    #Seguimiento1.objects.filter(mes_vigencia='201511').delete()
     #Seguimiento1.objects.filter(mes_vigencia__gte=before3, mes_vigencia__lte =before1).delete()
     if request.method == 'POST':
         form = UploadSeguimiento1(request.POST, request.FILES)
