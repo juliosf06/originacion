@@ -1997,15 +1997,20 @@ def seguimiento_increlinea(request):
 
 @login_required
 def seguimiento_lifemiles(request):
-    meses_total = IncreLinea.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    meses_total = Lifemiles.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
     time = []
     for i in meses_total:
 	time.append(i['mes_vigencia'])
-    meses = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).order_by('-mes_vigencia').distinct()
+    print time[0], time[12]
+    meses = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).order_by('-mes_vigencia').distinct()
+    meses_0 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[17], mes_vigencia__lte =time[6]).order_by('mes_vigencia').distinct()
+    meses_3 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[17], mes_vigencia__lte =time[9]).order_by('mes_vigencia').distinct()
+    meses_6 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[17], mes_vigencia__lte =time[12]).order_by('mes_vigencia').distinct()
     form = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     form_dict = {}
     for i in form:
 	form_dict[i['mes_vigencia']]=i['cantidad']
+
     ticket = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('imp_sol')).order_by('mes_vigencia')
     ticket_dict = {}
     for i in meses:
@@ -2154,6 +2159,41 @@ def seguimiento_lifemiles(request):
              break
        	  else:
              buro4_dict[i['mes_vigencia']]= 0
+
+    form2 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[17], mes_vigencia__lte =time[6]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    form_dict2 = {}
+    for i in form2:
+	form_dict2[i['mes_vigencia']]=i['cantidad']
+
+    mora6 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[17], mes_vigencia__lte =time[6]).annotate(cantidad=Sum('mora6')).order_by('mes_vigencia')
+    mora6_dict = {}
+    for i in meses_0:
+       for j in mora6:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             mora6_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict2[i['mes_vigencia']]
+             break
+       	  else:
+             mora6_dict[i['mes_vigencia']]= 0
+    mora9 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[17], mes_vigencia__lte =time[9]).annotate(cantidad=Sum('mora9')).order_by('mes_vigencia')
+    mora9_dict = {}
+    for i in meses_3:
+       for j in mora9:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             mora9_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict2[i['mes_vigencia']]
+             break
+       	  else:
+             mora9_dict[i['mes_vigencia']]= 0
+    mora12 = Lifemiles.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[17], mes_vigencia__lte =time[12]).annotate(cantidad=Sum('mora12')).order_by('mes_vigencia') 
+    mora12_dict = {}
+    for i in meses_6:
+       for j in mora12:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             mora12_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict2[i['mes_vigencia']]
+             break
+       	  else:
+             mora12_dict[i['mes_vigencia']]= 0  
+ 
+
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/seguimiento_lifemiles.html', locals(),
@@ -3027,6 +3067,7 @@ def carga_increlinea(request):
         return load(campana_resumen)
 
 def carga_lifemiles(request):
+    Lifemiles.objects.all().delete()
     if request.method == 'POST':
         form = UploadLifemiles(request.POST, request.FILES)
         if form.is_valid():

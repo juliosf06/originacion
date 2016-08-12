@@ -27,6 +27,10 @@
           <div class="rows placeholders">
 		<div id="chartContainer4" style="height: 300px; width: 100%;"></div>
           </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer5" style="height: 300px; width: 100%;"></div>
+          </div>
 
 {% endblock %}
 
@@ -271,6 +275,7 @@
 		]
 	});
 	chart.render();
+
 	var chart = new CanvasJS.Chart("chartContainer4", {
 		theme: "theme2",//theme1
 		title:{
@@ -349,7 +354,61 @@
 	});
 	chart.render();
 
-
+	var chart = new CanvasJS.Chart("chartContainer5", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora Total"              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 6",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora6_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 9",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora9_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 12",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora12_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
 
 
     }

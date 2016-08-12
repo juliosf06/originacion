@@ -327,6 +327,7 @@ class Lifemiles(models.Model):
     mora6_60 = models.DecimalField(max_digits=4, decimal_places=2)
     mora12_60 = models.DecimalField(max_digits=4, decimal_places=2)
     mora6 = models.DecimalField(max_digits=4, decimal_places=2, default=0)
+    mora9 = models.DecimalField(max_digits=4, decimal_places=2, default=0)
     mora12 = models.DecimalField(max_digits=4, decimal_places=2, default=0)
     imp_sol = models.DecimalField(max_digits=12, decimal_places=8)
     inv = models.DecimalField(max_digits=12, decimal_places=8)
