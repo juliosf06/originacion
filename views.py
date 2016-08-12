@@ -3067,7 +3067,7 @@ def carga_increlinea(request):
         return load(campana_resumen)
 
 def carga_lifemiles(request):
-    Lifemiles.objects.all().delete()
+    #Lifemiles.objects.all().delete()
     if request.method == 'POST':
         form = UploadLifemiles(request.POST, request.FILES)
         if form.is_valid():
