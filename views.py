@@ -2365,7 +2365,7 @@ def seguimiento_increlifemiles(request):
                   context_instance=RequestContext(request))
 
 @login_required
-def seguimiento_hipoteca(request):
+def seguimiento_hipoteca(request, fecha='201312'):
     form = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     form_dict= {}
     for i in form:
@@ -2502,6 +2502,154 @@ def seguimiento_hipoteca(request):
        	     else:
              	duda_dict[i['mes_vigencia']]= 0
              	rechazo_dict[i['mes_vigencia']]= 0
+
+    meses_mapa = Mapa.objects.values('codmes').order_by('codmes').distinct()
+    list_meses=[]; d=0
+    for i in meses_mapa:
+	list_meses.append(i['codmes'])
+    d = len(list_meses)
+    ubigeo = Mapa.objects.values('ubigeo').order_by('ubigeo').distinct()
+    distrito = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA').annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
+    numero=Mapa.objects.values('ubigeo','codmes').filter(provincia='LIMA', codmes=fecha).annotate(num=Sum('ctas')).order_by('ubigeo')
+    distrito1 = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA', codmes=fecha).annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
+    dict_moras = {}; dict_moras1 = {}; 
+    dict_moras2 = {}; dict_moras3 = {};dict_moras4 = {};
+    for i in distrito:
+	if i['codmes']=='201312':
+	   if i['mora']>3:
+	      dict_moras[i['ubigeo']]='#E31A1C'
+	   if i['mora']>2 and i['mora']<=3:
+	      dict_moras[i['ubigeo']]='#FC4E2A'
+	   if i['mora']>1.5 and i['mora']<=2:
+	      dict_moras[i['ubigeo']]='#FB8D29'
+	   if i['mora']>1.2 and i['mora']<=1.5:
+	      dict_moras[i['ubigeo']]='#FEB228'
+	   if i['mora']>0.9 and i['mora']<=1.2:
+	      dict_moras[i['ubigeo']]='#FED976'
+	   if i['mora']>0.6 and i['mora']<=0.9:
+	      dict_moras[i['ubigeo']]='#FBE975'
+	   if i['mora']>0.3 and i['mora']<=0.6:
+	      dict_moras[i['ubigeo']]='#A6D974'
+	   if i['mora']<=0.3:
+	      dict_moras[i['ubigeo']]='#66BD63'
+	if i['codmes']=='201412':
+	   if i['mora']>3:
+	      dict_moras1[i['ubigeo']]='#E31A1C'
+	   if i['mora']>2 and i['mora']<=3:
+	      dict_moras1[i['ubigeo']]='#FC4E2A'
+	   if i['mora']>1.5 and i['mora']<=2:
+	      dict_moras1[i['ubigeo']]='#FB8D29'
+	   if i['mora']>1.2 and i['mora']<=1.5:
+	      dict_moras1[i['ubigeo']]='#FEB228'
+	   if i['mora']>0.9 and i['mora']<=1.2:
+	      dict_moras1[i['ubigeo']]='#FED976'
+	   if i['mora']>0.6 and i['mora']<=0.9:
+	      dict_moras1[i['ubigeo']]='#FBE975'
+	   if i['mora']>0.3 and i['mora']<=0.6:
+	      dict_moras1[i['ubigeo']]='#A6D974'
+	   if i['mora']<=0.3:
+	      dict_moras1[i['ubigeo']]='#66BD63'
+	if i['codmes']=='201512':
+	   if i['mora']>3:
+	      dict_moras2[i['ubigeo']]='#E31A1C'
+	   if i['mora']>2 and i['mora']<=3:
+	      dict_moras2[i['ubigeo']]='#FC4E2A'
+	   if i['mora']>1.5 and i['mora']<=2:
+	      dict_moras2[i['ubigeo']]='#FB8D29'
+	   if i['mora']>1.2 and i['mora']<=1.5:
+	      dict_moras2[i['ubigeo']]='#FEB228'
+	   if i['mora']>0.9 and i['mora']<=1.2:
+	      dict_moras2[i['ubigeo']]='#FED976'
+	   if i['mora']>0.6 and i['mora']<=0.9:
+	      dict_moras2[i['ubigeo']]='#FBE975'
+	   if i['mora']>0.3 and i['mora']<=0.6:
+	      dict_moras2[i['ubigeo']]='#A6D974'
+	   if i['mora']<=0.3:
+	      dict_moras2[i['ubigeo']]='#66BD63'
+	if i['codmes']=='201604':
+	   if i['mora']>3:
+	      dict_moras3[i['ubigeo']]='#E31A1C'
+	   if i['mora']>2 and i['mora']<=3:
+	      dict_moras3[i['ubigeo']]='#FC4E2A'
+	   if i['mora']>1.5 and i['mora']<=2:
+	      dict_moras3[i['ubigeo']]='#FB8D29'
+	   if i['mora']>1.2 and i['mora']<=1.5:
+	      dict_moras3[i['ubigeo']]='#FEB228'
+	   if i['mora']>0.9 and i['mora']<=1.2:
+	      dict_moras3[i['ubigeo']]='#FED976'
+	   if i['mora']>0.6 and i['mora']<=0.9:
+	      dict_moras3[i['ubigeo']]='#FBE975'
+	   if i['mora']>0.3 and i['mora']<=0.6:
+	      dict_moras3[i['ubigeo']]='#A6D974'
+	   if i['mora']<=0.3:
+	      dict_moras3[i['ubigeo']]='#66BD63'
+
+    control_fecha = HipotecaSSFF.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    time = []; timex = []; timez = []; timeu = []
+    anual = []
+    for i in control_fecha:
+	time.append(i['mes_vigencia'])
+
+    for i in control_fecha:
+    	if '12' in i['mes_vigencia']:
+	    anual.append(i['mes_vigencia'])
+	else:
+	    timex.append(i['mes_vigencia'])
+    for i in control_fecha:
+	if i['mes_vigencia'] > anual[0]:
+	    timeu.append(i['mes_vigencia'])
+
+    if time[0] == anual[0]:
+		timez.append(anual[0])
+	 	timez.append(timex[0])
+		timez.append(timex[1])
+		timez.append(timex[2])
+		timez.append(anual[1])
+		timez.append(anual[2])
+		timez.append(anual[3])
+    else:
+	    if len(timeu) == 1:
+		timez.append(timeu[0])
+	 	timez.append(anual[0])
+		timez.append(timex[0])
+		timez.append(timex[1])
+		timez.append(anual[1])
+		timez.append(anual[2])
+		timez.append(anual[3])
+	    elif len(timeu) == 2:
+		timez.append(timeu[0])
+		timez.append(timeu[1])
+	 	timez.append(anual[0])
+		timez.append(timex[0])
+		timez.append(anual[1])
+		timez.append(anual[2])
+		timez.append(anual[3])
+	    else:
+		timez.append(timeu[0])
+		timez.append(timeu[1])
+		timez.append(timeu[2])
+	 	timez.append(anual[0])
+		timez.append(anual[1])
+		timez.append(anual[2])
+		timez.append(anual[3])
+  
+    saldo_bcp = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(banco='BCP',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
+    saldo_bbva = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='BBVA',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
+    saldo_sco = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='SCO',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
+    saldo_ibk = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco='IBK',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo') ).order_by('mes_vigencia')
+    saldo2_bcp = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='BCP',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    saldo2_bbva = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='BBVA',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    saldo2_sco = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='SCO',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    saldo2_ibk = HipotecaSSFF.objects.values('mes_vigencia', 'banco').filter(tipo_cuenta__in=['JUD_HIPO','VEN_HIPO'], banco='IBK',mes_vigencia__in=[timez[6],timez[5],timez[4],timez[3],timez[2],timez[1],timez[0]]).annotate(sum_saldo=Sum('mto_saldo')).order_by('mes_vigencia')
+    bcp = zip(saldo_bcp, saldo2_bcp)
+    bbva = zip(saldo_bbva, saldo2_bbva)
+    sco = zip(saldo_sco, saldo2_sco)
+    ibk = zip(saldo_ibk, saldo2_ibk)
+    saldo_jud = HipotecaSSFF.objects.values('mes_vigencia', 'banco', 'tipo_cuenta' ).filter(tipo_cuenta='JUD_HIPO', banco__in=['BCP','SCO','BBVA','IBK'], mes_vigencia=time[0] ).annotate(sum_jud=Sum('mto_saldo')).order_by('banco')
+    saldo_ven = HipotecaSSFF.objects.values('mes_vigencia', 'banco', 'tipo_cuenta' ).filter(tipo_cuenta='VEN_HIPO', banco__in=['BCP','SCO','BBVA','IBK'], mes_vigencia=time[0] ).annotate(sum_ven=Sum('mto_saldo')).order_by('banco')
+    saldo_ref = HipotecaSSFF.objects.values('mes_vigencia', 'banco', 'tipo_cuenta' ).filter(tipo_cuenta='REF_HIPO', banco__in=['BCP','SCO','BBVA','IBK'], mes_vigencia=time[0] ).annotate(sum_ref=Sum('mto_saldo')).order_by('banco')
+    totales = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco__in=['BCP','SCO','BBVA','IBK'], mes_vigencia=time[0]).annotate(total=Sum('mto_saldo')).order_by('banco')
+    grafica2 = zip(saldo_jud,saldo_ven,saldo_ref,totales)
 
     static_url=settings.STATIC_URL
     tipo_side = 4
