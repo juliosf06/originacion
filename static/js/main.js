@@ -199,7 +199,7 @@ $("#ex13").change(function(e){
     type: 'POST',
     url: '/reports/seguimiento/json_mapa/',
     success: function(json){
-       //console.log(json);
+       console.log(json);
        var limpia = json.replace(/Decimal\('/g,'');
        limpia = limpia.replace(/'\)/g,'');
        limpia = limpia.replace(/: u'/g,": '");
@@ -210,7 +210,7 @@ $("#ex13").change(function(e){
        console.log(result);
        var html = "";
        for (var datos in result){
-        html = html + "<tr><td>"+result[datos].ubigeo+"</td>"+"<td>"+result[datos].distrito+"</td>"+"<td>"+result[datos].mora.toFixed(2)+"</td></tr>";
+        html = html + "<tr><td>"+result[datos].ubigeo+"</td>"+"<td>"+result[datos].distrito+"</td>"+"<td>"+result[datos].contrato.toFixed(0)+"</td>"+"<td>"+result[datos].inver.toFixed(0)+"</td>"+"<td>"+result[datos].mora.toFixed(2)+"</td></tr>";
        };
        $("#tabla_mapa").html(html);
     }

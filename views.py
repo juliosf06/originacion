@@ -585,7 +585,7 @@ def seguimiento_mapa(request, fecha='201312'):
     list_meses=[]; d=0
     for i in meses:
 	list_meses.append(i['codmes'])
-    d = len(list_meses)
+    print meses
     ubigeo = Mapa.objects.values('ubigeo').order_by('ubigeo').distinct()
     distrito = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA').annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
     numero=Mapa.objects.values('ubigeo','codmes').filter(provincia='LIMA', codmes=fecha).annotate(num=Sum('ctas')).order_by('ubigeo')
@@ -644,7 +644,7 @@ def seguimiento_mapa(request, fecha='201312'):
 	      dict_moras2[i['ubigeo']]='#A6D974'
 	   if i['mora']<=0.3:
 	      dict_moras2[i['ubigeo']]='#66BD63'
-	if i['codmes']=='201604':
+	if i['codmes']=='201607':
 	   if i['mora']>3:
 	      dict_moras3[i['ubigeo']]='#E31A1C'
 	   if i['mora']>2 and i['mora']<=3:
@@ -2510,8 +2510,23 @@ def seguimiento_hipoteca(request, fecha='201312'):
     d = len(list_meses)
     ubigeo = Mapa.objects.values('ubigeo').order_by('ubigeo').distinct()
     distrito = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA').annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
-    numero=Mapa.objects.values('ubigeo','codmes').filter(provincia='LIMA', codmes=fecha).annotate(num=Sum('ctas')).order_by('ubigeo')
-    distrito1 = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA', codmes=fecha).annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
+    contrato=Mapa.objects.values('ubigeo','codmes').filter(provincia='LIMA', codmes=fecha).annotate(num=Sum('ctas')).order_by('ubigeo')
+    dict_ctas = {}
+    for i in contrato:
+	dict_ctas[i['ubigeo']]=i['num']
+    distrito1 = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA', codmes=fecha).annotate(contrato=Sum(F('ctas')),inver=Sum(F('inv')),mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
+    dict_contra = {} 
+    dict_inv = {} 
+    dict_morac = {}
+    for i in distrito1:
+	dict_contra[i['ubigeo']]=i['contrato']
+	dict_inv[i['ubigeo']]=i['inver']
+	dict_morac[i['ubigeo']]=i['mora']
+    vinculo_dep = Mapa.objects.values('ubigeo','codmes').filter(provincia='LIMA', codmes=fecha,vinculo='1. Dependiente').annotate(contrato=Sum(F('ctas'))).order_by('ubigeo')
+    dict_vinculo = {}
+    for i in vinculo_dep:
+	dict_vinculo[i['ubigeo']]=i['contrato']*100/dict_ctas[i['ubigeo']]
+
     dict_moras = {}; dict_moras1 = {}; 
     dict_moras2 = {}; dict_moras3 = {};dict_moras4 = {};
     for i in distrito:
@@ -2566,7 +2581,7 @@ def seguimiento_hipoteca(request, fecha='201312'):
 	      dict_moras2[i['ubigeo']]='#A6D974'
 	   if i['mora']<=0.3:
 	      dict_moras2[i['ubigeo']]='#66BD63'
-	if i['codmes']=='201604':
+	if i['codmes']=='201607':
 	   if i['mora']>3:
 	      dict_moras3[i['ubigeo']]='#E31A1C'
 	   if i['mora']>2 and i['mora']<=3:
@@ -2877,15 +2892,31 @@ def json_mapa(request):
     elif periodo == '3':
 	fecha='201512'
     elif periodo == '4':
-	fecha='201604'
-    meses = Mapa.objects.values('codmes').order_by('codmes').distinct()
+	fecha='201607'
+    meses_mapa = Mapa.objects.values('codmes').order_by('codmes').distinct()
     list_meses=[]; d=0
-    for i in meses:
+    for i in meses_mapa:
 	list_meses.append(i['codmes'])
     d = len(list_meses)
     ubigeo = Mapa.objects.values('ubigeo').order_by('ubigeo').distinct()
     distrito = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA').annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
-    distrito1 = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA', codmes=fecha).annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
+    contrato=Mapa.objects.values('ubigeo','codmes').filter(provincia='LIMA', codmes=fecha).annotate(num=Sum('ctas')).order_by('ubigeo')
+    dict_ctas = {}
+    for i in contrato:
+	dict_ctas[i['ubigeo']]=i['num']
+    distrito1 = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA', codmes=fecha).annotate(contrato=Sum(F('ctas')),inver=Sum(F('inv')),mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
+    dict_contra = {} 
+    dict_inv = {} 
+    dict_morac = {}
+    for i in distrito1:
+	dict_contra[i['ubigeo']]=i['contrato']
+	dict_inv[i['ubigeo']]=i['inver']
+	dict_morac[i['ubigeo']]=i['mora']
+    vinculo_dep = Mapa.objects.values('ubigeo','codmes').filter(provincia='LIMA', codmes=fecha,vinculo='1. Dependiente').annotate(contrato=Sum(F('ctas'))).order_by('ubigeo')
+    dict_vinculo = {}
+    for i in vinculo_dep:
+	dict_vinculo[i['ubigeo']]=i['contrato']*100/dict_ctas[i['ubigeo']]
+
     dict_moras = {}; dict_moras1 = {}; 
     dict_moras2 = {}; dict_moras3 = {};
     for i in distrito:
@@ -2940,7 +2971,7 @@ def json_mapa(request):
 	      dict_moras2[i['ubigeo']]='#A6D974'
 	   if i['mora']<=0.3:
 	      dict_moras2[i['ubigeo']]='#66BD63'
-	if i['codmes']=='201604':
+	if i['codmes']=='201607':
 	   if i['mora']>3:
 	      dict_moras3[i['ubigeo']]='#E31A1C'
 	   if i['mora']>2 and i['mora']<=3:
@@ -3252,6 +3283,7 @@ def carga_forzaje(request):
         return load(campana_resumen)
 
 def carga_mapa(request):
+    Mapa.objects.all().delete()
     if request.method == 'POST':
         form = UploadMapa(request.POST, request.FILES)
         if form.is_valid():

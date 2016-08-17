@@ -246,6 +246,7 @@ class Mapa(models.Model):
     departamento = models.CharField(max_length=50)
     provincia = models.CharField(max_length=50)
     distrito = models.CharField(max_length=60)
+    vinculo = models.CharField(max_length=60, default=0)
     inv = models.DecimalField(max_digits=16, decimal_places=10)
     catrasada = models.DecimalField(max_digits=16, decimal_places=10)
     ctas = models.DecimalField(max_digits=8, decimal_places=2)
