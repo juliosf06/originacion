@@ -62,10 +62,10 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th style="vertical-align:middle;">Ubigeo</th>
+                  <!--<th style="vertical-align:middle;">Ubigeo</th>-->
                   <th style="vertical-align:middle;">Distrito</th>
                   <th style="vertical-align:middle;">Contratos</th>
-                  <th style="vertical-align:middle;">Inversión</th>
+                  <th style="vertical-align:middle;">Inversión<br/> (MM)</th>
                   <th style="vertical-align:middle;">% Mora<br/> Contable</th>
                   <!--<th style="vertical-align:middle;">%<br/> Part</th>-->
                 </tr>
@@ -73,7 +73,7 @@
               <tbody id="tabla_mapa">
 		{% for a in distrito1 %}
 		<tr>
-                  <td>{{a.ubigeo}}</td>
+                  <!--<td>{{a.ubigeo}}</td>-->
                   <td>{{a.distrito}}</td>
                   <td>{{a.contrato|floatformat:0}}</td>
                   <td>{{a.inver|floatformat:0}}</td>
