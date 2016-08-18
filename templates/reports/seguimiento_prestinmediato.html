@@ -17,10 +17,6 @@
           </div>
  	  &nbsp;
           <div class="rows placeholders">
-		<select name="Ver1">
-		<option id="show1" selected>show1</option>
-		<option id="show2">show2</option>
-		</select>
 		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
           </div>
 	  &nbsp;
@@ -127,17 +123,7 @@
 		]
 	});
 	chart2.render();
-	$("#show1").click(function () {
-	chart2.options.data[0].indexLabel = "{y}";
-	chart2.options.data[1].indexLabel = "";
-        chart2.render();
-	});
-	chart2.render();
-	$("#show2").click(function () {
-	chart2.options.data[0].indexLabel = "";
-	chart2.options.data[1].indexLabel = "{y}";
-        chart2.render();
-	});
+
 
 
 	var chart = new CanvasJS.Chart("chartContainer3", {
