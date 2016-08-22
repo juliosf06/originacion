@@ -66,6 +66,7 @@ urlpatterns = [
     url(r'^seguimiento/increlifemiles/$', views.seguimiento_increlifemiles, name='seguimiento_increlifemiles'),
     url(r'^seguimiento/mapa/$', views.seguimiento_mapa, name='seguimiento_mapa'),
     url(r'^seguimiento/json_mapa/$', views.json_mapa, name='json_mapa'),
+    url(r'^seguimiento/json_limaprov/$', views.json_limaprov, name='json_limaprov'),
     url(r'^seguimiento/departamentos_web/$', views.departamentos_web, name='departamentos_web'),
     url(r'^seguimiento/departamentos_web/(?P<semana>\d+)/$', views.departamentos_web, name='departamentos_web_2'),
 

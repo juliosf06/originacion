@@ -1,0 +1,63 @@
+{
+ "name": "flare",
+ "children": [
+  {
+   "name": "analytics",
+   "children": [
+    {
+     "name": "MS",
+     "children": [
+      {"name": "CLASICO", "size": 101410},
+      {"name": "RESTO CLIENTE", "size": 8317}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "animate",
+   "children": [
+    {
+     "name": "NO PH",
+     "children": [
+      {"name": "CLASICO", "size": 123964},
+      {"name": "RESTO CLIENTE", "size": 36443}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "display",
+   "children": [
+    {
+     "name": "NOCLI",
+     "children": [
+      {"name": "CLASICO", "size": 4006},
+      {"name": "NO CLIENTE", "size": 455251}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "flex",
+   "children": [
+    {
+     "name": "PREMIUM",
+     "children": [
+      {"name": "PREMIUM", "size": 1107}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "physics",
+   "children": [
+    {
+     "name": "VIP",
+     "children": [
+      {"name": "VIP", "size": 26790}
+     ]
+    }
+   ]
+  }
+ ]
+}

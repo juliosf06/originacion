@@ -2666,6 +2666,12 @@ def seguimiento_hipoteca(request, fecha='201312'):
     totales = HipotecaSSFF.objects.values('mes_vigencia','banco').filter(banco__in=['BCP','SCO','BBVA','IBK'], mes_vigencia=time[0]).annotate(total=Sum('mto_saldo')).order_by('banco')
     grafica2 = zip(saldo_jud,saldo_ven,saldo_ref,totales)
 
+    conce = HipotecaConce.objects.values('mes','territorio').filter(mes='201512').annotate(sum_inv=Sum('inversion')).order_by('territorio')
+    limaprov = Mapa.objects.values('lima_prov').filter(codmes=fecha).annotate(num=Sum('ctas')).order_by('lima_prov')
+    dict_limap = {}
+    for i in limaprov:
+	dict_limap[i['lima_prov']] = i['num']
+    print dict_limap
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/seguimiento_hipoteca.html', locals(),
@@ -2990,6 +2996,20 @@ def json_mapa(request):
 	      dict_moras3[i['ubigeo']]='#66BD63'
 
     return HttpResponse(distrito1)
+
+def json_limaprov(request):
+    periodo = request.POST['periodo']
+    if periodo == '1':
+	fecha='201312'
+    elif periodo == '2':
+	fecha='201412'
+    elif periodo == '3':
+	fecha='201512'
+    elif periodo == '4':
+	fecha='201607'
+    limaprov = Mapa.objects.values('lima_prov').filter(codmes=fecha).annotate(num=Sum('ctas')).order_by('lima_prov')
+
+    return HttpResponse(limaprov)
 
 
 

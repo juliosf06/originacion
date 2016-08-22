@@ -57,12 +57,12 @@ var div = d3.select("body").append("div")
     .style("left", margin.left + "px")
     .style("top", margin.top + "px");
 
-d3.json("{{static_url}}js/flare.json", function(error, root) {
+d3.json("{{static_url}}js/flare3.json", function(error, root) {
   if (error) throw error;
 
   var node = div.datum(root).selectAll(".node")
       .data(treemap.nodes)
-    .enter().append("div")
+      .enter().append("div")
       .attr("class", "node")
       .call(position)
       .style("background", function(d) { return d.children ? color(d.name) : null; })
@@ -75,7 +75,7 @@ d3.json("{{static_url}}js/flare.json", function(error, root) {
 
     node
         .data(treemap.value(value).nodes)
-      .transition()
+        .transition()
         .duration(1500)
         .call(position);
   });
@@ -90,6 +90,7 @@ function position() {
 
 </script>
 </div>
+
 
 {% endblock %}
 

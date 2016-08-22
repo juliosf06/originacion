@@ -52,9 +52,12 @@
 
           <h1 class="page-header" style="margin-bottom:20px">Hipotecas Lima-Metropolitana</h1>
 	  <center>
-	  <div class="slider"> 
-	      <input id="ex13" type="text" data-slider-min=1 data-slider-max=d data-slider-step="1" data-slider-value=1 />
-	  </div><br/>
+          <div class="rows placeholders">
+	      <div class="slider" style="width: 30%; display: inline-block;"> 
+	          <input id="ex13" type="text" data-slider-min=1 data-slider-max=d data-slider-step="1" data-slider-value=1 />
+	      </div>
+	      <div id="chartContainer9" style="height: 280px; width: 40%; display: inline-block;"></div>
+          </div>
           &nbsp;&nbsp;
 	  <p> </p>
           <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
@@ -143,7 +146,7 @@
 		<polygon stroke="white" id="ate" style="stroke-width: 1px; vector-effect: inherit;" points="504.918 441.788 501.231 444.505 496.185 446.834 493.857 448.386 488.423 452.268 486.482 452.656 484.348 452.85 482.213 451.879 479.108 451.491 475.001 451.239 472.769 450.56 470.052 449.784 465.395 450.172 463.066 451.336 461.125 452.112 459.185 454.053 452.975 456.77 446.765 459.875 444.436 462.203 443.66 461.815 442.107 461.815 438.032 462.786 436.674 461.815 434.733 461.815 432.793 462.591 430.076 462.591 426.583 466.085 423.478 466.085 421.925 467.055 418.432 464.532 417.268 464.92 414.551 463.368 413.775 461.039 409.894 462.98 405.624 463.756 399.803 466.473 397.474 469.966 396.601 472.973 395.339 473.847 392.428 476.564 390.294 474.429 388.159 471.518 389.323 467.637 388.547 465.696 385.83 465.308 383.89 463.368 385.442 461.427 387.383 460.263 392.04 462.203 392.525 463.562 397.474 461.427 399.803 461.427 403.296 459.487 406.401 458.322 407.565 456.77 416.88 454.053 417.171 451.918 416.103 449.784 416.006 446.29 413.775 444.35 408.729 445.126 407.856 442.506 411.446 441.245 414.939 440.857 418.432 441.633 425.03 441.633 430.076 439.984 437.062 440.081 442.981 435.714 450.646 433.483 455.303 432.706 462.678 432.706 471.993 429.213 473.157 424.944 474.709 424.556 476.456 424.071 476.262 425.332 478.203 426.788 482.084 427.661 484.218 429.892 488.294 430.378 489.07 428.534 492.175 426.885 495.28 430.378 501.878 430.766 504.983 436.588" fill="{{dict_moras.150103}}" class="distrito"/>
 		<polygon stroke="white" id="cieneguilla" style="stroke-width: 1px; vector-effect: inherit;" points="540.431 428.243 540.819 429.99 541.692 431.154 540.819 432.706 540.819 435.035 540.043 436.976 539.849 442.021 539.267 443.574 538.878 445.514 538.49 447.843 538.102 452.112 539.655 452.889 542.857 450.172 545.088 450.948 548.193 449.978 549.358 446.873 552.851 449.007 555.179 450.948 557.023 452.986 560.613 455.411 562.942 458.322 566.047 459.487 568.764 461.427 570.316 463.562 571.577 464.823 573.712 467.346 574.197 469.966 575.944 471.809 577.496 473.265 578.078 473.847 580.795 478.116 581.183 479.669 582.445 480.833 583.512 481.997 584.676 483.162 584.288 484.326 582.736 484.326 581.96 483.162 580.019 482.386 577.69 479.669 574.585 479.281 573.033 479.669 570.704 478.116 569.055 477.631 567.599 476.564 566.435 475.011 566.047 473.847 564.106 473.459 560.225 477.728 559.449 479.281 558.284 478.504 555.956 478.407 554.403 479.669 552.463 478.504 549.746 477.437 548.193 479.378 546.253 480.833 545.088 481.221 543.536 483.162 542.76 483.938 542.372 486.267 543.924 487.043 545.379 491.571 543.536 494.288 541.595 497.005 539.267 497.781 536.55 498.169 533.833 500.498 529.175 502.438 525.682 503.991 523.742 505.155 518.308 505.543 514.427 505.155 512.098 504.767 509.381 507.096 506.276 507.096 504.336 508.26 498.126 508.26 494.245 509.036 492.304 507.872 490.364 508.648 487.259 509.813 484.542 510.201 481.049 511.365 478.332 510.977 476.779 510.201 475.227 507.484 473.286 505.155 471.734 503.603 470.569 501.274 469.405 498.945 467.853 496.617 466.688 494.288 463.971 491.959 462.807 489.63 461.255 487.69 460.478 485.749 459.314 484.973 458.926 482.644 456.209 480.704 454.268 476.046 452.328 473.718 450.387 472.165 449.611 469.448 448.835 467.508 447.282 466.343 445.73 464.015 444.566 462.074 446.894 459.357 458.926 453.924 460.867 451.983 465.524 450.042 469.793 449.654 476.003 451.207 481.825 451.595 484.154 452.759 488.423 452.371 495.409 446.549 501.619 444.221 504.724 441.892 508.605 441.116 513.263 439.563 516.367 438.787 519.472 439.175 523.354 436.458 523.354 434.129 526.847 431.025 529.564 430.248 533.445 428.696 537.067 428.308" fill="silver" class="distrito"/>
 		<polygon stroke="white" id="pachacamac" style="stroke-width: 1px; vector-effect: inherit;" points="545.315 491.7 546.673 493.059 552.592 493.641 556.279 496.649 556.764 499.075 558.026 499.075 559.578 499.851 560.742 501.403 562.489 501.792 562.78 502.665 562.683 503.344 561.519 502.956 560.742 504.12 559.578 504.508 556.861 508.001 556.473 509.554 558.22 510.912 558.317 513.823 559.19 515.376 559.869 517.122 561.325 517.898 562.683 520.033 564.235 520.421 564.624 521.586 565.982 522.265 566.176 524.302 568.117 524.69 569.281 526.243 571.61 525.467 573.647 526.146 573.744 527.601 572.774 528.572 574.327 531.289 573.162 532.065 570.057 530.124 566.564 528.572 565.012 527.407 562.295 527.795 560.354 528.572 558.414 530.512 557.637 530.9 554.921 530.124 553.368 530.124 551.039 529.348 548.711 528.572 547.158 527.407 545.994 525.467 544.441 524.302 541.725 523.914 539.784 523.138 537.455 523.138 535.127 522.362 532.798 521.974 530.469 522.362 528.14 524.69 527.364 527.407 526.2 528.96 523.871 528.96 521.542 530.9 519.602 532.841 516.109 533.229 511.451 535.946 509.899 536.722 508.346 538.275 506.018 539.439 502.913 539.439 500.584 539.827 496.315 539.439 493.21 539.051 489.717 540.603 487 540.991 485.447 541.38 485.059 544.355 483.895 546.684 482.342 547.848 479.237 549.401 477.297 550.565 474.968 550.953 472.639 551.341 469.923 552.894 469.146 553.67 470.699 555.999 470.699 557.163 469.535 559.492 471.087 561.432 469.535 563.373 467.594 563.761 466.43 561.044 464.489 561.044 461.772 562.985 460.22 561.821 458.279 557.939 456.338 557.163 454.398 555.223 455.174 553.282 453.234 552.506 451.293 550.177 448.964 548.625 447.412 547.072 445.471 547.072 443.919 544.743 443.531 542.026 443.919 539.31 445.471 537.369 445.859 535.428 447.412 532.712 448.576 530.771 449.352 529.219 447.024 526.502 448.576 523.397 448.576 522.232 448.188 520.292 448.188 518.739 447.024 517.187 446.635 515.246 443.142 513.694 441.59 511.883 440.814 509.554 439.261 506.837 437.321 503.732 435.768 502.568 433.828 501.791 431.887 500.239 430.917 497.619 433.439 497.522 437.709 492.865 440.814 492.477 441.59 488.984 444.307 486.655 444.598 484.326 443.142 483.162 443.531 480.833 446.635 480.833 448.188 479.669 448.188 477.34 447.024 476.176 447.024 473.329 444.307 470.225 444.404 465.47 445.762 464.015 447.121 466.149 448.964 467.12 450.517 472.165 452.554 473.621 454.398 475.658 455.95 480.316 459.055 482.741 459.152 484.585 460.608 486.04 461.675 488.466 462.936 489.63 463.713 491.571 466.721 494.288 469.146 498.169 471.475 503.215 475.356 507.484 476.909 510.201 479.237 510.977 481.178 511.365 484.283 510.201 486.612 509.813 492.433 507.872 494.374 509.036 497.867 508.26 504.465 507.872 506.406 507.096 509.22 506.999 512.228 504.67 516.885 505.155 523.483 505.155 528.917 502.438 533.865 500.401 536.485 498.169 539.008 497.781 541.336 497.005" fill="silver" class="distrito"/>
-	<polygon stroke="white" id="villa_maria_del_triunfo" style="stroke-width: 1px; vector-effect: inherit;" points="445.39 546.875 445.39 548.816 442.577 549.98 440.345 551.145 439.181 552.309 437.919 553.57 437.046 558.325 434.911 559.78 434.232 559.78 433.844 558.519 431.612 558.422 429.769 557.84 428.41 556.481 427.731 553.764 426.373 551.727 425.887 549.204 422.491 543.382 420.551 541.442 419.386 538.725 416.281 532.806 411.333 532.709 409.586 533.388 408.519 530.574 408.907 527.081 407.743 524.85 406.579 518.543 405.608 516.699 405.608 511.848 407.452 508.063 408.616 507.19 409.683 505.055 413.177 503.212 414.147 499.331 415.699 497.681 417.543 498.069 419.969 497.681 424.335 497.681 427.149 496.323 429.575 496.711 430.933 497.681 431.806 500.301 433.844 501.853 435.784 502.63 437.143 503.6 439.18 506.414 440.83 509.616 441.509 511.945 442.965 513.497 446.555 515.244 447.04 517.184 448.204 518.64 448.107 520.192 448.592 522.133 448.689 523.491 447.137 526.305 449.466 529.119 446.264 535.038 445.681 537.172 443.935 539.307 443.547 541.83 443.935 544.352" fill="{{dict_moras.150143}}" class="distrito"/><line id="e1_line" x1="240.95907592773435" y1="184.6450653076172" x2="189.8719329833984" y2="184.6450653076172" stroke="white" style="stroke-width: 2px; fill: none;"/><line id="e2_line" x1="189.6190185451" y1="184.1392534287" x2="189.6190185451" y2="184.1392534287" stroke="black" style="stroke-width: 1px; fill: none;"/>
+	<polygon stroke="white" id="villa_maria_del_triunfo" style="stroke-width: 1px; vector-effect: inherit;" points="445.39 546.875 445.39 548.816 442.577 549.98 440.345 551.145 439.181 552.309 437.919 553.57 437.046 558.325 434.911 559.78 434.232 559.78 433.844 558.519 431.612 558.422 429.769 557.84 428.41 556.481 427.731 553.764 426.373 551.727 425.887 549.204 422.491 543.382 420.551 541.442 419.386 538.725 416.281 532.806 411.333 532.709 409.586 533.388 408.519 530.574 408.907 527.081 407.743 524.85 406.579 518.543 405.608 516.699 405.608 511.848 407.452 508.063 408.616 507.19 409.683 505.055 413.177 503.212 414.147 499.331 415.699 497.681 417.543 498.069 419.969 497.681 424.335 497.681 427.149 496.323 429.575 496.711 430.933 497.681 431.806 500.301 433.844 501.853 435.784 502.63 437.143 503.6 439.18 506.414 440.83 509.616 441.509 511.945 442.965 513.497 446.555 515.244 447.04 517.184 448.204 518.64 448.107 520.192 448.592 522.133 448.689 523.491 447.137 526.305 449.466 529.119 446.264 535.038 445.681 537.172 443.935 539.307 443.547 541.83 443.935 544.352" fill="{{dict_moras.150143}}" class="distrito"/><line id="e1_line" x1="240.95907592773435" y1="184.6450653076172" x2="189.8719329833984" y2="184.6450653076172" stroke="white" style="stroke-width: 2px; fill: none;"/><line id="e2_line" x1="189.6190185451" y1="184.1392534287" x2="189.6190185451" y2="184.1392534287" stroke="black" style="stroke-width: 1px; fill: none;"/><rect x="309.44470214843744" y="660.3618774414062" stroke="#66BD63" id="key2" style="stroke-width: 1px;" width="52.7337" height="23.2854" fill="#66BD63" ry="0" rx="6" transform="matrix(0.855741 0 0 0.855741 60.6748 92.0175)"/><rect x="249.06663513183588" y="630.3961791992188" stroke="#FBE975" id="key3" style="stroke-width: 1px;" width="52.7337" height="23.2854" fill="#FBE975" ry="0" rx="6" transform="matrix(0.855741 0 0 0.855741 60.6748 92.0175)"/><rect x="248.71244812011713" y="599.6303100585938" stroke="#FEB228" id="key5" style="stroke-width: 1px;" width="52.7337" height="23.2854" fill="#FEB228" ry="0" rx="5" transform="matrix(0.855741 0 0 0.855741 60.6748 92.0175)"/><rect x="248.35823059082026" y="568.8646240234375" stroke="#FC4E2A" id="key7" style="stroke-width: 1px;" width="52.7337" height="23.2854" fill="#FC4E2A" ry="0" rx="6" transform="matrix(0.855741 0 0 0.855741 60.6748 92.0175)"/><rect x="249.34275817871088" y="661.0848999023438" stroke="#A6D974" id="key1" style="stroke-width: 1px;" width="52.7337" height="23.2854" fill="#A6D974" ry="0" rx="6" transform="matrix(0.855741 0 0 0.855741 60.6748 92.0175)"/><rect x="309.0120544433593" y="630.3192749023438" stroke="#FED976" id="key4" style="stroke-width: 1px;" width="52.7337" height="23.2854" fill="#FED976" ry="0" rx="6" transform="matrix(0.855741 0 0 0.855741 60.6748 92.0175)"/><rect x="308.6575317382812" y="599.5535888671875" stroke="#FB8D29" id="key6" style="stroke-width: 1px;" width="52.7337" height="23.2854" fill="#FB8D29" ry="0" rx="6" transform="matrix(0.855741 0 0 0.855741 60.6748 92.0175)"/><rect x="307.50296020507807" y="568.7877197265625" stroke="#E31A1C" id="key8" style="stroke-width: 1px;" width="52.7337" height="23.2854" fill="#E31A1C" ry="0" rx="6" transform="matrix(0.855741 0 0 0.855741 60.6748 92.0175)"/><text fill="white" x="279.514" y="671.42" id="text1" style="font-family: &quot;Arial Black&quot;; font-size: 10px;"  dy="" dx="">0.3%&lt;</text><text fill="white" x="330.878" y="670.735" id="text2" style="font-family: &quot;Arial Black&quot;; font-size: 10px;"  dy="" dx="">0.6%&lt;</text><text fill="white" x="280.199" y="646.08" id="text3" style="font-family: &quot;Arial Black&quot;; font-size: 10px;"  dy="" dx="">0.9%&lt;</text><text fill="white" x="330.193" y="645.395" id="text4" style="font-family: &quot;Arial Black&quot;; font-size: 10px;"  dy="" dx="">1.2%&lt;</text><text fill="white" x="278.829" y="618.685" id="text5" style="font-family: &quot;Arial Black&quot;; font-size: 10px;"  dy="" dx="">1.5%&lt;</text><text fill="white" x="329.508" y="618" id="text6" style="font-family: &quot;Arial Black&quot;; font-size: 10px;"  dy="" dx="">2.0%&lt;</text><text fill="white" x="280.199" y="592.66" id="text7" style="font-family: &quot;Arial Black&quot;; font-size: 10px;"  dy="" dx="">3.0%&lt;</text><text fill="white" x="329.509" y="592.66" id="e21_text" style="font-family: &quot;Arial Black&quot;; font-size: 10px;"  dy="" dx="">3.0%&gt;</text>
 	     </svg>
           </div>
 	  </center>
@@ -158,220 +161,6 @@ $("#ex13").slider({
    ticks: [1 ,2 ,3 , 4],
    ticks_labels: ['201312', '201412', '201512', '201607'],
    ticks_snap_bounds: 1,
-});
-
-$("#ex13").slider({
-    formatter: function(value){
-
-	var len = {{d}}
-		switch (value){
-	    case 1:
-		$("#ancon").attr("fill","silver");
-		$("#santa_rosa").attr("fill","silver");
-		$("#carabayllo").attr("fill","{{dict_moras.150106}}");
-		$("#bellavista").attr("fill","{{dict_moras.070102}}");
-		$("#carmen_de_la_legua").attr("fill","silver");
-		$("#la_perla").attr("fill","silver");
-		$("#la_punta").attr("fill","silver");
-		$("#callao").attr("fill", "{{dict_moras.070101}}");
-		$("#san_juan_miraflores").attr("fill","{{dict_moras.150133}}");
-		$("#la_molina").attr("fill","{{dict_moras.150114}}");
-		$("#puente_piedra").attr("fill","{{dict_moras.150125}}");
-		$("#pucusana").attr("fill","silver");
-		$("#santa_maria").attr("fill","silver");
-		$("#san_bartolo").attr("fill","silver");
-		$("#punta_negra").attr("fill","silver");
-		$("#punta_hermosa").attr("fill","silver");
-		$("#lurin").attr("fill","{{dict_moras.150119}}");
-		$("#villa_salvador").attr("fill","{{dict_moras.150142}}");
-		$("#lurigancho_chosica").attr("fill","silver");
-		$("#chaclacayo").attr("fill","silver");
-		$("#chorrillos").attr("fill","{{dict_moras.150108}}");
-		$("#barranco").attr("fill","{{dict_moras.150104}}");
-		$("#miraflores").attr("fill","{{dict_moras.150122}}");
-		$("#san_isidro").attr("fill","{{dict_moras.150131}}");
-		$("#magdalena_del_mar").attr("fill","{{dict_moras.150120}}");
-		$("#san_luis").attr("fill","{{dict_moras.150134}}");
-		$("#lima").attr("fill","{{dict_moras.150101}}");
-		$("#pueblo_libre").attr("fill","{{dict_moras.150121}}");
-		$("#ate").attr("fill","{{dict_moras.150103}}");
-		$("#cieneguilla").attr("fill","silver");
-		$("#breña").attr("fill","{{dict_moras.150105}}");
-		$("#jesus_maria").attr("fill","{{dict_moras.150113}}");
-		$("#lince").attr("fill","{{dict_moras.150116}}");
-		$("#la_victoria").attr("fill","{{dict_moras.150115}}");
-		$("#surquillo").attr("fill","{{dict_moras.150141}}");
-		$("#san_borja").attr("fill","{{dict_moras.150130}}");
-		$("#san_miguel").attr("fill","{{dict_moras.150136}}");
-		$("#rimac").attr("fill","{{dict_moras.150128}}");
-		$("#pachacamac").attr("fill","silver");
-		$("#villa_maria_del_triunfo").attr("fill","{{dict_moras.150143}}");
-		$("#san_martin_porres").attr("fill","{{dict_moras.150135}}");
-		$("#los_olivos").attr("fill","{{dict_moras.150117}}");
-		$("#independencia").attr("fill","{{dict_moras.150112}}");
-		$("#comas").attr("fill","{{dict_moras.150110}}");
-		$("#san_juan_lurigancho").attr("fill","{{dict_moras.150132}}");
-		$("#el_agustino").attr("fill","{{dict_moras.150111}}");
-		$("#santa_anita").attr("fill","{{dict_moras.150137}}");
-		$("#santiago_de_surco").attr("fill","{{dict_moras.150140}}");
-		$("#ventanilla").attr("fill","{{dict_moras.070106}}");
-		break;
-	    case 2:
-		$("#ancon").attr("fill","silver");
-		$("#santa_rosa").attr("fill","silver");
-		$("#carabayllo").attr("fill","{{dict_moras1.150106}}");
-		$("#bellavista").attr("fill","{{dict_moras1.070102}}");
-		$("#carmen_de_la_legua").attr("fill","silver");
-		$("#la_perla").attr("fill","silver");
-		$("#la_punta").attr("fill","silver");
-		$("#callao").attr("fill", "{{dict_moras1.070101}}");
-		$("#san_juan_miraflores").attr("fill","{{dict_moras1.150133}}");
-		$("#la_molina").attr("fill","{{dict_moras1.150114}}");
-		$("#puente_piedra").attr("fill","{{dict_moras1.150125}}");
-		$("#pucusana").attr("fill","silver");
-		$("#santa_maria").attr("fill","silver");
-		$("#san_bartolo").attr("fill","silver");
-		$("#punta_negra").attr("fill","silver");
-		$("#punta_hermosa").attr("fill","silver");
-		$("#lurin").attr("fill","{{dict_moras1.150119}}");
-		$("#villa_salvador").attr("fill","{{dict_moras1.150142}}");
-		$("#lurigancho_chosica").attr("fill","silver");
-		$("#chaclacayo").attr("fill","silver");
-		$("#chorrillos").attr("fill","{{dict_moras1.150108}}");
-		$("#barranco").attr("fill","{{dict_moras1.150104}}");
-		$("#miraflores").attr("fill","{{dict_moras1.150122}}");
-		$("#san_isidro").attr("fill","{{dict_moras1.150131}}");
-		$("#magdalena_del_mar").attr("fill","{{dict_moras1.150120}}");
-		$("#san_luis").attr("fill","{{dict_moras1.150134}}");
-		$("#lima").attr("fill","{{dict_moras1.150101}}");
-		$("#pueblo_libre").attr("fill","{{dict_moras1.150121}}");
-		$("#ate").attr("fill","{{dict_moras1.150103}}");
-		$("#cieneguilla").attr("fill","silver");
-		$("#breña").attr("fill","{{dict_moras1.150105}}");
-		$("#jesus_maria").attr("fill","{{dict_moras1.150113}}");
-		$("#lince").attr("fill","{{dict_moras1.150116}}");
-		$("#la_victoria").attr("fill","{{dict_moras1.150115}}");
-		$("#surquillo").attr("fill","{{dict_moras1.150141}}");
-		$("#san_borja").attr("fill","{{dict_moras1.150130}}");
-		$("#san_miguel").attr("fill","{{dict_moras1.150136}}");
-		$("#rimac").attr("fill","{{dict_moras1.150128}}");
-		$("#pachacamac").attr("fill","silver");
-		$("#villa_maria_del_triunfo").attr("fill","{{dict_moras1.150143}}");
-		$("#san_martin_porres").attr("fill","{{dict_moras1.150135}}");
-		$("#los_olivos").attr("fill","{{dict_moras1.150117}}");
-		$("#independencia").attr("fill","{{dict_moras1.150112}}");
-		$("#comas").attr("fill","{{dict_moras1.150110}}");
-		$("#san_juan_lurigancho").attr("fill","{{dict_moras1.150132}}");
-		$("#el_agustino").attr("fill","{{dict_moras1.150111}}");
-		$("#santa_anita").attr("fill","{{dict_moras1.150137}}");
-		$("#santiago_de_surco").attr("fill","{{dict_moras1.150140}}");
-		$("#ventanilla").attr("fill","{{dict_moras1.070106}}");
-		break;
-	    case 3:
-		$("#ancon").attr("fill","silver");
-		$("#santa_rosa").attr("fill","silver");
-		$("#carabayllo").attr("fill","{{dict_moras2.150106}}");
-		$("#bellavista").attr("fill","{{dict_moras2.070102}}");
-		$("#carmen_de_la_legua").attr("fill","silver");
-		$("#la_perla").attr("fill","{{dict_moras2.070104}}");
-		$("#la_punta").attr("fill","silver");
-		$("#callao").attr("fill", "{{dict_moras2.070101}}");
-		$("#san_juan_miraflores").attr("fill","{{dict_moras2.150133}}");
-		$("#la_molina").attr("fill","{{dict_moras2.150114}}");
-		$("#puente_piedra").attr("fill","{{dict_moras2.150125}}");
-		$("#pucusana").attr("fill","silver");
-		$("#santa_maria").attr("fill","silver");
-		$("#san_bartolo").attr("fill","silver");
-		$("#punta_negra").attr("fill","silver");
-		$("#punta_hermosa").attr("fill","silver");
-		$("#lurin").attr("fill","{{dict_moras2.150119}}");
-		$("#villa_salvador").attr("fill","{{dict_moras2.150142}}");
-		$("#lurigancho_chosica").attr("fill","silver");
-		$("#chaclacayo").attr("fill","silver");
-		$("#chorrillos").attr("fill","{{dict_moras2.150108}}");
-		$("#barranco").attr("fill","{{dict_moras2.150104}}");
-		$("#miraflores").attr("fill","{{dict_moras2.150122}}");
-		$("#san_isidro").attr("fill","{{dict_moras2.150131}}");
-		$("#magdalena_del_mar").attr("fill","{{dict_moras2.150120}}");
-		$("#san_luis").attr("fill","{{dict_moras2.150134}}");
-		$("#lima").attr("fill","{{dict_moras2.150101}}");
-		$("#pueblo_libre").attr("fill","{{dict_moras2.150121}}");
-		$("#ate").attr("fill","{{dict_moras2.150103}}");
-		$("#cieneguilla").attr("fill","silver");
-		$("#breña").attr("fill","{{dict_moras2.150105}}");
-		$("#jesus_maria").attr("fill","{{dict_moras2.150113}}");
-		$("#lince").attr("fill","{{dict_moras2.150116}}");
-		$("#la_victoria").attr("fill","{{dict_moras2.150115}}");
-		$("#surquillo").attr("fill","{{dict_moras2.150141}}");
-		$("#san_borja").attr("fill","{{dict_moras2.150130}}");
-		$("#san_miguel").attr("fill","{{dict_moras2.150136}}");
-		$("#rimac").attr("fill","{{dict_moras2.150128}}");
-		$("#pachacamac").attr("fill","silver");
-		$("#villa_maria_del_triunfo").attr("fill","{{dict_moras2.150143}}");
-		$("#san_martin_porres").attr("fill","{{dict_moras2.150135}}");
-		$("#los_olivos").attr("fill","{{dict_moras2.150117}}");
-		$("#independencia").attr("fill","{{dict_moras2.150112}}");
-		$("#comas").attr("fill","{{dict_moras2.150110}}");
-		$("#san_juan_lurigancho").attr("fill","{{dict_moras2.150132}}");
-		$("#el_agustino").attr("fill","{{dict_moras2.150111}}");
-		$("#santa_anita").attr("fill","{{dict_moras2.150137}}");
-		$("#santiago_de_surco").attr("fill","{{dict_moras2.150140}}");
-		$("#ventanilla").attr("fill","{{dict_moras2.070106}}");
-		break;
-	    case 4:
-		$("#ancon").attr("fill","silver");
-		$("#santa_rosa").attr("fill","silver");
-		$("#carabayllo").attr("fill","{{dict_moras3.150106}}");
-		$("#bellavista").attr("fill","{{dict_moras3.070102}}");
-		$("#carmen_de_la_legua").attr("fill","silver");
-		$("#la_perla").attr("fill","{{dict_moras3.070104}}");
-		$("#la_punta").attr("fill","silver");
-		$("#callao").attr("fill", "{{dict_moras3.070101}}");
-		$("#san_juan_miraflores").attr("fill","{{dict_moras3.150133}}");
-		$("#la_molina").attr("fill","{{dict_moras3.150114}}");
-		$("#puente_piedra").attr("fill","{{dict_moras3.150125}}");
-		$("#pucusana").attr("fill","silver");
-		$("#santa_maria").attr("fill","silver");
-		$("#san_bartolo").attr("fill","silver");
-		$("#punta_negra").attr("fill","silver");
-		$("#punta_hermosa").attr("fill","silver");
-		$("#lurin").attr("fill","{{dict_moras3.150119}}");
-		$("#villa_salvador").attr("fill","{{dict_moras3.150142}}");
-		$("#lurigancho_chosica").attr("fill","silver");
-		$("#chaclacayo").attr("fill","silver");
-		$("#chorrillos").attr("fill","{{dict_moras3.150108}}");
-		$("#barranco").attr("fill","{{dict_moras3.150104}}");
-		$("#miraflores").attr("fill","{{dict_moras3.150122}}");
-		$("#san_isidro").attr("fill","{{dict_moras3.150131}}");
-		$("#magdalena_del_mar").attr("fill","{{dict_moras3.150120}}");
-		$("#san_luis").attr("fill","{{dict_moras3.150134}}");
-		$("#lima").attr("fill","{{dict_moras3.150101}}");
-		$("#pueblo_libre").attr("fill","{{dict_moras3.150121}}");
-		$("#ate").attr("fill","{{dict_moras3.150103}}");
-		$("#cieneguilla").attr("fill","silver");
-		$("#breña").attr("fill","{{dict_moras3.150105}}");
-		$("#jesus_maria").attr("fill","{{dict_moras3.150113}}");
-		$("#lince").attr("fill","{{dict_moras3.150116}}");
-		$("#la_victoria").attr("fill","{{dict_moras3.150115}}");
-		$("#surquillo").attr("fill","{{dict_moras3.150141}}");
-		$("#san_borja").attr("fill","{{dict_moras3.150130}}");
-		$("#san_miguel").attr("fill","{{dict_moras3.150136}}");
-		$("#rimac").attr("fill","{{dict_moras3.150128}}");
-		$("#pachacamac").attr("fill","silver");
-		$("#villa_maria_del_triunfo").attr("fill","{{dict_moras3.150143}}");
-		$("#san_martin_porres").attr("fill","{{dict_moras3.150135}}");
-		$("#los_olivos").attr("fill","{{dict_moras3.150117}}");
-		$("#independencia").attr("fill","{{dict_moras3.150112}}");
-		$("#comas").attr("fill","{{dict_moras3.150110}}");
-		$("#san_juan_lurigancho").attr("fill","{{dict_moras3.150132}}");
-		$("#el_agustino").attr("fill","{{dict_moras3.150111}}");
-		$("#santa_anita").attr("fill","{{dict_moras3.150137}}");
-		$("#santiago_de_surco").attr("fill","{{dict_moras3.150140}}");
-		$("#ventanilla").attr("fill","{{dict_moras3.070106}}");
-		break;
-	}
-	return value;
-    }
 });
 
 
@@ -815,7 +604,6 @@ $("#villa_maria_del_triunfo").tooltipster({
    offsetY: '-30px',
    content: $('<span><center><font color="blue">Villa María del Triunfo</font></font></center></br><center><font size=3># Ctas: {{dict_contra.150143|floatformat:0}}</font></center></br><center><font size=3>Inver: {{dict_inv.150143|floatformat:0}}</font></center></br><center><font size=3>% Mora: {{dict_morac.150143|floatformat:2}}%</font></center></br></span>'),
 });
-
 
 window.onload = function () {
 	var chart = new CanvasJS.Chart("chartContainer", {
@@ -1360,9 +1148,284 @@ window.onload = function () {
 		]
 	});
 	chart.render();
-}
+
+	var chart1 = new CanvasJS.Chart("chartContainer9", {
+		theme: "theme2",//theme1
+		//title:{
+			//text: "Participación de inversión por Territorio"              
+		//},
+
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "pie",
+			startAngle: 0,
+			indexLabel: "{label} #percent%",
+			indexLabelPlacement: "inside",
+			indexLabelFontColor: "white",
+			indexLabelFontWeight: "bold",
+			//showInLegend: true,
+			dataPoints: [
+				{% for i in limaprov %}
+				{ label: "{{i.lima_prov}}",  y: {{i.num}}  },
+				{% endfor %}
+			]
+		}
+		]
+	});
+	chart1.render();
+
+};
+
+$("#ex13").slider({
+    formatter: function(value){
+
+	var len = {{d}}
+		switch (value){
+	    case 1:
+		$("#ancon").attr("fill","silver");
+		$("#santa_rosa").attr("fill","silver");
+		$("#carabayllo").attr("fill","{{dict_moras.150106}}");
+		$("#bellavista").attr("fill","{{dict_moras.070102}}");
+		$("#carmen_de_la_legua").attr("fill","silver");
+		$("#la_perla").attr("fill","silver");
+		$("#la_punta").attr("fill","silver");
+		$("#callao").attr("fill", "{{dict_moras.070101}}");
+		$("#san_juan_miraflores").attr("fill","{{dict_moras.150133}}");
+		$("#la_molina").attr("fill","{{dict_moras.150114}}");
+		$("#puente_piedra").attr("fill","{{dict_moras.150125}}");
+		$("#pucusana").attr("fill","silver");
+		$("#santa_maria").attr("fill","silver");
+		$("#san_bartolo").attr("fill","silver");
+		$("#punta_negra").attr("fill","silver");
+		$("#punta_hermosa").attr("fill","silver");
+		$("#lurin").attr("fill","{{dict_moras.150119}}");
+		$("#villa_salvador").attr("fill","{{dict_moras.150142}}");
+		$("#lurigancho_chosica").attr("fill","silver");
+		$("#chaclacayo").attr("fill","silver");
+		$("#chorrillos").attr("fill","{{dict_moras.150108}}");
+		$("#barranco").attr("fill","{{dict_moras.150104}}");
+		$("#miraflores").attr("fill","{{dict_moras.150122}}");
+		$("#san_isidro").attr("fill","{{dict_moras.150131}}");
+		$("#magdalena_del_mar").attr("fill","{{dict_moras.150120}}");
+		$("#san_luis").attr("fill","{{dict_moras.150134}}");
+		$("#lima").attr("fill","{{dict_moras.150101}}");
+		$("#pueblo_libre").attr("fill","{{dict_moras.150121}}");
+		$("#ate").attr("fill","{{dict_moras.150103}}");
+		$("#cieneguilla").attr("fill","silver");
+		$("#breña").attr("fill","{{dict_moras.150105}}");
+		$("#jesus_maria").attr("fill","{{dict_moras.150113}}");
+		$("#lince").attr("fill","{{dict_moras.150116}}");
+		$("#la_victoria").attr("fill","{{dict_moras.150115}}");
+		$("#surquillo").attr("fill","{{dict_moras.150141}}");
+		$("#san_borja").attr("fill","{{dict_moras.150130}}");
+		$("#san_miguel").attr("fill","{{dict_moras.150136}}");
+		$("#rimac").attr("fill","{{dict_moras.150128}}");
+		$("#pachacamac").attr("fill","silver");
+		$("#villa_maria_del_triunfo").attr("fill","{{dict_moras.150143}}");
+		$("#san_martin_porres").attr("fill","{{dict_moras.150135}}");
+		$("#los_olivos").attr("fill","{{dict_moras.150117}}");
+		$("#independencia").attr("fill","{{dict_moras.150112}}");
+		$("#comas").attr("fill","{{dict_moras.150110}}");
+		$("#san_juan_lurigancho").attr("fill","{{dict_moras.150132}}");
+		$("#el_agustino").attr("fill","{{dict_moras.150111}}");
+		$("#santa_anita").attr("fill","{{dict_moras.150137}}");
+		$("#santiago_de_surco").attr("fill","{{dict_moras.150140}}");
+		$("#ventanilla").attr("fill","{{dict_moras.070106}}");
+		window.onload = function () {
+			var chart1 = new CanvasJS.Chart("chartContainer9", {
+				theme: "theme2",//theme1
+				//title:{
+					//text: "Participación de inversión por Territorio"              
+				//},
+
+				animationEnabled: true,   // change to true
+
+				data: [ 
+				{
+					// Change type to "bar", "area", "spline", "pie",etc.
+					type: "pie",
+					startAngle: 0,
+					indexLabel: "{label} #percent%",
+					indexLabelPlacement: "inside",
+					indexLabelFontColor: "white",
+					indexLabelFontWeight: "bold",
+					//showInLegend: true,
+					dataPoints: [
+						{% for i in limaprov %}
+						{ label: "{{i.lima_prov}}",  y: {{i.num}}  },
+						{% endfor %}
+					]
+				}
+				]
+			});
+		};
+		chart1.render();
+		chart1.options.data[0].dataPoints[2].y = "{{dict_limap.lima}}";
+		chart1.render();
+		break;
+	    case 2:
+		$("#ancon").attr("fill","silver");
+		$("#santa_rosa").attr("fill","silver");
+		$("#carabayllo").attr("fill","{{dict_moras1.150106}}");
+		$("#bellavista").attr("fill","{{dict_moras1.070102}}");
+		$("#carmen_de_la_legua").attr("fill","silver");
+		$("#la_perla").attr("fill","silver");
+		$("#la_punta").attr("fill","silver");
+		$("#callao").attr("fill", "{{dict_moras1.070101}}");
+		$("#san_juan_miraflores").attr("fill","{{dict_moras1.150133}}");
+		$("#la_molina").attr("fill","{{dict_moras1.150114}}");
+		$("#puente_piedra").attr("fill","{{dict_moras1.150125}}");
+		$("#pucusana").attr("fill","silver");
+		$("#santa_maria").attr("fill","silver");
+		$("#san_bartolo").attr("fill","silver");
+		$("#punta_negra").attr("fill","silver");
+		$("#punta_hermosa").attr("fill","silver");
+		$("#lurin").attr("fill","{{dict_moras1.150119}}");
+		$("#villa_salvador").attr("fill","{{dict_moras1.150142}}");
+		$("#lurigancho_chosica").attr("fill","silver");
+		$("#chaclacayo").attr("fill","silver");
+		$("#chorrillos").attr("fill","{{dict_moras1.150108}}");
+		$("#barranco").attr("fill","{{dict_moras1.150104}}");
+		$("#miraflores").attr("fill","{{dict_moras1.150122}}");
+		$("#san_isidro").attr("fill","{{dict_moras1.150131}}");
+		$("#magdalena_del_mar").attr("fill","{{dict_moras1.150120}}");
+		$("#san_luis").attr("fill","{{dict_moras1.150134}}");
+		$("#lima").attr("fill","{{dict_moras1.150101}}");
+		$("#pueblo_libre").attr("fill","{{dict_moras1.150121}}");
+		$("#ate").attr("fill","{{dict_moras1.150103}}");
+		$("#cieneguilla").attr("fill","silver");
+		$("#breña").attr("fill","{{dict_moras1.150105}}");
+		$("#jesus_maria").attr("fill","{{dict_moras1.150113}}");
+		$("#lince").attr("fill","{{dict_moras1.150116}}");
+		$("#la_victoria").attr("fill","{{dict_moras1.150115}}");
+		$("#surquillo").attr("fill","{{dict_moras1.150141}}");
+		$("#san_borja").attr("fill","{{dict_moras1.150130}}");
+		$("#san_miguel").attr("fill","{{dict_moras1.150136}}");
+		$("#rimac").attr("fill","{{dict_moras1.150128}}");
+		$("#pachacamac").attr("fill","silver");
+		$("#villa_maria_del_triunfo").attr("fill","{{dict_moras1.150143}}");
+		$("#san_martin_porres").attr("fill","{{dict_moras1.150135}}");
+		$("#los_olivos").attr("fill","{{dict_moras1.150117}}");
+		$("#independencia").attr("fill","{{dict_moras1.150112}}");
+		$("#comas").attr("fill","{{dict_moras1.150110}}");
+		$("#san_juan_lurigancho").attr("fill","{{dict_moras1.150132}}");
+		$("#el_agustino").attr("fill","{{dict_moras1.150111}}");
+		$("#santa_anita").attr("fill","{{dict_moras1.150137}}");
+		$("#santiago_de_surco").attr("fill","{{dict_moras1.150140}}");
+		$("#ventanilla").attr("fill","{{dict_moras1.070106}}");
+		break;
+	    case 3:
+		$("#ancon").attr("fill","silver");
+		$("#santa_rosa").attr("fill","silver");
+		$("#carabayllo").attr("fill","{{dict_moras2.150106}}");
+		$("#bellavista").attr("fill","{{dict_moras2.070102}}");
+		$("#carmen_de_la_legua").attr("fill","silver");
+		$("#la_perla").attr("fill","{{dict_moras2.070104}}");
+		$("#la_punta").attr("fill","silver");
+		$("#callao").attr("fill", "{{dict_moras2.070101}}");
+		$("#san_juan_miraflores").attr("fill","{{dict_moras2.150133}}");
+		$("#la_molina").attr("fill","{{dict_moras2.150114}}");
+		$("#puente_piedra").attr("fill","{{dict_moras2.150125}}");
+		$("#pucusana").attr("fill","silver");
+		$("#santa_maria").attr("fill","silver");
+		$("#san_bartolo").attr("fill","silver");
+		$("#punta_negra").attr("fill","silver");
+		$("#punta_hermosa").attr("fill","silver");
+		$("#lurin").attr("fill","{{dict_moras2.150119}}");
+		$("#villa_salvador").attr("fill","{{dict_moras2.150142}}");
+		$("#lurigancho_chosica").attr("fill","silver");
+		$("#chaclacayo").attr("fill","silver");
+		$("#chorrillos").attr("fill","{{dict_moras2.150108}}");
+		$("#barranco").attr("fill","{{dict_moras2.150104}}");
+		$("#miraflores").attr("fill","{{dict_moras2.150122}}");
+		$("#san_isidro").attr("fill","{{dict_moras2.150131}}");
+		$("#magdalena_del_mar").attr("fill","{{dict_moras2.150120}}");
+		$("#san_luis").attr("fill","{{dict_moras2.150134}}");
+		$("#lima").attr("fill","{{dict_moras2.150101}}");
+		$("#pueblo_libre").attr("fill","{{dict_moras2.150121}}");
+		$("#ate").attr("fill","{{dict_moras2.150103}}");
+		$("#cieneguilla").attr("fill","silver");
+		$("#breña").attr("fill","{{dict_moras2.150105}}");
+		$("#jesus_maria").attr("fill","{{dict_moras2.150113}}");
+		$("#lince").attr("fill","{{dict_moras2.150116}}");
+		$("#la_victoria").attr("fill","{{dict_moras2.150115}}");
+		$("#surquillo").attr("fill","{{dict_moras2.150141}}");
+		$("#san_borja").attr("fill","{{dict_moras2.150130}}");
+		$("#san_miguel").attr("fill","{{dict_moras2.150136}}");
+		$("#rimac").attr("fill","{{dict_moras2.150128}}");
+		$("#pachacamac").attr("fill","silver");
+		$("#villa_maria_del_triunfo").attr("fill","{{dict_moras2.150143}}");
+		$("#san_martin_porres").attr("fill","{{dict_moras2.150135}}");
+		$("#los_olivos").attr("fill","{{dict_moras2.150117}}");
+		$("#independencia").attr("fill","{{dict_moras2.150112}}");
+		$("#comas").attr("fill","{{dict_moras2.150110}}");
+		$("#san_juan_lurigancho").attr("fill","{{dict_moras2.150132}}");
+		$("#el_agustino").attr("fill","{{dict_moras2.150111}}");
+		$("#santa_anita").attr("fill","{{dict_moras2.150137}}");
+		$("#santiago_de_surco").attr("fill","{{dict_moras2.150140}}");
+		$("#ventanilla").attr("fill","{{dict_moras2.070106}}");
+		break;
+	    case 4:
+		$("#ancon").attr("fill","silver");
+		$("#santa_rosa").attr("fill","silver");
+		$("#carabayllo").attr("fill","{{dict_moras3.150106}}");
+		$("#bellavista").attr("fill","{{dict_moras3.070102}}");
+		$("#carmen_de_la_legua").attr("fill","silver");
+		$("#la_perla").attr("fill","{{dict_moras3.070104}}");
+		$("#la_punta").attr("fill","silver");
+		$("#callao").attr("fill", "{{dict_moras3.070101}}");
+		$("#san_juan_miraflores").attr("fill","{{dict_moras3.150133}}");
+		$("#la_molina").attr("fill","{{dict_moras3.150114}}");
+		$("#puente_piedra").attr("fill","{{dict_moras3.150125}}");
+		$("#pucusana").attr("fill","silver");
+		$("#santa_maria").attr("fill","silver");
+		$("#san_bartolo").attr("fill","silver");
+		$("#punta_negra").attr("fill","silver");
+		$("#punta_hermosa").attr("fill","silver");
+		$("#lurin").attr("fill","{{dict_moras3.150119}}");
+		$("#villa_salvador").attr("fill","{{dict_moras3.150142}}");
+		$("#lurigancho_chosica").attr("fill","silver");
+		$("#chaclacayo").attr("fill","silver");
+		$("#chorrillos").attr("fill","{{dict_moras3.150108}}");
+		$("#barranco").attr("fill","{{dict_moras3.150104}}");
+		$("#miraflores").attr("fill","{{dict_moras3.150122}}");
+		$("#san_isidro").attr("fill","{{dict_moras3.150131}}");
+		$("#magdalena_del_mar").attr("fill","{{dict_moras3.150120}}");
+		$("#san_luis").attr("fill","{{dict_moras3.150134}}");
+		$("#lima").attr("fill","{{dict_moras3.150101}}");
+		$("#pueblo_libre").attr("fill","{{dict_moras3.150121}}");
+		$("#ate").attr("fill","{{dict_moras3.150103}}");
+		$("#cieneguilla").attr("fill","silver");
+		$("#breña").attr("fill","{{dict_moras3.150105}}");
+		$("#jesus_maria").attr("fill","{{dict_moras3.150113}}");
+		$("#lince").attr("fill","{{dict_moras3.150116}}");
+		$("#la_victoria").attr("fill","{{dict_moras3.150115}}");
+		$("#surquillo").attr("fill","{{dict_moras3.150141}}");
+		$("#san_borja").attr("fill","{{dict_moras3.150130}}");
+		$("#san_miguel").attr("fill","{{dict_moras3.150136}}");
+		$("#rimac").attr("fill","{{dict_moras3.150128}}");
+		$("#pachacamac").attr("fill","silver");
+		$("#villa_maria_del_triunfo").attr("fill","{{dict_moras3.150143}}");
+		$("#san_martin_porres").attr("fill","{{dict_moras3.150135}}");
+		$("#los_olivos").attr("fill","{{dict_moras3.150117}}");
+		$("#independencia").attr("fill","{{dict_moras3.150112}}");
+		$("#comas").attr("fill","{{dict_moras3.150110}}");
+		$("#san_juan_lurigancho").attr("fill","{{dict_moras3.150132}}");
+		$("#el_agustino").attr("fill","{{dict_moras3.150111}}");
+		$("#santa_anita").attr("fill","{{dict_moras3.150137}}");
+		$("#santiago_de_surco").attr("fill","{{dict_moras3.150140}}");
+		$("#ventanilla").attr("fill","{{dict_moras3.070106}}");
+		break;
+	}
+	return value;
+    }
+});
 
 
-  </script>
+
+</script>
 {% endblock %}
 
