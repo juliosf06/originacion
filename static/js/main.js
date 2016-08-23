@@ -189,6 +189,7 @@ $('#ex1').slider({
 	}
 });
 
+
 $("#ex13").change(function(e){
   console.log($("#ex13").val());
 

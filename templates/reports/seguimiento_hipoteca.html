@@ -56,7 +56,7 @@
 	      <div class="slider" style="width: 30%; display: inline-block;"> 
 	          <input id="ex13" type="text" data-slider-min=1 data-slider-max=d data-slider-step="1" data-slider-value=1 />
 	      </div>
-	      <div id="chartContainer9" style="height: 280px; width: 40%; display: inline-block;"></div>
+	      <div id="chartContainer9" style="height: 300px; width: 50%; display: inline-block;"></div>
           </div>
           &nbsp;&nbsp;
 	  <p> </p>
@@ -162,7 +162,6 @@ $("#ex13").slider({
    ticks_labels: ['201312', '201412', '201512', '201607'],
    ticks_snap_bounds: 1,
 });
-
 
 $("#ancon").tooltipster({
    theme: 'my-tooltipster',
@@ -1151,9 +1150,9 @@ window.onload = function () {
 
 	var chart1 = new CanvasJS.Chart("chartContainer9", {
 		theme: "theme2",//theme1
-		//title:{
-			//text: "Participación de inversión por Territorio"              
-		//},
+		title:{
+			text: "Participación de inversión por Territorio"              
+		},
 
 		animationEnabled: true,   // change to true
 
@@ -1168,8 +1167,8 @@ window.onload = function () {
 			indexLabelFontWeight: "bold",
 			//showInLegend: true,
 			dataPoints: [
-				{% for i in limaprov %}
-				{ label: "{{i.lima_prov}}",  y: {{i.num}}  },
+				{% for key, value in dict_lp1.items|sort %}
+				{ label: "{{key}}",  y: {{value}}  },
 				{% endfor %}
 			]
 		}
@@ -1177,8 +1176,230 @@ window.onload = function () {
 	});
 	chart1.render();
 
+	$("#ex13").slider({
+    	    formatter: function(value){
+		if (value == 1) {
+			chart1.options.data[0].dataPoints[0].y = {{dict_lp1.Lima}};
+			chart1.options.data[0].dataPoints[1].y = {{dict_lp1.Provincias}};
+			chart1.render();
+			$("#ancon").attr("fill","silver");
+			$("#santa_rosa").attr("fill","silver");
+			$("#carabayllo").attr("fill","{{dict_moras.150106}}");
+			$("#bellavista").attr("fill","{{dict_moras.070102}}");
+			$("#carmen_de_la_legua").attr("fill","silver");
+			$("#la_perla").attr("fill","silver");
+			$("#la_punta").attr("fill","silver");
+			$("#callao").attr("fill", "{{dict_moras.070101}}");
+			$("#san_juan_miraflores").attr("fill","{{dict_moras.150133}}");
+			$("#la_molina").attr("fill","{{dict_moras.150114}}");
+			$("#puente_piedra").attr("fill","{{dict_moras.150125}}");
+			$("#pucusana").attr("fill","silver");
+			$("#santa_maria").attr("fill","silver");
+			$("#san_bartolo").attr("fill","silver");
+			$("#punta_negra").attr("fill","silver");
+			$("#punta_hermosa").attr("fill","silver");
+			$("#lurin").attr("fill","{{dict_moras.150119}}");
+			$("#villa_salvador").attr("fill","{{dict_moras.150142}}");
+			$("#lurigancho_chosica").attr("fill","silver");
+			$("#chaclacayo").attr("fill","silver");
+			$("#chorrillos").attr("fill","{{dict_moras.150108}}");
+			$("#barranco").attr("fill","{{dict_moras.150104}}");
+			$("#miraflores").attr("fill","{{dict_moras.150122}}");
+			$("#san_isidro").attr("fill","{{dict_moras.150131}}");
+			$("#magdalena_del_mar").attr("fill","{{dict_moras.150120}}");
+			$("#san_luis").attr("fill","{{dict_moras.150134}}");
+			$("#lima").attr("fill","{{dict_moras.150101}}");
+			$("#pueblo_libre").attr("fill","{{dict_moras.150121}}");
+			$("#ate").attr("fill","{{dict_moras.150103}}");
+			$("#cieneguilla").attr("fill","silver");
+			$("#breña").attr("fill","{{dict_moras.150105}}");
+			$("#jesus_maria").attr("fill","{{dict_moras.150113}}");
+			$("#lince").attr("fill","{{dict_moras.150116}}");
+			$("#la_victoria").attr("fill","{{dict_moras.150115}}");
+			$("#surquillo").attr("fill","{{dict_moras.150141}}");
+			$("#san_borja").attr("fill","{{dict_moras.150130}}");
+			$("#san_miguel").attr("fill","{{dict_moras.150136}}");
+			$("#rimac").attr("fill","{{dict_moras.150128}}");
+			$("#pachacamac").attr("fill","silver");
+			$("#villa_maria_del_triunfo").attr("fill","{{dict_moras.150143}}");
+			$("#san_martin_porres").attr("fill","{{dict_moras.150135}}");
+			$("#los_olivos").attr("fill","{{dict_moras.150117}}");
+			$("#independencia").attr("fill","{{dict_moras.150112}}");
+			$("#comas").attr("fill","{{dict_moras.150110}}");
+			$("#san_juan_lurigancho").attr("fill","{{dict_moras.150132}}");
+			$("#el_agustino").attr("fill","{{dict_moras.150111}}");
+			$("#santa_anita").attr("fill","{{dict_moras.150137}}");
+			$("#santiago_de_surco").attr("fill","{{dict_moras.150140}}");
+			$("#ventanilla").attr("fill","{{dict_moras.070106}}");
+		}
+		if (value == 2) {
+			chart1.options.data[0].dataPoints[0].y = {{dict_lp2.Lima}};
+			chart1.options.data[0].dataPoints[1].y = {{dict_lp2.Provincias}};
+			chart1.render();
+			$("#ancon").attr("fill","silver");
+			$("#santa_rosa").attr("fill","silver");
+			$("#carabayllo").attr("fill","{{dict_moras1.150106}}");
+			$("#bellavista").attr("fill","{{dict_moras1.070102}}");
+			$("#carmen_de_la_legua").attr("fill","silver");
+			$("#la_perla").attr("fill","silver");
+			$("#la_punta").attr("fill","silver");
+			$("#callao").attr("fill", "{{dict_moras1.070101}}");
+			$("#san_juan_miraflores").attr("fill","{{dict_moras1.150133}}");
+			$("#la_molina").attr("fill","{{dict_moras1.150114}}");
+			$("#puente_piedra").attr("fill","{{dict_moras1.150125}}");
+			$("#pucusana").attr("fill","silver");
+			$("#santa_maria").attr("fill","silver");
+			$("#san_bartolo").attr("fill","silver");
+			$("#punta_negra").attr("fill","silver");
+			$("#punta_hermosa").attr("fill","silver");
+			$("#lurin").attr("fill","{{dict_moras1.150119}}");
+			$("#villa_salvador").attr("fill","{{dict_moras1.150142}}");
+			$("#lurigancho_chosica").attr("fill","silver");
+			$("#chaclacayo").attr("fill","silver");
+			$("#chorrillos").attr("fill","{{dict_moras1.150108}}");
+			$("#barranco").attr("fill","{{dict_moras1.150104}}");
+			$("#miraflores").attr("fill","{{dict_moras1.150122}}");
+			$("#san_isidro").attr("fill","{{dict_moras1.150131}}");
+			$("#magdalena_del_mar").attr("fill","{{dict_moras1.150120}}");
+			$("#san_luis").attr("fill","{{dict_moras1.150134}}");
+			$("#lima").attr("fill","{{dict_moras1.150101}}");
+			$("#pueblo_libre").attr("fill","{{dict_moras1.150121}}");
+			$("#ate").attr("fill","{{dict_moras1.150103}}");
+			$("#cieneguilla").attr("fill","silver");
+			$("#breña").attr("fill","{{dict_moras1.150105}}");
+			$("#jesus_maria").attr("fill","{{dict_moras1.150113}}");
+			$("#lince").attr("fill","{{dict_moras1.150116}}");
+			$("#la_victoria").attr("fill","{{dict_moras1.150115}}");
+			$("#surquillo").attr("fill","{{dict_moras1.150141}}");
+			$("#san_borja").attr("fill","{{dict_moras1.150130}}");
+			$("#san_miguel").attr("fill","{{dict_moras1.150136}}");
+			$("#rimac").attr("fill","{{dict_moras1.150128}}");
+			$("#pachacamac").attr("fill","silver");
+			$("#villa_maria_del_triunfo").attr("fill","{{dict_moras1.150143}}");
+			$("#san_martin_porres").attr("fill","{{dict_moras1.150135}}");
+			$("#los_olivos").attr("fill","{{dict_moras1.150117}}");
+			$("#independencia").attr("fill","{{dict_moras1.150112}}");
+			$("#comas").attr("fill","{{dict_moras1.150110}}");
+			$("#san_juan_lurigancho").attr("fill","{{dict_moras1.150132}}");
+			$("#el_agustino").attr("fill","{{dict_moras1.150111}}");
+			$("#santa_anita").attr("fill","{{dict_moras1.150137}}");
+			$("#santiago_de_surco").attr("fill","{{dict_moras1.150140}}");
+			$("#ventanilla").attr("fill","{{dict_moras1.070106}}");
+		}
+		if (value == 3) {
+			chart1.options.data[0].dataPoints[0].y = {{dict_lp3.Lima}};
+			chart1.options.data[0].dataPoints[1].y = {{dict_lp3.Provincias}};
+			chart1.render();
+			$("#ancon").attr("fill","silver");
+			$("#santa_rosa").attr("fill","silver");
+			$("#carabayllo").attr("fill","{{dict_moras2.150106}}");
+			$("#bellavista").attr("fill","{{dict_moras2.070102}}");
+			$("#carmen_de_la_legua").attr("fill","silver");
+			$("#la_perla").attr("fill","{{dict_moras2.070104}}");
+			$("#la_punta").attr("fill","silver");
+			$("#callao").attr("fill", "{{dict_moras2.070101}}");
+			$("#san_juan_miraflores").attr("fill","{{dict_moras2.150133}}");
+			$("#la_molina").attr("fill","{{dict_moras2.150114}}");
+			$("#puente_piedra").attr("fill","{{dict_moras2.150125}}");
+			$("#pucusana").attr("fill","silver");
+			$("#santa_maria").attr("fill","silver");
+			$("#san_bartolo").attr("fill","silver");
+			$("#punta_negra").attr("fill","silver");
+			$("#punta_hermosa").attr("fill","silver");
+			$("#lurin").attr("fill","{{dict_moras2.150119}}");
+			$("#villa_salvador").attr("fill","{{dict_moras2.150142}}");
+			$("#lurigancho_chosica").attr("fill","silver");
+			$("#chaclacayo").attr("fill","silver");
+			$("#chorrillos").attr("fill","{{dict_moras2.150108}}");
+			$("#barranco").attr("fill","{{dict_moras2.150104}}");
+			$("#miraflores").attr("fill","{{dict_moras2.150122}}");
+			$("#san_isidro").attr("fill","{{dict_moras2.150131}}");
+			$("#magdalena_del_mar").attr("fill","{{dict_moras2.150120}}");
+			$("#san_luis").attr("fill","{{dict_moras2.150134}}");
+			$("#lima").attr("fill","{{dict_moras2.150101}}");
+			$("#pueblo_libre").attr("fill","{{dict_moras2.150121}}");
+			$("#ate").attr("fill","{{dict_moras2.150103}}");
+			$("#cieneguilla").attr("fill","silver");
+			$("#breña").attr("fill","{{dict_moras2.150105}}");
+			$("#jesus_maria").attr("fill","{{dict_moras2.150113}}");
+			$("#lince").attr("fill","{{dict_moras2.150116}}");
+			$("#la_victoria").attr("fill","{{dict_moras2.150115}}");
+			$("#surquillo").attr("fill","{{dict_moras2.150141}}");
+			$("#san_borja").attr("fill","{{dict_moras2.150130}}");
+			$("#san_miguel").attr("fill","{{dict_moras2.150136}}");
+			$("#rimac").attr("fill","{{dict_moras2.150128}}");
+			$("#pachacamac").attr("fill","silver");
+			$("#villa_maria_del_triunfo").attr("fill","{{dict_moras2.150143}}");
+			$("#san_martin_porres").attr("fill","{{dict_moras2.150135}}");
+			$("#los_olivos").attr("fill","{{dict_moras2.150117}}");
+			$("#independencia").attr("fill","{{dict_moras2.150112}}");
+			$("#comas").attr("fill","{{dict_moras2.150110}}");
+			$("#san_juan_lurigancho").attr("fill","{{dict_moras2.150132}}");
+			$("#el_agustino").attr("fill","{{dict_moras2.150111}}");
+			$("#santa_anita").attr("fill","{{dict_moras2.150137}}");
+			$("#santiago_de_surco").attr("fill","{{dict_moras2.150140}}");
+			$("#ventanilla").attr("fill","{{dict_moras2.070106}}");
+		}
+		if (value == 4) {
+			chart1.options.data[0].dataPoints[0].y = {{dict_lp4.Lima}};
+			chart1.options.data[0].dataPoints[1].y = {{dict_lp4.Provincias}};
+			chart1.render();
+			$("#ancon").attr("fill","silver");
+			$("#santa_rosa").attr("fill","silver");
+			$("#carabayllo").attr("fill","{{dict_moras3.150106}}");
+			$("#bellavista").attr("fill","{{dict_moras3.070102}}");
+			$("#carmen_de_la_legua").attr("fill","silver");
+			$("#la_perla").attr("fill","{{dict_moras3.070104}}");
+			$("#la_punta").attr("fill","silver");
+			$("#callao").attr("fill", "{{dict_moras3.070101}}");
+			$("#san_juan_miraflores").attr("fill","{{dict_moras3.150133}}");
+			$("#la_molina").attr("fill","{{dict_moras3.150114}}");
+			$("#puente_piedra").attr("fill","{{dict_moras3.150125}}");
+			$("#pucusana").attr("fill","silver");
+			$("#santa_maria").attr("fill","silver");
+			$("#san_bartolo").attr("fill","silver");
+			$("#punta_negra").attr("fill","silver");
+			$("#punta_hermosa").attr("fill","silver");
+			$("#lurin").attr("fill","{{dict_moras3.150119}}");
+			$("#villa_salvador").attr("fill","{{dict_moras3.150142}}");
+			$("#lurigancho_chosica").attr("fill","silver");
+			$("#chaclacayo").attr("fill","silver");
+			$("#chorrillos").attr("fill","{{dict_moras3.150108}}");
+			$("#barranco").attr("fill","{{dict_moras3.150104}}");
+			$("#miraflores").attr("fill","{{dict_moras3.150122}}");
+			$("#san_isidro").attr("fill","{{dict_moras3.150131}}");
+			$("#magdalena_del_mar").attr("fill","{{dict_moras3.150120}}");
+			$("#san_luis").attr("fill","{{dict_moras3.150134}}");
+			$("#lima").attr("fill","{{dict_moras3.150101}}");
+			$("#pueblo_libre").attr("fill","{{dict_moras3.150121}}");
+			$("#ate").attr("fill","{{dict_moras3.150103}}");
+			$("#cieneguilla").attr("fill","silver");
+			$("#breña").attr("fill","{{dict_moras3.150105}}");
+			$("#jesus_maria").attr("fill","{{dict_moras3.150113}}");
+			$("#lince").attr("fill","{{dict_moras3.150116}}");
+			$("#la_victoria").attr("fill","{{dict_moras3.150115}}");
+			$("#surquillo").attr("fill","{{dict_moras3.150141}}");
+			$("#san_borja").attr("fill","{{dict_moras3.150130}}");
+			$("#san_miguel").attr("fill","{{dict_moras3.150136}}");
+			$("#rimac").attr("fill","{{dict_moras3.150128}}");
+			$("#pachacamac").attr("fill","silver");
+			$("#villa_maria_del_triunfo").attr("fill","{{dict_moras3.150143}}");
+			$("#san_martin_porres").attr("fill","{{dict_moras3.150135}}");
+			$("#los_olivos").attr("fill","{{dict_moras3.150117}}");
+			$("#independencia").attr("fill","{{dict_moras3.150112}}");
+			$("#comas").attr("fill","{{dict_moras3.150110}}");
+			$("#san_juan_lurigancho").attr("fill","{{dict_moras3.150132}}");
+			$("#el_agustino").attr("fill","{{dict_moras3.150111}}");
+			$("#santa_anita").attr("fill","{{dict_moras3.150137}}");
+			$("#santiago_de_surco").attr("fill","{{dict_moras3.150140}}");
+			$("#ventanilla").attr("fill","{{dict_moras3.070106}}");
+		}
+	    }
+	});
+
 };
 
+/*
 $("#ex13").slider({
     formatter: function(value){
 
@@ -1234,37 +1455,6 @@ $("#ex13").slider({
 		$("#santa_anita").attr("fill","{{dict_moras.150137}}");
 		$("#santiago_de_surco").attr("fill","{{dict_moras.150140}}");
 		$("#ventanilla").attr("fill","{{dict_moras.070106}}");
-		window.onload = function () {
-			var chart1 = new CanvasJS.Chart("chartContainer9", {
-				theme: "theme2",//theme1
-				//title:{
-					//text: "Participación de inversión por Territorio"              
-				//},
-
-				animationEnabled: true,   // change to true
-
-				data: [ 
-				{
-					// Change type to "bar", "area", "spline", "pie",etc.
-					type: "pie",
-					startAngle: 0,
-					indexLabel: "{label} #percent%",
-					indexLabelPlacement: "inside",
-					indexLabelFontColor: "white",
-					indexLabelFontWeight: "bold",
-					//showInLegend: true,
-					dataPoints: [
-						{% for i in limaprov %}
-						{ label: "{{i.lima_prov}}",  y: {{i.num}}  },
-						{% endfor %}
-					]
-				}
-				]
-			});
-		};
-		chart1.render();
-		chart1.options.data[0].dataPoints[2].y = "{{dict_limap.lima}}";
-		chart1.render();
 		break;
 	    case 2:
 		$("#ancon").attr("fill","silver");
@@ -1423,7 +1613,7 @@ $("#ex13").slider({
 	return value;
     }
 });
-
+*/
 
 
 </script>

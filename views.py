@@ -2667,11 +2667,21 @@ def seguimiento_hipoteca(request, fecha='201312'):
     grafica2 = zip(saldo_jud,saldo_ven,saldo_ref,totales)
 
     conce = HipotecaConce.objects.values('mes','territorio').filter(mes='201512').annotate(sum_inv=Sum('inversion')).order_by('territorio')
-    limaprov = Mapa.objects.values('lima_prov').filter(codmes=fecha).annotate(num=Sum('ctas')).order_by('lima_prov')
-    dict_limap = {}
+    limaprov = Mapa.objects.values('codmes','lima_prov').annotate(num=Sum('ctas')).order_by('codmes')
+    dict_lp1 = {}; dict_lp2 = {}; dict_lp3 = {}; dict_lp4 = {};
     for i in limaprov:
-	dict_limap[i['lima_prov']] = i['num']
-    print dict_limap
+	if i['codmes'] == '201312':
+	    dict_lp1[i['lima_prov']] = i['num']
+	if i['codmes'] == '201412':
+	    dict_lp2[i['lima_prov']] = i['num']
+	if i['codmes'] == '201512':
+	    dict_lp3[i['lima_prov']] = i['num']
+	if i['codmes'] == '201607':
+	    dict_lp4[i['lima_prov']] = i['num']
+    print dict_lp1
+    print dict_lp2
+    print dict_lp3
+    print dict_lp4
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/seguimiento_hipoteca.html', locals(),
