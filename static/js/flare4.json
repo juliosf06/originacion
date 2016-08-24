@@ -1,0 +1,113 @@
+{
+ "name": "flare",
+ "children": [
+  {
+   "name": "DEPENDIENTE_CLIENTE",
+   "children": [
+    {
+     "name": "DEPENDIENTE_CLIENTE",
+     "children": [
+      {"name": "LEGENDARIO", "size": 6805},
+      {"name": "RESTO", "size": 273643},
+      {"name": "POWER", "size": 60579},
+      {"name": "PULPIN", "size": 7915},
+      {"name": "SENIOR", "size": 609}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "INDEPENDIENTE_CLIENTE",
+   "children": [
+    {
+     "name": "INDEPENDIENTE_CLIENTE",
+     "children": [
+      {"name": "RESTO", "size": 86610},
+      {"name": "POWER", "size": 8134},
+      {"name": "PULPIN", "size": 2768}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "PNN_CLIENTE",
+   "children": [
+    {
+     "name": "PNN_CLIENTE",
+     "children": [
+      {"name": "RESTO", "size": 13607},
+      {"name": "POWER", "size": 353},
+      {"name": "PULPIN", "size": 292}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "NO_RECONOCIDO_CLIENTE",
+   "children": [
+    {
+     "name": "NO_RECONOCIDO_CLIENTE",
+     "children": [
+      {"name": "RESTO", "size": 48443},
+      {"name": "POWER", "size": 1778},
+      {"name": "PULPIN", "size": 1051}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "DEPENDIENTE_NC",
+   "children": [
+    {
+     "name": "DEPENDIENTE_NC",
+     "children": [
+      {"name": "LEGENDARIO", "size": 6398},
+      {"name": "RESTO", "size": 163411},
+      {"name": "POWER", "size": 28856},
+      {"name": "PULPIN", "size": 6147},
+      {"name": "SENIOR", "size": 526}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "INDEPENDIENTE_NC",
+   "children": [
+    {
+     "name": "INDEPENDIENTE_NC",
+     "children": [
+      {"name": "RESTO", "size": 87036},
+      {"name": "POWER", "size": 1245},
+      {"name": "PULPIN", "size": 2691}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "PNN_NC",
+   "children": [
+    {
+     "name": "PNN_NC",
+     "children": [
+      {"name": "RESTO", "size": 60676},
+      {"name": "POWER", "size": 59},
+      {"name": "PULPIN", "size": 321}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "NO_RECONOCIDO_NC",
+   "children": [
+    {
+     "name": "NO_RECONOCIDO_NC",
+     "children": [
+      {"name": "RESTO", "size": 107309},
+      {"name": "POWER", "size": 634},
+      {"name": "PULPIN", "size": 1692}
+     ]
+    }
+   ]
+  }
+ ]
+}

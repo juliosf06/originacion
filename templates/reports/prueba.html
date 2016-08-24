@@ -14,7 +14,6 @@
 <div>
 <style>
 
-
 form {
   position: absolute;
   right: 10px;
@@ -31,7 +30,20 @@ form {
   margin-left: 215px;
 }
 
+.node-label {
+  padding: 4px;
+  line-height: 1em;
+  white-space: pre;
+}
+
+.node-value {
+  padding: rgba(0,0,0,0.8);
+  line-height: 1em;
+  margin-top: 1px;
+}
+
 </style>
+
 <form>
   <label><input type="radio" name="mode" value="size" checked> Size</label>
   <label><input type="radio" name="mode" value="count"> Count</label>
@@ -57,16 +69,19 @@ var div = d3.select("body").append("div")
     .style("left", margin.left + "px")
     .style("top", margin.top + "px");
 
-d3.json("{{static_url}}js/flare3.json", function(error, root) {
+d3.json("{{static_url}}js/flare4.json", function(error, root) {
   if (error) throw error;
 
   var node = div.datum(root).selectAll(".node")
-      .data(treemap.nodes)
-      .enter().append("div")
+    .data(treemap.nodes)
+    .enter().append("div")
       .attr("class", "node")
       .call(position)
       .style("background", function(d) { return d.children ? color(d.name) : null; })
+    .append("div")
+      .attr("class", "node-label")
       .text(function(d) { return d.children ? null : d.name; });
+
 
   d3.selectAll("input").on("change", function change() {
     var value = this.value === "count"
@@ -88,6 +103,8 @@ function position() {
       .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
 }
 
+
+
 </script>
 </div>
 
@@ -96,9 +113,6 @@ function position() {
 
 
 {% block script_final %}
-
-
-
 
 
 
