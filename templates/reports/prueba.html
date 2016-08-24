@@ -30,18 +30,6 @@ form {
   margin-left: 215px;
 }
 
-.node-label {
-  padding: 4px;
-  line-height: 1em;
-  white-space: pre;
-}
-
-.node-value {
-  padding: rgba(0,0,0,0.8);
-  line-height: 1em;
-  margin-top: 1px;
-}
-
 </style>
 
 <form>
@@ -73,15 +61,12 @@ d3.json("{{static_url}}js/flare4.json", function(error, root) {
   if (error) throw error;
 
   var node = div.datum(root).selectAll(".node")
-    .data(treemap.nodes)
-    .enter().append("div")
+      .data(treemap.nodes)
+      .enter().append("div")
       .attr("class", "node")
       .call(position)
       .style("background", function(d) { return d.children ? color(d.name) : null; })
-    .append("div")
-      .attr("class", "node-label")
       .text(function(d) { return d.children ? null : d.name; });
-
 
   d3.selectAll("input").on("change", function change() {
     var value = this.value === "count"
@@ -117,4 +102,3 @@ function position() {
 
 
 {% endblock %}
-
