@@ -90,6 +90,13 @@ def prueba(request):
     return render('reports/prueba.html', locals(),
                   context_instance=RequestContext(request))
 
+def prueba2(request):
+
+    static_url=settings.STATIC_URL
+
+    return render('reports/prueba2.html', locals(),
+                  context_instance=RequestContext(request))
+
 # 2.- Vistas para reportes de Campaña
 def campana_resumen(request,fecha=before1):
 
@@ -405,7 +412,7 @@ def campana_prestinmediato(request):
 @login_required
 def campanaweb(request,nivel='MES'):
     print nivel
-    campanaweb = CampanaWeb.objects.all()
+    campanaweb = CampanaWeb.objects.all().order_by('num_eval')
     campanaweb2 = CampanaWeb.objects.values('mes').annotate(tot_clientes=Sum('num_clientes'), tot_formtdc=Sum('form_tdc'), tot_formpld=Sum('form_pld'), tot_filtro=Sum('total_filtros'), tot_tdcmoi=Sum('tdc_moi'), tot_tdcil=Sum('tdc_il'), tot_tdnew=Sum('tdc_nueva'), tot_tdc=Sum('tdc_total'), tot_pldmoi=Sum('pld_moi'), tot_pldnew=Sum('pld_nueva'), tot_pld=Sum('pld_total'), efe_tdc=Sum('tdc'), efe_pld=Sum('pld'), efe_pldform=Sum(F('pld'))*100/Sum(F('pld_total')), efe_tdcform=Sum(F('tdc'))*100/Sum(F('tdc_total')), tdc_por=Sum(F('tdc_total'))*100/Sum(F('form_tdc')), pld_por=Sum(F('pld_total'))*100/Sum(F('form_pld'))).order_by('mes')
     campanaweb3 = CampanaWeb.objects.values('semana').annotate(tot_clientes=Sum('num_clientes'), tot_formtdc=Sum('form_tdc'), tot_formpld=Sum('form_pld'), tot_filtro=Sum('total_filtros'), tot_tdcmoi=Sum('tdc_moi'), tot_tdcil=Sum('tdc_il'), tot_tdnew=Sum('tdc_nueva'), tot_tdc=Sum('tdc_total'), tot_pldmoi=Sum('pld_moi'), tot_pldnew=Sum('pld_nueva'), tot_pld=Sum('pld_total'), efe_tdc=Sum('tdc'), efe_pld=Sum('pld'), efe_pldform=Sum(F('pld'))*100/Sum(F('pld_total')), efe_tdcform=Sum(F('tdc'))*100/Sum(F('tdc_total')), tdc_por=Sum(F('tdc_total'))*100/Sum(F('form_tdc')), pld_por=Sum(F('pld_total'))*100/Sum(F('form_pld'))).order_by('semana')
 

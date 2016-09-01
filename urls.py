@@ -79,6 +79,7 @@ urlpatterns = [
 
     # URLS para reportes de Hipotecario
     url(r'^prueba/$', views.prueba, name='prueba'),
+    url(r'^prueba2/$', views.prueba2, name='prueba2'),
 
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),
