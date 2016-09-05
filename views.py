@@ -3067,7 +3067,7 @@ def load(request):
 
 # Vistas para manipular archivos
 def carga_rvgl(request):
-    RVGL.objects.filter(mes_vigencia='201607').delete()
+    #RVGL.objects.filter(mes_vigencia='201607').delete()
     if request.method == 'POST':
         form = UploadRVGL(request.POST, request.FILES)
         if form.is_valid():
