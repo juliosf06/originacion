@@ -3067,7 +3067,7 @@ def load(request):
 
 # Vistas para manipular archivos
 def carga_rvgl(request):
-    RVGL.objects.all().delete()
+    #RVGL.objects.all().delete()
     if request.method == 'POST':
         form = UploadRVGL(request.POST, request.FILES)
         if form.is_valid():
