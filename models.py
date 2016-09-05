@@ -410,7 +410,7 @@ class RVGL(models.Model):
     base_rvgl = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.rvgl
+        return self.mes_vigencia+' '+self.rvgl+' '+self.seco
 
 class HipotecaSSFF(models.Model):
     mes_vigencia = models.CharField(max_length=10)
