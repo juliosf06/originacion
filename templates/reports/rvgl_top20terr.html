@@ -38,7 +38,6 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>Territorios</th>
                   <th>Operaciones sol.</th>
                   <th>Monto solicitado</th>
@@ -49,12 +48,12 @@
               <tbody id="tabla_top20terr">
 		{% for a,b in top20terr %}
 		<tr>                       
-                  <td></td>
                   <td>{{a.territorio_nuevo}}</td>
-                  <td>{{a.num_top20terr1|intcomma}}</td>
-                  <td>{{a.sum_top20terr1|intcomma}}</td>
-                  <td>{{b.num_top20terr2|intcomma}}</td>
-                  <td>{{b.sum_top20terr2|intcomma}}</td>
+                  <td>{{b.num_top20terr1|intcomma}}</td>
+                  <td>{{b.sum_top20terr1|intcomma}}</td>
+                  <td>{{a.num_top20terr2|intcomma}}</td>
+                  <td>{{a.sum_top20terr2|intcomma}}</td>
+
                 </tr>
 		{% endfor %}
               </tbody>
