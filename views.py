@@ -856,7 +856,7 @@ def departamentos_web(request,semana=1):
                   context_instance=RequestContext(request))
 
 @login_required
-def rvgl_resumenxsco(request, fecha=fecha_actual, analista='TODOS'):
+def rvgl_resumenxsco(request, fecha=before2, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
     dictamen = RVGL.objects.values('dictamen').exclude(dictamen='PROCESO').distinct('dictamen').order_by('dictamen')
@@ -980,7 +980,7 @@ def rvgl_resumenxsco(request, fecha=fecha_actual, analista='TODOS'):
     return render('reports/rvgl_resumenxsco.html', locals(),
                   context_instance=RequestContext(request))
 
-def rvgl_top20terr(request, fecha=fecha_actual, analista='TODOS'):
+def rvgl_top20terr(request, fecha=before2, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
     if analista == 'TODOS':
@@ -999,7 +999,7 @@ def rvgl_top20terr(request, fecha=fecha_actual, analista='TODOS'):
                   context_instance=RequestContext(request))
 
 @login_required
-def rvgl_top20gest(request, fecha=fecha_actual, analista='TODOS'):
+def rvgl_top20gest(request, fecha=before2, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
     if analista == 'TODOS':
@@ -1017,7 +1017,7 @@ def rvgl_top20gest(request, fecha=fecha_actual, analista='TODOS'):
                   context_instance=RequestContext(request))
 
 @login_required
-def rvgl_top20clie(request, fecha=fecha_actual, analista='TODOS'):
+def rvgl_top20clie(request, fecha=before2, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
     if analista == 'TODOS':
@@ -1035,7 +1035,7 @@ def rvgl_top20clie(request, fecha=fecha_actual, analista='TODOS'):
                   context_instance=RequestContext(request))
 
 @login_required
-def rvgl_top20ofic(request, fecha=fecha_actual, analista='TODOS'):
+def rvgl_top20ofic(request, fecha=before2, analista='TODOS'):
     control_analistas = RVGL.objects.values('analista').distinct('analista')
     control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
     if analista == 'TODOS':
