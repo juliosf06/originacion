@@ -1,0 +1,330 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Sistema Financiero y BBVA{% endblock %}
+
+{% block content %}
+
+          <h1 class="page-header">Sistema Financiero y BBVA</h1>
+          <h3 class="page-header">BASE RVGL</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Periodo a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo1">
+            <option >SELECT</option>
+            {% for a in control_fecha1 %}
+            <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button1"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE CAMPAÑA</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Periodo a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo2">
+            <option >SELECT</option>
+            {% for a in control_fecha2 %}
+            <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button2"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE CAMPAÑA WEB</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">BORRAR:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo0">
+            <option value="000000">Todo</option>
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button0"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE EFECTIVIDAD</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">BORRAR:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo3">
+            <option value="000001">Todo</option>
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button3"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE SITUACIÓN LABORAL-SEGMENTO</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">BORRAR:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo4">
+            <option value="000002">Todo</option>
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button4"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE EQUIFAX</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">BORRAR:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo5">
+            <option value="000003">Todo</option>
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button5"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE SEGUIMIENTO</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Periodo a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo6">
+            <option >SELECT</option>
+            {% for a in control_fecha3 %}
+            <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button6"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE MAPA DEPARTAMENTOS WEB</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">N° semana a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo7">
+            <option >SELECT</option>
+            {% for a in control_semana0 %}
+            <option value="{{a.semana}}" {% if semana0 == a.semana %} selected {% endif %}>{{a.semana}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button7"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE ADELANTO SUELDO</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Periodo a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo8">
+            <option >SELECT</option>
+            {% for a in control_fecha4 %}
+            <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button8"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE PRESTAMO INMEDIATO</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Periodo a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo9">
+            <option >SELECT</option>
+            {% for a in control_fecha5 %}
+            <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button9"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE FORZAJE</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Periodo a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo10">
+            <option >SELECT</option>
+            {% for a in control_fecha6 %}
+            <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button10"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE LIFEMILES</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Periodo a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo11">
+            <option >SELECT</option>
+            {% for a in control_fecha7 %}
+            <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button11"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE INCREMENTO DE LINEA</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Periodo a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo12">
+            <option >SELECT</option>
+            {% for a in control_fecha8 %}
+            <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button12"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE FLUJO OPERATIVO</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Periodo a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo13">
+            <option >SELECT</option>
+            {% for a in control_fecha9 %}
+            <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button13"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE HIPOTECA SSFF</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Periodo a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo14">
+            <option >SELECT</option>
+            {% for a in control_fecha10 %}
+            <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button14"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE HIPOTECA CONCE</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Periodo a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo15">
+            <option >SELECT</option>
+            {% for a in control_fecha11 %}
+            <option value="{{a.mes_form}}" {% if fecha == a.mes_form %} selected {% endif %}>{{a.mes_form|format_date}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button15"> Delete </button>
+          </div>
+
+          <h3 class="page-header">BASE MORAS</h3>
+	  <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Periodo a borrar:&nbsp;&nbsp;</label>
+          <select class="form-control" id="delete_periodo16">
+            <option >SELECT</option>
+            {% for a in control_fecha12 %}
+            <option value="{{a.mes_form}}" {% if fecha == a.mes_form %} selected {% endif %}>{{a.mes_form|format_date}}</option>
+            {% endfor %}
+          </select>
+	  &nbsp;&nbsp;
+	  <button type="button" id="button16"> Delete </button>
+          </div>
+
+{% endblock %}
+
+{% block script_final %}
+<script type="text/javascript">
+$("#button1").click(function(){
+      console.log($("#delete_periodo1").val());
+      window.location.href = "/reports/delete/"+"1"+"/"+$("#delete_periodo1").val()+"/"+"0"+"/";
+      alert("Se borro la data del mes:"+$("#delete_periodo1").val());
+      window.location.href = "/reports/rvgl/";
+});
+$("#button2").click(function(){
+      console.log($("#delete_periodo2").val());
+      window.location.href = "/reports/delete/"+"2"+"/"+$("#delete_periodo2").val()+"/"+"0"+"/";
+      alert("Se borro la data del mes:"+$("#delete_periodo2").val());
+});
+$("#button0").click(function(){
+      console.log($("#delete_periodo0").val());
+      window.location.href = "/reports/delete/"+"3"+"/"+$("#delete_periodo0").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo0").val());
+});
+$("#button3").click(function(){
+      console.log($("#delete_periodo3").val());
+      window.location.href = "/reports/delete/"+"4"+"/"+$("#delete_periodo3").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo3").val());
+});
+$("#button4").click(function(){
+      console.log($("#delete_periodo4").val());
+      window.location.href = "/reports/delete/"+"5"+"/"+$("#delete_periodo4").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo4").val());
+});
+$("#button5").click(function(){
+      console.log($("#delete_periodo5").val());
+      window.location.href = "/reports/delete/"+"6"+"/"+$("#delete_periodo5").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo5").val());
+});
+$("#button6").click(function(){
+      console.log($("#delete_periodo6").val());
+      window.location.href = "/reports/delete/"+"7"+"/"+$("#delete_periodo6").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo6").val());
+});
+$("#button7").click(function(){
+      console.log($("#delete_periodo7").val());
+      window.location.href = "/reports/delete/"+"8"+"/"+"111111"+"/"+$("#delete_periodo7").val()+"/";
+      alert("Se borro la data:"+$("#delete_periodo7").val());
+});
+$("#button8").click(function(){
+      console.log($("#delete_periodo8").val());
+      window.location.href = "/reports/delete/"+"9"+"/"+$("#delete_periodo8").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo8").val());
+});
+$("#button9").click(function(){
+      console.log($("#delete_periodo9").val());
+      window.location.href = "/reports/delete/"+"10"+"/"+$("#delete_periodo9").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo9").val());
+});
+$("#button10").click(function(){
+      console.log($("#delete_periodo10").val());
+      window.location.href = "/reports/delete/"+"11"+"/"+$("#delete_periodo10").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo10").val());
+});
+$("#button11").click(function(){
+      console.log($("#delete_periodo11").val());
+      window.location.href = "/reports/delete/"+"12"+"/"+$("#delete_periodo11").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo11").val());
+});
+$("#button12").click(function(){
+      console.log($("#delete_periodo12").val());
+      window.location.href = "/reports/delete/"+"13"+"/"+$("#delete_periodo12").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo12").val());
+});
+$("#button13").click(function(){
+      console.log($("#delete_periodo13").val());
+      window.location.href = "/reports/delete/"+"14"+"/"+$("#delete_periodo13").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo13").val());
+});
+$("#button14").click(function(){
+      console.log($("#delete_periodo14").val());
+      window.location.href = "/reports/delete/"+"15"+"/"+$("#delete_periodo14").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo14").val());
+});
+$("#button15").click(function(){
+      console.log($("#delete_periodo15").val());
+      window.location.href = "/reports/delete/"+"16"+"/"+$("#delete_periodo15").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo15").val());
+});
+$("#button16").click(function(){
+      console.log($("#delete_periodo16").val());
+      window.location.href = "/reports/delete/"+"17"+"/"+$("#delete_periodo16").val()+"/"+"0"+"/";
+      alert("Se borro la data:"+$("#delete_periodo16").val());
+});
+</script>
+{% endblock %}
+

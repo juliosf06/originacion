@@ -77,9 +77,11 @@ urlpatterns = [
     url(r'^hipotecario/territorio/$', views.hipoteca_conce, name='hipoteca_conces'),
     url(r'^hipotecario/seguimiento/$', views.hipoteca_segui, name='hipoteca_segui'),
 
-    # URLS para reportes de Hipotecario
+    # URLS extra
     url(r'^prueba/$', views.prueba, name='prueba'),
     url(r'^prueba2/$', views.prueba2, name='prueba2'),
+    url(r'^delete/$', views.delete, name='delete'),
+    url(r'^delete/(?P<base>\d+)/(?P<fecha>[0-9]{6})/(?P<numsemana>\d+)/$', views.delete, name='delete'),
 
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),

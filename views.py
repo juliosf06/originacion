@@ -40,11 +40,11 @@ m14 = datetime.now()-timedelta(days=14*30)
 before14 = m14.strftime("%Y%m")
 m18 = datetime.now()-timedelta(days=18*30)
 before18 = m18.strftime("%Y%m")
+next1 = datetime.now()+timedelta(days=1*30)
+after1 = next1.strftime("%Y%m")
 print fecha_actual
-print before1
-#print before6
-#print before12
-#print before18
+print after1
+
 
 # 1.- Vista para links en contruccion
 def login_reports(request): #agregado
@@ -2811,6 +2811,93 @@ def hipoteca_segui(request):
                   context_instance=RequestContext(request))
 
 
+# Vista para borrar data 
+@login_required
+def delete(request, base=0, fecha=after1, numsemana=0):
+    numsemana = int(numsemana)
+    control_fecha1 = RVGL.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha1:
+        if fecha == i['mes_vigencia'] and base == '1':
+            RVGL.objects.filter(mes_vigencia=fecha).delete()
+
+    control_fecha2 = Campana2.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha2:
+        if fecha == i['mes_vigencia'] and base == '2':
+            Campana2.objects.filter(mes_vigencia=fecha).delete()
+
+    if fecha == '000000' and base == '3':
+        CampanaWeb.objects.all().delete()
+
+    if fecha == '000001' and base == '4':
+        CampanaEfec.objects.all().delete()
+
+    if fecha == '000002' and base == '5':
+        CampanaLabSeg.objects.all().delete()
+
+    if fecha == '000003' and base == '6':
+        CampanaEquifax.objects.all().delete()
+
+    control_fecha3 = Seguimiento1.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha3:
+        if fecha == i['mes_vigencia'] and base == '7':
+            Seguimiento1.objects.filter(mes_vigencia=fecha).delete()
+
+    control_semana0 = DepartamentosWeb.objects.values('semana').order_by('semana').distinct('semana')
+    for i in control_semana0:
+        if numsemana == i['semana'] and base == '8':
+            DepartamentosWeb.objects.filter(semana=numsemana).delete()
+
+    control_fecha4 = AdelantoSueldo.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha4:
+        if fecha == i['mes_vigencia'] and base == '9':
+            AdelantoSueldo.objects.filter(mes_vigencia=fecha).delete()
+
+    control_fecha5 = PrestInmediato.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha5:
+        if fecha == i['mes_vigencia'] and base == '10':
+            PrestInmediato.objects.filter(mes_vigencia=fecha).delete()
+
+    control_fecha6 = Forzaje.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha6:
+        if fecha == i['mes_vigencia'] and base == '11':
+            Forzaje.objects.filter(mes_vigencia=fecha).delete()
+
+    control_fecha7 = Lifemiles.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha7:
+        if fecha == i['mes_vigencia'] and base == '12':
+            Lifemiles.objects.filter(mes_vigencia=fecha).delete()
+
+    control_fecha8 = IncreLinea.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha8:
+        if fecha == i['mes_vigencia'] and base == '13':
+            IncreLinea.objects.filter(mes_vigencia=fecha).delete()
+
+    control_fecha9 = FlujOperativo.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha9:
+        if fecha == i['mes_vigencia'] and base == '14':
+            FlujOperativo.objects.filter(mes_vigencia=fecha).delete()
+
+    control_fecha10 = HipotecaSSFF.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha10:
+        if fecha == i['mes_vigencia'] and base == '15':
+            HipotecaSSFF.objects.filter(mes_vigencia=fecha).delete()
+
+    control_fecha11 = HipotecaConce.objects.values('mes_form').order_by('mes_form').distinct('mes_form')
+    for i in control_fecha11:
+        if fecha == i['mes_form'] and base == '16':
+            HipotecaConce.objects.filter(mes_form=fecha).delete()
+
+    control_fecha12 = Moras.objects.values('mes_form').order_by('mes_form').distinct('mes_form')
+    for i in control_fecha12:
+        if fecha == i['mes_form'] and base == '17':
+            Moras.objects.filter(mes_form=fecha).delete()
+    
+
+    static_url=settings.STATIC_URL
+
+    return render('reports/delete.html', locals(),
+                  context_instance=RequestContext(request))
+
 
 
 # Vistas CAMPANA para recibir consultas Ajax
@@ -3067,7 +3154,6 @@ def load(request):
 
 # Vistas para manipular archivos
 def carga_rvgl(request):
-    #RVGL.objects.filter(mes_vigencia='201607').delete()
     if request.method == 'POST':
         form = UploadRVGL(request.POST, request.FILES)
         if form.is_valid():
