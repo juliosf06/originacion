@@ -68,7 +68,7 @@
                   <td>{{a.tot_pld|to_int|intcomma}}</td>
                   <td>{{a.pld_por|to_int}}%</td>
                   <td>{{a.efe_tdc|to_int|intcomma}}</td>
-                  <td>{{a.efe_tdcform|to_int|intcomma}}</td>
+                  <td>{{a.efe_tdcform|to_int}}%</td>
                   <td>{{a.efe_pld|to_int|intcomma}}</td>
                   <td>{{a.efe_pldform|to_int}}%</td>
                 </tr>
@@ -145,7 +145,7 @@
 		          <td>{{a.tot_pld|to_int|intcomma}}</td>
 		          <td>{{a.pld_por|to_int}}%</td>
 		          <td>{{a.efe_tdc|to_int|intcomma}}</td>
-		          <td>{{a.efe_tdcform|to_int|intcomma}}</td>
+		          <td>{{a.efe_tdcform|to_int}}%</td>
 		          <td>{{a.efe_pld|to_int|intcomma}}</td>
 		          <td>{{a.efe_pldform|to_int}}%</td>
 		        </tr>
@@ -223,9 +223,9 @@
 		          <td>{{a.pld_total|to_int|intcomma}}</td>
 		          <td>{{a.pld_porcentaje|to_int}}%</td>
 		          <td>{{a.tdc|to_int|intcomma}}</td>
-		          <td>{{a.tdc_formal|to_int|intcomma}}</td>
+		          <td>{{a.tdc_formal|x_cien|to_int}}%</td>
 		          <td>{{a.pld|to_int|intcomma}}</td>
-		          <td>{{a.pld_formal|to_int}}%</td>
+		          <td>{{a.pld_formal|x_cien|to_int}}%</td>
 		        </tr>
 			{% endfor %}
 		      </tbody>
