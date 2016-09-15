@@ -89,9 +89,9 @@ class CampanaWeb(models.Model):
     pld_total = models.DecimalField(max_digits=12, decimal_places=2)
     pld_porcentaje = models.DecimalField(max_digits=12, decimal_places=2)
     tdc = models.DecimalField(max_digits=4, decimal_places=0, default=0)
-    tdc_formal = models.DecimalField(max_digits=4, decimal_places=1, default=0)
+    tdc_formal = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     pld = models.DecimalField(max_digits=4, decimal_places=0, default=0)
-    pld_formal = models.DecimalField(max_digits=4, decimal_places=1, default=0)
+    pld_formal = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     def __str__(self):
         return self.fecha_recepcion+' '+self.num_clientes

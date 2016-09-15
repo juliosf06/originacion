@@ -217,15 +217,15 @@
 		          <td>{{a.tdc_il|to_int|intcomma}}</td>
 		          <td>{{a.tdc_nueva|to_int|intcomma}}</td>
 		          <td>{{a.tdc_total|to_int|intcomma}}</td>
-		          <td>{{a.tdc_porcentaje|x_cien}}%</td>
+		          <td>{{a.tdc_porcentaje|x_cien|floatformat:0}}%</td>
 		          <td>{{a.pld_moi|to_int|intcomma}}</td>
 		          <td>{{a.pld_nueva|to_int|intcomma}}</td>
 		          <td>{{a.pld_total|to_int|intcomma}}</td>
-		          <td>{{a.pld_porcentaje|x_cien}}%</td>
+		          <td>{{a.pld_porcentaje|x_cien|floatformat:0}}%</td>
 		          <td>{{a.tdc|to_int|intcomma}}</td>
-		          <td>{{a.tdc_formal|x_cien}}%</td>
+		          <td>{{a.tdc_formal|x_cien|floatformat:0}}%</td>
 		          <td>{{a.pld|to_int|intcomma}}</td>
-		          <td>{{a.pld_formal|x_cien}}%</td>
+		          <td>{{a.pld_formal|x_cien|floatformat:0}}%</td>
 		        </tr>
 			{% endfor %}
 		      </tbody>
