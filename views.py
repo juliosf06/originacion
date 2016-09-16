@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Sum, Avg, Max, Case, When, IntegerField, F, Q, CharField
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response as render
+from .forms import UploadFileForm
+
 from django.template import RequestContext
 
 from datetime import datetime, timedelta
@@ -44,7 +46,6 @@ next1 = datetime.now()+timedelta(days=1*30)
 after1 = next1.strftime("%Y%m")
 print fecha_actual
 print after1
-
 
 # 1.- Vista para links en contruccion
 def login_reports(request): #agregado
@@ -3194,7 +3195,6 @@ def carga_campana2(request):
         return load(campana_resumen)
 
 def carga_campanaweb(request):
-    CampanaWeb.objects.all().delete()
     if request.method == 'POST':
         form = UploadCampanaWeb(request.POST, request.FILES)
         if form.is_valid():
@@ -3257,9 +3257,6 @@ def carga_evaluacionpld(request):
 
 
 def carga_seguimiento1(request):
-    #Seguimiento1.objects.all().delete()
-    #Seguimiento1.objects.filter(mes_vigencia='201511').delete()
-    #Seguimiento1.objects.filter(mes_vigencia__gte=before3, mes_vigencia__lte =before1).delete()
     if request.method == 'POST':
         form = UploadSeguimiento1(request.POST, request.FILES)
         if form.is_valid():
@@ -3308,7 +3305,6 @@ def carga_hipotecaconce(request):
         return load(campana_resumen)
 
 def carga_moras(request):
-    Moras.objects.all().delete()
     if request.method == 'POST':
         form = UploadMoras(request.POST, request.FILES)
         if form.is_valid():
@@ -3321,7 +3317,6 @@ def carga_moras(request):
         return load(campana_resumen)
 
 def carga_adelantosueldo(request):
-    AdelantoSueldo.objects.all().delete()
     if request.method == 'POST':
         form = UploadAdelantoSueldo(request.POST, request.FILES)
         if form.is_valid():
@@ -3382,7 +3377,6 @@ def carga_increlinea(request):
         return load(campana_resumen)
 
 def carga_lifemiles(request):
-    #Lifemiles.objects.all().delete()
     if request.method == 'POST':
         form = UploadLifemiles(request.POST, request.FILES)
         if form.is_valid():
@@ -3481,4 +3475,28 @@ def carga_campanaequifax(request):
             return load(campana_resumen)
     else:
         return load(campana_resumen)
+
+
+def excel(request):
+
+    if request.method == 'POST':
+
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            newdoc = handle_uploaded_file(request.FILES['file'])
+            print newdoc
+            print "you in"
+            newdoc.save()
+
+            return HttpResponseRedirect(reverse('upload.views.excel'))
+    else:
+        form = UploadFileForm() # A empty, unbound form
+    #documents = Document.objects.all()
+    return campana_resumen(request)
+
+def handle_uploaded_file(f):
+    destination = open('media/data.xls', 'wb+')
+    for chunk in f.chunks():
+        destination.write(chunk)
+    destination.close()
 
