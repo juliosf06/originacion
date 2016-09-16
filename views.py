@@ -1123,14 +1123,14 @@ def seguimiento_tarjeta(request):
 		elif j['rng_ing'] == '06 [0 - 1K]':
 		   rango6_dict[i['mes_vigencia']]=j['num_rango']*100/total_form_dict[i['mes_vigencia']]
 
-    meses_moras = Moras.objects.values('mes_form').order_by('mes_form').distinct()
+    meses_moras = Moras.objects.values('mes_form').order_by('-mes_form').distinct()
     morames_list = []
     for i in meses_moras:
 	morames_list.append(i['mes_form'])
 
     mora6 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta').annotate(sum_mora=Sum('mora6')).order_by('mes_form')
-    mora9 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte=morames_list[0], mes_form__lte =morames_list[9]).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
-    mora12 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',mes_form__gte=morames_list[0], mes_form__lte =morames_list[6]).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
+    mora9 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta').exclude(mes_form__in=[morames_list[0],morames_list[1],morames_list[2]]).annotate(sum_mora=Sum('mora9')).order_by('mes_form')
+    mora12 = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta').exclude(mes_form__in=[morames_list[0],morames_list[1],morames_list[2],morames_list[3],morames_list[4],morames_list[5]]).annotate(sum_mora=Sum('mora12')).order_by('mes_form')
     total_ctas = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     mora_6 = zip(mora6,total_ctas)
     mora_9 = zip(mora9,total_ctas)
@@ -1151,7 +1151,7 @@ def seguimiento_tarjeta(request):
 	for j in mora_camp:
 	    if i['mes_form'] == j['mes_form']:
 		mora6_camp_dict[i['mes_form']]=j['sum_mora6']*100/total_moraxcamp_dict[i['mes_form']]
-		if i['mes_form'] <= morames_list[9]:
+		if i['mes_form'] <= morames_list[3]:
 		   mora9_camp_dict[i['mes_form']]=j['sum_mora9']*100/total_moraxcamp_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
 		   mora12_camp_dict[i['mes_form']]=j['sum_mora12']*100/total_moraxcamp_dict[i['mes_form']]
@@ -1171,7 +1171,7 @@ def seguimiento_tarjeta(request):
 	for j in mora_uno:
 	    if i['mes_form'] == j['mes_form']:
 		mora6_uno_dict[i['mes_form']]=j['sum_mora6']*100/total_moraxuno_dict[i['mes_form']]
-		if i['mes_form'] <= morames_list[9]:
+		if i['mes_form'] <= morames_list[3]:
 		   mora9_uno_dict[i['mes_form']]=j['sum_mora9']*100/total_moraxuno_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
 		   mora12_uno_dict[i['mes_form']]=j['sum_mora12']*100/total_moraxuno_dict[i['mes_form']]
@@ -1203,25 +1203,25 @@ def seguimiento_tarjeta(request):
           if i['mes_form'] == j['mes_form']:
 	     if  j['segmento']=='1.AVA':
              	ava_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxava_moras_dict[i['mes_form']]
-		if i['mes_form'] <= morames_list[9]:
+		if i['mes_form'] <= morames_list[3]:
              	   ava_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxava_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
              	   ava_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxava_moras_dict[i['mes_form']]		
 	     elif  j['segmento']=='2.MS':
              	ms_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxms_moras_dict[i['mes_form']]
-		if i['mes_form'] <= morames_list[9]:
+		if i['mes_form'] <= morames_list[3]:
              	   ms_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxms_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
              	   ms_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxms_moras_dict[i['mes_form']]
 	     elif  j['segmento']=='3.NoPH':
              	noph_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxnoph_moras_dict[i['mes_form']]
-		if i['mes_form'] <= morames_list[9]:
+		if i['mes_form'] <= morames_list[3]:
              	   noph_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxnoph_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
              	   noph_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxnoph_moras_dict[i['mes_form']]
 	     elif  j['segmento']=='4.NoCli':
              	nocli_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxnocli_moras_dict[i['mes_form']]
-		if i['mes_form'] <= morames_list[9]:
+		if i['mes_form'] <= morames_list[3]:
              	   nocli_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxnocli_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
              	   nocli_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxnocli_moras_dict[i['mes_form']]
@@ -1253,25 +1253,25 @@ def seguimiento_tarjeta(request):
           if i['mes_form'] == j['mes_form']:
 	     if  j['cat_persona']=='1. Dependiente':
              	dep_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxdep_moras_dict[i['mes_form']]
-		if i['mes_form'] <= morames_list[9]:
+		if i['mes_form'] <= morames_list[3]:
              	   dep_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxdep_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
              	   dep_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxdep_moras_dict[i['mes_form']]		
 	     elif  j['cat_persona']=='2. Independiente':
              	indep_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxind_moras_dict[i['mes_form']]
-		if i['mes_form'] <= morames_list[9]:
+		if i['mes_form'] <= morames_list[3]:
              	   indep_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxind_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
              	   indep_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxind_moras_dict[i['mes_form']]
 	     elif  j['cat_persona']=='3. PNN':
              	pnn_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxpnn_moras_dict[i['mes_form']]
-		if i['mes_form'] <= morames_list[9]:
+		if i['mes_form'] <= morames_list[3]:
              	   pnn_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxpnn_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
              	   pnn_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxpnn_moras_dict[i['mes_form']]
 	     elif  j['cat_persona']=='4.No Reconocido':
              	norec_mora6_dict[i['mes_form']]=j['sum_mora6']*100/totalxnorec_moras_dict[i['mes_form']]
-		if i['mes_form'] <= morames_list[9]:
+		if i['mes_form'] <= morames_list[3]:
              	   norec_mora9_dict[i['mes_form']]=j['sum_mora9']*100/totalxnorec_moras_dict[i['mes_form']]
 		if i['mes_form'] <= morames_list[6]:
              	   norec_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxnorec_moras_dict[i['mes_form']]
@@ -3305,6 +3305,7 @@ def carga_hipotecaconce(request):
         return load(campana_resumen)
 
 def carga_moras(request):
+    #Moras.objects.all().delete()
     if request.method == 'POST':
         form = UploadMoras(request.POST, request.FILES)
         if form.is_valid():
