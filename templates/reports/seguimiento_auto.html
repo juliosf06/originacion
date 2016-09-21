@@ -253,7 +253,7 @@
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in moras6 %}
+				{% for a,b in mora_6 %}
 				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
 				{% endfor %}
 			]
@@ -268,7 +268,7 @@
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in moras9 %}
+				{% for a,b in mora_9 %}
 				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
 				{% endfor %}
 			]
@@ -283,7 +283,7 @@
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in moras12 %}
+				{% for a,b in mora_12 %}
 				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
 				{% endfor %}
 			]

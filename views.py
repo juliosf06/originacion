@@ -1135,7 +1135,7 @@ def seguimiento_tarjeta(request):
     mora_6 = zip(mora6,total_ctas)
     mora_9 = zip(mora9,total_ctas)
     mora_12 = zip(mora12,total_ctas)
-    
+   
     total_moraxcamp = Moras.objects.values('mes_form','producto').filter(producto='03 Tarjeta',flg_camp='1. CAMPANA').annotate(sum_ctas=Sum('ctas')).order_by('mes_form')
     total_moraxcamp_dict = {}
     for i in meses_moras:
@@ -1523,7 +1523,7 @@ def seguimiento_auto(request):
     time = []
     for i in meses_total:
         time.append(i['mes_vigencia'])
-    print meses_total
+
     meses = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).distinct('mes_vigencia').order_by('mes_vigencia')
     total_form = Seguimiento1.objects.values('mes_vigencia', 'producto').filter(producto='02 Auto',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     total_form_dict = {}
