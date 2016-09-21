@@ -1237,14 +1237,11 @@ def seguimiento_tarjeta(request):
 		if i['mes_form'] <= morames_list[6]:
              	   nocli_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxnocli_moras_dict[i['mes_form']]
 
-    moratot = Moras.objects.values('trimestre_form', 'segmento', 'producto').filter(producto='03 Tarjeta').annotate(cuentas=Sum('ctas')).order_by('mes_form')
-    dict_moratotava = {};
+    moratot = Moras.objects.values('trimestre_form', 'segmento', 'producto', 'flg_camp').filter(producto='03 Tarjeta',flg_camp='2. UNO A UNO').annotate(cuentas=Sum('ctas')).order_by('trimestre_form')
     dict_moratotms = {};
     dict_moratotnoph = {};
     dict_moratotnocl = {};
     for i in moratot:
-        if i['segmento'] == '1.AVA':
-            dict_moratotava[i['trimestre_form']] = i['cuentas']
         if i['segmento'] == '2.MS':
             dict_moratotms[i['trimestre_form']] = i['cuentas']
         if i['segmento'] == '3.NoPH':
@@ -1252,21 +1249,9 @@ def seguimiento_tarjeta(request):
         if i['segmento'] == '4.NoCli':
             dict_moratotnocl[i['trimestre_form']] = i['cuentas']
 
-    moracam_seg = Moras.objects.values('trimestre_form', 'segmento', 'producto', 'flg_camp').filter(producto='03 Tarjeta',flg_camp='1. CAMPANA').annotate(sum_mora6=Sum('mora6')).order_by('mes_form')
-    dict_moracamava = {}; dict_moracamms = {}; 
-    dict_moracamnoph = {}; dict_moracamnocli = {};
-    for i in moracam_seg:
-        if i['segmento'] == '1.AVA':
-            dict_moracamava[i['trimestre_form']] = i['sum_mora6']*100/dict_moratotava[i['trimestre_form']]
-        if i['segmento'] == '2.MS':
-            dict_moracamms[i['trimestre_form']] = i['sum_mora6']*100/dict_moratotms[i['trimestre_form']]
-        if i['segmento'] == '3.NoPH':
-            dict_moracamnoph[i['trimestre_form']] = i['sum_mora6']*100/dict_moratotnoph[i['trimestre_form']]
-        if i['segmento'] == '4.NoCli':
-            dict_moracamnocli[i['trimestre_form']] = i['sum_mora6']*100/dict_moratotnocl[i['trimestre_form']]
-
-    morauno_seg = Moras.objects.values('trimestre_form', 'segmento', 'producto', 'flg_camp').filter(producto='03 Tarjeta',flg_camp='2. UNO A UNO').annotate(sum_mora6=Sum('mora6')).order_by('mes_form')
-    dict_moraunoms = {}; dict_moraunonoph = {}; dict_moraunonocli = {};
+    morauno_seg = Moras.objects.values('trimestre_form', 'segmento', 'producto', 'flg_camp').filter(producto='03 Tarjeta',flg_camp='2. UNO A UNO').annotate(sum_mora6=Sum('mora6')).order_by('trimestre_form')
+    dict_moraunoms = {}; 
+    dict_moraunonoph = {}; dict_moraunonocli = {};
     for i in morauno_seg:
         if i['segmento'] == '2.MS':
             dict_moraunoms[i['trimestre_form']] = i['sum_mora6']*100/dict_moratotms[i['trimestre_form']]
@@ -1274,6 +1259,9 @@ def seguimiento_tarjeta(request):
             dict_moraunonoph[i['trimestre_form']] = i['sum_mora6']*100/dict_moratotnoph[i['trimestre_form']]
         if i['segmento'] == '4.NoCli':
             dict_moraunonocli[i['trimestre_form']] = i['sum_mora6']*100/dict_moratotnocl[i['trimestre_form']]
+    print dict_moraunoms
+    print dict_moraunonoph
+    print dict_moraunonocli
 
     total_morasxcat = Moras.objects.values('mes_form', 'producto', 'cat_persona').filter(producto='03 Tarjeta', flg_camp='1. CAMPANA').annotate(sum_mora=Sum('ctas')).order_by('mes_form')
     totalxdep_moras_dict = {}
@@ -1325,7 +1313,7 @@ def seguimiento_tarjeta(request):
 		if i['mes_form'] <= morames_list[6]:
              	   norec_mora12_dict[i['mes_form']]=j['sum_mora12']*100/totalxnorec_moras_dict[i['mes_form']]
 
-    moratot2 = Moras.objects.values('trimestre_form', 'cat_persona', 'producto').filter(producto='03 Tarjeta').annotate(cuentas=Sum('ctas')).order_by('mes_form')
+    moratot2 = Moras.objects.values('trimestre_form', 'cat_persona', 'producto','flg_camp').filter(producto='03 Tarjeta',flg_camp='2. UNO A UNO').annotate(cuentas=Sum('ctas')).order_by('trimestre_form')
     dict_moratotdep = {};
     dict_moratotind = {};
     dict_moratotnoph = {};
@@ -1340,20 +1328,7 @@ def seguimiento_tarjeta(request):
         if i['cat_persona'] == '4.No Reconocido':
             dict_moratotnocl[i['trimestre_form']] = i['cuentas']
 
-    moracam_cat = Moras.objects.values('trimestre_form', 'cat_persona', 'producto', 'flg_camp').filter(producto='03 Tarjeta',flg_camp='1. CAMPANA').annotate(sum_mora6=Sum('mora6')).order_by('mes_form')
-    dict_moracamdep = {}; dict_moracamind = {}; 
-    dict_moracampnn = {}; dict_moracamnor = {};
-    for i in moracam_cat:
-        if i['cat_persona'] == '1. Dependiente':
-            dict_moracamdep[i['trimestre_form']] = i['sum_mora6']*100/dict_moratotdep[i['trimestre_form']]
-        if i['cat_persona'] == '2. Independiente':
-            dict_moracamind[i['trimestre_form']] = i['sum_mora6']*100/dict_moratotind[i['trimestre_form']]
-        if i['cat_persona'] == '3. PNN':
-            dict_moracampnn[i['trimestre_form']] = i['sum_mora6']*100/dict_moratotnoph[i['trimestre_form']]
-        if i['cat_persona'] == '4.No Reconocido':
-            dict_moracamnor[i['trimestre_form']] = i['sum_mora6']*100/dict_moratotnocl[i['trimestre_form']]
-
-    morauno_cat = Moras.objects.values('trimestre_form', 'cat_persona', 'producto', 'flg_camp').filter(producto='03 Tarjeta',flg_camp='2. UNO A UNO').annotate(sum_mora6=Sum('mora6')).order_by('mes_form')
+    morauno_cat = Moras.objects.values('trimestre_form', 'cat_persona', 'producto', 'flg_camp').filter(producto='03 Tarjeta',flg_camp='2. UNO A UNO').annotate(sum_mora6=Sum('mora6')).order_by('trimestre_form')
     dict_moracamdep = {}; dict_moracamind = {}; 
     dict_moracampnn = {}; dict_moracamnor = {};
     for i in morauno_cat:
@@ -1366,11 +1341,9 @@ def seguimiento_tarjeta(request):
         if i['cat_persona'] == '4.No Reconocido':
             dict_moracamnor[i['trimestre_form']] = i['sum_mora6']*100/dict_moratotnocl[i['trimestre_form']]
 
-    moraburo = Moras.objects.values('trimestre_form', 'buro_camp', 'producto').filter(producto='03 Tarjeta').annotate(cuentas=Sum('ctas')).order_by('mes_form')
-    dict_moraburo1 = {};
-    dict_moraburo2 = {};
-    dict_moraburo3 = {};
-    dict_moraburo4 = {};
+    moraburo = Moras.objects.values('trimestre_form', 'buro_camp', 'producto', 'flg_camp').filter(producto='03 Tarjeta',flg_camp='1. CAMPANA').annotate(cuentas=Sum('ctas')).order_by('trimestre_form')
+    dict_moraburo1 = {}; dict_moraburo2 = {};
+    dict_moraburo3 = {}; dict_moraburo4 = {};
     for i in moraburo:
         if i['buro_camp'] == 'G1-G4':
             dict_moraburo1[i['trimestre_form']] = i['cuentas']
@@ -1381,7 +1354,7 @@ def seguimiento_tarjeta(request):
         if i['buro_camp'] == 'NB':
             dict_moraburo4[i['trimestre_form']] = i['cuentas']
 
-    mora6_buro = Moras.objects.values('trimestre_form', 'buro_camp', 'producto', 'flg_camp').filter(producto='03 Tarjeta',flg_camp='1. CAMPANA').annotate(sum_mora6=Sum('mora6'), sum_mora12=Sum('mora12')).order_by('mes_form')
+    mora6_buro = Moras.objects.values('trimestre_form', 'buro_camp', 'producto', 'flg_camp').filter(producto='03 Tarjeta',flg_camp='1. CAMPANA').annotate(sum_mora6=Sum('mora6'), sum_mora12=Sum('mora12')).order_by('trimestre_form')
     dict_mora6buro1 = {}; dict_mora6buro2 = {}; 
     dict_mora6buro3 = {}; dict_mora6buro4 = {};
     dict_mora12buro1 = {}; dict_mora12buro2 = {}; 
