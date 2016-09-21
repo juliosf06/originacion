@@ -440,6 +440,8 @@ class Moras(models.Model):
     mes_form = models.CharField(max_length=10)
     flg_camp = models.CharField(max_length=25)
     flg_uso = models.IntegerField()
+    buro_camp = models.CharField(max_length=20, default=0)
+    buro_uno = models.CharField(max_length=20, default=0)
     cat_persona = models.CharField(max_length=50, default=0)
     segmento = models.CharField(max_length=20, default=0)
     producto = models.CharField(max_length=30)
