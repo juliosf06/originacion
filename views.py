@@ -1095,7 +1095,7 @@ def seguimiento_tarjeta(request):
     ticket = zip(fact_uno, fact_campf, fact_campu, uno_form, camp_formf, camp_formu)
 
     camp_form = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(producto='03 Tarjeta', riesgos='CAMP').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
-    seg_ava = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', segmento='1.AVA', mes_vigencia__gte=before14, mes_vigencia__lte=fecha_actual).annotate(seg=Sum('form')).order_by('mes_vigencia')
+    seg_ava = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', segmento='1.AVA').annotate(seg=Sum('form')).order_by('mes_vigencia')
     seg_ms = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', segmento='2.MS').annotate(seg=Sum('form')).order_by('mes_vigencia')
     seg_noph = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', segmento='3.NoPH').annotate(seg=Sum('form')).order_by('mes_vigencia')
     seg_nocli = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', segmento='4.NoCli').annotate(seg=Sum('form')).order_by('mes_vigencia')
@@ -1106,13 +1106,13 @@ def seguimiento_tarjeta(request):
     useg_nocli = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='UNO A UNO', producto='03 Tarjeta', segmento='4.NoCli').annotate(seg=Sum('form')).order_by('mes_vigencia')
     ucamp_seg = zip(useg_ms, useg_noph, useg_nocli, uno_form)
 
-    depen = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', cat_persona='1. Dependiente', mes_vigencia__gte=before14, mes_vigencia__lte = fecha_actual).annotate(seg = Sum('form')).order_by('mes_vigencia')
+    depen = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', cat_persona='1. Dependiente').annotate(seg = Sum('form')).order_by('mes_vigencia')
     indep = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', cat_persona='2. Independiente').annotate(seg=Sum('form')).order_by('mes_vigencia')
     pnn = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', cat_persona='3. PNN').annotate(seg=Sum('form')).order_by('mes_vigencia')
     no_recon = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='CAMP', producto='03 Tarjeta', cat_persona='4.No Reconocido').annotate(seg=Sum('form')).order_by('mes_vigencia')
     camp_cat = zip(depen, indep, pnn, no_recon, camp_form)
 
-    udepen = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='UNO A UNO', producto='03 Tarjeta', cat_persona='1. Dependiente', mes_vigencia__gte=before14, mes_vigencia__lte = fecha_actual).annotate(seg = Sum('form')).order_by('mes_vigencia')
+    udepen = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='UNO A UNO', producto='03 Tarjeta', cat_persona='1. Dependiente').annotate(seg = Sum('form')).order_by('mes_vigencia')
     uindep = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='UNO A UNO', producto='03 Tarjeta', cat_persona='2. Independiente').annotate(seg=Sum('form')).order_by('mes_vigencia')
     upnn = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='UNO A UNO', producto='03 Tarjeta', cat_persona='3. PNN').annotate(seg=Sum('form')).order_by('mes_vigencia')
     uno_recon = Seguimiento1.objects.values('mes_vigencia', 'riesgos').filter(riesgos='UNO A UNO', producto='03 Tarjeta', cat_persona='4.No Reconocido').annotate(seg=Sum('form')).order_by('mes_vigencia')
