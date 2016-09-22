@@ -29,7 +29,15 @@
           </div>
 	  &nbsp;
           <div class="rows placeholders">
+		<div id="chartContainer18" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
 		<div id="chartContainer13" style="height: 300px; width: 100%;"></div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer19" style="height: 300px; width: 100%;"></div>
+          </div>
 	 &nbsp;
           <div class="rows placeholders">
 		<div id="chartContainer5" style="height: 300px; width: 100%;"></div>
@@ -61,6 +69,16 @@
           <div class="rows placeholders">
 		<div id="chartContainer16" style="height: 300px; width: 50%; display: inline-block;"></div>
 		<div id="chartContainer17" style="height: 300px; width: 50%; display: inline-block;"></div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer20" style="height: 300px; width: 50%; display: inline-block;"></div>
+		<div id="chartContainer21" style="height: 300px; width: 50%; display: inline-block;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer22" style="height: 300px; width: 50%; display: inline-block;"></div>
+		<div id="chartContainer23" style="height: 300px; width: 50%; display: inline-block;"></div>
+          </div>
 	 &nbsp;
           <div class="rows placeholders">
 		<div id="chartContainer11" style="height: 300px; width: 100%;"></div>
@@ -74,7 +92,8 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Formalizados"              
+			text: "Formalizados",
+			fontColor: "#094FA4",             
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -143,7 +162,8 @@
 	var chart2 = new CanvasJS.Chart("chartContainer2", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Ticket Promedio"              
+			text: "Ticket Promedio",
+			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -195,7 +215,8 @@
 	var chart = new CanvasJS.Chart("chartContainer3", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Rango de Ingresos:"              
+			text: "Rango de Ingresos:",
+			fontColor: "#094FA4",             
 		},
 		axisY:{
 			maximum: 120,              
@@ -299,7 +320,8 @@
 	var chart = new CanvasJS.Chart("chartContainer4", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Segmentos"              
+			text: "Segmentos - Campaña",
+			fontColor: "#C8175E",             
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -379,11 +401,83 @@
 	});
 	chart.render();
 
+	var chart = new CanvasJS.Chart("chartContainer18", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Segmentos - Uno a Uno",
+			fontColor: "#86C82D",             
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "MS",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for b,c,d,e in ucamp_seg %}
+				{ y: {{b.seg}} , label: '{{b.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "No PH",
+			indexLabelFontColor: "white",
+			color: '#86C82D',			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for b,c,d,e in ucamp_seg %}
+				{ y: {{c.seg}} , label: '{{c.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "NoCli",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			color: "#C8175E",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for b,c,d,e in ucamp_seg %}
+				{ y: {{d.seg}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			name: "# Formalizados",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}",
+			color: "#C8175E",
+			showInLegend: "true",
+			dataPoints: [
+				{% for b,c,d,e in ucamp_seg %}
+				{ y: {{e.formalizado}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+
 
 	var chart = new CanvasJS.Chart("chartContainer5", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora Total"              
+			text: "Mora Total",
+			fontColor: "#094FA4",             
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -439,7 +533,8 @@
 	var chart = new CanvasJS.Chart("chartContainer12", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora Uno a Uno"              
+			text: "Mora Uno a Uno",
+			fontColor: "#86C82D",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -495,7 +590,8 @@
 	var chart = new CanvasJS.Chart("chartContainer6", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora Campaña"              
+			text: "Mora Campaña",
+			fontColor: "#C8175E",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -551,7 +647,8 @@
 	var chart = new CanvasJS.Chart("chartContainer7", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora - Segmento AVA"              
+			text: "Mora - Segmento AVA",
+			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -607,7 +704,8 @@
 	var chart = new CanvasJS.Chart("chartContainer8", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora - Segmento MS"              
+			text: "Mora - Segmento MS",
+			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -663,7 +761,8 @@
 	var chart = new CanvasJS.Chart("chartContainer9", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora - Segmento NoPH"              
+			text: "Mora - Segmento NoPH",
+			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -719,7 +818,8 @@
 	var chart = new CanvasJS.Chart("chartContainer10", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora - Segmento NoCli"              
+			text: "Mora - Segmento NoCli",
+			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -776,7 +876,8 @@
 	var chart = new CanvasJS.Chart("chartContainer11", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Nivel de Forzaje"              
+			text: "Nivel de Forzaje",
+			fontColor: "#F6891E",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -817,7 +918,8 @@
 	var chart = new CanvasJS.Chart("chartContainer13", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Vínculo Laboral"              
+			text: "Relación Laboral - Campaña",
+			fontColor: "#C8175E",             
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -897,10 +999,96 @@
 	});
 	chart.render();
 
+	var chart = new CanvasJS.Chart("chartContainer19", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Relación Laboral - Uno a Uno",
+			fontColor: "#86C82D",             
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "Dependiente",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in ucamp_cat %}
+				{ y: {{a.seg}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "Independiente",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in ucamp_cat %}
+				{ y: {{b.seg}} , label: '{{b.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "PNN",
+			indexLabelFontColor: "white",
+			color: '#86C82D',			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in ucamp_cat %}
+				{ y: {{c.seg}} , label: '{{c.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "No Reconocido",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			color: "#C8175E",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in ucamp_cat %}
+				{ y: {{d.seg}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			name: "# Formalizados",
+			indexLabelFontColor: "darkblue",			
+			indexLabel: "{y}",
+			color: "#C8175E",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in ucamp_cat %}
+				{ y: {{e.formalizado}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+
 	var chart = new CanvasJS.Chart("chartContainer14", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora - Dependientes"              
+			text: "Mora - Dependientes",
+			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -956,7 +1144,8 @@
 	var chart = new CanvasJS.Chart("chartContainer15", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora - Independientes"              
+			text: "Mora - Independientes",
+			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -1012,7 +1201,8 @@
 	var chart = new CanvasJS.Chart("chartContainer16", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora - PNN"              
+			text: "Mora - PNN",
+			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -1068,7 +1258,8 @@
 	var chart = new CanvasJS.Chart("chartContainer17", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora - No Reconocidos"              
+			text: "Mora - No Reconocidos",
+			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -1114,6 +1305,279 @@
 			dataPoints: [
 				{% for key, value in norec_mora12_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer20", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora Segmento - Uno a Uno",
+			fontColor: "#86C82D",              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MS",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_moraunoms.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "NO PH",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_moraunonoph.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "NOCli",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_moraunonocli.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer21", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora Relación Laboral - Uno a Uno",
+			fontColor: "#86C82D",               
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Dependiente",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_moracamdep.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Independiente",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_moracamind.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "PNN",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_moracampnn.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "No Reconocido",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_moracamnor.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer22", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora 6 Meses - Buró",
+			fontColor: "#C8175E",               
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "G1-G4",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_mora6buro1.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "G5",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_mora6buro2.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "G6-G8",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_mora6buro3.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "NB",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_mora6buro4.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer23", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora 12 Meses - Buró",
+			fontColor: "#C8175E",               
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "G1-G4",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_mora12buro1.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "G5",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_mora12buro2.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "G6-G8",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_mora12buro3.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "NB",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_mora12buro4.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
 				{% endfor %}
 			]
 		},
