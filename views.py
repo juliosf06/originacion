@@ -1354,6 +1354,13 @@ def seguimiento_tarjeta(request):
         if i['buro_camp'] == 'NB':
             dict_moraburo4[i['mes_form']] = i['cuentas']
 
+    burog1 = Seguimiento1.objects.values('mes_vigencia', 'buro_camp').filter(riesgos='CAMP', producto='03 Tarjeta', buro_camp='G1-G4').annotate(seg=Sum('form')).order_by('mes_vigencia')
+    burog5 = Seguimiento1.objects.values('mes_vigencia', 'buro_camp').filter(riesgos='CAMP', producto='03 Tarjeta', buro_camp='G5').annotate(seg=Sum('form')).order_by('mes_vigencia')
+    burog6 = Seguimiento1.objects.values('mes_vigencia', 'buro_camp').filter(riesgos='CAMP', producto='03 Tarjeta', buro_camp='G6-G8').annotate(seg=Sum('form')).order_by('mes_vigencia')
+    buronb = Seguimiento1.objects.values('mes_vigencia', 'buro_camp').filter(riesgos='CAMP', producto='03 Tarjeta', buro_camp='NB').annotate(seg=Sum('form')).order_by('mes_vigencia')
+    burotot = Seguimiento1.objects.values('mes_vigencia').filter(riesgos='CAMP', producto='03 Tarjeta').annotate(seg=Sum('form')).order_by('mes_vigencia')
+    camp_buro = zip(burog1, burog5, burog6, buronb, burotot)
+
     mora6_buro = Moras.objects.values('mes_form', 'buro_camp', 'producto', 'flg_camp').filter(producto='03 Tarjeta',flg_camp='1. CAMPANA').annotate(sum_mora6=Sum('mora6'), sum_mora12=Sum('mora12')).order_by('mes_form')
     dict_mora6buro1 = {}; dict_mora6buro2 = {}; 
     dict_mora6buro3 = {}; dict_mora6buro4 = {};
