@@ -292,8 +292,8 @@
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in mora_6 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_form|convert_date}}' {% endif %} },
+				{% for key, value in mora6_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -307,8 +307,8 @@
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in mora_9 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_form|convert_date}}' {% endif %} },
+				{% for key, value in mora9_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -322,8 +322,8 @@
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in mora_12 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_form|convert_date}}' {% endif %} },
+				{% for key, value in mora12_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},

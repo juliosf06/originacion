@@ -1149,10 +1149,34 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='mes_form'):
     for i in meses_moras:
 	morames_list.append(i[filtro2])
 
-    mora6 = Moras.objects.values(filtro2,'producto').filter(producto='03 Tarjeta').annotate(sum_mora=Sum('mora6')).order_by(filtro2)
-    mora9 = Moras.objects.values(filtro2,'producto').filter(producto='03 Tarjeta').exclude(mes_form__in=[morames_list[0],morames_list[1],morames_list[2]]).annotate(sum_mora=Sum('mora9')).order_by(filtro2)
-    mora12 = Moras.objects.values(filtro2,'producto').filter(producto='03 Tarjeta').exclude(mes_form__in=[morames_list[0],morames_list[1],morames_list[2],morames_list[3],morames_list[4],morames_list[5]]).annotate(sum_mora=Sum('mora12')).order_by(filtro2)
     total_ctas = Moras.objects.values(filtro2,'producto').filter(producto='03 Tarjeta').annotate(sum_mora=Sum('ctas')).order_by(filtro2)
+    totalctas_dict = {}
+    for i in meses_moras:
+	for j in total_ctas:
+	    if i[filtro2] == j[filtro2]:
+               totalctas_dict[i[filtro2]]=j['sum_mora']
+    mora6 = Moras.objects.values(filtro2,'producto').filter(producto='03 Tarjeta').annotate(sum_mora=Sum('mora6')).order_by(filtro2)
+    mora6_dict = {}
+    for i in meses_moras:
+	for j in mora6:
+	    if i[filtro2] == j[filtro2]:
+		mora6_dict[i[filtro2]]=j['sum_mora']*100/totalctas_dict[i[filtro2]]
+    mora9 = Moras.objects.values(filtro2,'producto').filter(producto='03 Tarjeta').annotate(sum_mora=Sum('mora9')).order_by(filtro2)
+    mora9_dict = {}
+    for i in meses_moras:
+	for j in mora9:
+	    if i[filtro2] == j[filtro2]:
+		if i[filtro2] <= morames_list[3]:
+		   mora9_dict[i[filtro2]]=j['sum_mora']*100/totalctas_dict[i[filtro2]]
+
+    mora12 = Moras.objects.values(filtro2,'producto').filter(producto='03 Tarjeta').annotate(sum_mora=Sum('mora12')).order_by(filtro2)
+    mora12_dict = {}
+    for i in meses_moras:
+	for j in mora12:
+	    if i[filtro2] == j[filtro2]:
+		if i[filtro2] <= morames_list[6]:
+		   mora12_dict[i[filtro2]]=j['sum_mora']*100/totalctas_dict[i[filtro2]]
+
     mora_6 = zip(mora6,total_ctas)
     mora_9 = zip(mora9,total_ctas)
     mora_12 = zip(mora12,total_ctas)
