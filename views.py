@@ -1075,6 +1075,8 @@ def evaluacion_evaluacionpld(request):
 # 5.- Vistas para reportes de SEGUIMIENTO
 @login_required
 def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='mes_form'):
+    filtro1 = str(filtro1)
+    filtro2 = str(filtro2)
 
     meses = Seguimiento1.objects.values(filtro1).order_by(filtro1).distinct(filtro1)
 
@@ -1082,7 +1084,7 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='mes_form'):
     total_form_dict = {}
     for j in total_form:
 	total_form_dict[j[filtro1]]=j['formalizado']
-
+    print total_form
     uno_form = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='03 Tarjeta', riesgos='UNO A UNO').annotate(formalizado=Sum('form')).order_by(filtro1)
     camp_fast = Seguimiento1.objects.values(filtro1, 'origen').filter(producto='03 Tarjeta', origen='ORIGINACION FAST').annotate(formalizado=Sum('form')).order_by(filtro1)
     camp_uno = Seguimiento1.objects.values(filtro1, 'origen').filter(producto='03 Tarjeta', origen='ORIGINACION MS').annotate(formalizado=Sum('form')).order_by(filtro1)
@@ -1138,7 +1140,11 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='mes_form'):
 		elif j['rng_ing'] == '06 [0 - 1K]':
 		   rango6_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
 
-    meses_moras = Moras.objects.values(filtro2).order_by('-mes_form').distinct()
+    if filtro2 == 'trimestre_form':
+        meses_moras = Moras.objects.values('trimestre_form').order_by('-trimestre_form').distinct()
+    else:
+        meses_moras = Moras.objects.values('mes_form').order_by('-mes_form').distinct()
+
     morames_list = []
     for i in meses_moras:
 	morames_list.append(i[filtro2])

@@ -52,7 +52,7 @@ def sidebar(tipo=1):
 
 @register.filter
 def convert_date(value):
-    return DIC[value]
+    return DIC[value] 
 
 @register.filter
 def format_date(value):
