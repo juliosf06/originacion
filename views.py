@@ -2851,9 +2851,9 @@ def seguimiento_hipoteca(request, fecha='201312'):
 	   if i['mora']>0.6 and i['mora']<=0.9:
 	      dict_moras[i['ubigeo']]='#FBE975'
 	   if i['mora']>0.3 and i['mora']<=0.6:
-	      dict_moras[i['ubigeo']]='#A6D974'
-	   if i['mora']<=0.3:
 	      dict_moras[i['ubigeo']]='#66BD63'
+	   if i['mora']<=0.3:
+	      dict_moras[i['ubigeo']]='#A6D974'
 	if i['codmes']=='201412':
 	   if i['mora']>3:
 	      dict_moras1[i['ubigeo']]='#E31A1C'
@@ -2868,9 +2868,9 @@ def seguimiento_hipoteca(request, fecha='201312'):
 	   if i['mora']>0.6 and i['mora']<=0.9:
 	      dict_moras1[i['ubigeo']]='#FBE975'
 	   if i['mora']>0.3 and i['mora']<=0.6:
-	      dict_moras1[i['ubigeo']]='#A6D974'
-	   if i['mora']<=0.3:
 	      dict_moras1[i['ubigeo']]='#66BD63'
+	   if i['mora']<=0.3:
+	      dict_moras1[i['ubigeo']]='#A6D974'
 	if i['codmes']=='201512':
 	   if i['mora']>3:
 	      dict_moras2[i['ubigeo']]='#E31A1C'
@@ -2885,9 +2885,9 @@ def seguimiento_hipoteca(request, fecha='201312'):
 	   if i['mora']>0.6 and i['mora']<=0.9:
 	      dict_moras2[i['ubigeo']]='#FBE975'
 	   if i['mora']>0.3 and i['mora']<=0.6:
-	      dict_moras2[i['ubigeo']]='#A6D974'
-	   if i['mora']<=0.3:
 	      dict_moras2[i['ubigeo']]='#66BD63'
+	   if i['mora']<=0.3:
+	      dict_moras2[i['ubigeo']]='#A6D974'
 	if i['codmes']=='201607':
 	   if i['mora']>3:
 	      dict_moras3[i['ubigeo']]='#E31A1C'
@@ -2902,9 +2902,9 @@ def seguimiento_hipoteca(request, fecha='201312'):
 	   if i['mora']>0.6 and i['mora']<=0.9:
 	      dict_moras3[i['ubigeo']]='#FBE975'
 	   if i['mora']>0.3 and i['mora']<=0.6:
-	      dict_moras3[i['ubigeo']]='#A6D974'
-	   if i['mora']<=0.3:
 	      dict_moras3[i['ubigeo']]='#66BD63'
+	   if i['mora']<=0.3:
+	      dict_moras3[i['ubigeo']]='#A6D974'
 
     control_fecha = HipotecaSSFF.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
     time = []; timex = []; timez = []; timeu = []
