@@ -9,46 +9,51 @@
 {% block content %}
 
           <h1 class="page-header">Seguimiento PLD</h1>
+          <div class="links" style = "text-align:right; font-size: 20px;">
+            <a href='#seguimiento_campaña'>Campañas</a>&nbsp;&nbsp;
+            <a href='#seguimiento_uno'>Uno a Uno</a>&nbsp;&nbsp;
+            <a href='#seguimiento_forzaje'>Forzaje</a>
+          </div>
+          <div class="botones" style = "text-align:left; font-size: 20px;">
+            <button type="button" id="button1"> Mensual </button>&nbsp;&nbsp;
+            <button type="button" id="button2"> Trimestral </button>
+          </div>      
           <div class="form-inline">
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
           <div class="rows placeholders">
 		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
           </div>
-	 &nbsp;
+	  &nbsp;
           <div class="rows placeholders">
 		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
           </div>
-	 &nbsp;
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer5" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
           <div class="rows placeholders">
 		<div id="chartContainer3" style="height: 300px; width: 100%;"></div>
           </div>
-	 &nbsp;
+	  &nbsp;
+          <h2 id="seguimiento_campaña">Seguimiento Tarjeta - Campañas</h2>
+          <div class="links" style = "text-align:right; font-size: 20px;">
+            <a href='#seguimiento_inicio'>Inicio</a>&nbsp;&nbsp;
+            <a href='#seguimiento_uno'>Uno a Uno</a>&nbsp;&nbsp;
+            <a href='#seguimiento_forzaje'>Forzaje</a>
+          </div>        
+	  &nbsp;  
           <div class="rows placeholders">
 		<div id="chartContainer4" style="height: 300px; width: 100%;"></div>
           </div>
 	  &nbsp;
           <div class="rows placeholders">
-		<div id="chartContainer18" style="height: 300px; width: 100%;"></div>
-          </div>
-	  &nbsp;
-          <div class="rows placeholders">
-		<div id="chartContainer13" style="height: 300px; width: 100%;"></div>
-	  &nbsp;
-          <div class="rows placeholders">
-		<div id="chartContainer19" style="height: 300px; width: 100%;"></div>
-          </div>
-	 &nbsp;
-          <div class="rows placeholders">
-		<div id="chartContainer5" style="height: 300px; width: 100%;"></div>
-          </div>
-	 &nbsp;
-          <div class="rows placeholders">
-		<div id="chartContainer12" style="height: 300px; width: 100%;"></div>
-          </div>
-	 &nbsp;
-          <div class="rows placeholders">
 		<div id="chartContainer6" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer23" style="height: 300px; width: 100%;"></div>
           </div>
 	  &nbsp;
           <div class="rows placeholders">
@@ -62,6 +67,14 @@
           </div>
 	  &nbsp;
           <div class="rows placeholders">
+		<div id="chartContainer13" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer24" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
 		<div id="chartContainer14" style="height: 300px; width: 50%; display: inline-block;"></div>
 		<div id="chartContainer15" style="height: 300px; width: 50%; display: inline-block;"></div>
           </div>
@@ -69,17 +82,47 @@
           <div class="rows placeholders">
 		<div id="chartContainer16" style="height: 300px; width: 50%; display: inline-block;"></div>
 		<div id="chartContainer17" style="height: 300px; width: 50%; display: inline-block;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer25" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer22" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <h2 id="seguimiento_uno">Seguimiento PLD - Uno a Uno</h2>
+          <div class="links" style = "text-align:right; font-size: 20px;">
+            <a href='#seguimiento_inicio'>Inicio</a>&nbsp;&nbsp;
+            <a href='#seguimiento_campaña'>Campañas</a>&nbsp;&nbsp;
+            <a href='#seguimiento_forzaje'>Forzaje</a>
+          </div>        
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer18" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer19" style="height: 300px; width: 100%;"></div>
+          </div>
+	  &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer12" style="height: 300px; width: 100%;"></div>
+          </div>
 	  &nbsp;
           <div class="rows placeholders">
 		<div id="chartContainer20" style="height: 300px; width: 50%; display: inline-block;"></div>
 		<div id="chartContainer21" style="height: 300px; width: 50%; display: inline-block;"></div>
           </div>
 	  &nbsp;
-          <div class="rows placeholders">
-		<div id="chartContainer22" style="height: 300px; width: 50%; display: inline-block;"></div>
-		<div id="chartContainer23" style="height: 300px; width: 50%; display: inline-block;"></div>
-          </div>
-	 &nbsp;
+          <h2 id="seguimiento_forzaje">Seguimiento PLD - Forzaje</h2>     
+          <div class="links" style = "text-align:right; font-size: 20px;">
+            <a href='#seguimiento_inicio'>Inicio</a>&nbsp;&nbsp;
+            <a href='#seguimiento_campaña'>Campañas</a>&nbsp;&nbsp;
+            <a href='#seguimiento_uno'>Uno a Uno</a>
+          </div>   
+	  &nbsp;
           <div class="rows placeholders">
 		<div id="chartContainer11" style="height: 300px; width: 100%;"></div>
           </div>
@@ -92,8 +135,8 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Formalizados",
-			fontColor: "#094FA4",             
+			text: "Formalizados", 
+			fontColor: "#094FA4",            
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -107,7 +150,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d in formalizados %}
-				{ y: {{b.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{ y: {{b.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -121,7 +164,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d in formalizados %}
-				{ y: {{c.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{ y: {{c.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -136,7 +179,7 @@
 			color: "#86C82D",
 			dataPoints: [
 				{% for a,b,c,d in formalizados %}
-				{ y: {{d.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{ y: {{d.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -145,13 +188,13 @@
 			type: "spline",
 			name: "# FORMALIZADOS",
 			indexLabelFontColor: "darkblue",			
-			indexLabel: "{y}",
 			color: "#094FA4",
+			indexLabel: "{y}",
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d in formalizados %}
-				{ y: {{a.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{ y: {{a.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -177,23 +220,38 @@
 			yValueFormatString: "##,###",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in ticket %}
-				{ y: {{a.facturacion}}*1000000/{{c.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% for a,b,c,d,e,f in ticket %}
+				{ y: {{a.facturacion}}*1000000/{{d.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
-			name: "CAMPAÑAS",
+			name: "CAMPAÑAS FAST",
 			indexLabelFontColor: "#86C82D",	
 			color: "#86C82D",		
 			indexLabel: "{y}",
 			yValueFormatString: "##,###.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in ticket %}
-				{ y: {{b.facturacion}}*1000000/{{d.formalizado}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% for a,b,c,d,e,f in ticket %}
+				{ y: {{b.facturacion}}*1000000/{{e.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "CAMPAÑAS MS",
+			indexLabelFontColor: "#C8175E",	
+			color: "#C8175E",		
+			indexLabel: "{y}",
+			yValueFormatString: "##,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e,f in ticket %}
+				{ y: {{c.facturacion}}*1000000/{{f.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -212,104 +270,59 @@
         chart2.render();
 	});
 
-	var chart = new CanvasJS.Chart("chartContainer3", {
+	var chart = new CanvasJS.Chart("chartContainer5", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Rango de Ingresos:",
+			text: "Mora Total",
 			fontColor: "#094FA4",             
 		},
-		axisY:{
-			maximum: 120,              
-		},
+                axisY:{
+                        interval:1,
+                },
 		animationEnabled: true,   // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "[0 - 1,000]",
+			type: "spline",
+			name: "MORA6",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",			
 			indexLabel: "{y}%",
-			indexLabelFontColor: "white",
-			color: "#B5E5F9",
-			yValueFormatString: "#0.",
+			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for key, value in rango6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% for key, value in mora6_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "[1,000 - 1,500]",
+			type: "spline",
+			name: "MORA9",
+			indexLabelFontColor: "#094FA4",			
 			indexLabel: "{y}%",
-			indexLabelFontColor: "white",
-			color: "#C8175E",
-			yValueFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in rango5_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "[1,500 - 2,000]",
-			indexLabel: "{y}%",
-			indexLabelFontColor: "white",
-			color: "#89D1F3",
-			yValueFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in rango4_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "[2,000 - 2,500]",
-			indexLabel: "{y}%",
-			indexLabelFontColor: "white",
-			color: "#009EE5",
-			yValueFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in rango3_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "[2,500 - 3,500]",
-			indexLabel: "{y}%",
-			indexLabelFontColor: "white",
 			color: "#094FA4",
-			yValueFormatString: "#0.",
+			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for key, value in rango2_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% for key, value in mora9_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "[3,500 - a más]",
+			type: "spline",
+			name: "MORA12",
+			indexLabelFontColor: "#86C82D",			
 			indexLabel: "{y}%",
-			indexLabelFontColor: "white",
 			color: "#86C82D",
-			yValueFormatString: "#0.",
+			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for key, value in rango1_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% for key, value in mora12_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -321,7 +334,7 @@
 		theme: "theme2",//theme1
 		title:{
 			text: "Segmentos - Campaña",
-			fontColor: "#C8175E",             
+			fontColor: "#009EE5",              
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -335,7 +348,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{a.seg}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{ y: {{a.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -349,7 +362,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{b.seg}} , label: '{{b.mes_vigencia|convert_date}}' },
+				{ y: {{b.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{b.trimestre_form}}' {% else %} label: '{{b.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -364,7 +377,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{c.seg}} , label: '{{c.mes_vigencia|convert_date}}' },
+				{ y: {{c.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{c.trimestre_form}}' {% else %} label: '{{c.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -379,7 +392,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{d.seg}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{ y: {{d.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -393,7 +406,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{e.formalizado}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{ y: {{e.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -419,7 +432,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for b,c,d,e in ucamp_seg %}
-				{ y: {{b.seg}} , label: '{{b.mes_vigencia|convert_date}}' },
+				{ y: {{b.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{b.trimestre_form}}' {% else %} label: '{{b.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -434,7 +447,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for b,c,d,e in ucamp_seg %}
-				{ y: {{c.seg}} , label: '{{c.mes_vigencia|convert_date}}' },
+				{ y: {{c.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{c.trimestre_form}}' {% else %} label: '{{c.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -449,7 +462,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for b,c,d,e in ucamp_seg %}
-				{ y: {{d.seg}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{ y: {{d.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -463,451 +476,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for b,c,d,e in ucamp_seg %}
-				{ y: {{e.formalizado}} , label: '{{d.mes_vigencia|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart.render();
-
-
-
-	var chart = new CanvasJS.Chart("chartContainer5", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Mora Total",
-			fontColor: "#094FA4",             
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "MORA6",
-			indexLabelFontColor: "#89D1F3",
-			color: "#89D1F3",			
-			indexLabel: "{y}%",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b in mora_6 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "MORA9",
-			indexLabelFontColor: "#094FA4",			
-			indexLabel: "{y}%",
-			color: "#094FA4",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b in mora_9 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "MORA12",
-			indexLabelFontColor: "#86C82D",			
-			indexLabel: "{y}%",
-			color: "#86C82D",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b in mora_12 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart.render();
-
-	var chart = new CanvasJS.Chart("chartContainer12", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Mora Uno a Uno",
-			fontColor: "#86C82D",              
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 6",
-			indexLabel: "{y}%",
-			indexLabelFontColor: "#89D1F3",
-			color: "#89D1F3",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in mora6_uno_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 9",
-			indexLabel: "{y}%",
-			indexLabelFontColor: "#094FA4",
-			color: "#094FA4",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in mora9_uno_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 12",
-			indexLabel: "{y}%",
-			indexLabelFontColor: "#86C82D",
-			color: "#86C82D",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in mora12_uno_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart.render();
-
-	var chart = new CanvasJS.Chart("chartContainer6", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Mora Campaña",
-			fontColor: "#C8175E",              
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 6",
-			indexLabel: "{y}%",
-			indexLabelFontColor: "#89D1F3",
-			color: "#89D1F3",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in mora6_camp_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 9",
-			indexLabel: "{y}%",
-			indexLabelFontColor: "#094FA4",
-			color: "#094FA4",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in mora9_camp_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 12",
-			indexLabel: "{y}%",
-			indexLabelFontColor: "#86C82D",
-			color: "#86C82D",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in mora12_camp_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart.render();
-
-	var chart = new CanvasJS.Chart("chartContainer7", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Mora - Segmento AVA",
-			fontColor: "#094FA4",              
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 6",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#89D1F3",
-			color: "#89D1F3",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in ava_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 9",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#094FA4",
-			color: "#094FA4",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in ava_mora9_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 12",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#86C82D",
-			color: "#86C82D",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in ava_mora12_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart.render();
-
-	var chart = new CanvasJS.Chart("chartContainer8", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Mora - Segmento MS",
-			fontColor: "#094FA4",              
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 6",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#89D1F3",
-			color: "#89D1F3",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in ms_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 9",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#094FA4",
-			color: "#094FA4",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in ms_mora9_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 12",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#86C82D",
-			color: "#86C82D",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in ms_mora12_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart.render();
-
-	var chart = new CanvasJS.Chart("chartContainer9", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Mora - Segmento NoPH",
-			fontColor: "#094FA4",              
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 6",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#89D1F3",
-			color: "#89D1F3",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in noph_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 9",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#094FA4",
-			color: "#094FA4",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in noph_mora9_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 12",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#86C82D",
-			color: "#86C82D",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in noph_mora12_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart.render();
-
-	var chart = new CanvasJS.Chart("chartContainer10", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Mora - Segmento NoCli",
-			fontColor: "#094FA4",              
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 6",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#89D1F3",
-			color: "#89D1F3",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in nocli_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 9",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#094FA4",
-			color: "#094FA4",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in nocli_mora9_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 12",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#86C82D",
-			color: "#86C82D",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in nocli_mora12_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart.render();
-
-
-	var chart = new CanvasJS.Chart("chartContainer11", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Nivel de Forzaje",
-			fontColor: "#F6891E",              
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "column",
-			name: "Duda",
-			indexLabelFontColor: "#89D1F3",			
-			indexLabel: "{y}%",
-			color: "#89D1F3",
-			yValueFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b,c in forzaje %}
-				{ y: {{a.cantidad}}*100/{{c.cantidad}} , label: "{{a.mes_vigencia|convert_date}}" },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "column",
-			name: "Rechazo",
-			indexLabelFontColor: "#F6891E",			
-			indexLabel: "{y}%",
-			color: "#F6891E",
-			yValueFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a,b,c in forzaje %}
-				{ y: {{b.cantidad}}*100/{{c.cantidad}} , label: "{{a.mes_vigencia|convert_date}}" },
+				{ y: {{e.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -919,7 +488,7 @@
 		theme: "theme2",//theme1
 		title:{
 			text: "Relación Laboral - Campaña",
-			fontColor: "#C8175E",             
+			fontColor: "#009EE5",             
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -933,7 +502,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in camp_cat %}
-				{ y: {{a.seg}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{ y: {{a.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -947,7 +516,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in camp_cat %}
-				{ y: {{b.seg}} , label: '{{b.mes_vigencia|convert_date}}' },
+				{ y: {{b.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{b.trimestre_form}}' {% else %} label: '{{b.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -962,7 +531,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in camp_cat %}
-				{ y: {{c.seg}} , label: '{{c.mes_vigencia|convert_date}}' },
+				{ y: {{c.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{c.trimestre_form}}' {% else %} label: '{{c.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -977,7 +546,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in camp_cat %}
-				{ y: {{d.seg}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{ y: {{d.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -991,7 +560,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in camp_cat %}
-				{ y: {{e.formalizado}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{ y: {{e.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1017,7 +586,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in ucamp_cat %}
-				{ y: {{a.seg}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{ y: {{a.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1031,7 +600,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in ucamp_cat %}
-				{ y: {{b.seg}} , label: '{{b.mes_vigencia|convert_date}}' },
+				{ y: {{b.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{b.trimestre_form}}' {% else %} label: '{{b.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1046,7 +615,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in ucamp_cat %}
-				{ y: {{c.seg}} , label: '{{c.mes_vigencia|convert_date}}' },
+				{ y: {{c.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{c.trimestre_form}}' {% else %} label: '{{c.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1061,7 +630,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in ucamp_cat %}
-				{ y: {{d.seg}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{ y: {{d.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1075,7 +644,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in ucamp_cat %}
-				{ y: {{e.formalizado}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{ y: {{e.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1083,13 +652,522 @@
 	});
 	chart.render();
 
+	var chart = new CanvasJS.Chart("chartContainer11", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Nivel de Forzaje",
+			fontColor: "#F6891E",               
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			name: "Duda",
+			indexLabelFontColor: "#89D1F3",			
+			indexLabel: "{y}%",
+			color: "#89D1F3",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in duda_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			name: "Rechazo",
+			indexLabelFontColor: "#F6891E",			
+			indexLabel: "{y}%",
+			color: "#F6891E",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in rechazo_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer7", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora - Segmento AVA",
+			fontColor: "#009EE5",               
+		},
+                axisY:{
+                        interval:1,
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 6",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ava_mora6_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 9",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ava_mora9_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 12",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ava_mora12_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer8", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora - Segmento MS",
+			fontColor: "#009EE5",               
+		},
+                axisY:{
+                        interval:1,
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 6",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ms_mora6_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 9",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ms_mora9_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 12",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ms_mora12_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer9", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora - Segmento NoPH",
+			fontColor: "#009EE5",               
+		},
+                axisY:{
+                        interval:1,
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 6",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in noph_mora6_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 9",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in noph_mora9_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 12",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in noph_mora12_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer10", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora - Segmento NoCli",
+			fontColor: "#009EE5",               
+		},
+                axisY:{
+                        interval:1,
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 6",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in nocli_mora6_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 9",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in nocli_mora9_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 12",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in nocli_mora12_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer12", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora Uno a Uno",
+			fontColor: "#86C82D",             
+		},
+                axisY:{
+                        interval:2,
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 6",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora6_uno_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 9",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora9_uno_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 12",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora12_uno_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer6", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora Campaña",
+			fontColor: "#009EE5",              
+		},
+                axisY:{
+                        interval:1,
+                },
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 6",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora6_camp_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 9",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora9_camp_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 12",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora12_camp_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer3", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Rango de Ingresos:",
+			fontColor: "#094FA4",             
+		},
+		axisY:{
+			maximum: 120,              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[0 - 1,000]",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "white",
+			color: "#B5E5F9",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in rango6_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[1,000 - 1,500]",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "white",
+			color: "#C8175E",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in rango5_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[1,500 - 2,000]",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "white",
+			color: "#89D1F3",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in rango4_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[2,000 - 2,500]",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "white",
+			color: "#009EE5",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in rango3_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[2,500 - 3,500]",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "white",
+			color: "#094FA4",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in rango2_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "[3,500 - a más]",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "white",
+			color: "#86C82D",
+			yValueFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in rango1_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
 
 	var chart = new CanvasJS.Chart("chartContainer14", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Mora - Dependientes",
-			fontColor: "#094FA4",              
+			fontColor: "#009EE5",              
 		},
+                axisY:{
+                        interval:1,
+                },
 		animationEnabled: true,   // change to true
 		data: [              
 		{
@@ -1103,7 +1181,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dep_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1118,7 +1196,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dep_mora9_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1133,7 +1211,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dep_mora12_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1145,8 +1223,11 @@
 		theme: "theme2",//theme1
 		title:{
 			text: "Mora - Independientes",
-			fontColor: "#094FA4",              
+			fontColor: "#009EE5",              
 		},
+                axisY:{
+                        interval:1,
+                },
 		animationEnabled: true,   // change to true
 		data: [              
 		{
@@ -1160,7 +1241,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in indep_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1175,7 +1256,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in indep_mora9_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1190,7 +1271,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in indep_mora12_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1202,8 +1283,11 @@
 		theme: "theme2",//theme1
 		title:{
 			text: "Mora - PNN",
-			fontColor: "#094FA4",              
+			fontColor: "#009EE5",              
 		},
+                axisY:{
+                        interval:1,
+                },
 		animationEnabled: true,   // change to true
 		data: [              
 		{
@@ -1217,7 +1301,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in pnn_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1232,7 +1316,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in pnn_mora9_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1247,7 +1331,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in pnn_mora12_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1259,8 +1343,11 @@
 		theme: "theme2",//theme1
 		title:{
 			text: "Mora - No Reconocidos",
-			fontColor: "#094FA4",              
+			fontColor: "#009EE5",               
 		},
+                axisY:{
+                        interval:1,
+                },
 		animationEnabled: true,   // change to true
 		data: [              
 		{
@@ -1274,7 +1361,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in norec_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1289,7 +1376,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in norec_mora9_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1304,7 +1391,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in norec_mora12_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1318,6 +1405,9 @@
 			text: "Mora Segmento - Uno a Uno",
 			fontColor: "#86C82D",              
 		},
+                axisY:{
+                        interval:1,
+                },
 		animationEnabled: true,   // change to true
 		data: [              
 		{
@@ -1375,6 +1465,9 @@
 			text: "Mora Relación Laboral - Uno a Uno",
 			fontColor: "#86C82D",               
 		},
+                axisY:{
+                        interval:1,
+                },
 		animationEnabled: true,   // change to true
 		data: [              
 		{
@@ -1445,7 +1538,7 @@
 		theme: "theme2",//theme1
 		title:{
 			text: "Mora 6 Meses - Buró",
-			fontColor: "#C8175E",               
+			fontColor: "#009EE5",               
 		},
 		animationEnabled: true,   // change to true
 		data: [              
@@ -1516,22 +1609,22 @@
 	var chart = new CanvasJS.Chart("chartContainer23", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora 12 Meses - Buró",
-			fontColor: "#C8175E",               
+			text: "Mora 6 Meses - Segmentos",
+			fontColor: "#009EE5",               
 		},
 		animationEnabled: true,   // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
-			name: "G1-G4",
+			name: "AVA",
 			//indexLabel: "{y}%",
 			indexLabelFontColor: "#89D1F3",
 			color: "#89D1F3",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for key, value in dict_mora12buro1.items|sort %}
+				{% for key, value in ava_mora6_dict.items|sort %}
 				{ y: {{value}} , label: '{{key}}' },
 				{% endfor %}
 			]
@@ -1539,14 +1632,14 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
-			name: "G5",
+			name: "MS",
 			//indexLabel: "{y}%",
 			indexLabelFontColor: "#094FA4",
 			color: "#094FA4",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for key, value in dict_mora12buro2.items|sort %}
+				{% for key, value in ms_mora6_dict.items|sort %}
 				{ y: {{value}} , label: '{{key}}' },
 				{% endfor %}
 			]
@@ -1554,14 +1647,14 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
-			name: "G6-G8",
+			name: "NoPH",
 			//indexLabel: "{y}%",
 			indexLabelFontColor: "#86C82D",
 			color: "#86C82D",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for key, value in dict_mora12buro3.items|sort %}
+				{% for key, value in noph_mora6_dict.items|sort %}
 				{ y: {{value}} , label: '{{key}}' },
 				{% endfor %}
 			]
@@ -1569,14 +1662,14 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
-			name: "NB",
+			name: "NoCli",
 			//indexLabel: "{y}%",
 			indexLabelFontColor: "#C8175E",
 			color: "#C8175E",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for key, value in dict_mora12buro4.items|sort %}
+				{% for key, value in nocli_mora6_dict.items|sort %}
 				{ y: {{value}} , label: '{{key}}' },
 				{% endfor %}
 			]
@@ -1585,8 +1678,171 @@
 	});
 	chart.render();
 
+	var chart = new CanvasJS.Chart("chartContainer24", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Mora 6 Meses - Relación Laboral",
+			fontColor: "#009EE5",               
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Dependiente",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#89D1F3",
+			color: "#89D1F3",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dep_mora6_dict.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Independiente",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#094FA4",
+			color: "#094FA4",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in indep_mora6_dict.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "PNN",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#86C82D",
+			color: "#86C82D",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in pnn_mora6_dict.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "No Reconocido",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in norec_mora6_dict.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer25", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Buró - Campaña",
+			fontColor: "#009EE5",             
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "G1-G4",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in camp_buro %}
+				{ y: {{a.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "G5",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in camp_buro %}
+				{ y: {{b.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{b.trimestre_form}}' {% else %} label: '{{b.mes_vigencia|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "G6-G8",
+			indexLabelFontColor: "white",
+			color: '#86C82D',			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in camp_buro %}
+				{ y: {{c.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{c.trimestre_form}}' {% else %} label: '{{c.mes_vigencia|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "NB",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			color: "#C8175E",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in camp_buro %}
+				{ y: {{d.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			name: "# FORMALIZADOS",
+			indexLabelFontColor: "darkblue",			
+			color: "#C8175E",
+			indexLabel: "{y}",
+			//percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d,e in camp_buro %}
+				{ y: {{e.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{e.trimestre_form}}' {% else %} label: '{{e.mes_vigencia|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
 
     }
+
+    $("#button1").click(function(){
+          window.location.href = "/reports/seguimiento/"+"mes_vigencia"+"/"+"mes_form"+"/";
+    });
+    $("#button2").click(function(){
+          window.location.href = "/reports/seguimiento/"+"trimestre_form"+"/"+"trimestre_form"+"/";
+    });
   </script>
 {% endblock %}
 

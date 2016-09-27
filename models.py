@@ -459,3 +459,5 @@ class Moras(models.Model):
 
     def __str__(self):
         return self.mes_form+' '+self.segmento+' '+self.producto
+
+
