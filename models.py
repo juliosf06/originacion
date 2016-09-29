@@ -460,4 +460,11 @@ class Moras(models.Model):
     def __str__(self):
         return self.mes_form+' '+self.segmento+' '+self.producto
 
+class Comentario(models.Model):
+    periodo = models.CharField(max_length=10)
+    comentario = models.CharField(max_length=500)
+    usuario = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.periodo+' '+self.usuario
 

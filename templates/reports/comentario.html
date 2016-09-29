@@ -1,0 +1,78 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Sistema Financiero y BBVA{% endblock %}
+
+{% block content %}
+<div>
+<h1 class="page-header">Comentarios</h1>
+</div>
+&nbsp;
+<div>
+<p class="user-label" style="position: relative; left: 0%; font-size: 200%; color: #094FA4; display: inline-block;">Usuario: <strong style="color: grey;">{{user}}</strong></p>
+<p class="user-label" style="position: relative; left: 25%; font-size: 200%; color: #094FA4; display: inline-block;">Fecha: <strong style="color: grey;"><span id="time"></span></strong></p>
+</div style="position: relative; left: 0%;">
+<div>
+<input type="text" id="periodo" size="15" maxlength="30" value="periodo" name="periodo">
+</div>
+&nbsp;
+<div style="position: relative; left: 0%;">
+<textarea id="comentario" name="comentarios" rows="5" cols="80">Escribe aquí tus comentarios</textarea>
+</div>
+&nbsp;
+<button type="button" id="button_1"> Save</button>
+&nbsp;
+<h2 class="sub-header">Detalle de Operaciones</h2>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Periodo</th>
+        <th>Comentario</th>
+        <th>Usuario</th>
+      </tr>
+    </thead>
+    <tbody id="tabla_scoxllenado">
+      {% for a in coment %}
+      <tr>                       
+        <td>{{a.periodo}}</td>
+        <td>{{a.comentario}}</td>
+        <td>{{a.usuario}}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+
+{% endblock %}
+
+
+{% block script_final %}
+<script type="text/javascript">
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1;
+var yyyy = today.getFullYear();
+if(dd<10){
+    dd='0'+dd
+}
+if(mm<10){
+    mm='0'+mm
+}
+var today = dd+'/'+mm+'/'+yyyy;
+document.getElementById('time').innerHTML=today;
+$("#button_1").click(function(){
+    var periodo = $('#periodo').val();
+    var user = "{{user}}"
+    var comentario = $('#comentario').val();
+    console.log(periodo)
+    console.log(user)
+    console.log(comentario)
+    /*window.location.href = "/reports/comentario/"+"11"+"/"+"000006"+"/"+"0"+"/";*/
+});
+</script>
+{% endblock %}

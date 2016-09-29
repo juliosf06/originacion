@@ -3195,6 +3195,35 @@ def delete(request, base=0, fecha=after1, numsemana=0):
                   context_instance=RequestContext(request))
 
 
+# Vista para comentarios
+@login_required
+def comentario(request, usuario='1', time='1', comment='1'):
+    coment = Comentario.objects.all();
+    print coment
+    if usuario != '1':
+        data = Comentario(usuario=usuario, comentario=commet, periodo=time)
+        data.save()
+    static_url=settings.STATIC_URL
+    tipo_side = 4
+    return render('reports/comentario.html', locals(),
+                  context_instance=RequestContext(request))
+
+# Vista para tarjetas campana
+@login_required
+def tarjeta_campana(request):
+    segmentos = Campana2.objects.values('mes_vigencia').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
+    segmento_ava = Campana2.objects.values('mes_vigencia','segmento').filter(segmento='AVA').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
+    segmento_ms = Campana2.objects.values('mes_vigencia','segmento').filter(segmento='MS').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
+    segmento_noph = Campana2.objects.values('mes_vigencia','segmento').filter(segmento='No PH').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
+    segmento_nocli = Campana2.objects.values('mes_vigencia','segmento').filter(segmento='NoCli').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
+    grafica_segmento = zip(segmento_ava, segmento_ms, segmento_noph, segmento_nocli, segmentos)
+    print segmentos
+
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana2_tarjeta.html', locals(),
+                  context_instance=RequestContext(request))
+
 
 # Vistas CAMPANA para recibir consultas Ajax
 def json_ofertas(request):
@@ -3766,6 +3795,18 @@ def carga_campanaequifax(request):
         if form.is_valid():
             csv_file = request.FILES['campanaequifax']
             CampanaEquifaxCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_comentario(request):
+    if request.method == 'POST':
+        form = UploadComentario(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['comentario']
+            ComentarioCsv.import_data(data = csv_file)
             return campana_resumen(request)
         else:
             return load(campana_resumen)

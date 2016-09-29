@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^campanas/campanaweb/$', views.campanaweb, name='campanaweb'),
     url(r'^campanas/campanaweb/(?P<nivel>[\w|\W]+)/$', views.campanaweb, name='campanaweb'),
     url(r'^campanas/campanareglapat/$', views.campanareglapat, name='campanareglapat'),
+    url(r'^campanas/tarjeta_campana/$', views.tarjeta_campana, name='tarjeta_campana'),
 
 
     # URLS para reportes de RVGL
@@ -84,6 +85,7 @@ urlpatterns = [
     url(r'^prueba2/$', views.prueba2, name='prueba2'),
     url(r'^delete/$', views.delete, name='delete'),
     url(r'^delete/(?P<base>\d+)/(?P<fecha>[0-9]{6})/(?P<numsemana>\d+)/$', views.delete, name='delete'),
+    url(r'^comentario/$', views.comentario, name='comentario'),
 
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),
@@ -112,6 +114,7 @@ urlpatterns = [
     url(r'^load_data/carga_campanaefec/$', views.carga_campanaefec, name='carga_campanaefec'),
     url(r'^load_data/carga_campanalabseg/$', views.carga_campanalabseg, name='carga_campanalabseg'),
     url(r'^load_data/carga_campanaequifax/$', views.carga_campanaequifax, name='carga_campanaequifax'),
+    url(r'^load_data/carga_comentario/$', views.carga_comentario, name='carga_comentario'),
     url(r'^load_data/excel/$', views.excel, name='excel'),
     url(r'^load_data/$', views.load, name='load'),
     #url(r'^mapa/$', views.mapa, name='mapa'),
