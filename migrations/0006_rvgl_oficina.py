@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('reports', '0005_rvgl_importe_aprob'),
+        ('originacion', '0005_rvgl_importe_aprob'),
     ]
 
     operations = [

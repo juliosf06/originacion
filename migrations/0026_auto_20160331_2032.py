@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('reports', '0025_moras'),
+        ('originacion', '0025_moras'),
     ]
 
     operations = [

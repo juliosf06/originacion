@@ -468,3 +468,18 @@ class Comentario(models.Model):
     def __str__(self):
         return self.periodo+' '+self.usuario
 
+class EfectividadTC(models.Model):
+    codigo_campana = models.CharField(max_length=10)
+    trimestre = models.CharField(max_length=10)
+    mes_vigencia = models.CharField(max_length=10)
+    buro = models.CharField(max_length=10)
+    segmento = models.CharField(max_length=20)
+    tipo_clie = models.CharField(max_length=30)
+    verificacion = models.CharField(max_length=50)
+    contratado = models.CharField(max_length=60)
+    total_form = models.DecimalField(max_digits=12, decimal_places=2)
+    monto_form = models.DecimalField(max_digits=12, decimal_places=2)
+    monto_ofer = models.DecimalField(max_digits=12, decimal_places=2)
+
+    def __str__(self):
+        return self.codigo_campana+' '+self.mes_vigencia+' '+self.buro+' '+self.tipo_clie
