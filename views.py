@@ -18,7 +18,9 @@ from django.contrib.auth import authenticate, login, logout
 import csv, itertools
 import sys
 
+from .models import Comentario
 
+hoy = datetime.now().strftime("%d/%m/%Y %I:%M %p")
 fecha_actual = datetime.now().strftime("%Y%m")
 m1 = datetime.now()-timedelta(days=1*30)
 before1 = m1.strftime("%Y%m")
@@ -3205,12 +3207,20 @@ def delete(request, base=0, fecha=after1, numsemana=0):
 
 # Vista para comentarios
 @login_required
-def comentario(request, usuario='1', time='1', comment='1'):
+def comentario(request):
+    meses = Seguimiento1.objects.values('mes_vigencia').distinct('mes_vigencia').order_by('mes_vigencia')
     coment = Comentario.objects.all();
     print coment
-    if usuario != '1':
-        data = Comentario(usuario=usuario, comentario=commet, periodo=time)
-        data.save()
+    username = None
+    if request.method == 'POST':
+        if request.user.is_authenticated():
+            username = request.user.username
+            periodo = request.POST.get('periodo')
+            comentario = request.POST.get('comentarios')
+            comentario_instance = Comentario.objects.create(usuario=username,periodo=periodo,comentario=comentario, tiempo=hoy ) 
+            print periodo
+            print hoy
+
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/comentario.html', locals(),
