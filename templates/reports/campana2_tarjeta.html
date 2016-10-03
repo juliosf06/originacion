@@ -12,8 +12,25 @@
           <div class="form-inline">
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
+	      &nbsp;
           <div class="rows placeholders">
-		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+		<div id="chartContainer" style="height: 500px; width: 100%;"></div>
+          </div>
+          &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer2" style="height: 500px; width: 100%;"></div>
+          </div>
+          &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer3" style="height: 500px; width: 100%;"></div>
+          </div>
+          &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer4" style="height: 500px; width: 100%;"></div>
+          </div>
+          &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer5" style="height: 500px; width: 100%;"></div>
           </div>
 
 
@@ -36,12 +53,12 @@
 			type: "stackedColumn",
 			name: "AVA",
 			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
+			//indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in grafica_segmento %}
-				{ y: {{a.cant_tc}} , label: '{{a.mes_vigencia}}' },
+				{ y: {{a.cant_tc}} , label: '{{a.mes_vigencia|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -55,7 +72,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in grafica_segmento %}
-				{ y: {{b.cant_tc}} , label: '{{b.mes_vigencia}}' },
+				{ y: {{b.cant_tc}} , label: '{{b.mes_vigencia|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -70,7 +87,7 @@
 			//color: "#86C82D",
 			dataPoints: [
 				{% for a,b,c,d,e in grafica_segmento %}
-				{ y: {{c.cant_tc}} , label: '{{c.mes_vigencia}}' },
+				{ y: {{c.cant_tc}} , label: '{{c.mes_vigencia|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -85,7 +102,7 @@
 			//color: "#86C82D",
 			dataPoints: [
 				{% for a,b,c,d,e in grafica_segmento %}
-				{ y: {{d.cant_tc}} , label: '{{d.mes_vigencia}}' },
+				{ y: {{d.cant_tc}} , label: '{{d.mes_vigencia|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -100,7 +117,364 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d,e in grafica_segmento %}
-				{ y: {{e.cant_tc}} , label: '{{e.mes_vigencia}}' },
+				{ y: {{e.cant_tc}} , label: '{{e.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+ 	var chart2 = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Ticket Promedio",
+			fontColor: "#094FA4",              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "AVA",
+			indexLabelFontColor: "#094FA4",	
+			color: "#094FA4",			
+			indexLabel: "{y}",
+			yValueFormatString: "##,###",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in grafica_tickets %}
+				{ y: {{a.cant_ticket}}*1000000/{{a.monto_ticket}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MS",
+			indexLabelFontColor: "#86C82D",	
+			color: "#86C82D",		
+			indexLabel: "{y}",
+			yValueFormatString: "##,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in grafica_tickets %}
+				{ y: {{b.cant_ticket}}*1000000/{{b.monto_ticket}} , label: '{{b.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "NO PH",
+			indexLabelFontColor: "#C8175E",	
+			color: "#C8175E",		
+			indexLabel: "{y}",
+			yValueFormatString: "##,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in grafica_tickets %}
+				{ y: {{c.cant_ticket}}*1000000/{{c.monto_ticket}} , label: '{{c.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+				{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "NOCLI",
+			indexLabelFontColor: "#009EE5",	
+			color: "#009EE5",		
+			indexLabel: "{y}",
+			yValueFormatString: "##,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in grafica_tickets %}
+				{ y: {{d.cant_ticket}}*1000000/{{d.monto_ticket}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart2.render();
+
+	var chart = new CanvasJS.Chart("chartContainer3", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Ofertas Relación Laboral", 
+			fontColor: "#094FA4",            
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "DEPENDIENTE",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_dep.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "INDEPENDIENTE",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dict_indep.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "PNN",
+			indexLabelFontColor: "white",			
+			//indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			//color: "#86C82D",
+			dataPoints: [
+				{% for key, value in dict_pnn.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "NO RECONOCIDO",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			//color: "#86C82D",
+			dataPoints: [
+				{% for key, value in dict_nr.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer4", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Ofertas Buró", 
+			fontColor: "#094FA4",            
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "G1",
+			indexLabelFontColor: "white",			
+			//indexLabel: "{y}%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in buro1_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "G2",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in buro2_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "G3",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			//color: "#86C82D",
+			dataPoints: [
+				{% for key, value in buro3_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "G4",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			//color: "#86C82D",
+			dataPoints: [
+				{% for key, value in buro4_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "G5",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			//color: "#86C82D",
+			dataPoints: [
+				{% for key, value in buro5_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "G6",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			//color: "#86C82D",
+			dataPoints: [
+				{% for key, value in buro6_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "G7",
+			indexLabelFontColor: "white",			
+			//indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			//color: "#86C82D",
+			dataPoints: [
+				{% for key, value in buro7_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "G8",
+			indexLabelFontColor: "white",			
+			//indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			//color: "#86C82D",
+			dataPoints: [
+				{% for key, value in buro8_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "NB",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			//color: "#86C82D",
+			dataPoints: [
+				{% for key, value in buro9_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer5", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Efectividad - Segmentos", 
+			fontColor: "#094FA4",            
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "AVA",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ava_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "MS",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ms_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "NO PH",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			//color: "#86C82D",
+			dataPoints: [
+				{% for key, value in noph_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn",
+			name: "NOCLI",
+			indexLabelFontColor: "white",			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
+			showInLegend: "true",
+			//color: "#86C82D",
+			dataPoints: [
+				{% for key, value in nocli_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},

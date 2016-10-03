@@ -3217,7 +3217,89 @@ def tarjeta_campana(request):
     segmento_noph = Campana2.objects.values('mes_vigencia','segmento').filter(segmento='No PH').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
     segmento_nocli = Campana2.objects.values('mes_vigencia','segmento').filter(segmento='NoCli').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
     grafica_segmento = zip(segmento_ava, segmento_ms, segmento_noph, segmento_nocli, segmentos)
-    print segmentos
+    
+    tickets_ava = EfectividadTC.objects.values('mes_vigencia','segmento').filter(segmento='AVA').annotate(cant_ticket=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    tickets_ms = EfectividadTC.objects.values('mes_vigencia','segmento').filter(segmento='MS').annotate(cant_ticket=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    tickets_noph = EfectividadTC.objects.values('mes_vigencia','segmento').filter(segmento='No PH').annotate(cant_ticket=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    tickets_nocli = EfectividadTC.objects.values('mes_vigencia','segmento').filter(segmento='NoCli').annotate(cant_ticket=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    grafica_tickets = zip(tickets_ava, tickets_ms, tickets_noph, tickets_nocli)
+
+    meses = EfectividadTC.objects.values('mes_vigencia').distinct().order_by('mes_vigencia')
+
+    segmentos_efect = EfectividadTC.objects.values('mes_vigencia','segmento').annotate(cant_tc=Sum('total_form')).order_by('mes_vigencia')
+    ava_dict = {}; ms_dict = {}; noph_dict = {}; nocli_dict = {};
+    for i in meses:
+      for j in segmentos_efect:
+        if i['mes_vigencia'] == j['mes_vigencia']:
+          if j['segmento'] == 'AVA':
+            ava_dict[i['mes_vigencia']] = j['cant_tc']
+          elif j['segmento'] == 'MS':
+            ms_dict[i['mes_vigencia']] = j['cant_tc']
+          elif j['segmento'] == 'No PH':
+            noph_dict[i['mes_vigencia']] = j['cant_tc']
+          elif j['segmento'] == 'NoCli':
+            nocli_dict[i['mes_vigencia']] = j['cant_tc']
+          else:
+            ava_dict[i['mes_vigencia']] = 0
+            ms_dict[i['mes_vigencia']] = 0
+            noph_dict[i['mes_vigencia']] = 0
+            nocli_dict[i['mes_vigencia']] = 0
+
+    categorias = EfectividadTC.objects.values('mes_vigencia','tipo_clie').annotate(cant_tc=Sum('total_form')).order_by('mes_vigencia')
+    dict_dep = {}; dict_indep = {}; dict_pnn = {}; dict_nr = {}
+    for i in meses:
+      for j in categorias:
+        if i['mes_vigencia'] == j['mes_vigencia']:
+          if j['tipo_clie'] == 'DEPENDIENTE':
+            dict_dep[i['mes_vigencia']] = j['cant_tc']
+          elif j['tipo_clie'] == 'INDEPENDIENTE':
+            dict_indep[i['mes_vigencia']] = j['cant_tc']
+          elif j['tipo_clie'] == 'PNN':
+            dict_pnn[i['mes_vigencia']] = j['cant_tc']
+          elif j['tipo_clie'] == 'NO RECONOCIDO':
+            dict_nr[i['mes_vigencia']] = j['cant_tc']
+          else:
+            dict_dep[i['mes_vigencia']] = 0
+            dict_indep[i['mes_vigencia']] = 0
+            dict_pnn[i['mes_vigencia']] = 0
+            dict_nr[i['mes_vigencia']] = 0
+
+
+    buro = EfectividadTC.objects.values('mes_vigencia','buro').annotate(cant_tc=Sum('total_form')).order_by('mes_vigencia')
+    buro1_dict = {}; buro2_dict = {}; buro3_dict = {}; buro4_dict = {};
+    buro5_dict = {}; buro6_dict = {}; buro7_dict = {}; buro8_dict = {}; buro9_dict = {};
+    for i in meses:
+      for j in buro:
+        if i['mes_vigencia'] == j['mes_vigencia']:
+          if j['buro'] == 'G1':
+            buro1_dict[i['mes_vigencia']] = j['cant_tc']
+          elif j['buro'] == 'G2':
+            buro2_dict[i['mes_vigencia']] = j['cant_tc']
+          elif j['buro'] == 'G3':
+            buro3_dict[i['mes_vigencia']] = j['cant_tc']
+          elif j['buro'] == 'G4':
+            buro4_dict[i['mes_vigencia']] = j['cant_tc']
+          elif j['buro'] == 'G5':
+            buro5_dict[i['mes_vigencia']] = j['cant_tc']
+          elif j['buro'] == 'G6':
+            buro6_dict[i['mes_vigencia']] = j['cant_tc']
+          elif j['buro'] == 'G7':
+            buro7_dict[i['mes_vigencia']] = j['cant_tc']
+          elif j['buro'] == 'G8':
+            buro8_dict[i['mes_vigencia']] = j['cant_tc']
+          elif j['buro'] == 'NB':
+            buro9_dict[i['mes_vigencia']] = j['cant_tc']
+          else:
+            buro1_dict[i['mes_vigencia']] = 0
+            buro2_dict[i['mes_vigencia']] = 0
+            buro3_dict[i['mes_vigencia']] = 0
+            buro4_dict[i['mes_vigencia']] = 0
+            buro5_dict[i['mes_vigencia']] = 0
+            buro6_dict[i['mes_vigencia']] = 0
+            buro7_dict[i['mes_vigencia']] = 0
+            buro8_dict[i['mes_vigencia']] = 0
+            buro9_dict[i['mes_vigencia']] = 0
+
 
     static_url=settings.STATIC_URL
     tipo_side = 1
@@ -3813,6 +3895,17 @@ def carga_comentario(request):
     else:
         return load(campana_resumen)
 
+def carga_efectividadtc(request):
+    if request.method == 'POST':
+        form = UploadEfectividadTC(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['efectividadtc']
+            EfectividadTCCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
 
 def excel(request):
 

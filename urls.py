@@ -115,6 +115,7 @@ urlpatterns = [
     url(r'^load_data/carga_campanalabseg/$', views.carga_campanalabseg, name='carga_campanalabseg'),
     url(r'^load_data/carga_campanaequifax/$', views.carga_campanaequifax, name='carga_campanaequifax'),
     url(r'^load_data/carga_comentario/$', views.carga_comentario, name='carga_comentario'),
+    url(r'^load_data/carga_efectividadtc/$', views.carga_efectividadtc, name='carga_efectividadtc'),
     url(r'^load_data/excel/$', views.excel, name='excel'),
     url(r'^load_data/$', views.load, name='load'),
     #url(r'^mapa/$', views.mapa, name='mapa'),
