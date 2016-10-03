@@ -3133,6 +3133,9 @@ def delete(request, base=0, fecha=after1, numsemana=0):
     if fecha == '000006' and base == '11':
         Forzaje.objects.all().delete()
 
+    if fecha == '000007' and base == '18':
+        EfectividadTC.objects.all().delete()
+
     control_fecha3 = Seguimiento1.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
     for i in control_fecha3:
         if fecha == i['mes_vigencia'] and base == '7':
@@ -3187,6 +3190,11 @@ def delete(request, base=0, fecha=after1, numsemana=0):
     for i in control_fecha12:
         if fecha == i['mes_form'] and base == '17':
             Moras.objects.filter(mes_form=fecha).delete()
+
+    control_fecha13 = EfectividadTC.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha13:
+        if fecha == i['mes_vigencia'] and base == '18':
+            EfectividadTC.objects.filter(mes_vigencia=fecha).delete()
     
 
     static_url=settings.STATIC_URL
