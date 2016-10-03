@@ -14,12 +14,12 @@
 <div class="derecha">
   <form method="post">{% csrf_token %}
     <div>
-    <p class="user-label" style="position: relative; left: 0%; font-size: 200%; color: #094FA4; display: inline-block;">Usuario: <strong style="color: grey;" name="nombre_user">{{user}}</strong></p>
-    <p class="user-label" style="position: relative; left: 25%; font-size: 200%; color: #094FA4; display: inline-block;">Fecha: <strong style="color: grey;"><span id="time" name="time"></span></strong></p>
+    <p class="user-label" style="position: relative; left: 0%; font-size: 150%; color: #094FA4; display: inline-block;">Usuario: <strong style="color: grey;" name="nombre_user">{{user}}</strong></p>
+    <p class="user-label" style="position: relative; left: 25%; font-size: 150%; color: #094FA4; display: inline-block;">Fecha: <strong style="color: grey;"><span id="time" name="time"></span></strong></p>
     </div style="position: relative; left: 0%;">
     <div>
     <label class="control-label">Periodo:&nbsp;&nbsp;</label>
-      <select class="form-control" name="periodo" id="comentario_periodo" style="width: 10%">
+      <select class="form-control" name="periodo" id="comentario_periodo" style="width: 20%">
         {% for a in meses %}
         <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
         {% endfor %}
