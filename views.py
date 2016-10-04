@@ -3236,10 +3236,10 @@ def tarjeta_campana(request):
     segmento_nocli = Campana2.objects.values('mes_vigencia','segmento').filter(segmento='NoCli').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
     grafica_segmento = zip(segmento_ava, segmento_ms, segmento_noph, segmento_nocli, segmentos)
     
-    tickets_ava = EfectividadTC.objects.values('mes_vigencia','segmento').filter(segmento='AVA').annotate(cant_ticket=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
-    tickets_ms = EfectividadTC.objects.values('mes_vigencia','segmento').filter(segmento='MS').annotate(cant_ticket=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
-    tickets_noph = EfectividadTC.objects.values('mes_vigencia','segmento').filter(segmento='No PH').annotate(cant_ticket=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
-    tickets_nocli = EfectividadTC.objects.values('mes_vigencia','segmento').filter(segmento='NoCli').annotate(cant_ticket=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    tickets_ava = EfectividadTC.objects.values('mes_vigencia','segmento').filter(segmento='AVA').annotate(cant_ticket=Sum('total_form'),monto_ticket=Sum('monto_form'),monto_oferta=Sum('monto_ofer')).order_by('mes_vigencia')
+    tickets_ms = EfectividadTC.objects.values('mes_vigencia','segmento').filter(segmento='MS').annotate(cant_ticket=Sum('total_form'),monto_ticket=Sum('monto_form'),monto_oferta=Sum('monto_ofer')).order_by('mes_vigencia')
+    tickets_noph = EfectividadTC.objects.values('mes_vigencia','segmento').filter(segmento='No PH').annotate(cant_ticket=Sum('total_form'),monto_ticket=Sum('monto_form'),monto_oferta=Sum('monto_ofer')).order_by('mes_vigencia')
+    tickets_nocli = EfectividadTC.objects.values('mes_vigencia','segmento').filter(segmento='NoCli').annotate(cant_ticket=Sum('total_form'),monto_ticket=Sum('monto_form'),monto_oferta=Sum('monto_ofer')).order_by('mes_vigencia')
     grafica_tickets = zip(tickets_ava, tickets_ms, tickets_noph, tickets_nocli)
 
     meses = EfectividadTC.objects.values('mes_vigencia').distinct().order_by('mes_vigencia')

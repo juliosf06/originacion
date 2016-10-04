@@ -14,23 +14,27 @@
           </div>
 	      &nbsp;
           <div class="rows placeholders">
-		<div id="chartContainer" style="height: 500px; width: 100%;"></div>
+		<div id="chartContainer" style="height: 350px; width: 100%;"></div>
           </div>
           &nbsp;
           <div class="rows placeholders">
-		<div id="chartContainer2" style="height: 500px; width: 100%;"></div>
+		<div id="chartContainer2" style="height: 350px; width: 100%;"></div>
           </div>
           &nbsp;
           <div class="rows placeholders">
-		<div id="chartContainer3" style="height: 400px; width: 100%;"></div>
+		<div id="chartContainer3" style="height: 350px; width: 100%;"></div>
           </div>
           &nbsp;
           <div class="rows placeholders">
-		<div id="chartContainer4" style="height: 400px; width: 100%;"></div>
+		<div id="chartContainer4" style="height: 350px; width: 100%;"></div>
           </div>
           &nbsp;
           <div class="rows placeholders">
-		<div id="chartContainer5" style="height: 400px; width: 100%;"></div>
+		<div id="chartContainer5" style="height: 350px; width: 100%;"></div>
+          </div>
+          &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer6" style="height: 350px; width: 100%;"></div>
           </div>
 
 
@@ -144,7 +148,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d in grafica_tickets %}
-				{ y: {{a.cant_ticket}}*1000000/{{a.monto_ticket}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{ y: {{a.monto_ticket}}/{{a.cant_ticket}} , label: '{{a.mes_vigencia|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -159,7 +163,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d in grafica_tickets %}
-				{ y: {{b.cant_ticket}}*1000000/{{b.monto_ticket}} , label: '{{b.mes_vigencia|convert_date}}' },
+				{ y: {{b.monto_ticket}}/{{b.cant_ticket}} , label: '{{b.mes_vigencia|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -174,7 +178,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d in grafica_tickets %}
-				{ y: {{c.cant_ticket}}*1000000/{{c.monto_ticket}} , label: '{{c.mes_vigencia|convert_date}}' },
+				{ y: {{c.monto_ticket}}/{{c.cant_ticket}} , label: '{{c.mes_vigencia|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -189,7 +193,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for a,b,c,d in grafica_tickets %}
-				{ y: {{d.cant_ticket}}*1000000/{{d.monto_ticket}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{ y: {{d.monto_ticket}}/{{d.cant_ticket}} , label: '{{d.mes_vigencia|convert_date}}' },
 				{% endfor %}
 			]
 		},
@@ -270,18 +274,18 @@
 	var chart = new CanvasJS.Chart("chartContainer4", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Ofertas Buró", 
+			text: "Efectividad Buró", 
 			fontColor: "#094FA4",            
 		},
 		animationEnabled: true,   // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "G1",
-			indexLabelFontColor: "white",			
-			//indexLabel: "{y}%",
-			percentFormatString: "#0.",
+			//indexLabelFontColor: "white",			
+			//indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in buro1_dict.items|sort %}
@@ -291,11 +295,11 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "G2",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
+			//indexLabelFontColor: "white",			
+			//indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in buro2_dict.items|sort %}
@@ -305,11 +309,11 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "G3",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
+			//indexLabelFontColor: "white",			
+			//indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			//color: "#86C82D",
 			dataPoints: [
@@ -320,11 +324,11 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "G4",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
+			//indexLabelFontColor: "white",			
+			//indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			//color: "#86C82D",
 			dataPoints: [
@@ -335,11 +339,11 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "G5",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
+			//indexLabelFontColor: "white",			
+			//indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			//color: "#86C82D",
 			dataPoints: [
@@ -350,11 +354,11 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "G6",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
+			//indexLabelFontColor: "white",			
+			//indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			//color: "#86C82D",
 			dataPoints: [
@@ -365,11 +369,11 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "G7",
-			indexLabelFontColor: "white",			
-			//indexLabel: "#percent%",
-			percentFormatString: "#0.",
+			//indexLabelFontColor: "white",			
+			//indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			//color: "#86C82D",
 			dataPoints: [
@@ -380,11 +384,11 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "G8",
-			indexLabelFontColor: "white",			
-			//indexLabel: "#percent%",
-			percentFormatString: "#0.",
+			//indexLabelFontColor: "white",			
+			//indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			//color: "#86C82D",
 			dataPoints: [
@@ -395,11 +399,11 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "NB",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
+			//indexLabelFontColor: "white",			
+			//indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			//color: "#86C82D",
 			dataPoints: [
@@ -422,11 +426,11 @@
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "AVA",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
+			indexLabelFontColor: "#89D1F3",			
+			indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in ava_dict.items|sort %}
@@ -436,11 +440,11 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "MS",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
+			indexLabelFontColor: "#009EE5",			
+			indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in ms_dict.items|sort %}
@@ -450,13 +454,13 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "NO PH",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
+			indexLabelFontColor: "#094FA4",			
+			indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
-			//color: "#86C82D",
+			color: "#094FA4",
 			dataPoints: [
 				{% for key, value in noph_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
@@ -465,13 +469,13 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
+			type: "spline",
 			name: "NOCLI",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
+			indexLabelFontColor: "#86C82D",			
+			indexLabel: "{y}",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
-			//color: "#86C82D",
+			color: "#86C82D",
 			dataPoints: [
 				{% for key, value in nocli_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
@@ -481,6 +485,82 @@
 		]
 	});
 	chart.render();
+
+	var chart2 = new CanvasJS.Chart("chartContainer6", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Porcentaje Contratado",
+			fontColor: "#094FA4",              
+		},
+		axisY:{
+			minimum: 0.8,
+			maximum: 1,			
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "AVA",
+			indexLabelFontColor: "#094FA4",	
+			color: "#094FA4",			
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.##",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in grafica_tickets %}
+				{ y: {{a.monto_ticket}}/{{a.monto_oferta}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MS",
+			indexLabelFontColor: "#86C82D",	
+			color: "#86C82D",		
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.##",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in grafica_tickets %}
+				{ y: {{b.monto_ticket}}/{{b.monto_oferta}} , label: '{{b.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "NO PH",
+			indexLabelFontColor: "#C8175E",	
+			color: "#C8175E",		
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.##",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in grafica_tickets %}
+				{ y: {{c.monto_ticket}}/{{c.monto_oferta}} , label: '{{c.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+				{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "NOCLI",
+			indexLabelFontColor: "#009EE5",	
+			color: "#009EE5",		
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.##",
+			showInLegend: "true",
+			dataPoints: [
+				{% for a,b,c,d in grafica_tickets %}
+				{ y: {{d.monto_ticket}}/{{d.monto_oferta}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart2.render();
 
     }
   </script>
