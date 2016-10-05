@@ -3230,6 +3230,18 @@ def comentario(request):
 @login_required
 def tarjeta_campana(request):
     segmentos = Campana2.objects.values('mes_vigencia').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
+    segmentos_totales = Campana2.objects.values('mes_vigencia','segmento').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
+    totales_ava = {}; totales_ms = {}; totales_noph = {}; totales_nc = {};
+    for i in segmentos_totales:
+        if i['segmento'] == 'AVA':
+            totales_ava[i['mes_vigencia']] = i['cant_tc']
+        if i['segmento'] == 'MS':
+            totales_ms[i['mes_vigencia']] = i['cant_tc']
+        if i['segmento'] == 'No PH':
+            totales_noph[i['mes_vigencia']] = i['cant_tc']
+        if i['segmento'] == 'NoCli':
+            totales_nc[i['mes_vigencia']] = i['cant_tc']
+
     segmento_ava = Campana2.objects.values('mes_vigencia','segmento').filter(segmento='AVA').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
     segmento_ms = Campana2.objects.values('mes_vigencia','segmento').filter(segmento='MS').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
     segmento_noph = Campana2.objects.values('mes_vigencia','segmento').filter(segmento='No PH').annotate(cant_tc=Sum('q_tc')).order_by('mes_vigencia')
@@ -3243,6 +3255,12 @@ def tarjeta_campana(request):
     grafica_tickets = zip(tickets_ava, tickets_ms, tickets_noph, tickets_nocli)
 
     meses = EfectividadTC.objects.values('mes_vigencia').distinct().order_by('mes_vigencia')
+    cantidad_total = EfectividadTC.objects.values('mes_vigencia').annotate(cant_tc=Sum('total_form')).order_by('mes_vigencia')
+    totales_dict = {};
+    for i in meses:
+        for j in cantidad_total:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                totales_dict[i['mes_vigencia']] = j['cant_tc']
 
     segmentos_efect = EfectividadTC.objects.values('mes_vigencia','segmento').annotate(cant_tc=Sum('total_form')).order_by('mes_vigencia')
     ava_dict = {}; ms_dict = {}; noph_dict = {}; nocli_dict = {};
@@ -3250,78 +3268,217 @@ def tarjeta_campana(request):
       for j in segmentos_efect:
         if i['mes_vigencia'] == j['mes_vigencia']:
           if j['segmento'] == 'AVA':
-            ava_dict[i['mes_vigencia']] = j['cant_tc']
+            ava_dict[i['mes_vigencia']] = j['cant_tc']/totales_ava[i['mes_vigencia']]
           elif j['segmento'] == 'MS':
-            ms_dict[i['mes_vigencia']] = j['cant_tc']
+            ms_dict[i['mes_vigencia']] = j['cant_tc']/totales_ms[i['mes_vigencia']]
           elif j['segmento'] == 'No PH':
-            noph_dict[i['mes_vigencia']] = j['cant_tc']
+            noph_dict[i['mes_vigencia']] = j['cant_tc']/totales_noph[i['mes_vigencia']]
           elif j['segmento'] == 'NoCli':
-            nocli_dict[i['mes_vigencia']] = j['cant_tc']
+            nocli_dict[i['mes_vigencia']] = j['cant_tc']/totales_nc[i['mes_vigencia']]
           else:
             ava_dict[i['mes_vigencia']] = 0
             ms_dict[i['mes_vigencia']] = 0
             noph_dict[i['mes_vigencia']] = 0
             nocli_dict[i['mes_vigencia']] = 0
 
-    categorias = EfectividadTC.objects.values('mes_vigencia','tipo_clie').annotate(cant_tc=Sum('total_form')).order_by('mes_vigencia')
-    dict_dep = {}; dict_indep = {}; dict_pnn = {}; dict_nr = {}
+
+    categorias = EfectividadTC.objects.values('mes_vigencia','tipo_clie').annotate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    dict_dep = {}; dict_indep = {}; dict_pnn = {}; dict_nr = {};
+    ticket_dep = {}; ticket_indep = {}; ticket_pnn = {}; ticket_nr = {};
     for i in meses:
       for j in categorias:
         if i['mes_vigencia'] == j['mes_vigencia']:
           if j['tipo_clie'] == 'DEPENDIENTE':
             dict_dep[i['mes_vigencia']] = j['cant_tc']
+            ticket_dep[i['mes_vigencia']] = j['monto_ticket']/j['cant_tc']
           elif j['tipo_clie'] == 'INDEPENDIENTE':
             dict_indep[i['mes_vigencia']] = j['cant_tc']
+            ticket_indep[i['mes_vigencia']] = j['monto_ticket']/j['cant_tc']
           elif j['tipo_clie'] == 'PNN':
             dict_pnn[i['mes_vigencia']] = j['cant_tc']
+            ticket_pnn[i['mes_vigencia']] = j['monto_ticket']/j['cant_tc']
           elif j['tipo_clie'] == 'NO RECONOCIDO':
             dict_nr[i['mes_vigencia']] = j['cant_tc']
+            ticket_nr[i['mes_vigencia']] = j['monto_ticket']/j['cant_tc']
           else:
             dict_dep[i['mes_vigencia']] = 0
             dict_indep[i['mes_vigencia']] = 0
             dict_pnn[i['mes_vigencia']] = 0
             dict_nr[i['mes_vigencia']] = 0
+            ticket_dep[i['mes_vigencia']] = 0
+            ticket_indep[i['mes_vigencia']] = 0
+            ticket_pnn[i['mes_vigencia']] = 0
+            ticket_nr[i['mes_vigencia']] = 0
 
 
-    buro = EfectividadTC.objects.values('mes_vigencia','buro').annotate(cant_tc=Sum('total_form')).order_by('mes_vigencia')
-    buro1_dict = {}; buro2_dict = {}; buro3_dict = {}; buro4_dict = {};
-    buro5_dict = {}; buro6_dict = {}; buro7_dict = {}; buro8_dict = {}; buro9_dict = {};
-    for i in meses:
-      for j in buro:
-        if i['mes_vigencia'] == j['mes_vigencia']:
-          if j['buro'] == 'G1':
-            buro1_dict[i['mes_vigencia']] = j['cant_tc']
-          elif j['buro'] == 'G2':
-            buro2_dict[i['mes_vigencia']] = j['cant_tc']
-          elif j['buro'] == 'G3':
-            buro3_dict[i['mes_vigencia']] = j['cant_tc']
-          elif j['buro'] == 'G4':
-            buro4_dict[i['mes_vigencia']] = j['cant_tc']
-          elif j['buro'] == 'G5':
-            buro5_dict[i['mes_vigencia']] = j['cant_tc']
-          elif j['buro'] == 'G6':
-            buro6_dict[i['mes_vigencia']] = j['cant_tc']
-          elif j['buro'] == 'G7':
-            buro7_dict[i['mes_vigencia']] = j['cant_tc']
-          elif j['buro'] == 'G8':
-            buro8_dict[i['mes_vigencia']] = j['cant_tc']
-          elif j['buro'] == 'NB':
-            buro9_dict[i['mes_vigencia']] = j['cant_tc']
-          else:
-            buro1_dict[i['mes_vigencia']] = 0
-            buro2_dict[i['mes_vigencia']] = 0
-            buro3_dict[i['mes_vigencia']] = 0
-            buro4_dict[i['mes_vigencia']] = 0
-            buro5_dict[i['mes_vigencia']] = 0
-            buro6_dict[i['mes_vigencia']] = 0
-            buro7_dict[i['mes_vigencia']] = 0
-            buro8_dict[i['mes_vigencia']] = 0
-            buro9_dict[i['mes_vigencia']] = 0
+    buro1 = EfectividadTC.objects.values('mes_vigencia').filter(buro__in=['G1','G2','G3','G4']).annotate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    buro1_dict = {}; ticket_buro1 = {};
+    for i in buro1:
+        buro1_dict[i['mes_vigencia']] = i['cant_tc']
+        ticket_buro1[i['mes_vigencia']] = i['monto_ticket']/i['cant_tc']
+
+    buro2 = EfectividadTC.objects.values('mes_vigencia',).filter(buro__in=['G5']).annotate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    buro2_dict = {}; ticket_buro2 = {};
+    for i in buro2:
+        buro2_dict[i['mes_vigencia']] = i['cant_tc']
+        ticket_buro2[i['mes_vigencia']] = i['monto_ticket']/i['cant_tc']
+
+    buro3 = EfectividadTC.objects.values('mes_vigencia').filter(buro__in=['G6','G7','G8']).annotate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    buro3_dict = {}; ticket_buro3 = {};
+    for i in buro3:
+        buro3_dict[i['mes_vigencia']] = i['cant_tc']
+        ticket_buro3[i['mes_vigencia']] = i['monto_ticket']/i['cant_tc']
+
+    buro4 = EfectividadTC.objects.values('mes_vigencia',).filter(buro__in=['NB']).annotate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    buro4_dict = {}; ticket_buro4 = {};
+    for i in buro4:
+        buro4_dict[i['mes_vigencia']] = i['cant_tc']
+        ticket_buro4[i['mes_vigencia']] = i['monto_ticket']/i['cant_tc']
 
 
     static_url=settings.STATIC_URL
     tipo_side = 1
     return render('reports/campana2_tarjeta.html', locals(),
+                  context_instance=RequestContext(request))
+
+# Vista para Altas Seguimiento
+@login_required
+def altas_seguimiento(request):
+
+    meses = AltasSeguimiento.objects.values('mes_alta').distinct().order_by('mes_alta')
+    
+    altas_tot = AltasSeguimiento.objects.values('mes_alta').annotate(cant=Sum('ctas')).order_by('mes_alta')
+    tot_dict = {}
+    for i in altas_tot:
+        tot_dict[i['mes_alta']] = i['cant']
+    
+    altas_banco = AltasSeguimiento.objects.values('mes_alta','empresa').annotate(cant=Sum('ctas')).order_by('mes_alta')
+    bbva_dict = {}; bcp_dict = {}; ibk_dict = {}; sco_dict = {}; citi_dict = {};
+    for i in meses:
+      for j in altas_banco:
+        if i['mes_alta'] == j['mes_alta']:
+          if j['empresa'] == '0.BBVA':
+            bbva_dict[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['empresa'] == '1.BCP':
+            bcp_dict[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['empresa'] == '2.IBK':
+            ibk_dict[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['empresa'] == '3.SCO':
+            sco_dict[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['empresa'] == '9.CITI':
+            citi_dict[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          else:
+            bbva_dict[i['mes_alta']] = 0
+            bcp_dict[i['mes_alta']] = 0
+            ibk_dict[i['mes_alta']] = 0
+            sco_dict[i['mes_alta']] = 0
+            citi_dict[i['mes_alta']] = 0
+
+    buro_bbva= AltasSeguimiento.objects.values('mes_alta','buro','empresa').filter(empresa='0.BBVA').annotate(cant=Sum('ctas')).order_by('mes_alta')
+    buro1_bbva = {}; buro2_bbva = {}; buro3_bbva = {}; buro4_bbva = {}; buro5_bbva = {};
+    for i in meses:
+      for j in buro_bbva:
+        if i['mes_alta'] == j['mes_alta']:
+          if j['buro'] == '1. G1-G3':
+            buro1_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['buro'] == '2. G4-G5':
+            buro2_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['buro'] == '3. G6':
+            buro3_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['buro'] == '4. G7-G8':
+            buro4_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['buro'] == '5. NB':
+            buro5_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          else:
+            buro1_bbva[i['mes_alta']] = 0
+            buro2_bbva[i['mes_alta']] = 0
+            buro3_bbva[i['mes_alta']] = 0
+            buro4_bbva[i['mes_alta']] = 0
+            buro5_bbva[i['mes_alta']] = 0
+    print buro1_bbva
+    print buro2_bbva
+    print buro3_bbva
+
+    cliente_bbva= AltasSeguimiento.objects.values('mes_alta','cat_cliente','empresa').filter(empresa='0.BBVA').annotate(cant=Sum('ctas')).order_by('mes_alta')
+    dep_bbva = {}; indep_bbva = {}; pnn_bbva = {}; nr_bbva = {}; otro_bbva = {};
+    for i in meses:
+      for j in cliente_bbva:
+        if i['mes_alta'] == j['mes_alta']:
+          if j['cat_cliente'] == '1. Dependiente':
+            dep_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['cat_cliente'] == '2. Independiente':
+            indep_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['cat_cliente'] == '3. PNN':
+            pnn_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['cat_cliente'] == '4.No Reconocido':
+            nr_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['cat_cliente'] == '':
+            otro_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          else:
+            dep_bbva[i['mes_alta']] = 0
+            indep_bbva[i['mes_alta']] = 0
+            pnn_bbva[i['mes_alta']] = 0
+            nr_bbva[i['mes_alta']] = 0
+            otro_bbva[i['mes_alta']] = 0
+
+    ingresos_bbva= AltasSeguimiento.objects.values('mes_alta','rg_ingreso','empresa').filter(empresa='0.BBVA').annotate(cant=Sum('ctas')).order_by('mes_alta')
+    ing1_bbva = {}; ing2_bbva = {}; ing3_bbva = {}; ing4_bbva = {}; 
+    ing5_bbva = {}; ing6_bbva = {}; ing7_bbva = {}; 
+    for i in meses:
+      for j in ingresos_bbva:
+        if i['mes_alta'] == j['mes_alta']:
+          if j['rg_ingreso'] == '00 En blanco':
+            ing1_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['rg_ingreso'] == '01 0-1Mil':
+            ing2_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['rg_ingreso'] == '02 1-1.5Mil':
+            ing3_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['rg_ingreso'] == '03 1.5-2.5Mil':
+            ing4_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['rg_ingreso'] == '04 2.5-3.5Mil':
+            ing5_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['rg_ingreso'] == '05 3.5-4.5Mil':
+            ing6_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['rg_ingreso'] == '06 +4.5Mil':
+            ing7_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          else:
+            ing1_bbva[i['mes_alta']] = 0
+            ing2_bbva[i['mes_alta']] = 0
+            ing3_bbva[i['mes_alta']] = 0
+            ing4_bbva[i['mes_alta']] = 0
+            ing5_bbva[i['mes_alta']] = 0
+            ing6_bbva[i['mes_alta']] = 0
+            ing7_bbva[i['mes_alta']] = 0
+
+    edad_bbva= AltasSeguimiento.objects.values('mes_alta','rg_edad','empresa').filter(empresa='0.BBVA').annotate(cant=Sum('ctas')).order_by('mes_alta')
+    edad1_bbva = {}; edad2_bbva = {}; edad3_bbva = {}; edad4_bbva = {}; 
+    edad5_bbva = {}; edad6_bbva = {};  
+    for i in meses:
+      for j in edad_bbva:
+        if i['mes_alta'] == j['mes_alta']:
+          if j['rg_edad'] == '00 En blanco':
+            edad1_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['rg_edad'] == '01 18-22':
+            edad2_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['rg_edad'] == '02 23-24':
+            edad3_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['rg_edad'] == '02 25-32':
+            edad4_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['rg_edad'] == '03 33-43':
+            edad5_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          elif j['rg_edad'] == '04 +43':
+            edad6_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+          else:
+            edad1_bbva[i['mes_alta']] = 0
+            edad2_bbva[i['mes_alta']] = 0
+            edad3_bbva[i['mes_alta']] = 0
+            edad4_bbva[i['mes_alta']] = 0
+            edad5_bbva[i['mes_alta']] = 0
+            edad6_bbva[i['mes_alta']] = 0
+                        
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/seguimiento_altas.html', locals(),
                   context_instance=RequestContext(request))
 
 
@@ -3919,6 +4076,31 @@ def carga_efectividadtc(request):
         if form.is_valid():
             csv_file = request.FILES['efectividadtc']
             EfectividadTCCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_altasseguimiento(request):
+    #AltasSeguimiento.objects.all().delete()
+    if request.method == 'POST':
+        form = UploadAltasSeguimiento(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['altasseguimiento']
+            AltasSeguimientoCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_ofertasproducto(request):
+    if request.method == 'POST':
+        form = UploadOfertasProducto(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['ofertasproducto']
+            OfertasProductoCsv.import_data(data = csv_file)
             return campana_resumen(request)
         else:
             return load(campana_resumen)

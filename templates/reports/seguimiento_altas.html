@@ -1,0 +1,536 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Sistema Financiero y BBVA{% endblock %}
+
+{% block content %}
+
+        <h1 class="page-header">Altas</h1>
+        <div class="form-inline">
+         	<input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+        </div>
+        <div class="rows placeholders">
+			<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        </div>
+	  	&nbsp;
+	  	&nbsp;
+	  	<h2 class="page-header">BBVA</h2>
+	  	&nbsp;
+	  	&nbsp;
+	    <div class="rows placeholders">
+			<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+        </div>
+      	&nbsp;
+	  	&nbsp;
+	    <div class="rows placeholders">
+			<div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+	  	&nbsp;
+	    <div class="rows placeholders">
+			<div id="chartContainer4" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+	  	&nbsp;
+	    <div class="rows placeholders">
+			<div id="chartContainer5" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+	  	&nbsp;
+	    <div class="rows placeholders">
+			<div id="chartContainer6" style="height: 300px; width: 100%;"></div>
+        </div>
+
+
+{% endblock %}
+
+{% block script_final %}
+  <script type="text/javascript">
+    window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Altas por Banco"              
+		},
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "BBVA",
+			indexLabelFontColor: "white",
+			color: "#094FA4",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in bbva_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "BCP",
+			indexLabelFontColor: "white",
+			color: "#F6891E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in bcp_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "IBK",
+			indexLabelFontColor: "white",
+			color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ibk_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "SCO",
+			indexLabelFontColor: "white",
+			color: "#C8175E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in sco_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "CITI",
+			indexLabelFontColor: "white",
+			color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in citi_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Buró - BBVA"              
+		},
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "G1-G3",
+			indexLabelFontColor: "white",
+			color: "#094FA4",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in buro1_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "G4-G5",
+			indexLabelFontColor: "white",
+			color: "#F6891E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in buro2_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "G6",
+			indexLabelFontColor: "white",
+			color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in buro3_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "G7-G8",
+			indexLabelFontColor: "white",
+			color: "#C8175E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in buro4_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "NB",
+			indexLabelFontColor: "white",
+			color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in buro5_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer3", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Relación Laboral - BBVA"              
+		},
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "DEPENDIENTE",
+			indexLabelFontColor: "white",
+			color: "#094FA4",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in dep_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "INDEPENDIENTE",
+			indexLabelFontColor: "white",
+			color: "#F6891E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in indep_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "PNN",
+			indexLabelFontColor: "white",
+			color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in pnn_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "NO RECONOCIDO",
+			indexLabelFontColor: "white",
+			color: "#C8175E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in nr_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "OTROS",
+			indexLabelFontColor: "white",
+			color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in otro_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer4", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Ingresos - BBVA"              
+		},
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "En Blanco",
+			indexLabelFontColor: "white",
+			color: "#094FA4",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing1_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[0-1000>",
+			indexLabelFontColor: "white",
+			color: "#F6891E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing2_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[1000-1500>",
+			indexLabelFontColor: "white",
+			color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing3_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[1500-2500>",
+			indexLabelFontColor: "white",
+			color: "#C8175E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing4_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[2500-3500>",
+			indexLabelFontColor: "white",
+			color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing5_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[3500-4500>",
+			indexLabelFontColor: "white",
+			color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing6_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[4500-más>",
+			indexLabelFontColor: "white",
+			color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing7_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer5", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Edad - BBVA"              
+		},
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "En Blanco",
+			indexLabelFontColor: "white",
+			color: "#094FA4",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad1_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "18-22",
+			indexLabelFontColor: "white",
+			color: "#F6891E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad2_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "23-24",
+			indexLabelFontColor: "white",
+			color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad3_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "25-32",
+			indexLabelFontColor: "white",
+			color: "#C8175E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad4_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "33-43",
+			indexLabelFontColor: "white",
+			color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad5_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedColumn100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "43-más",
+			indexLabelFontColor: "white",
+			color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad6_bbva.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},		
+		]
+	});
+	chart.render();
+
+    }
+  </script>
+{% endblock %}
+

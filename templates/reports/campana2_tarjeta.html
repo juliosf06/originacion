@@ -17,25 +17,35 @@
 		<div id="chartContainer" style="height: 350px; width: 100%;"></div>
           </div>
           &nbsp;
+          &nbsp;
           <div class="rows placeholders">
 		<div id="chartContainer2" style="height: 350px; width: 100%;"></div>
           </div>
           &nbsp;
-          <div class="rows placeholders">
-		<div id="chartContainer3" style="height: 350px; width: 100%;"></div>
-          </div>
-          &nbsp;
-          <div class="rows placeholders">
-		<div id="chartContainer4" style="height: 350px; width: 100%;"></div>
-          </div>
           &nbsp;
           <div class="rows placeholders">
 		<div id="chartContainer5" style="height: 350px; width: 100%;"></div>
           </div>
           &nbsp;
           <div class="rows placeholders">
+		<div id="chartContainer7" style="height: 350px; width: 100%;"></div>
+          </div>
+          &nbsp;
+          &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer3" style="height: 350px; width: 100%;"></div>
+          </div>
+          &nbsp;
+          &nbsp;
+          <div class="rows placeholders">
 		<div id="chartContainer6" style="height: 350px; width: 100%;"></div>
           </div>
+          &nbsp;
+          &nbsp;
+          <div class="rows placeholders">
+		<div id="chartContainer4" style="height: 350px; width: 100%;"></div>
+          </div>
+                    
 
 
 {% endblock %}
@@ -47,7 +57,7 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Ofertas Tarjetas", 
+			text: "Ofertas de Tarjetas por Segmentos", 
 			fontColor: "#094FA4",            
 		},
 		animationEnabled: true,   // change to true
@@ -114,9 +124,10 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "# OFERTAS",
-			indexLabelFontColor: "darkblue",			
+			indexLabelFontColor: "darkblue",
+			indexLabelFontSize: 10,	
 			color: "#094FA4",
-			//indexLabel: "{y}",
+			indexLabel: "{y}",
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
@@ -132,7 +143,7 @@
  	var chart2 = new CanvasJS.Chart("chartContainer2", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Ticket Promedio",
+			text: "Ticket Promedio por Segmentos",
 			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
@@ -141,7 +152,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "AVA",
-			indexLabelFontColor: "#094FA4",	
+			indexLabelFontColor: "#094FA4",
+			indexLabelFontSize: 15,	
 			color: "#094FA4",			
 			indexLabel: "{y}",
 			yValueFormatString: "##,###",
@@ -157,6 +169,7 @@
 			type: "spline",
 			name: "MS",
 			indexLabelFontColor: "#86C82D",	
+			indexLabelFontSize: 15,
 			color: "#86C82D",		
 			indexLabel: "{y}",
 			yValueFormatString: "##,###.",
@@ -172,6 +185,7 @@
 			type: "spline",
 			name: "NO PH",
 			indexLabelFontColor: "#C8175E",	
+			indexLabelFontSize: 15,
 			color: "#C8175E",		
 			indexLabel: "{y}",
 			yValueFormatString: "##,###.",
@@ -187,6 +201,7 @@
 			type: "spline",
 			name: "NOCLI",
 			indexLabelFontColor: "#009EE5",	
+			indexLabelFontSize: 15,
 			color: "#009EE5",		
 			indexLabel: "{y}",
 			yValueFormatString: "##,###.",
@@ -204,7 +219,7 @@
 	var chart = new CanvasJS.Chart("chartContainer3", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Ofertas Relación Laboral", 
+			text: "Relación Laboral por Formalizados", 
 			fontColor: "#094FA4",            
 		},
 		animationEnabled: true,   // change to true
@@ -213,7 +228,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			name: "DEPENDIENTE",
-			indexLabelFontColor: "white",			
+			indexLabelFontColor: "white",
+			indexLabelFontSize: 15,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -227,7 +243,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			name: "INDEPENDIENTE",
-			indexLabelFontColor: "white",			
+			indexLabelFontColor: "white",
+			indexLabelFontSize: 15,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -244,8 +261,9 @@
 			indexLabelFontColor: "white",			
 			//indexLabel: "#percent%",
 			percentFormatString: "#0.",
+			indexLabelFontSize: 15,
 			showInLegend: "true",
-			//color: "#86C82D",
+			color: "#86C82D",
 			dataPoints: [
 				{% for key, value in dict_pnn.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
@@ -256,13 +274,29 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			name: "NO RECONOCIDO",
-			indexLabelFontColor: "white",			
+			indexLabelFontColor: "white",
+			indexLabelFontSize: 15,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
-			//color: "#86C82D",
+			color: "#C8175E",
 			dataPoints: [
 				{% for key, value in dict_nr.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "scatter",
+			name: "# Formalizados",
+			indexLabelFontColor: "darkblue",
+			indexLabelFontSize: 15,			
+			indexLabel: "{y}",
+			showInLegend: "true",
+			color: "#C8175E",
+			dataPoints: [
+				{% for key, value in totales_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
@@ -274,18 +308,19 @@
 	var chart = new CanvasJS.Chart("chartContainer4", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Efectividad Buró", 
+			text: "Formalizados por Buró", 
 			fontColor: "#094FA4",            
 		},
 		animationEnabled: true,   // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "G1",
-			//indexLabelFontColor: "white",			
-			//indexLabel: "{y}",
-			yValueFormatString: "#0.##",
+			type: "stackedColumn",
+			name: "G1-G4",
+			indexLabelFontColor: "white",
+			indexLabelFontSize: 15,			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in buro1_dict.items|sort %}
@@ -295,11 +330,12 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "G2",
-			//indexLabelFontColor: "white",			
-			//indexLabel: "{y}",
-			yValueFormatString: "#0.##",
+			type: "stackedColumn",
+			name: "G5",
+			indexLabelFontColor: "white",
+			indexLabelFontSize: 15,			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in buro2_dict.items|sort %}
@@ -309,11 +345,12 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "G3",
-			//indexLabelFontColor: "white",			
-			//indexLabel: "{y}",
-			yValueFormatString: "#0.##",
+			type: "stackedColumn",
+			name: "G6-G8",
+			indexLabelFontColor: "white",
+			indexLabelFontSize: 15,			
+			//indexLabel: "#percent%",
+			percentFormatString: "#0.",
 			showInLegend: "true",
 			//color: "#86C82D",
 			dataPoints: [
@@ -324,11 +361,12 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "G4",
-			//indexLabelFontColor: "white",			
-			//indexLabel: "{y}",
-			yValueFormatString: "#0.##",
+			type: "stackedColumn",
+			name: "NB",
+			indexLabelFontColor: "white",
+			indexLabelFontSize: 15,			
+			indexLabel: "#percent%",
+			percentFormatString: "#0.",
 			showInLegend: "true",
 			//color: "#86C82D",
 			dataPoints: [
@@ -339,75 +377,15 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "G5",
-			//indexLabelFontColor: "white",			
-			//indexLabel: "{y}",
-			yValueFormatString: "#0.##",
+			type: "scatter",
+			name: "# Formalizados",
+			indexLabelFontColor: "darkblue",
+			indexLabelFontSize: 15,			
+			indexLabel: "{y}",
 			showInLegend: "true",
-			//color: "#86C82D",
+			color: "#86C82D",
 			dataPoints: [
-				{% for key, value in buro5_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "G6",
-			//indexLabelFontColor: "white",			
-			//indexLabel: "{y}",
-			yValueFormatString: "#0.##",
-			showInLegend: "true",
-			//color: "#86C82D",
-			dataPoints: [
-				{% for key, value in buro6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "G7",
-			//indexLabelFontColor: "white",			
-			//indexLabel: "{y}",
-			yValueFormatString: "#0.##",
-			showInLegend: "true",
-			//color: "#86C82D",
-			dataPoints: [
-				{% for key, value in buro7_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "G8",
-			//indexLabelFontColor: "white",			
-			//indexLabel: "{y}",
-			yValueFormatString: "#0.##",
-			showInLegend: "true",
-			//color: "#86C82D",
-			dataPoints: [
-				{% for key, value in buro8_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "NB",
-			//indexLabelFontColor: "white",			
-			//indexLabel: "{y}",
-			yValueFormatString: "#0.##",
-			showInLegend: "true",
-			//color: "#86C82D",
-			dataPoints: [
-				{% for key, value in buro9_dict.items|sort %}
+				{% for key, value in totales_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
@@ -419,7 +397,7 @@
 	var chart = new CanvasJS.Chart("chartContainer5", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Efectividad - Segmentos", 
+			text: "Efectividad por Segmentos", 
 			fontColor: "#094FA4",            
 		},
 		animationEnabled: true,   // change to true
@@ -429,7 +407,7 @@
 			type: "spline",
 			name: "AVA",
 			indexLabelFontColor: "#89D1F3",			
-			indexLabel: "{y}",
+			indexLabel: "{y}%",
 			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			dataPoints: [
@@ -443,7 +421,7 @@
 			type: "spline",
 			name: "MS",
 			indexLabelFontColor: "#009EE5",			
-			indexLabel: "{y}",
+			indexLabel: "{y}%",
 			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			dataPoints: [
@@ -457,7 +435,7 @@
 			type: "spline",
 			name: "NO PH",
 			indexLabelFontColor: "#094FA4",			
-			indexLabel: "{y}",
+			indexLabel: "{y}%",
 			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			color: "#094FA4",
@@ -472,7 +450,7 @@
 			type: "spline",
 			name: "NOCLI",
 			indexLabelFontColor: "#86C82D",			
-			indexLabel: "{y}",
+			indexLabel: "{y}%",
 			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			color: "#86C82D",
@@ -489,72 +467,147 @@
 	var chart2 = new CanvasJS.Chart("chartContainer6", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Porcentaje Contratado",
+			text: "Ticket Promedio por Buró",
 			fontColor: "#094FA4",              
 		},
 		axisY:{
-			minimum: 0.8,
-			maximum: 1,			
+			minimum: 0.7,
 		},
 		animationEnabled: true,   // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
-			name: "AVA",
+			name: "G1-G4",
 			indexLabelFontColor: "#094FA4",	
 			color: "#094FA4",			
-			indexLabel: "{y}%",
-			yValueFormatString: "#0.##",
+			indexLabel: "{y}",
+			yValueFormatString: "##,###",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in grafica_tickets %}
-				{ y: {{a.monto_ticket}}/{{a.monto_oferta}} , label: '{{a.mes_vigencia|convert_date}}' },
+				{% for key, value in ticket_buro1.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
-			name: "MS",
+			name: "G5",
 			indexLabelFontColor: "#86C82D",	
 			color: "#86C82D",		
-			indexLabel: "{y}%",
-			yValueFormatString: "#0.##",
+			indexLabel: "{y}",
+			yValueFormatString: "##,###",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in grafica_tickets %}
-				{ y: {{b.monto_ticket}}/{{b.monto_oferta}} , label: '{{b.mes_vigencia|convert_date}}' },
+				{% for key, value in ticket_buro2.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
-			name: "NO PH",
+			name: "G6-G8",
 			indexLabelFontColor: "#C8175E",	
 			color: "#C8175E",		
-			indexLabel: "{y}%",
-			yValueFormatString: "#0.##",
+			indexLabel: "{y}",
+			yValueFormatString: "##,###",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in grafica_tickets %}
-				{ y: {{c.monto_ticket}}/{{c.monto_oferta}} , label: '{{c.mes_vigencia|convert_date}}' },
+				{% for key, value in ticket_buro3.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},
 				{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
-			name: "NOCLI",
+			name: "NB",
 			indexLabelFontColor: "#009EE5",	
 			color: "#009EE5",		
-			indexLabel: "{y}%",
-			yValueFormatString: "#0.##",
+			indexLabel: "{y}",
+			yValueFormatString: "##,###",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in grafica_tickets %}
-				{ y: {{d.monto_ticket}}/{{d.monto_oferta}} , label: '{{d.mes_vigencia|convert_date}}' },
+				{% for key, value in ticket_buro4.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart2.render();
+
+	var chart2 = new CanvasJS.Chart("chartContainer7", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Ticket Promedio por Relación Laboral",
+			fontColor: "#094FA4",              
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: " DEPENDIENTE",
+			indexLabelFontColor: "#094FA4",	
+			indexLabelFontSize: 15,
+			color: "#094FA4",			
+			indexLabel: "{y}",
+			yValueFormatString: "##,###",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ticket_dep.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: " INDEPENDIENTE",
+			indexLabelFontColor: "#86C82D",	
+			indexLabelFontSize: 15,
+			color: "#86C82D",		
+			//indexLabel: "{y}",
+			yValueFormatString: "##,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ticket_indep.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: " PNN",
+			indexLabelFontColor: "#C8175E",
+			indexLabelFontSize: 15,	
+			color: "#C8175E",		
+			indexLabel: "{y}",
+			yValueFormatString: "##,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ticket_pnn.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+				{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: " NO RECONOCIDO",
+			indexLabelFontColor: "#009EE5",
+			indexLabelFontSize: 15,	
+			color: "#009EE5",		
+			indexLabel: "{y}",
+			yValueFormatString: "##,###.",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ticket_nr.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
 		},

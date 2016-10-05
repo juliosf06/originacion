@@ -72,6 +72,7 @@ urlpatterns = [
     url(r'^seguimiento/json_limaprov/$', views.json_limaprov, name='json_limaprov'),
     url(r'^seguimiento/departamentos_web/$', views.departamentos_web, name='departamentos_web'),
     url(r'^seguimiento/departamentos_web/(?P<semana>\d+)/$', views.departamentos_web, name='departamentos_web_2'),
+    url(r'^seguimiento/altas/$', views.altas_seguimiento, name='altas_seguimiento'),
 
 
     # URLS para reportes de Hipotecario
@@ -116,6 +117,8 @@ urlpatterns = [
     url(r'^load_data/carga_campanaequifax/$', views.carga_campanaequifax, name='carga_campanaequifax'),
     url(r'^load_data/carga_comentario/$', views.carga_comentario, name='carga_comentario'),
     url(r'^load_data/carga_efectividadtc/$', views.carga_efectividadtc, name='carga_efectividadtc'),
+    url(r'^load_data/carga_altasseguimiento/$', views.carga_altasseguimiento, name='carga_altasseguimiento'),
+    url(r'^load_data/carga_ofertasproducto/$', views.carga_ofertasproducto, name='carga_ofertasproducto'),
     url(r'^load_data/excel/$', views.excel, name='excel'),
     url(r'^load_data/$', views.load, name='load'),
     #url(r'^mapa/$', views.mapa, name='mapa'),

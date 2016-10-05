@@ -292,6 +292,24 @@
             </form>
           </div>
           <div class="row">
+            <form action="carga_altasseguimiento/" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="form_group">
+    <label>Reporte AltasSeguimiento</label>
+    <input type="file" id="altasseguimiento" name="altasseguimiento">
+        </div>
+        <div class="form_group"><input type="submit" class="btn btn-default" value="Load AltasSeguimiento" ></div>
+            </form>
+          </div>
+          <div class="row">
+            <form action="carga_ofertasproducto/" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="form_group">
+    <label>Reporte OfertasProducto</label>
+    <input type="file" id="ofertasproducto" name="ofertasproducto">
+        </div>
+        <div class="form_group"><input type="submit" class="btn btn-default" value="Load OfertasProducto" ></div>
+            </form>
+          </div>
+          <div class="row">
             <form action="excel/" method="post" enctype="multipart/form-data">{% csrf_token %}
 	      <div class="form_group">
 		<label>Subir Archivo</label>

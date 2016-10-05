@@ -484,3 +484,36 @@ class EfectividadTC(models.Model):
 
     def __str__(self):
         return self.codigo_campana+' '+self.mes_vigencia+' '+self.buro+' '+self.tipo_clie
+
+class AltasSeguimiento(models.Model):
+    buro = models.CharField(max_length=10)
+    codempresa = models.CharField(max_length=20)
+    empresa = models.CharField(max_length=20)
+    mes_alta = models.CharField(max_length=10)
+    rg_edad = models.CharField(max_length=20)
+    cat_cliente = models.CharField(max_length=30)
+    rg_ingreso = models.CharField(max_length=30)
+    ctas = models.DecimalField(max_digits=12, decimal_places=2)
+
+    def __str__(self):
+        return self.mes_alta+' '+self.empresa+' '+self.buro+' '+self.cat_cliente
+
+class OfertasProducto(models.Model):
+    mes_vigencia = models.CharField(max_length=10)
+    ofertas_tc = models.DecimalField(max_digits=12, decimal_places=2)
+    monto_tc = models.DecimalField(max_digits=16, decimal_places=2)
+    ofertas_pld = models.DecimalField(max_digits=12, decimal_places=2)
+    monto_pld = models.DecimalField(max_digits=16, decimal_places=2)
+    ofertas_veh = models.DecimalField(max_digits=12, decimal_places=2)
+    monto_veh = models.DecimalField(max_digits=16, decimal_places=2)
+    ofertas_sub = models.DecimalField(max_digits=12, decimal_places=2)
+    monto_sub = models.DecimalField(max_digits=16, decimal_places=2)
+    ofertas_ep = models.DecimalField(max_digits=12, decimal_places=2)
+    monto_ep = models.DecimalField(max_digits=16, decimal_places=2)
+    ofertas_il = models.DecimalField(max_digits=12, decimal_places=2)
+    monto_il = models.DecimalField(max_digits=16, decimal_places=2)
+    ofertas_ads = models.DecimalField(max_digits=12, decimal_places=2)
+    monto_ads = models.DecimalField(max_digits=16, decimal_places=2)
+
+    def __str__(self):
+        return self.mes_vigencia
