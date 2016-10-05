@@ -35,6 +35,8 @@
           </select>
 	  &nbsp;&nbsp;
 	  <button type="button" id="button2"> Delete </button>
+    &nbsp;&nbsp;
+    <button type="button" id="button_tot5"> Delete All</button>
           </div>
 
           <h3 class="page-header">BASE CAMPAÑA WEB</h3>
@@ -276,6 +278,10 @@ $("#button_tot3").click(function(){
 });
 $("#button_tot4").click(function(){
       window.location.href = "/reports/delete/"+"18"+"/"+"000007"+"/"+"0"+"/";
+      alert("Se borro la data de todos los meses");
+});
+$("#button_tot5").click(function(){
+      window.location.href = "/reports/delete/"+"2"+"/"+"000008"+"/"+"0"+"/";
       alert("Se borro la data de todos los meses");
 });
 $("#button1").click(function(){

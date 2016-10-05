@@ -3138,6 +3138,9 @@ def delete(request, base=0, fecha=after1, numsemana=0):
     if fecha == '000007' and base == '18':
         EfectividadTC.objects.all().delete()
 
+    if fecha == '000008' and base == '2':
+        Campana2.objects.all().delete()
+
     control_fecha3 = Seguimiento1.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
     for i in control_fecha3:
         if fecha == i['mes_vigencia'] and base == '7':
@@ -3374,52 +3377,103 @@ def altas_seguimiento(request):
             sco_dict[i['mes_alta']] = 0
             citi_dict[i['mes_alta']] = 0
 
-    buro_bbva= AltasSeguimiento.objects.values('mes_alta','buro','empresa').filter(empresa='0.BBVA').annotate(cant=Sum('ctas')).order_by('mes_alta')
-    buro1_bbva = {}; buro2_bbva = {}; buro3_bbva = {}; buro4_bbva = {}; buro5_bbva = {};
-    for i in meses:
-      for j in buro_bbva:
-        if i['mes_alta'] == j['mes_alta']:
-          if j['buro'] == '1. G1-G3':
-            buro1_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
-          elif j['buro'] == '2. G4-G5':
-            buro2_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
-          elif j['buro'] == '3. G6':
-            buro3_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
-          elif j['buro'] == '4. G7-G8':
-            buro4_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
-          elif j['buro'] == '5. NB':
-            buro5_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
-          else:
-            buro1_bbva[i['mes_alta']] = 0
-            buro2_bbva[i['mes_alta']] = 0
-            buro3_bbva[i['mes_alta']] = 0
-            buro4_bbva[i['mes_alta']] = 0
-            buro5_bbva[i['mes_alta']] = 0
-    print buro1_bbva
-    print buro2_bbva
-    print buro3_bbva
+    buro_total= AltasSeguimiento.objects.values('mes_alta','empresa').annotate(cant=Sum('ctas')).order_by('mes_alta')
+    burobbva_dict = {}; burobcp_dict = {}; buroibk_dict = {}; burosco_dict = {};
+    burociti_dict = {};
+    for i in buro_total:
+        if i['empresa'] == '0.BBVA':
+            burobbva_dict[i['mes_alta']] = i['cant']
+        if i['empresa'] == '1.BCP':
+            burobcp_dict[i['mes_alta']] = i['cant']
+        if i['empresa'] == '2.IBK':
+            buroibk_dict[i['mes_alta']] = i['cant']
+        if i['empresa'] == '3.SCO':
+            burosco_dict[i['mes_alta']] = i['cant']
+        if i['empresa'] == '9.CITI':
+            burociti_dict[i['mes_alta']] = i['cant']
 
-    cliente_bbva= AltasSeguimiento.objects.values('mes_alta','cat_cliente','empresa').filter(empresa='0.BBVA').annotate(cant=Sum('ctas')).order_by('mes_alta')
-    dep_bbva = {}; indep_bbva = {}; pnn_bbva = {}; nr_bbva = {}; otro_bbva = {};
+    buro= AltasSeguimiento.objects.values('mes_alta','buro','empresa').annotate(cant=Sum('ctas')).order_by('mes_alta')
+    buro1_bbva = {}; buro2_bbva = {}; buro3_bbva = {}; buro4_bbva = {}; buro5_bbva = {};
+    buro1_bcp = {}; buro2_bcp = {}; buro3_bcp = {}; buro4_bcp = {}; buro5_bcp = {};
     for i in meses:
-      for j in cliente_bbva:
+      for j in buro:
         if i['mes_alta'] == j['mes_alta']:
-          if j['cat_cliente'] == '1. Dependiente':
-            dep_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
-          elif j['cat_cliente'] == '2. Independiente':
-            indep_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
-          elif j['cat_cliente'] == '3. PNN':
-            pnn_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
-          elif j['cat_cliente'] == '4.No Reconocido':
-            nr_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
-          elif j['cat_cliente'] == '':
-            otro_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
-          else:
-            dep_bbva[i['mes_alta']] = 0
-            indep_bbva[i['mes_alta']] = 0
-            pnn_bbva[i['mes_alta']] = 0
-            nr_bbva[i['mes_alta']] = 0
-            otro_bbva[i['mes_alta']] = 0
+            if j['empresa'] == '0.BBVA':
+              if j['buro'] == '1. G1-G3':
+                buro1_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+              elif j['buro'] == '2. G4-G5':
+                buro2_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+              elif j['buro'] == '3. G6':
+                buro3_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+              elif j['buro'] == '4. G7-G8':
+                buro4_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+              elif j['buro'] == '5. NB':
+                buro5_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+              else:
+                buro1_bbva[i['mes_alta']] = 0
+                buro2_bbva[i['mes_alta']] = 0
+                buro3_bbva[i['mes_alta']] = 0
+                buro4_bbva[i['mes_alta']] = 0
+                buro5_bbva[i['mes_alta']] = 0
+            if j['empresa'] == '1.BCP':
+              if j['buro'] == '1. G1-G3':
+                buro1_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+              elif j['buro'] == '2. G4-G5':
+                buro2_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+              elif j['buro'] == '3. G6':
+                buro3_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+              elif j['buro'] == '4. G7-G8':
+                buro4_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+              elif j['buro'] == '5. NB':
+                buro5_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+              else:
+                buro1_bcp[i['mes_alta']] = 0
+                buro2_bcp[i['mes_alta']] = 0
+                buro3_bcp[i['mes_alta']] = 0
+                buro4_bcp[i['mes_alta']] = 0
+                buro5_bcp[i['mes_alta']] = 0
+
+    cliente= AltasSeguimiento.objects.values('mes_alta','cat_cliente','empresa').annotate(cant=Sum('ctas')).order_by('mes_alta')
+    dep_bbva = {}; indep_bbva = {}; pnn_bbva = {}; nr_bbva = {}; otro_bbva = {};
+    dep_bcp = {}; indep_bcp = {}; pnn_bcp = {}; nr_bcp = {}; otro_bcp = {};
+    for i in meses:
+      for j in cliente:
+        if j['empresa'] == '0.BBVA':
+            if i['mes_alta'] == j['mes_alta']:
+              if j['cat_cliente'] == '1. Dependiente':
+                dep_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+              elif j['cat_cliente'] == '2. Independiente':
+                indep_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+              elif j['cat_cliente'] == '3. PNN':
+                pnn_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+              elif j['cat_cliente'] == '4.No Reconocido':
+                nr_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+              elif j['cat_cliente'] == '':
+                otro_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+              else:
+                dep_bbva[i['mes_alta']] = 0
+                indep_bbva[i['mes_alta']] = 0
+                pnn_bbva[i['mes_alta']] = 0
+                nr_bbva[i['mes_alta']] = 0
+                otro_bbva[i['mes_alta']] = 0
+        if j['empresa'] == '1.BCP':
+            if i['mes_alta'] == j['mes_alta']:
+              if j['cat_cliente'] == '1. Dependiente':
+                dep_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+              elif j['cat_cliente'] == '2. Independiente':
+                indep_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+              elif j['cat_cliente'] == '3. PNN':
+                pnn_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+              elif j['cat_cliente'] == '4.No Reconocido':
+                nr_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+              elif j['cat_cliente'] == '':
+                otro_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+              else:
+                dep_bcp[i['mes_alta']] = 0
+                indep_bcp[i['mes_alta']] = 0
+                pnn_bcp[i['mes_alta']] = 0
+                nr_bcp[i['mes_alta']] = 0
+                otro_bcp[i['mes_alta']] = 0
 
     ingresos_bbva= AltasSeguimiento.objects.values('mes_alta','rg_ingreso','empresa').filter(empresa='0.BBVA').annotate(cant=Sum('ctas')).order_by('mes_alta')
     ing1_bbva = {}; ing2_bbva = {}; ing3_bbva = {}; ing4_bbva = {}; 
@@ -3428,19 +3482,19 @@ def altas_seguimiento(request):
       for j in ingresos_bbva:
         if i['mes_alta'] == j['mes_alta']:
           if j['rg_ingreso'] == '00 En blanco':
-            ing1_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            ing1_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           elif j['rg_ingreso'] == '01 0-1Mil':
-            ing2_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            ing2_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           elif j['rg_ingreso'] == '02 1-1.5Mil':
-            ing3_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            ing3_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           elif j['rg_ingreso'] == '03 1.5-2.5Mil':
-            ing4_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            ing4_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           elif j['rg_ingreso'] == '04 2.5-3.5Mil':
-            ing5_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            ing5_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           elif j['rg_ingreso'] == '05 3.5-4.5Mil':
-            ing6_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            ing6_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           elif j['rg_ingreso'] == '06 +4.5Mil':
-            ing7_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            ing7_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           else:
             ing1_bbva[i['mes_alta']] = 0
             ing2_bbva[i['mes_alta']] = 0
@@ -3457,17 +3511,17 @@ def altas_seguimiento(request):
       for j in edad_bbva:
         if i['mes_alta'] == j['mes_alta']:
           if j['rg_edad'] == '00 En blanco':
-            edad1_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            edad1_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           elif j['rg_edad'] == '01 18-22':
-            edad2_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            edad2_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           elif j['rg_edad'] == '02 23-24':
-            edad3_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            edad3_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           elif j['rg_edad'] == '02 25-32':
-            edad4_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            edad4_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           elif j['rg_edad'] == '03 33-43':
-            edad5_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            edad5_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           elif j['rg_edad'] == '04 +43':
-            edad6_bbva[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            edad6_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
           else:
             edad1_bbva[i['mes_alta']] = 0
             edad2_bbva[i['mes_alta']] = 0
