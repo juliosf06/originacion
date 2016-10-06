@@ -8,7 +8,7 @@
 
 {% block content %}
 
-        <h1 class="page-header">Altas</h1>
+        <h1 class="page-header">Altas en el Sistema Financiero</h1>
         <div class="form-inline">
          	<input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
         </div>
@@ -701,6 +701,225 @@
 			showInLegend: "true",
 			dataPoints: [
 			    {% for key, value in otro_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},		
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer8", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Ingresos - BCP"              
+		},
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "En Blanco",
+			indexLabelFontColor: "white",
+			//color: "#094FA4",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing1_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[0-1000>",
+			indexLabelFontColor: "white",
+			//color: "#F6891E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing2_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[1000-1500>",
+			indexLabelFontColor: "white",
+			//color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing3_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[1500-2500>",
+			indexLabelFontColor: "white",
+			//color: "#C8175E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing4_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[2500-3500>",
+			indexLabelFontColor: "white",
+			//color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing5_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[3500-4500>",
+			indexLabelFontColor: "white",
+			//color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing6_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[4500-más>",
+			indexLabelFontColor: "white",
+			//color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing7_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer9", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Edad - BCP"              
+		},
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			//indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "En Blanco",
+			indexLabelFontColor: "white",
+			//color: "#094FA4",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad1_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "18-22",
+			indexLabelFontColor: "white",
+			//color: "#F6891E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad2_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "23-24",
+			indexLabelFontColor: "white",
+			//color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad3_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "25-32",
+			indexLabelFontColor: "white",
+			//color: "#C8175E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad4_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "33-43",
+			indexLabelFontColor: "white",
+			//color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad5_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "43-más",
+			indexLabelFontColor: "white",
+			//color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad6_bcp.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
