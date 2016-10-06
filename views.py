@@ -3361,15 +3361,15 @@ def altas_seguimiento(request):
       for j in altas_banco:
         if i['mes_alta'] == j['mes_alta']:
           if j['empresa'] == '0.BBVA':
-            bbva_dict[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            bbva_dict[i['mes_alta']] = j['cant']*100/tot_dict[i['mes_alta']]
           elif j['empresa'] == '1.BCP':
-            bcp_dict[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            bcp_dict[i['mes_alta']] = j['cant']*100/tot_dict[i['mes_alta']]
           elif j['empresa'] == '2.IBK':
-            ibk_dict[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            ibk_dict[i['mes_alta']] = j['cant']*100/tot_dict[i['mes_alta']]
           elif j['empresa'] == '3.SCO':
-            sco_dict[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            sco_dict[i['mes_alta']] = j['cant']*100/tot_dict[i['mes_alta']]
           elif j['empresa'] == '9.CITI':
-            citi_dict[i['mes_alta']] = j['cant']/tot_dict[i['mes_alta']]
+            citi_dict[i['mes_alta']] = j['cant']*100/tot_dict[i['mes_alta']]
           else:
             bbva_dict[i['mes_alta']] = 0
             bcp_dict[i['mes_alta']] = 0
@@ -3400,15 +3400,15 @@ def altas_seguimiento(request):
         if i['mes_alta'] == j['mes_alta']:
             if j['empresa'] == '0.BBVA':
               if j['buro'] == '1. G1-G3':
-                buro1_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                buro1_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['buro'] == '2. G4-G5':
-                buro2_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                buro2_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['buro'] == '3. G6':
-                buro3_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                buro3_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['buro'] == '4. G7-G8':
-                buro4_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                buro4_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['buro'] == '5. NB':
-                buro5_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                buro5_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               else:
                 buro1_bbva[i['mes_alta']] = 0
                 buro2_bbva[i['mes_alta']] = 0
@@ -3417,15 +3417,15 @@ def altas_seguimiento(request):
                 buro5_bbva[i['mes_alta']] = 0
             if j['empresa'] == '1.BCP':
               if j['buro'] == '1. G1-G3':
-                buro1_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                buro1_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['buro'] == '2. G4-G5':
-                buro2_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                buro2_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['buro'] == '3. G6':
-                buro3_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                buro3_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['buro'] == '4. G7-G8':
-                buro4_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                buro4_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['buro'] == '5. NB':
-                buro5_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                buro5_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               else:
                 buro1_bcp[i['mes_alta']] = 0
                 buro2_bcp[i['mes_alta']] = 0
@@ -3441,15 +3441,15 @@ def altas_seguimiento(request):
         if j['empresa'] == '0.BBVA':
             if i['mes_alta'] == j['mes_alta']:
               if j['cat_cliente'] == '1. Dependiente':
-                dep_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                dep_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['cat_cliente'] == '2. Independiente':
-                indep_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                indep_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['cat_cliente'] == '3. PNN':
-                pnn_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                pnn_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['cat_cliente'] == '4.No Reconocido':
-                nr_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                nr_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['cat_cliente'] == '':
-                otro_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                otro_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               else:
                 dep_bbva[i['mes_alta']] = 0
                 indep_bbva[i['mes_alta']] = 0
@@ -3459,15 +3459,15 @@ def altas_seguimiento(request):
         if j['empresa'] == '1.BCP':
             if i['mes_alta'] == j['mes_alta']:
               if j['cat_cliente'] == '1. Dependiente':
-                dep_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                dep_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['cat_cliente'] == '2. Independiente':
-                indep_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                indep_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['cat_cliente'] == '3. PNN':
-                pnn_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                pnn_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['cat_cliente'] == '4.No Reconocido':
-                nr_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                nr_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['cat_cliente'] == '':
-                otro_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                otro_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               else:
                 dep_bcp[i['mes_alta']] = 0
                 indep_bcp[i['mes_alta']] = 0
@@ -3483,19 +3483,19 @@ def altas_seguimiento(request):
         if j['empresa'] == '0.BBVA':
             if i['mes_alta'] == j['mes_alta']:
               if j['rg_ingreso'] == '00 En blanco':
-                ing1_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                ing1_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['rg_ingreso'] == '01 0-1Mil':
-                ing2_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                ing2_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['rg_ingreso'] == '02 1-1.5Mil':
-                ing3_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                ing3_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['rg_ingreso'] == '03 1.5-2.5Mil':
-                ing4_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                ing4_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['rg_ingreso'] == '04 2.5-3.5Mil':
-                ing5_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                ing5_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['rg_ingreso'] == '05 3.5-4.5Mil':
-                ing6_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                ing6_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['rg_ingreso'] == '06 +4.5Mil':
-                ing7_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                ing7_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               else:
                 ing1_bbva[i['mes_alta']] = 0
                 ing2_bbva[i['mes_alta']] = 0
@@ -3507,19 +3507,19 @@ def altas_seguimiento(request):
         if j['empresa'] == '1.BCP':
             if i['mes_alta'] == j['mes_alta']:
               if j['rg_ingreso'] == '00 En blanco':
-                ing1_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                ing1_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['rg_ingreso'] == '01 0-1Mil':
-                ing2_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                ing2_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['rg_ingreso'] == '02 1-1.5Mil':
-                ing3_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                ing3_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['rg_ingreso'] == '03 1.5-2.5Mil':
-                ing4_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                ing4_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['rg_ingreso'] == '04 2.5-3.5Mil':
-                ing5_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                ing5_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['rg_ingreso'] == '05 3.5-4.5Mil':
-                ing6_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                ing6_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['rg_ingreso'] == '06 +4.5Mil':
-                ing7_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                ing7_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               else:
                 ing1_bcp[i['mes_alta']] = 0
                 ing2_bcp[i['mes_alta']] = 0
@@ -3537,17 +3537,17 @@ def altas_seguimiento(request):
         if j['empresa'] == '0.BBVA':
             if i['mes_alta'] == j['mes_alta']:
               if j['rg_edad'] == '00 En blanco':
-                edad1_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                edad1_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['rg_edad'] == '01 18-22':
-                edad2_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                edad2_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['rg_edad'] == '02 23-24':
-                edad3_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                edad3_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['rg_edad'] == '02 25-32':
-                edad4_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                edad4_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['rg_edad'] == '03 33-43':
-                edad5_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                edad5_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               elif j['rg_edad'] == '04 +43':
-                edad6_bbva[i['mes_alta']] = j['cant']/burobbva_dict[i['mes_alta']]
+                edad6_bbva[i['mes_alta']] = j['cant']*100/burobbva_dict[i['mes_alta']]
               else:
                 edad1_bbva[i['mes_alta']] = 0
                 edad2_bbva[i['mes_alta']] = 0
@@ -3558,17 +3558,17 @@ def altas_seguimiento(request):
         if j['empresa'] == '1.BCP':
             if i['mes_alta'] == j['mes_alta']:
               if j['rg_edad'] == '00 En blanco':
-                edad1_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                edad1_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['rg_edad'] == '01 18-22':
-                edad2_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                edad2_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['rg_edad'] == '02 23-24':
-                edad3_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                edad3_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['rg_edad'] == '02 25-32':
-                edad4_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                edad4_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['rg_edad'] == '03 33-43':
-                edad5_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                edad5_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               elif j['rg_edad'] == '04 +43':
-                edad6_bcp[i['mes_alta']] = j['cant']/burobcp_dict[i['mes_alta']]
+                edad6_bcp[i['mes_alta']] = j['cant']*100/burobcp_dict[i['mes_alta']]
               else:
                 edad1_bcp[i['mes_alta']] = 0
                 edad2_bcp[i['mes_alta']] = 0
