@@ -47,6 +47,21 @@
         </div>
         &nbsp;
 	  	&nbsp;
+	  	<h2 class="page-header">IBK</h2>
+	  	&nbsp;
+	  	&nbsp;
+	    <div class="rows placeholders">
+			<div id="chartContainer10" style="height: 300px; width: 50%; display: inline-block;"></div>
+			<div id="chartContainer11" style="height: 300px; width: 50%; display: inline-block;"></div>
+        </div>
+        &nbsp;
+	  	&nbsp;
+	    <div class="rows placeholders">
+			<div id="chartContainer12" style="height: 300px; width: 50%;  display: inline-block;"></div>
+			<div id="chartContainer13" style="height: 300px; width: 50%;  display: inline-block;"></div>
+        </div>
+        &nbsp;
+	  	&nbsp;
 
 
 
@@ -920,6 +935,399 @@
 			showInLegend: "true",
 			dataPoints: [
 			    {% for key, value in edad6_bcp.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},		
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer10", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Buró - IBK"              
+		},
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "G1-G3",
+			indexLabelFontColor: "white",
+			//color: "#094FA4",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in buro1_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "G4-G5",
+			indexLabelFontColor: "white",
+			//color: "#F6891E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in buro2_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			//indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "G6",
+			indexLabelFontColor: "white",
+			//color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in buro3_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "G7-G8",
+			indexLabelFontColor: "white",
+			color: "#FDBD2C",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in buro4_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "NB",
+			indexLabelFontColor: "white",
+			color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in buro5_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer11", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Relación Laboral - IBK"              
+		},
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "DEPENDIENTE",
+			indexLabelFontColor: "white",
+			//color: "#094FA4",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in dep_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "INDEPENDIENTE",
+			indexLabelFontColor: "white",
+			//color: "#F6891E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in indep_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "PNN",
+			indexLabelFontColor: "white",
+			//color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in pnn_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "NO RECONOCIDO",
+			indexLabelFontColor: "white",
+			//color: "#C8175E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in nr_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "OTROS",
+			indexLabelFontColor: "white",
+			color: "#C8175E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in otro_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},		
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer12", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Ingresos - IBK"              
+		},
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "En Blanco",
+			indexLabelFontColor: "white",
+			//color: "#094FA4",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing1_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[0-1000>",
+			indexLabelFontColor: "white",
+			//color: "#F6891E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing2_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[1000-1500>",
+			indexLabelFontColor: "white",
+			//color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing3_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[1500-2500>",
+			indexLabelFontColor: "white",
+			//color: "#C8175E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing4_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[2500-3500>",
+			indexLabelFontColor: "white",
+			//color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing5_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[3500-4500>",
+			indexLabelFontColor: "white",
+			//color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing6_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "[4500-más>",
+			indexLabelFontColor: "white",
+			//color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in ing7_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer13", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Edad - IBK"              
+		},
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			//indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "En Blanco",
+			indexLabelFontColor: "white",
+			//color: "#094FA4",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad1_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "18-22",
+			indexLabelFontColor: "white",
+			//color: "#F6891E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad2_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "23-24",
+			indexLabelFontColor: "white",
+			//color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad3_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "25-32",
+			indexLabelFontColor: "white",
+			//color: "#C8175E",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad4_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "33-43",
+			indexLabelFontColor: "white",
+			//color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad5_ibk.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "stackedBar100",
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.0#",
+			name: "43-más",
+			indexLabelFontColor: "white",
+			//color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			    {% for key, value in edad6_ibk.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]

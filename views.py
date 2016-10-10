@@ -595,7 +595,7 @@ def seguimiento_mapa(request, fecha='201312'):
     list_meses=[]; d=0
     for i in meses:
 	list_meses.append(i['codmes'])
-    print meses
+    
     ubigeo = Mapa.objects.values('ubigeo').order_by('ubigeo').distinct()
     distrito = Mapa.objects.values('ubigeo','codmes', 'distrito').filter(provincia='LIMA').annotate(mora=Sum(F('catrasada'))*100/Sum(F('inv'))).order_by('ubigeo')
     numero=Mapa.objects.values('ubigeo','codmes').filter(provincia='LIMA', codmes=fecha).annotate(num=Sum('ctas')).order_by('ubigeo')
@@ -3395,6 +3395,7 @@ def altas_seguimiento(request):
     buro= AltasSeguimiento.objects.values('mes_alta','buro','empresa').annotate(cant=Sum('ctas')).order_by('mes_alta')
     buro1_bbva = {}; buro2_bbva = {}; buro3_bbva = {}; buro4_bbva = {}; buro5_bbva = {};
     buro1_bcp = {}; buro2_bcp = {}; buro3_bcp = {}; buro4_bcp = {}; buro5_bcp = {};
+    buro1_ibk = {}; buro2_ibk = {}; buro3_ibk = {}; buro4_ibk = {}; buro5_ibk = {};
     for i in meses:
       for j in buro:
         if i['mes_alta'] == j['mes_alta']:
@@ -3432,10 +3433,28 @@ def altas_seguimiento(request):
                 buro3_bcp[i['mes_alta']] = 0
                 buro4_bcp[i['mes_alta']] = 0
                 buro5_bcp[i['mes_alta']] = 0
+            if j['empresa'] == '2.IBK':
+              if j['buro'] == '1. G1-G3':
+                buro1_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['buro'] == '2. G4-G5':
+                buro2_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['buro'] == '3. G6':
+                buro3_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['buro'] == '4. G7-G8':
+                buro4_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['buro'] == '5. NB':
+                buro5_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              else:
+                buro1_ibk[i['mes_alta']] = 0
+                buro2_ibk[i['mes_alta']] = 0
+                buro3_ibk[i['mes_alta']] = 0
+                buro4_ibk[i['mes_alta']] = 0
+                buro5_ibk[i['mes_alta']] = 0
 
     cliente= AltasSeguimiento.objects.values('mes_alta','cat_cliente','empresa').annotate(cant=Sum('ctas')).order_by('mes_alta')
     dep_bbva = {}; indep_bbva = {}; pnn_bbva = {}; nr_bbva = {}; otro_bbva = {};
     dep_bcp = {}; indep_bcp = {}; pnn_bcp = {}; nr_bcp = {}; otro_bcp = {};
+    dep_ibk = {}; indep_ibk = {}; pnn_ibk = {}; nr_ibk = {}; otro_ibk = {};
     for i in meses:
       for j in cliente:
         if j['empresa'] == '0.BBVA':
@@ -3474,10 +3493,29 @@ def altas_seguimiento(request):
                 pnn_bcp[i['mes_alta']] = 0
                 nr_bcp[i['mes_alta']] = 0
                 otro_bcp[i['mes_alta']] = 0
+        if j['empresa'] == '2.IBK':
+            if i['mes_alta'] == j['mes_alta']:
+              if j['cat_cliente'] == '1. Dependiente':
+                dep_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['cat_cliente'] == '2. Independiente':
+                indep_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['cat_cliente'] == '3. PNN':
+                pnn_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['cat_cliente'] == '4.No Reconocido':
+                nr_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['cat_cliente'] == '':
+                otro_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              else:
+                dep_ibk[i['mes_alta']] = 0
+                indep_ibk[i['mes_alta']] = 0
+                pnn_ibk[i['mes_alta']] = 0
+                nr_ibk[i['mes_alta']] = 0
+                otro_ibk[i['mes_alta']] = 0
 
     ingresos_bbva= AltasSeguimiento.objects.values('mes_alta','rg_ingreso','empresa').annotate(cant=Sum('ctas')).order_by('mes_alta')
     ing1_bbva = {}; ing2_bbva = {}; ing3_bbva = {}; ing4_bbva = {}; ing5_bbva = {}; ing6_bbva = {}; ing7_bbva = {}; 
     ing1_bcp = {}; ing2_bcp = {}; ing3_bcp = {}; ing4_bcp = {}; ing5_bcp = {}; ing6_bcp = {}; ing7_bcp = {}; 
+    ing1_ibk = {}; ing2_ibk = {}; ing3_ibk = {}; ing4_ibk = {}; ing5_ibk = {}; ing6_ibk = {}; ing7_ibk = {}; 
     for i in meses:
       for j in ingresos_bbva:
         if j['empresa'] == '0.BBVA':
@@ -3528,10 +3566,35 @@ def altas_seguimiento(request):
                 ing5_bcp[i['mes_alta']] = 0
                 ing6_bcp[i['mes_alta']] = 0
                 ing7_bcp[i['mes_alta']] = 0
+        if j['empresa'] == '2.IBK':
+            if i['mes_alta'] == j['mes_alta']:
+              if j['rg_ingreso'] == '00 En blanco':
+                ing1_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['rg_ingreso'] == '01 0-1Mil':
+                ing2_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['rg_ingreso'] == '02 1-1.5Mil':
+                ing3_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['rg_ingreso'] == '03 1.5-2.5Mil':
+                ing4_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['rg_ingreso'] == '04 2.5-3.5Mil':
+                ing5_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['rg_ingreso'] == '05 3.5-4.5Mil':
+                ing6_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['rg_ingreso'] == '06 +4.5Mil':
+                ing7_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              else:
+                ing1_ibk[i['mes_alta']] = 0
+                ing2_ibk[i['mes_alta']] = 0
+                ing3_ibk[i['mes_alta']] = 0
+                ing4_ibk[i['mes_alta']] = 0
+                ing5_ibk[i['mes_alta']] = 0
+                ing6_ibk[i['mes_alta']] = 0
+                ing7_ibk[i['mes_alta']] = 0
 
     edad_bbva= AltasSeguimiento.objects.values('mes_alta','rg_edad','empresa').annotate(cant=Sum('ctas')).order_by('mes_alta')
     edad1_bbva = {}; edad2_bbva = {}; edad3_bbva = {}; edad4_bbva = {}; edad5_bbva = {}; edad6_bbva = {};
     edad1_bcp = {}; edad2_bcp = {}; edad3_bcp = {}; edad4_bcp = {}; edad5_bcp = {}; edad6_bcp = {};  
+    edad1_ibk = {}; edad2_ibk = {}; edad3_ibk = {}; edad4_ibk = {}; edad5_ibk = {}; edad6_ibk = {};  
     for i in meses:
       for j in edad_bbva:
         if j['empresa'] == '0.BBVA':
@@ -3576,6 +3639,27 @@ def altas_seguimiento(request):
                 edad4_bcp[i['mes_alta']] = 0
                 edad5_bcp[i['mes_alta']] = 0
                 edad6_bcp[i['mes_alta']] = 0
+        if j['empresa'] == '2.IBK':
+            if i['mes_alta'] == j['mes_alta']:
+              if j['rg_edad'] == '00 En blanco':
+                edad1_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['rg_edad'] == '01 18-22':
+                edad2_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['rg_edad'] == '02 23-24':
+                edad3_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['rg_edad'] == '02 25-32':
+                edad4_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['rg_edad'] == '03 33-43':
+                edad5_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              elif j['rg_edad'] == '04 +43':
+                edad6_ibk[i['mes_alta']] = j['cant']*100/buroibk_dict[i['mes_alta']]
+              else:
+                edad1_ibk[i['mes_alta']] = 0
+                edad2_ibk[i['mes_alta']] = 0
+                edad3_ibk[i['mes_alta']] = 0
+                edad4_ibk[i['mes_alta']] = 0
+                edad5_ibk[i['mes_alta']] = 0
+                edad6_ibk[i['mes_alta']] = 0
                         
     static_url=settings.STATIC_URL
     tipo_side = 1
