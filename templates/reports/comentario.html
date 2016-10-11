@@ -47,13 +47,14 @@
         <th>Tiempo</th>
       </tr>
     </thead>
-    <tbody id="tabla_comentarios">
+    <tbody id="tabla_comentarios" class="tabla_comentarios">
       {% for a in coment %}
       <tr>                       
         <td>{{a.periodo}}</td>
         <td>{{a.usuario}}</td>
         <td>{{a.tiempo}}</td>
       </tr>
+
       {% endfor %}
       </tbody>
   </table>
@@ -77,6 +78,11 @@ if(mm<10){
 }
 var today = dd+'/'+mm+'/'+yyyy;
 document.getElementById('time').innerHTML=today;
+
+$('#tabla_comentarios tr td').each(function(){
+  $(this).attr("id","id_"+$(this).index()+1);
+});
+
 
 </script>
 {% endblock %}

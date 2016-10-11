@@ -3213,7 +3213,8 @@ def delete(request, base=0, fecha=after1, numsemana=0):
 def comentario(request):
     meses = Seguimiento1.objects.values('mes_vigencia').distinct('mes_vigencia').order_by('mes_vigencia')
     coment = Comentario.objects.all();
-    print coment
+    num = Comentario.objects.count()
+    
     username = None
     if request.method == 'POST':
         if request.user.is_authenticated():
@@ -3221,8 +3222,7 @@ def comentario(request):
             periodo = request.POST.get('periodo')
             comentario = request.POST.get('comentarios')
             comentario_instance = Comentario.objects.create(usuario=username,periodo=periodo,comentario=comentario, tiempo=hoy ) 
-            print periodo
-            print hoy
+
 
     static_url=settings.STATIC_URL
     tipo_side = 4
@@ -3662,7 +3662,7 @@ def altas_seguimiento(request):
                 edad6_ibk[i['mes_alta']] = 0
                         
     static_url=settings.STATIC_URL
-    tipo_side = 1
+    tipo_side = 4
     return render('reports/seguimiento_altas.html', locals(),
                   context_instance=RequestContext(request))
 
