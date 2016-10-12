@@ -1086,7 +1086,7 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='mes_form'):
     total_form_dict = {}
     for j in total_form:
 	total_form_dict[j[filtro1]]=j['formalizado']
-    print total_form
+
     uno_form = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='03 Tarjeta', riesgos='UNO A UNO').annotate(formalizado=Sum('form')).order_by(filtro1)
     camp_fast = Seguimiento1.objects.values(filtro1, 'origen').filter(producto='03 Tarjeta', origen='ORIGINACION FAST').annotate(formalizado=Sum('form')).order_by(filtro1)
     camp_uno = Seguimiento1.objects.values(filtro1, 'origen').filter(producto='03 Tarjeta', origen='ORIGINACION MS').annotate(formalizado=Sum('form')).order_by(filtro1)
@@ -1215,13 +1215,14 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='mes_form'):
     mora9_uno_dict = {}
     mora12_uno_dict = {}
     for i in meses_moras:
-	for j in mora_uno:
-	    if i[filtro2] == j[filtro2]:
-		mora6_uno_dict[i[filtro2]]=j['sum_mora6']*100/total_moraxuno_dict[i[filtro2]]
-		if i[filtro2] <= morames_list[3]:
-		   mora9_uno_dict[i[filtro2]]=j['sum_mora9']*100/total_moraxuno_dict[i[filtro2]]
-		if i[filtro2] <= morames_list[6]:
-		   mora12_uno_dict[i[filtro2]]=j['sum_mora12']*100/total_moraxuno_dict[i[filtro2]]
+        for j in mora_uno:
+            if i[filtro2] == j[filtro2]:
+                mora6_uno_dict[i[filtro2]]=j['sum_mora6']*100/total_moraxuno_dict[i[filtro2]]
+            if i[filtro2] <= morames_list[3]:
+                mora9_uno_dict[i[filtro2]]=j['sum_mora9']*100/total_moraxuno_dict[i[filtro2]]
+            if i[filtro2] <= morames_list[6]:
+                mora12_uno_dict[i[filtro2]]=j['sum_mora12']*100/total_moraxuno_dict[i[filtro2]]
+
 
     total_morasxseg = Moras.objects.values(filtro2,'producto', 'segmento').filter(producto='03 Tarjeta', flg_camp='1. CAMPANA').annotate(sum_mora=Sum('ctas')).order_by(filtro2)
     totalxava_moras_dict = {}
@@ -3214,7 +3215,7 @@ def comentario(request):
     meses = Seguimiento1.objects.values('mes_vigencia').distinct('mes_vigencia').order_by('mes_vigencia')
     coment = Comentario.objects.all();
     num = Comentario.objects.count()
-    
+
     username = None
     if request.method == 'POST':
         if request.user.is_authenticated():
