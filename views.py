@@ -2050,7 +2050,6 @@ def seguimiento_adelanto(request):
        	  else:
              mora2_dict[i['mes_vigencia']]= 0
 
-    moralaboral = AdelantoSueldo.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2]).annotate(mora=Sum('mora')).order_by('mes_vigencia')
     moradep = AdelantoSueldo.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='1. Dependiente').annotate(mora=Sum('mora')).order_by('mes_vigencia')
     moraindep = AdelantoSueldo.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='2. Independiente').annotate(mora=Sum('mora')).order_by('mes_vigencia')
     morapnn = AdelantoSueldo.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='3. PNN').annotate(mora=Sum('mora')).order_by('mes_vigencia')
@@ -2083,8 +2082,6 @@ def seguimiento_adelanto(request):
                 moranr_dict[i['mes_vigencia']] = 0
 
     
-    print moradep
-
 
     static_url=settings.STATIC_URL
     tipo_side = 4
@@ -2099,17 +2096,17 @@ def seguimiento_prestinmediato(request):
     for i in meses_tot:
         time.append(i['mes_vigencia'])
     fecha1= time[0]
-    meses = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).order_by('-mes_vigencia').distinct()
-    form = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    fact = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('fact')).order_by('mes_vigencia')
-    ticket_ava = PrestInmediato.objects.values('mes_vigencia').filter(segmento='1.AVA',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
-    ticket_ms = PrestInmediato.objects.values('mes_vigencia').filter(segmento='2.MS',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
+    meses = PrestInmediato.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    form = PrestInmediato.objects.values('mes_vigencia').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    fact = PrestInmediato.objects.values('mes_vigencia').annotate(cantidad=Sum('fact')).order_by('mes_vigencia')
+    ticket_ava = PrestInmediato.objects.values('mes_vigencia').filter(segmento='1.AVA').annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
+    ticket_ms = PrestInmediato.objects.values('mes_vigencia').filter(segmento='2.MS').annotate(cantidad=Sum('ctas'), cantidad2=Sum('fact')).order_by('mes_vigencia')
 
-    total_rango = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).exclude(rng_ingreso='').order_by('mes_vigencia')
+    total_rango = PrestInmediato.objects.values('mes_vigencia').annotate(cantidad=Sum('ctas')).exclude(rng_ingreso__in=['','NULL','06 [0 - 1k]']).order_by('mes_vigencia')
     rango_tot = {}
     for i in total_rango:
-	rango_tot[i['mes_vigencia']]=i['cantidad']
-    rango1 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ingreso='05 [1K - 1.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+	   rango_tot[i['mes_vigencia']]=i['cantidad']
+    rango1 = PrestInmediato.objects.values('mes_vigencia').filter(rng_ingreso='05 [1K - 1.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango1_dict = {}
     for i in meses:
        for j in rango1:
@@ -2118,7 +2115,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              rango1_dict[i['mes_vigencia']]= 0
-    rango2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ingreso='04 [1.5K - 2K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango2 = PrestInmediato.objects.values('mes_vigencia').filter(rng_ingreso='04 [1.5K - 2K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango2_dict = {}
     for i in meses:
        for j in rango2:
@@ -2127,7 +2124,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              rango2_dict[i['mes_vigencia']]= 0
-    rango3 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ingreso='03 [2K - 2.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango3 = PrestInmediato.objects.values('mes_vigencia').filter(rng_ingreso='03 [2K - 2.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango3_dict = {}
     for i in meses:
        for j in rango3:
@@ -2136,7 +2133,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              rango3_dict[i['mes_vigencia']]= 0
-    rango4 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ingreso='02 [2.5K - 3.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango4 = PrestInmediato.objects.values('mes_vigencia').filter(rng_ingreso='02 [2.5K - 3.5K]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango4_dict = {}
     for i in meses:
        for j in rango4:
@@ -2145,7 +2142,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              rango4_dict[i['mes_vigencia']]= 0
-    rango5 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0],rng_ingreso='01 [3.5K - ...]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    rango5 = PrestInmediato.objects.values('mes_vigencia').filter(rng_ingreso='01 [3.5K - ...]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango5_dict = {}
     for i in meses:
        for j in rango5:
@@ -2154,11 +2151,11 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              rango5_dict[i['mes_vigencia']]= 0
-    total_rango2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    total_rango2 = PrestInmediato.objects.values('mes_vigencia').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango_tot2 = {}
     for i in total_rango2:
-	rango_tot2[i['mes_vigencia']]=i['cantidad']
-    buro1 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+	   rango_tot2[i['mes_vigencia']]=i['cantidad']
+    buro1 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro1_dict = {}
     for i in meses:
        for j in buro1:
@@ -2167,7 +2164,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
-    buro2 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='G5',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro2 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='G5').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro2_dict = {}
     for i in meses:
        for j in buro2:
@@ -2176,7 +2173,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              buro2_dict[i['mes_vigencia']]= 0
-    buro3 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro3 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro3_dict = {}
     for i in meses:
        for j in buro3:
@@ -2185,7 +2182,7 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              buro3_dict[i['mes_vigencia']]= 0
-    buro4 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='NB',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    buro4 = PrestInmediato.objects.values('mes_vigencia').filter(rng_buro='NB').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro4_dict = {}
     for i in meses:
        for j in buro4:
@@ -2194,6 +2191,138 @@ def seguimiento_prestinmediato(request):
              break
        	  else:
              buro4_dict[i['mes_vigencia']]= 0
+
+    total = PrestInmediato.objects.values('mes_vigencia').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    total_dict = {};
+    for i in total:
+        total_dict[i['mes_vigencia']] = i['formalizado']
+
+    dependiente = PrestInmediato.objects.values('mes_vigencia','laboral').filter(laboral='1. Dependiente').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    independiente = PrestInmediato.objects.values('mes_vigencia','laboral').filter(laboral='2. Independiente').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    pnn = PrestInmediato.objects.values('mes_vigencia','laboral').filter(laboral='3. PNN').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    no_reconocido = PrestInmediato.objects.values('mes_vigencia','laboral').filter(laboral='4.No Reconocido').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    dep_dict = {}; indep_dict = {}; pnn_dict = {}; nr_dict = {};
+    totdep_dict = {}; totindep_dict = {}; totpnn_dict = {}; totnr_dict = {};
+    for i in meses_tot:
+        for j in dependiente:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                dep_dict[i['mes_vigencia']]=j['formalizado']*100/total_dict[i['mes_vigencia']]
+                totdep_dict[i['mes_vigencia']]=j['formalizado']
+                break
+            else:
+                dep_dict[i['mes_vigencia']]=0
+        for j in independiente:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                indep_dict[i['mes_vigencia']]=j['formalizado']*100/total_dict[i['mes_vigencia']]
+                totindep_dict[i['mes_vigencia']]=j['formalizado']
+                break
+            else:
+                indep_dict[i['mes_vigencia']]=0
+        for j in pnn:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                pnn_dict[i['mes_vigencia']]=j['formalizado']*100/total_dict[i['mes_vigencia']]
+                totpnn_dict[i['mes_vigencia']]=j['formalizado']
+                break
+            else:
+                pnn_dict[i['mes_vigencia']]=0
+        for j in no_reconocido:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                nr_dict[i['mes_vigencia']]=j['formalizado']*100/total_dict[i['mes_vigencia']]
+                totnr_dict[i['mes_vigencia']]=j['formalizado']
+                break
+            else:
+                nr_dict[i['mes_vigencia']]=0
+
+    
+    meses_sit =PrestInmediato.objects.values('mes_vigencia').filter( mes_vigencia__lte =time[2]).order_by('mes_vigencia')
+    total_sit =PrestInmediato.objects.values('mes_vigencia').filter( mes_vigencia__lte =time[2]).exclude(rng_ingreso__in=['','NULL','06 [0 - 1k]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    sit_total = {}
+    for i in total_sit:
+        sit_total[i['mes_vigencia']]=i['formalizado']
+
+    sueldo1 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_ingreso__in=['05 [1K - 1.5K]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    sueldo2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_ingreso__in=['04 [1.5K - 2K]','03 [2K - 2.5K]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    sueldo3 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_ingreso__in=['02 [2.5K - 3.5K]','01 [3.5K - ...]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    sueldo1_dict = {} 
+    sueldo2_dict = {} 
+    sueldo3_dict = {} 
+    for i in meses_sit:
+        for j in sueldo1:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             sueldo1_dict[i['mes_vigencia']]=j['formalizado']
+             break
+          else:
+             sueldo1_dict[i['mes_vigencia']]= 0
+        for j in sueldo2:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             sueldo2_dict[i['mes_vigencia']]=j['formalizado']
+             break
+          else:
+             sueldo2_dict[i['mes_vigencia']]= 0
+        for j in sueldo3:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             sueldo3_dict[i['mes_vigencia']]=j['formalizado']
+             break
+          else:
+             sueldo3_dict[i['mes_vigencia']]= 0
+
+    mora0 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_ingreso__in=['05 [1K - 1.5K]']).annotate(formalizado=Sum('mora12')).order_by('mes_vigencia')
+    mora1 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_ingreso__in=['04 [1.5K - 2K]','03 [2K - 2.5K]']).annotate(formalizado=Sum('mora12')).order_by('mes_vigencia')
+    mora2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_ingreso__in=['02 [2.5K - 3.5K]','01 [3.5K - ...]']).annotate(formalizado=Sum('mora12')).order_by('mes_vigencia')
+    mora0_dict = {} 
+    mora1_dict = {} 
+    mora2_dict = {} 
+    for i in meses_sit:
+       for j in mora0:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             mora0_dict[i['mes_vigencia']]=j['formalizado']*100/sueldo1_dict[i['mes_vigencia']]
+             break
+          else:
+             mora0_dict[i['mes_vigencia']]= 0
+       for j in mora1:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             mora1_dict[i['mes_vigencia']]=j['formalizado']*100/sueldo2_dict[i['mes_vigencia']]
+             break
+          else:
+             mora1_dict[i['mes_vigencia']]= 0
+       for j in mora2:
+          if i['mes_vigencia'] == j['mes_vigencia']:
+             mora2_dict[i['mes_vigencia']]=j['formalizado']*100/sueldo3_dict[i['mes_vigencia']]
+             break
+          else:
+             mora2_dict[i['mes_vigencia']]= 0
+
+    moradep = PrestInmediato.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='1. Dependiente').annotate(mora=Sum('mora12')).order_by('mes_vigencia')
+    moraindep = PrestInmediato.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='2. Independiente').annotate(mora=Sum('mora12')).order_by('mes_vigencia')
+    morapnn = PrestInmediato.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='3. PNN').annotate(mora=Sum('mora12')).order_by('mes_vigencia')
+    moranr = PrestInmediato.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='4.No Reconocido').annotate(mora=Sum('mora12')).order_by('mes_vigencia')
+    moradep_dict = {}; morainde_dict={}; morapnn_dict = {}; moranr_dict = {};
+    for i in meses_sit:
+        for j in moradep:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                moradep_dict[i['mes_vigencia']] = j['mora']*100/totdep_dict[i['mes_vigencia']]
+                break
+            else:
+                moradep_dict[i['mes_vigencia']] = 0
+        for j in moraindep:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                morainde_dict[i['mes_vigencia']] = j['mora']*100/totindep_dict[i['mes_vigencia']]
+                break
+            else:
+                morainde_dict[i['mes_vigencia']] = 0
+        for j in morapnn:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                morapnn_dict[i['mes_vigencia']] = j['mora']*100/totpnn_dict[i['mes_vigencia']]
+                break
+            else:
+                morapnn_dict[i['mes_vigencia']] = 0
+        for j in moranr:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                moranr_dict[i['mes_vigencia']] = j['mora']*100/totnr_dict[i['mes_vigencia']]
+                break
+            else:
+                moranr_dict[i['mes_vigencia']] = 0
+
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/seguimiento_prestinmediato.html', locals(),
@@ -3199,6 +3328,12 @@ def delete(request, base=0, fecha=after1, numsemana=0):
 
     if fecha == '000008' and base == '2':
         Campana2.objects.all().delete()
+
+    if fecha == '000009' and base == '9':
+        AdelantoSueldo.objects.all().delete()
+
+    if fecha == '000010' and base == '10':
+        PrestInmediato.objects.all().delete()
 
     control_fecha3 = Seguimiento1.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
     for i in control_fecha3:

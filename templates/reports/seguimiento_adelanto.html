@@ -33,13 +33,15 @@
 			<div id="chartContainer4" style="height: 250px; width: 50%; display: inline-block;"></div>
 			<div id="chartContainer5" style="height: 250px; width: 50%; display: inline-block;"></div>
         </div>
-        <div class="rows placeholders">
-			<div id="chartContainer6" style="height: 250px; width: 100%; display: inline-block;"></div>
-        </div>
-      	&nbsp;
+        &nbsp;
         <div class="rows placeholders">
 			<div id="chartContainer8" style="height: 300px; width: 100%;"></div>
         </div>
+        &nbsp;
+        <div class="rows placeholders">
+			<div id="chartContainer6" style="height: 250px; width: 100%; display: inline-block;"></div>
+        </div>
+
 
 {% endblock %}
 
@@ -331,7 +333,7 @@
 	var chart = new CanvasJS.Chart("chartContainer6", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Nivel de Incumplimiento según Sueldo",
+			text: "Nivel de Incumplimiento según Nivel de Ingresos",
 			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
