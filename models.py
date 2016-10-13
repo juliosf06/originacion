@@ -283,10 +283,12 @@ class DepartamentosWeb(models.Model):
 class AdelantoSueldo(models.Model):
     mes_vigencia = models.CharField(max_length=10)
     rng_buro = models.CharField(max_length=15)
+    rng_buro_act = models.CharField(max_length=15, default=0)
     tipo_importe = models.CharField(max_length=30)
     rng_suelgo = models.CharField(max_length=40)
     flg_prestamo = models.CharField(max_length=20)
     estado_cred = models.CharField(max_length=50)
+    laboral = models.CharField(max_length=50, default=0)
     ctas = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     fact = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     mora = models.IntegerField(default=0)
@@ -299,6 +301,7 @@ class PrestInmediato(models.Model):
     rng_ingreso = models.CharField(max_length=30)
     segmento = models.CharField(max_length=10)
     rng_buro = models.CharField(max_length=20)
+    laboral = models.CharField(max_length=50, default=0)
     subproducto = models.CharField(max_length=60)
     estado_cred = models.CharField(max_length=50)
     ctas = models.DecimalField(max_digits=8, decimal_places=2, default=0)
@@ -348,13 +351,20 @@ class AltasEmpresa(models.Model):
         return self.mes_vigencia+' '+self.empresa+' '+self.grupo
 
 class IncreLinea(models.Model):
-    mes_vigencia = models.CharField(max_length=10)
-    buro = models.CharField(max_length=20)
-    segmento = models.CharField(max_length=20)
-    rng_sueldo = models.CharField(max_length=30)
-    ctas = models.DecimalField(max_digits=8, decimal_places=2)
-    cantidad = models.DecimalField(max_digits=12, decimal_places=8)
+    mes_vigencia = models.CharField(max_length=10, default=0)
     lifemiles = models.IntegerField(default=0)
+    empleado = models.IntegerField(default=0)
+    buro = models.CharField(max_length=20, default=0)
+    buro_act = models.CharField(max_length=20, default=0)
+    segmento = models.CharField(max_length=20, default=0)
+    rng_sueldo = models.CharField(max_length=30, default=0)
+    laboral = models.CharField(max_length=50, default=0)
+    flg_uso = models.IntegerField(default=0)
+    ctas = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    ctas_uso = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora12 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    cantidad = models.DecimalField(max_digits=12, decimal_places=8, default=0)
+    
 
     def __str__(self):
         return self.mes_vigencia+' '+self.buro+' '+self.segmento

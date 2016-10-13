@@ -1877,16 +1877,16 @@ def seguimiento_adelanto(request):
     for i in control_fecha:
         time.append(i['mes_vigencia'])
     fecha1= time[0]
-    total_form = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
-    ticket = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('fact')).order_by('mes_vigencia')
+    total_form = AdelantoSueldo.objects.values('mes_vigencia').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    ticket = AdelantoSueldo.objects.values('mes_vigencia').annotate(formalizado=Sum('fact')).order_by('mes_vigencia')
     formalizados = zip(total_form,ticket)
     
-    meses = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).distinct('mes_vigencia').order_by('mes_vigencia')
-    total_rango = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).exclude(rng_suelgo='00 Sin Inf').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    meses = AdelantoSueldo.objects.values('mes_vigencia').distinct('mes_vigencia').order_by('mes_vigencia')
+    total_rango = AdelantoSueldo.objects.values('mes_vigencia').exclude(rng_suelgo='00 Sin Inf').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango_tot = {}
     for i in total_rango:
 	rango_tot[i['mes_vigencia']]=i['formalizado']
-    rango1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo__in=['01 [0 - 700>','02 [700 - 1000]'], mes_vigencia__gte=time[13], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo__in=['01 [0 - 700>','02 [700 - 1000]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango1_dict = {}
     for i in meses:
        for j in rango1:
@@ -1895,7 +1895,7 @@ def seguimiento_adelanto(request):
 	     break
        	  else:
              rango1_dict[i['mes_vigencia']]= 0
-    rango2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='03 [1001 - 1500]',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='03 [1001 - 1500]').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango2_dict = {}
     for i in meses:
        for j in rango2:
@@ -1904,7 +1904,7 @@ def seguimiento_adelanto(request):
 	     break
        	  else:
              rango2_dict[i['mes_vigencia']]= 0
-    rango3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='04 [1501 - 2000]',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='04 [1501 - 2000]').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango3_dict = {}
     for i in meses:
        for j in rango3:
@@ -1913,7 +1913,7 @@ def seguimiento_adelanto(request):
 	     break
        	  else:
              rango3_dict[i['mes_vigencia']]= 0
-    rango4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='05 [2001 - 2500]',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='05 [2001 - 2500]').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango4_dict = {}
     for i in meses:
        for j in rango4:
@@ -1922,7 +1922,7 @@ def seguimiento_adelanto(request):
 	     break
        	  else:
              rango4_dict[i['mes_vigencia']]= 0
-    rango5 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='06 [2501 - 3500]',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango5 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo='06 [2501 - 3500]').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango5_dict = {}
     for i in meses:
        for j in rango5:
@@ -1931,7 +1931,7 @@ def seguimiento_adelanto(request):
 	     break
        	  else:
              rango5_dict[i['mes_vigencia']]= 0
-    rango6 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo__in=['07 [3501 - Mas>','07 [3501 - 5000]','08 [5001 - Mas>'],mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    rango6 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_suelgo__in=['07 [3501 - Mas>','07 [3501 - 5000]','08 [5001 - Mas>']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     rango6_dict = {}
     for i in meses:
        for j in rango6:
@@ -1941,7 +1941,32 @@ def seguimiento_adelanto(request):
        	  else:
              rango6_dict[i['mes_vigencia']]= 0
 
-    buro1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]',mes_vigencia__gte=time[12], mes_vigencia__lte=time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    total_form = AdelantoSueldo.objects.values('mes_vigencia').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    total_dict = {}
+    for j in total_form:
+        total_dict[j['mes_vigencia']] = j['formalizado']
+    
+    laboral = AdelantoSueldo.objects.values('mes_vigencia','laboral').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    dep_dict = {}; indep_dict = {}; pnn_dict = {}; nr_dict = {};
+    totdep_dict = {}; totindep_dict = {}; totpnn_dict = {}; totnr_dict = {};
+    for i in meses:
+        for j in laboral:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                if j['laboral'] == '1. Dependiente':
+                    dep_dict[i['mes_vigencia']]=j['formalizado']*100/total_dict[i['mes_vigencia']]
+                    totdep_dict[i['mes_vigencia']]=j['formalizado']
+                if j['laboral'] == '2. Independiente':
+                    indep_dict[i['mes_vigencia']]=j['formalizado']*100/total_dict[i['mes_vigencia']]
+                    totindep_dict[i['mes_vigencia']]=j['formalizado']
+                if j['laboral'] == '3. PNN':
+                    pnn_dict[i['mes_vigencia']]=j['formalizado']*100/total_dict[i['mes_vigencia']]
+                    totpnn_dict[i['mes_vigencia']]=j['formalizado']
+                if j['laboral'] == '4.No Reconocido':
+                    nr_dict[i['mes_vigencia']]=j['formalizado']*100/total_dict[i['mes_vigencia']]
+                    totnr_dict[i['mes_vigencia']]=j['formalizado']
+
+
+    buro1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     buro1_dict = {}
     for i in meses:
        for j in buro1:
@@ -1950,7 +1975,7 @@ def seguimiento_adelanto(request):
              break
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
-    buro2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='G5',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='G5').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     buro2_dict = {}
     for i in meses:
        for j in buro2:
@@ -1959,7 +1984,7 @@ def seguimiento_adelanto(request):
              break
        	  else:
              buro2_dict[i['mes_vigencia']]= 0
-    buro3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     buro3_dict = {}
     for i in meses:
        for j in buro3:
@@ -1968,7 +1993,7 @@ def seguimiento_adelanto(request):
              break
        	  else:
              buro3_dict[i['mes_vigencia']]= 0
-    buro4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='NB',mes_vigencia__gte=time[12], mes_vigencia__lte =time[0]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    buro4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='NB').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     buro4_dict = {}
     for i in meses:
        for j in buro4:
@@ -1978,9 +2003,9 @@ def seguimiento_adelanto(request):
        	  else:
              buro4_dict[i['mes_vigencia']]= 0
 
-    meses_sit =AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[2]).order_by('mes_vigencia')
+    meses_sit =AdelantoSueldo.objects.values('mes_vigencia').filter( mes_vigencia__lte =time[2]).order_by('mes_vigencia')
 
-    mora30 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[2]).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
+    mora30 = AdelantoSueldo.objects.values('mes_vigencia').filter( mes_vigencia__lte =time[2]).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
     mora = itertools.izip_longest(mora30,total_rango,fillvalue='0')
     mora30_dict1 = {}
     mora30_dict2 = {}
@@ -1994,15 +2019,14 @@ def seguimiento_adelanto(request):
              mora30_dict1[i['mes_vigencia']]= 0
              mora30_dict2[i['mes_vigencia']]= 0
 
-    total_sit =AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[2]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    total_sit =AdelantoSueldo.objects.values('mes_vigencia').filter( mes_vigencia__lte =time[2]).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     sit_total = {}
     for i in total_sit:
 	sit_total[i['mes_vigencia']]=i['formalizado']
-    print total_sit
 
-    mora0 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[2],rng_suelgo__in=['01 [0 - 700>','02 [700 - 1000]','03 [1001 - 1500]']).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
-    mora1 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[2],rng_suelgo__in=['04 [1501 - 2000]','05 [2001 - 2500]']).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
-    mora2 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__gte=time[12], mes_vigencia__lte =time[2],rng_suelgo__in=['06 [2501 -3500]','07 [3501 - 3500]','08 [5001 - Mas>']).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
+    mora0 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_suelgo__in=['01 [0 - 700>','02 [700 - 1000]','03 [1001 - 1500]']).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
+    mora1 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_suelgo__in=['04 [1501 - 2000]','05 [2001 - 2500]']).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
+    mora2 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_suelgo__in=['06 [2501 -3500]','07 [3501 - 3500]','08 [5001 - Mas>']).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
     mora0_dict = {} 
     mora1_dict = {} 
     mora2_dict = {} 
@@ -2025,8 +2049,42 @@ def seguimiento_adelanto(request):
              break
        	  else:
              mora2_dict[i['mes_vigencia']]= 0
-    print mora0_dict
-    #print total_rango
+
+    moralaboral = AdelantoSueldo.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2]).annotate(mora=Sum('mora')).order_by('mes_vigencia')
+    moradep = AdelantoSueldo.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='1. Dependiente').annotate(mora=Sum('mora')).order_by('mes_vigencia')
+    moraindep = AdelantoSueldo.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='2. Independiente').annotate(mora=Sum('mora')).order_by('mes_vigencia')
+    morapnn = AdelantoSueldo.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='3. PNN').annotate(mora=Sum('mora')).order_by('mes_vigencia')
+    moranr = AdelantoSueldo.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='4.No Reconocido').annotate(mora=Sum('mora')).order_by('mes_vigencia')
+    moradep_dict = {}; morainde_dict={}; morapnn_dict = {}; moranr_dict = {};
+    for i in meses_sit:
+        for j in moradep:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                moradep_dict[i['mes_vigencia']] = j['mora']*100/totdep_dict[i['mes_vigencia']]
+                break
+            else:
+                moradep_dict[i['mes_vigencia']] = 0
+        for j in moraindep:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                morainde_dict[i['mes_vigencia']] = j['mora']*100/totindep_dict[i['mes_vigencia']]
+                break
+            else:
+                morainde_dict[i['mes_vigencia']] = 0
+        for j in morapnn:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                morapnn_dict[i['mes_vigencia']] = j['mora']*100/totpnn_dict[i['mes_vigencia']]
+                break
+            else:
+                morapnn_dict[i['mes_vigencia']] = 0
+        for j in moranr:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                moranr_dict[i['mes_vigencia']] = j['mora']*100/totnr_dict[i['mes_vigencia']]
+                break
+            else:
+                moranr_dict[i['mes_vigencia']] = 0
+
+    
+    print moradep
+
 
     static_url=settings.STATIC_URL
     tipo_side = 4
