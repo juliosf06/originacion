@@ -1452,7 +1452,8 @@ def seguimiento_pld(request, filtro1='mes_vigencia', filtro2='mes_form'):
     total_form = Seguimiento1.objects.values(filtro1, 'producto').filter(producto='01 Consumo').annotate(formalizado=Sum('form')).order_by(filtro1)
     total_form_dict = {}
     for j in total_form:
-	total_form_dict[j[filtro1]]=j['formalizado']
+        total_form_dict[j[filtro1]]=j['formalizado']
+
     uno_form = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='01 Consumo', riesgos='UNO A UNO').annotate(formalizado=Sum('form')).order_by(filtro1)
     camp_fast = Seguimiento1.objects.values(filtro1, 'origen').filter(producto='01 Consumo', origen='ORIGINACION FAST').annotate(formalizado=Sum('form')).order_by(filtro1)
     camp_uno = Seguimiento1.objects.values(filtro1, 'origen').filter(producto='01 Consumo', origen='ORIGINACION MS').annotate(formalizado=Sum('form')).order_by(filtro1)
@@ -1461,8 +1462,8 @@ def seguimiento_pld(request, filtro1='mes_vigencia', filtro2='mes_form'):
     camp_formf = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='01 Consumo', riesgos='CAMP',origen='ORIGINACION FAST').annotate(formalizado=Sum('form')).order_by(filtro1)
     camp_formu = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='01 Consumo', riesgos='CAMP', origen='ORIGINACION MS').annotate(formalizado=Sum('form')).order_by(filtro1)
     fact_uno = Seguimiento1.objects.values(filtro1, 'producto').filter(producto='01 Consumo', riesgos='UNO A UNO').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
-    fact_campf = Seguimiento1.objects.values(filtro1, 'producto', 'origen').filter(producto='01 Consumo', riesgos='CAMP',origen='ORIGINACION FAST').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
-    fact_campu = Seguimiento1.objects.values(filtro1, 'producto', 'origen').filter(producto='01 Consumo', riesgos='CAMP', origen='ORIGINACION MS').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
+    fact_campf = Seguimiento1.objects.values(filtro1, 'producto', 'origen').filter(producto='03 Tarjeta', riesgos='CAMP',origen='ORIGINACION FAST').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
+    fact_campu = Seguimiento1.objects.values(filtro1, 'producto', 'origen').filter(producto='03 Tarjeta', riesgos='CAMP', origen='ORIGINACION MS').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
     ticket = zip(fact_uno, fact_campf, fact_campu, uno_form, camp_formf, camp_formu)
 
     camp_form = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='01 Consumo', riesgos='CAMP').annotate(formalizado=Sum('form')).order_by(filtro1)
@@ -1755,7 +1756,7 @@ def seguimiento_pld(request, filtro1='mes_vigencia', filtro2='mes_form'):
     burog5 = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='01 Consumo', buro_camp='G5').annotate(seg=Sum('form')).order_by(filtro1)
     burog6 = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='01 Consumo', buro_camp='G6-G8').annotate(seg=Sum('form')).order_by(filtro1)
     buronb = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='01 Consumo', buro_camp='NB').annotate(seg=Sum('form')).order_by(filtro1)
-    burotot = Seguimiento1.objects.values(filtro1).filter(riesgos='CAMP', producto='01 Consumo').annotate(seg=Sum('form')).order_by(filtro1)
+    burotot = Seguimiento1.objects.values(filtro1).filter(riesgos='CAMP', producto='03 Tarjeta').annotate(seg=Sum('form')).order_by(filtro1)
     camp_buro = zip(burog1, burog5, burog6, buronb, burotot)
 
     mora6_buro = Moras.objects.values(filtro2, 'buro_camp', 'producto', 'flg_camp').filter(producto='01 Consumo',flg_camp='1. CAMPANA').annotate(sum_mora6=Sum('mora6'), sum_mora12=Sum('mora12')).order_by(filtro2)
@@ -2024,6 +2025,32 @@ def seguimiento_adelanto(request):
     for i in total_sit:
 	sit_total[i['mes_vigencia']]=i['formalizado']
 
+    sueldo1 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_suelgo__in=['01 [0 - 700>','02 [700 - 1000]','03 [1001 - 1500]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    sueldo2 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_suelgo__in=['04 [1501 - 2000]','05 [2001 - 2500]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    sueldo3 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_suelgo__in=['06 [2501 -3500]','07 [3501 - 3500]','08 [5001 - Mas>']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    sueldo1_dict = {} 
+    sueldo2_dict = {} 
+    sueldo3_dict = {}
+    for i in meses_sit:
+        for j in sueldo1:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                sueldo1_dict[i['mes_vigencia']]=j['formalizado']
+                break
+            else:
+                sueldo1_dict[i['mes_vigencia']]= 0
+        for j in sueldo2:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                sueldo2_dict[i['mes_vigencia']]=j['formalizado']
+                break
+            else:
+                sueldo2_dict[i['mes_vigencia']]= 0
+        for j in sueldo3:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                sueldo3_dict[i['mes_vigencia']]=j['formalizado']
+                break
+            else:
+                sueldo3_dict[i['mes_vigencia']]= 0
+
     mora0 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_suelgo__in=['01 [0 - 700>','02 [700 - 1000]','03 [1001 - 1500]']).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
     mora1 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_suelgo__in=['04 [1501 - 2000]','05 [2001 - 2500]']).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
     mora2 = AdelantoSueldo.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_suelgo__in=['06 [2501 -3500]','07 [3501 - 3500]','08 [5001 - Mas>']).annotate(formalizado=Sum('mora')).order_by('mes_vigencia')
@@ -2033,19 +2060,19 @@ def seguimiento_adelanto(request):
     for i in meses_sit:
        for j in mora0:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             mora0_dict[i['mes_vigencia']]=j['formalizado']*100/sit_total[i['mes_vigencia']]
+             mora0_dict[i['mes_vigencia']]=j['formalizado']*100/sueldo1_dict[i['mes_vigencia']]
              break
        	  else:
              mora0_dict[i['mes_vigencia']]= 0
        for j in mora1:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             mora1_dict[i['mes_vigencia']]=j['formalizado']*100/sit_total[i['mes_vigencia']]
+             mora1_dict[i['mes_vigencia']]=j['formalizado']*100/sueldo2_dict[i['mes_vigencia']]
              break
        	  else:
              mora1_dict[i['mes_vigencia']]= 0
        for j in mora2:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             mora2_dict[i['mes_vigencia']]=j['formalizado']*100/sit_total[i['mes_vigencia']]
+             mora2_dict[i['mes_vigencia']]=j['formalizado']*100/sueldo3_dict[i['mes_vigencia']]
              break
        	  else:
              mora2_dict[i['mes_vigencia']]= 0
