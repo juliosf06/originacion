@@ -1756,7 +1756,7 @@ def seguimiento_pld(request, filtro1='mes_vigencia', filtro2='mes_form'):
     burog5 = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='01 Consumo', buro_camp='G5').annotate(seg=Sum('form')).order_by(filtro1)
     burog6 = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='01 Consumo', buro_camp='G6-G8').annotate(seg=Sum('form')).order_by(filtro1)
     buronb = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='01 Consumo', buro_camp='NB').annotate(seg=Sum('form')).order_by(filtro1)
-    burotot = Seguimiento1.objects.values(filtro1).filter(riesgos='CAMP', producto='03 Tarjeta').annotate(seg=Sum('form')).order_by(filtro1)
+    burotot = Seguimiento1.objects.values(filtro1).filter(riesgos='CAMP', producto='01 Consumo').annotate(seg=Sum('form')).order_by(filtro1)
     camp_buro = zip(burog1, burog5, burog6, buronb, burotot)
 
     mora6_buro = Moras.objects.values(filtro2, 'buro_camp', 'producto', 'flg_camp').filter(producto='01 Consumo',flg_camp='1. CAMPANA').annotate(sum_mora6=Sum('mora6'), sum_mora12=Sum('mora12')).order_by(filtro2)
