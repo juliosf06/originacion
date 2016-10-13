@@ -2261,15 +2261,15 @@ def seguimiento_prestinmediato(request):
                 nr_dict[i['mes_vigencia']]=0
 
     
-    meses_sit =PrestInmediato.objects.values('mes_vigencia').filter( mes_vigencia__lte =time[2]).order_by('mes_vigencia')
-    total_sit =PrestInmediato.objects.values('mes_vigencia').filter( mes_vigencia__lte =time[2]).exclude(rng_ingreso__in=['','NULL','06 [0 - 1k]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    meses_sit =PrestInmediato.objects.values('mes_vigencia').filter( mes_vigencia__lte =time[5]).order_by('mes_vigencia')
+    total_sit =PrestInmediato.objects.values('mes_vigencia').filter( mes_vigencia__lte =time[5]).exclude(rng_ingreso__in=['','NULL','06 [0 - 1k]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     sit_total = {}
     for i in total_sit:
         sit_total[i['mes_vigencia']]=i['formalizado']
 
-    sueldo1 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_ingreso__in=['05 [1K - 1.5K]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
-    sueldo2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_ingreso__in=['04 [1.5K - 2K]','03 [2K - 2.5K]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
-    sueldo3 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_ingreso__in=['02 [2.5K - 3.5K]','01 [3.5K - ...]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    sueldo1 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[5],rng_ingreso__in=['05 [1K - 1.5K]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    sueldo2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[5],rng_ingreso__in=['04 [1.5K - 2K]','03 [2K - 2.5K]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
+    sueldo3 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[5],rng_ingreso__in=['02 [2.5K - 3.5K]','01 [3.5K - ...]']).annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
     sueldo1_dict = {} 
     sueldo2_dict = {} 
     sueldo3_dict = {} 
@@ -2293,9 +2293,9 @@ def seguimiento_prestinmediato(request):
           else:
              sueldo3_dict[i['mes_vigencia']]= 0
 
-    mora0 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_ingreso__in=['05 [1K - 1.5K]']).annotate(formalizado=Sum('mora12')).order_by('mes_vigencia')
-    mora1 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_ingreso__in=['04 [1.5K - 2K]','03 [2K - 2.5K]']).annotate(formalizado=Sum('mora12')).order_by('mes_vigencia')
-    mora2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[2],rng_ingreso__in=['02 [2.5K - 3.5K]','01 [3.5K - ...]']).annotate(formalizado=Sum('mora12')).order_by('mes_vigencia')
+    mora0 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[5],rng_ingreso__in=['05 [1K - 1.5K]']).annotate(formalizado=Sum('mora6')).order_by('mes_vigencia')
+    mora1 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[5],rng_ingreso__in=['04 [1.5K - 2K]','03 [2K - 2.5K]']).annotate(formalizado=Sum('mora6')).order_by('mes_vigencia')
+    mora2 = PrestInmediato.objects.values('mes_vigencia').filter(mes_vigencia__lte =time[5],rng_ingreso__in=['02 [2.5K - 3.5K]','01 [3.5K - ...]']).annotate(formalizado=Sum('mora6')).order_by('mes_vigencia')
     mora0_dict = {} 
     mora1_dict = {} 
     mora2_dict = {} 
@@ -2319,10 +2319,10 @@ def seguimiento_prestinmediato(request):
           else:
              mora2_dict[i['mes_vigencia']]= 0
 
-    moradep = PrestInmediato.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='1. Dependiente').annotate(mora=Sum('mora12')).order_by('mes_vigencia')
-    moraindep = PrestInmediato.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='2. Independiente').annotate(mora=Sum('mora12')).order_by('mes_vigencia')
-    morapnn = PrestInmediato.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='3. PNN').annotate(mora=Sum('mora12')).order_by('mes_vigencia')
-    moranr = PrestInmediato.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[2],laboral='4.No Reconocido').annotate(mora=Sum('mora12')).order_by('mes_vigencia')
+    moradep = PrestInmediato.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[5],laboral='1. Dependiente').annotate(mora=Sum('mora6')).order_by('mes_vigencia')
+    moraindep = PrestInmediato.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[5],laboral='2. Independiente').annotate(mora=Sum('mora6')).order_by('mes_vigencia')
+    morapnn = PrestInmediato.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[5],laboral='3. PNN').annotate(mora=Sum('mora6')).order_by('mes_vigencia')
+    moranr = PrestInmediato.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte =time[5],laboral='4.No Reconocido').annotate(mora=Sum('mora6')).order_by('mes_vigencia')
     moradep_dict = {}; morainde_dict={}; morapnn_dict = {}; moranr_dict = {};
     for i in meses_sit:
         for j in moradep:
