@@ -222,8 +222,6 @@ class Evaluacionpld(models.Model):
 class Seguimiento1(models.Model):
     trimestre_form = models.CharField(max_length=10, default=0)
     mes_vigencia = models.CharField(max_length=10)
-    dic_global = models.CharField(max_length=10)
-    dic_buro = models.CharField(max_length=5)
     buro_camp = models.CharField(max_length=20)
     buro_uno = models.CharField(max_length=20)
     cat_persona = models.CharField(max_length=50, default=0)
@@ -232,10 +230,22 @@ class Seguimiento1(models.Model):
     rng_ing = models.CharField(max_length=20)
     producto = models.CharField(max_length=50)
     riesgos = models.CharField(max_length=20)
-    soli = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    flg_lifemiles = models.IntegerField(default=0)
+    digital = models.IntegerField(default=0)
+    canal_digital = models.CharField(max_length=30, default=0)
+    ltv = models.CharField(max_length=60, default=0)
     plazo = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    form = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     facturacion = models.DecimalField(max_digits=12, decimal_places=8, default=0)
+    form = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    ctas = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora4 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora6 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora9 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora12 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora18 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora24 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora36 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora4_60 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     def __str__(self):
         return self.mes_vigencia+' '+self.segmento+' '+self.producto

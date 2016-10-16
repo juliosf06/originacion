@@ -150,8 +150,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in formalizados %}
-				{ y: {{b.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in uno_form_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -164,8 +164,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in formalizados %}
-				{ y: {{c.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in camp_fast_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -179,8 +179,8 @@
 			showInLegend: "true",
 			color: "#86C82D",
 			dataPoints: [
-				{% for a,b,c,d in formalizados %}
-				{ y: {{d.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in camp_uno_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -194,8 +194,8 @@
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d in formalizados %}
-				{ y: {{a.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in total_form_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -221,8 +221,8 @@
 			yValueFormatString: "##,###",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e,f in ticket %}
-				{ y: {{a.facturacion}}*1000000/{{d.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in fact_uno_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -236,8 +236,8 @@
 			yValueFormatString: "##,###.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e,f in ticket %}
-				{ y: {{b.facturacion}}*1000000/{{e.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in fact_campf_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -251,8 +251,8 @@
 			yValueFormatString: "##,###.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e,f in ticket %}
-				{ y: {{c.facturacion}}*1000000/{{f.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in fact_campu_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -274,14 +274,26 @@
 	var chart = new CanvasJS.Chart("chartContainer5", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Incumplimiento",
+			text: "Incumplimiento Total",
 			fontColor: "#094FA4",             
 		},
-                axisY:{
-                        interval:1,
-                },
 		animationEnabled: true,   // change to true
-		data: [              
+		data: [
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "MORA4_60",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",			
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.##",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora460_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
@@ -289,7 +301,7 @@
 			indexLabelFontColor: "#89D1F3",
 			color: "#89D1F3",			
 			indexLabel: "{y}%",
-			yValueFormatString: "#0.#",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in mora6_dict.items|sort %}
@@ -304,7 +316,7 @@
 			indexLabelFontColor: "#094FA4",			
 			indexLabel: "{y}%",
 			color: "#094FA4",
-			yValueFormatString: "#0.#",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in mora9_dict.items|sort %}
@@ -319,7 +331,7 @@
 			indexLabelFontColor: "#86C82D",			
 			indexLabel: "{y}%",
 			color: "#86C82D",
-			yValueFormatString: "#0.#",
+			yValueFormatString: "#0.##",
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in mora12_dict.items|sort %}
@@ -348,8 +360,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{a.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in seg_ava_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -362,8 +374,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{b.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{b.trimestre_form}}' {% else %} label: '{{b.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in seg_ms_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -377,8 +389,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{c.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{c.trimestre_form}}' {% else %} label: '{{c.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in seg_noph_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -392,8 +404,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{d.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in seg_nocli_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -406,8 +418,8 @@
 			color: "#C8175E",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_seg %}
-				{ y: {{e.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in camp_form_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -432,8 +444,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for b,c,d,e in ucamp_seg %}
-				{ y: {{b.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{b.trimestre_form}}' {% else %} label: '{{b.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in useg_ms_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -447,8 +459,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for b,c,d,e in ucamp_seg %}
-				{ y: {{c.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{c.trimestre_form}}' {% else %} label: '{{c.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in useg_noph_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -462,8 +474,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for b,c,d,e in ucamp_seg %}
-				{ y: {{d.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in useg_nocli_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -476,8 +488,8 @@
 			color: "#C8175E",
 			showInLegend: "true",
 			dataPoints: [
-				{% for b,c,d,e in ucamp_seg %}
-				{ y: {{e.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in uno_form_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -502,8 +514,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_cat %}
-				{ y: {{a.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in depen_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -516,8 +528,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_cat %}
-				{ y: {{b.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{b.trimestre_form}}' {% else %} label: '{{b.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in indep_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -531,8 +543,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_cat %}
-				{ y: {{c.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{c.trimestre_form}}' {% else %} label: '{{c.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in pnn_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -546,8 +558,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_cat %}
-				{ y: {{d.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in no_recon_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -560,8 +572,8 @@
 			color: "#C8175E",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_cat %}
-				{ y: {{e.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in camp_form_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -586,8 +598,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in ucamp_cat %}
-				{ y: {{a.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in udepen_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -600,8 +612,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in ucamp_cat %}
-				{ y: {{b.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{b.trimestre_form}}' {% else %} label: '{{b.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in uindep_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -615,8 +627,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in ucamp_cat %}
-				{ y: {{c.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{c.trimestre_form}}' {% else %} label: '{{c.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in upnn_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -630,8 +642,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in ucamp_cat %}
-				{ y: {{d.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in uno_recon_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -644,8 +656,8 @@
 			color: "#C8175E",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in ucamp_cat %}
-				{ y: {{e.formalizado}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in uno_form_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -705,7 +717,22 @@
                         interval:1,
                 },
 		animationEnabled: true,   // change to true
-		data: [              
+		data: [
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 4_60",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ava_mora460_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
@@ -765,7 +792,22 @@
                         interval:1,
                 },
 		animationEnabled: true,   // change to true
-		data: [              
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 4_60",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in ms_mora460_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},             
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
@@ -825,7 +867,22 @@
                         interval:1,
                 },
 		animationEnabled: true,   // change to true
-		data: [              
+		data: [  
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 4_60",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in noph_mora460_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},            
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
@@ -885,7 +942,22 @@
                         interval:1,
                 },
 		animationEnabled: true,   // change to true
-		data: [              
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 4_60",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in nocli_mora460_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},             
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
@@ -945,7 +1017,22 @@
                         interval:2,
                 },
 		animationEnabled: true,   // change to true
-		data: [              
+		data: [
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 4_60",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora460_uno_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
@@ -1005,7 +1092,22 @@
                         interval:1,
                 },
 		animationEnabled: true,   // change to true
-		data: [              
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 4_60",
+			indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in mora460_camp_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},             
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
@@ -1170,7 +1272,22 @@
                         interval:1,
                 },
 		animationEnabled: true,   // change to true
-		data: [              
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 4_60",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in dep_mora460_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},             
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
@@ -1230,7 +1347,22 @@
                         interval:1,
                 },
 		animationEnabled: true,   // change to true
-		data: [              
+		data: [  
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 4_60",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in indep_mora460_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},            
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
@@ -1290,7 +1422,22 @@
                         interval:1,
                 },
 		animationEnabled: true,   // change to true
-		data: [              
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 4_60",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in pnn_mora460_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},             
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
@@ -1350,7 +1497,22 @@
                         interval:1,
                 },
 		animationEnabled: true,   // change to true
-		data: [              
+		data: [  
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "Mora 4_60",
+			//indexLabel: "{y}%",
+			indexLabelFontColor: "#C8175E",
+			color: "#C8175E",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in norec_mora460_dict.items|sort %}
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+				{% endfor %}
+			]
+		},            
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
@@ -1768,8 +1930,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_buro %}
-				{ y: {{a.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{a.trimestre_form}}' {% else %} label: '{{a.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in dict_burog1.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
 				{% endfor %}
 			]
 		},
@@ -1782,8 +1944,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_buro %}
-				{ y: {{b.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{b.trimestre_form}}' {% else %} label: '{{b.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in dict_burog5.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
 				{% endfor %}
 			]
 		},
@@ -1797,8 +1959,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_buro %}
-				{ y: {{c.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{c.trimestre_form}}' {% else %} label: '{{c.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in dict_burog6.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
 				{% endfor %}
 			]
 		},
@@ -1812,8 +1974,8 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_buro %}
-				{ y: {{d.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{d.trimestre_form}}' {% else %} label: '{{d.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in dict_buronb.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
 				{% endfor %}
 			]
 		},
@@ -1827,8 +1989,8 @@
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b,c,d,e in camp_buro %}
-				{ y: {{e.seg}} , {% if filtro1 = 'trimestre_form' %} label: '{{e.trimestre_form}}' {% else %} label: '{{e.mes_vigencia|convert_date}}' {% endif %} },
+				{% for key, value in camp_form_dict.items|sort %}
+				{ y: {{value}} , label: '{{key}}' },
 				{% endfor %}
 			]
 		},
@@ -1839,10 +2001,10 @@
     }
 
     $("#button1").click(function(){
-          window.location.href = "/reports/seguimiento/"+"mes_vigencia"+"/"+"mes_form"+"/";
+          window.location.href = "/reports/seguimiento/"+"mes_vigencia"+"/";
     });
     $("#button2").click(function(){
-          window.location.href = "/reports/seguimiento/"+"trimestre_form"+"/"+"trimestre_form"+"/";
+          window.location.href = "/reports/seguimiento/"+"trimestre_form"+"/";
     });
   </script>
 {% endblock %}
