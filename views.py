@@ -3426,7 +3426,7 @@ def seguimiento_hipoteca(request, fecha='201312'):
              break
        	  else:
              rango6_dict[i['mes_vigencia']]= 0
-    buro1 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, dic_buro__in=['G1','G2'], producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    buro1 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, buro_uno='G1-G2', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     buro1_dict = {}
     for i in meses:
        for j in buro1:
@@ -3435,7 +3435,7 @@ def seguimiento_hipoteca(request, fecha='201312'):
              break
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
-    buro2 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, dic_buro__in=['G3','G4'], producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    buro2 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, buro_uno='G3-G4', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     buro2_dict = {}
     for i in meses:
        for j in buro2:
@@ -3444,7 +3444,7 @@ def seguimiento_hipoteca(request, fecha='201312'):
              break
        	  else:
              buro2_dict[i['mes_vigencia']]= 0
-    buro3 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, dic_buro__in=['G5','G6'], producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    buro3 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, buro_uno='G5-G6', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     buro3_dict = {}
     for i in meses:
        for j in buro3:
@@ -3453,7 +3453,7 @@ def seguimiento_hipoteca(request, fecha='201312'):
              break
        	  else:
              buro3_dict[i['mes_vigencia']]= 0
-    buro4 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, dic_buro__in=['G7','G8'], producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    buro4 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, buro_uno='G7-G8', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     buro4_dict = {}
     for i in meses:
        for j in buro4:
@@ -3462,7 +3462,7 @@ def seguimiento_hipoteca(request, fecha='201312'):
              break
        	  else:
              buro4_dict[i['mes_vigencia']]= 0
-    buro5 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, dic_buro='NB', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    buro5 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte=before12, mes_vigencia__lte =fecha_actual, buro_uno='NB', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     buro5_dict = {}
     for i in meses:
        for j in buro5:

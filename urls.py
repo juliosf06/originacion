@@ -56,7 +56,7 @@ urlpatterns = [
 
     # URLS para reportes de Seguimiento
     url(r'^seguimiento/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
-    url(r'^seguimiento/(?P<filtro1>[\w|\W]+)/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
+    #url(r'^seguimiento/(?P<filtro1>[\w|\W]+)/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
     url(r'^seguimiento/tarjeta/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
     url(r'^seguimiento/tarjeta/(?P<filtro1>[\w|\W]+)/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
     url(r'^seguimiento_pld/$', views.seguimiento_pld, name='seguimiento_pld'),
