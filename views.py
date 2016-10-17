@@ -1317,8 +1317,8 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia'):
     mora12 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='03 Tarjeta').annotate(sum_mora=Sum('mora12'),cuentas=Sum('ctas')).order_by(filtro1)
     mora460_dict = {}; mora6_dict = {}; mora9_dict = {}; mora12_dict = {};
     for j in mora460:
-        if j[filtro1] <= morames_list[4]:
-            mora460_dict[j[filtro1]]=j['sum_mora']*100/j['cuentas']
+        if i[filtro1] <= morames_list[4]:
+            mora460_dict[i[filtro1]]=j['sum_mora']*100/j['cuentas']
     for j in mora6:
         if j[filtro1] <= morames_list[6]:
             mora6_dict[j[filtro1]]=j['sum_mora']*100/j['cuentas']
@@ -3837,6 +3837,59 @@ def seguimiento_hipoteca(request, fecha='201312'):
 
 @login_required
 def seguimiento_web(request):
+
+    meses = Seguimiento1.objects.values('mes_vigencia').order_by('mes_vigencia').distinct()
+
+    tipo_camp = Seguimiento1.objects.values('mes_vigencia','canal_digital').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    moi_dict = {}; rescate_dict = {};
+    for j in tipo_camp:
+        if j['mes_vigencia'] >= '201605':
+            if j['canal_digital'] == 'FLUJO_MOI':
+                moi_dict[j['mes_vigencia']]=j['cantidad']
+    for j in tipo_camp:
+        if j['mes_vigencia'] >= '201605':
+            if j['canal_digital'] == 'RESCATE':
+                rescate_dict[j['mes_vigencia']]=j['cantidad']
+
+    tipo_cliente = Seguimiento1.objects.values('mes_vigencia','digital','cat_persona').filter(digital=1).annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    dep_dict = {}; inde_dict = {}; 
+    pnn_dict = {}; nr_dict = {}; 
+    for j in tipo_cliente:
+        if j['mes_vigencia'] >= '201605':
+            if j['cat_persona'] == '1. Dependiente':
+                dep_dict[j['mes_vigencia']]=j['cantidad']
+    for j in tipo_cliente:
+        if j['mes_vigencia'] >= '201605':
+            if j['cat_persona'] == '2. Independiente':
+                inde_dict[j['mes_vigencia']]=j['cantidad']
+    for j in tipo_cliente:
+        if j['mes_vigencia'] >= '201605':
+            if j['cat_persona'] == '3. PNN':
+                pnn_dict[j['mes_vigencia']]=j['cantidad']
+    for j in tipo_cliente:
+        if j['mes_vigencia'] >= '201605':
+            if j['cat_persona'] == '4.No Reconocido':
+                nr_dict[j['mes_vigencia']]=j['cantidad']
+
+    buro = Seguimiento1.objects.values('mes_vigencia','digital','buro_camp').filter(digital=1).annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    buro1_dict = {}; buro2_dict = {}; 
+    buro3_dict = {}; buro4_dict = {}; 
+    for j in buro:
+        if j['mes_vigencia'] >= '201605':
+            if j['buro_camp'] == 'G1-G4':
+                buro1_dict[j['mes_vigencia']]=j['cantidad']
+    for j in buro:
+        if j['mes_vigencia'] >= '201605':
+            if j['buro_camp'] == 'G5':
+                buro2_dict[j['mes_vigencia']]=j['cantidad']
+    for j in buro:
+        if j['mes_vigencia'] >= '201605':
+            if j['buro_camp'] == 'G6-G8':
+                buro3_dict[j['mes_vigencia']]=j['cantidad']
+    for j in buro:
+        if j['mes_vigencia'] >= '201605':
+            if j['buro_camp'] == 'NB':
+                buro4_dict[j['mes_vigencia']]=j['cantidad']
 
 
     static_url=settings.STATIC_URL

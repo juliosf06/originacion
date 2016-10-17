@@ -4,7 +4,7 @@
 
 {% load humanize %}
 
-{% block title %}Inversión y Morosidad por Territorio{% endblock %}
+{% block title %}Formalizados Web{% endblock %}
 
 {% block content %}
 
@@ -12,20 +12,204 @@
         <div class="form-inline">
         	<input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
         </div>
-	  	&nbsp;
-	  	&nbsp;
-          <!--<div class="rows placeholders">
-		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
-          </div>-->
+        <div class="rows placeholders">
+          <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        </div>
+	  	  &nbsp;
+	  	  &nbsp;
+        <div class="rows placeholders">
+          <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div class="rows placeholders">
+          <div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+        </div>
+
 
 
 {% endblock %}
 
 {% block script_final %}
-  <script type="text/javascript">
+<script type="text/javascript">
+window.onload = function () {
+  var chart = new CanvasJS.Chart("chartContainer", {
+    theme: "theme2",//theme1
+    title:{
+      text: "Formalizados", 
+      fontColor: "#094FA4",            
+    },
+    animationEnabled: true,   // change to true
+    data: [              
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "MOI",
+      indexLabelFontColor: "white",     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in moi_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "RESCATE",
+      indexLabelFontColor: "white",     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in rescate_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart.render();
 
+  var chart = new CanvasJS.Chart("chartContainer2", {
+    theme: "theme2",//theme1
+    title:{
+      text: "Relación Laboral (#Form)", 
+      fontColor: "#094FA4",            
+    },
+    animationEnabled: true,   // change to true
+    data: [              
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "Dependiente",
+      indexLabelFontColor: "white",     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in dep_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "Independiente",
+      indexLabelFontColor: "white",     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in inde_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "PNN",
+      indexLabelFontColor: "white",     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in pnn_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "No Reconocido",
+      indexLabelFontColor: "white",     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in nr_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart.render();
 
+  var chart = new CanvasJS.Chart("chartContainer3", {
+    theme: "theme2",//theme1
+    title:{
+      text: "Buró (#Form)", 
+      fontColor: "#094FA4",            
+    },
+    animationEnabled: true,   // change to true
+    data: [              
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "G1-G4",
+      indexLabelFontColor: "white",     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in buro1_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "G5",
+      indexLabelFontColor: "white",     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in buro2_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "G6-G8",
+      indexLabelFontColor: "white",     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in buro3_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "NB",
+      indexLabelFontColor: "white",     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in buro4_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart.render();
 
-  </script>
+}
+</script>
 {% endblock %}
 
