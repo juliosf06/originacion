@@ -74,6 +74,7 @@ urlpatterns = [
     url(r'^seguimiento/departamentos_web/$', views.departamentos_web, name='departamentos_web'),
     url(r'^seguimiento/departamentos_web/(?P<semana>\d+)/$', views.departamentos_web, name='departamentos_web_2'),
     url(r'^seguimiento/altas/$', views.altas_seguimiento, name='altas_seguimiento'),
+    url(r'^seguimiento/web/$', views.seguimiento_web, name='seguimiento_web'),
 
 
     # URLS para reportes de Hipotecario

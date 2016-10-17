@@ -187,6 +187,8 @@
           </select>
 	  &nbsp;&nbsp;
 	  <button type="button" id="button12"> Delete </button>
+    &nbsp;&nbsp;
+    <button type="button" id="button_tot8"> Delete All</button>
           </div>
 
           <h3 class="page-header">BASE FLUJO OPERATIVO</h3>
@@ -294,6 +296,10 @@ $("#button_tot6").click(function(){
 });
 $("#button_tot7").click(function(){
       window.location.href = "/reports/delete/"+"10"+"/"+"000010"+"/"+"0"+"/";
+      alert("Se borro la data de todos los meses");
+});
+$("#button_tot8").click(function(){
+      window.location.href = "/reports/delete/"+"13"+"/"+"000011"+"/"+"0"+"/";
       alert("Se borro la data de todos los meses");
 });
 $("#button1").click(function(){

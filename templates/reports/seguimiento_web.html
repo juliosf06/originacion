@@ -1,0 +1,31 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Inversión y Morosidad por Territorio{% endblock %}
+
+{% block content %}
+
+        <h1 class="page-header">Seguimiento Web</h1>
+        <div class="form-inline">
+        	<input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+        </div>
+	  	&nbsp;
+	  	&nbsp;
+          <!--<div class="rows placeholders">
+		<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+          </div>-->
+
+
+{% endblock %}
+
+{% block script_final %}
+  <script type="text/javascript">
+
+
+
+  </script>
+{% endblock %}
+
