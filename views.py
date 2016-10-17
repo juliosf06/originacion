@@ -3840,6 +3840,12 @@ def seguimiento_web(request):
 
     meses = Seguimiento1.objects.values('mes_vigencia').order_by('mes_vigencia').distinct()
 
+    formalizado = Seguimiento1.objects.values('mes_vigencia','digital').filter(digital=1).annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    form_dict = {};
+    for i in formalizado:
+        if i['mes_vigencia'] >= '201605':
+            form_dict[i['mes_vigencia']]=i['cantidad']
+
     tipo_camp = Seguimiento1.objects.values('mes_vigencia','canal_digital').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
     moi_dict = {}; rescate_dict = {};
     for j in tipo_camp:

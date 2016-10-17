@@ -69,6 +69,21 @@ window.onload = function () {
         {% endfor %}
       ]
     },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "spline",
+      name: "# FORMALIZADOS",
+      indexLabelFontColor: "darkblue",      
+      color: "#094FA4",
+      indexLabel: "{y}",
+      //percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in form_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
     ]
   });
   chart.render();
@@ -183,6 +198,7 @@ window.onload = function () {
       name: "G6-G8",
       indexLabelFontColor: "white",     
       indexLabel: "#percent%",
+      color: '#86C82D',
       percentFormatString: "#0.",
       showInLegend: "true",
       dataPoints: [
@@ -197,6 +213,7 @@ window.onload = function () {
       name: "NB",
       indexLabelFontColor: "white",     
       indexLabel: "#percent%",
+      color: "#C8175E",
       percentFormatString: "#0.",
       showInLegend: "true",
       dataPoints: [
