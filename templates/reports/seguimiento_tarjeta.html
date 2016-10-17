@@ -1584,7 +1584,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_moraunoms.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1599,7 +1599,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_moraunonoph.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1614,7 +1614,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_moraunonocli.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1644,7 +1644,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_moracamdep.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1659,7 +1659,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_moracamind.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1674,7 +1674,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_moracampnn.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1689,7 +1689,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_moracamnor.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1716,7 +1716,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_mora6buro1.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1731,7 +1731,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_mora6buro2.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1746,7 +1746,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_mora6buro3.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1761,7 +1761,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_mora6buro4.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1788,7 +1788,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in ava_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1803,7 +1803,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in ms_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1818,7 +1818,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in noph_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1833,7 +1833,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in nocli_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1860,7 +1860,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dep_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1875,7 +1875,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in indep_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1890,7 +1890,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in pnn_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1905,7 +1905,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in norec_mora6_dict.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1931,7 +1931,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_burog1.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1945,7 +1945,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_burog5.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1960,7 +1960,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_burog6.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1975,7 +1975,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in dict_buronb.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
@@ -1990,7 +1990,7 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in camp_form_dict.items|sort %}
-				{ y: {{value}} , label: '{{key}}' },
+				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
 				{% endfor %}
 			]
 		},
