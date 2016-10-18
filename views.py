@@ -1321,10 +1321,10 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia'):
         for i in mora_mes:
             menor2015_list.append(i[filtro1])
         num_lista = len(menor2015_list)
-        num_mora4 = 3
-        num_mora6 = 5
-        num_mora9 = 8
-        num_mora12 = 11
+        num_mora4 = 4
+        num_mora6 = 6
+        num_mora9 = 9
+        num_mora12 = 12
 
     morames_list = []
     for i in meses_moras:
