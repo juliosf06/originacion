@@ -8,22 +8,22 @@
 
 {% block content %}
 
-          <h1 class="page-header">Evolución de Exoneraciones</h1>
-          <div class="form-inline">
-            &nbsp;&nbsp;
-            <label class="control-label">Segmento:&nbsp;&nbsp;</label>
-            <form action="" class="form-control" id="exoneracion_segmento">
-	    {% for i in control_segmentos %}
-	    <input type="checkbox" name="segmento" class="check" value="{{i.segmento}}" {% if i.segmento in lista %}checked{% endif %} >{{i.segmento}}
-	    {% endfor %}
-            </form>
-            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
-          </div>
-          <div class="rows placeholders">
-		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
-          </div>
-          <h2 class="sub-header">Detalle Exoneraciones</h2>
-          <div class="table-responsive">
+        <h1 class="page-header">Evolución de Exoneraciones</h1>
+        <div class="form-inline">
+          &nbsp;&nbsp;
+          <label class="control-label">Segmento:&nbsp;&nbsp;</label>
+          <form action="" class="form-control" id="exoneracion_segmento">
+	           {% for i in control_segmentos %}
+	           <input type="checkbox" name="segmento" class="check" value="{{i.segmento}}" {% if i.segmento in lista %}checked{% endif %} >{{i.segmento}}
+	           {% endfor %}
+          </form>
+          <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+        </div>
+        <div class="rows placeholders">
+		      <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        </div>
+        <h2 class="sub-header">Detalle Exoneraciones</h2>
+        <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -35,21 +35,21 @@
                 </tr>
               </thead>
               <tbody id="tabla_exoneraciones">
-		{% for a,b,c,d in exoneraciones %}
-		<tr>
+		          {% for a,b,c,d in exoneraciones %}
+		            <tr>
                   <td>{{a.mes_vigencia}}</td>
-                  <td>{{a.cantidad|intcomma}}</td>
-                  <td>{{c.cantidad|intcomma}}</td>
-                  <td>{{b.cantidad|intcomma}}</td>
-                  <td>{{d.cantidad|intcomma}}</td>
+                  <td>{{a.cantidad}}</td>
+                  <td>{{b.cantidad}}</td>
+                  <td>{{c.cantidad}}</td>
+                  <td>{{d.cantidad}}</td>
                 </tr>
-		{% endfor %}
+		          {% endfor %}
               </tbody>
             </table>
           </div>
 
-	  <h2 class="sub-header">Verificación laboral - Sólo Clientes</h2>
-          <div class="table-responsive">
+	      <h2 class="sub-header">Verificación laboral - Sólo Clientes</h2>
+        <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -66,8 +66,8 @@
                 </tr>
               </thead>
               <tbody id="tabla_exoneraciones">
-		{% for a,b,c,d,e,f,g,h,i in motivos %}
-		<tr>
+		          {% for a,b,c,d,e,f,g,h,i in motivos %}
+		            <tr>
                   <td>{{a.cat_cliente}}</td>
                   <td>{{a.cantidad|to_int|intcomma}}</td>
                   <td>{{b.cantidad|to_int|intcomma}}</td>
@@ -79,11 +79,11 @@
                   <td>{{h.cantidad|to_int|intcomma}}</td>
                   <td>{{i.cantidad|to_int|intcomma}}</td>
                 </tr>
-		{% endfor %}
+		          {% endfor %}
               </tbody>
-	      <tfoot>
-		{% for a,b,c,d,e,f,g,h,i in total_vl %}
-		<tr>
+	            <tfoot>
+		          {% for a,b,c,d,e,f,g,h,i in total_vl %}
+		            <tr>
                   <th>TOTAL</th>
                   <th>{{a.cantidad|to_int|intcomma}}</th>
                   <th>{{b.cantidad|to_int|intcomma}}</th>
@@ -94,12 +94,12 @@
                   <th>{{g.cantidad|to_int|intcomma}}</th>
                   <th>{{h.cantidad|to_int|intcomma}}</th>
                   <th>{{i.cantidad|to_int|intcomma}}</th>
-	        {% endfor %}
-	      </tfoot>
+	            {% endfor %}
+	            </tfoot>
             </table>
-          </div>
+        </div>
 
-	  <h2 class="sub-header">Verificación domiciliaria - Sólo Clientes</h2>
+	      <h2 class="sub-header">Verificación domiciliaria - Sólo Clientes</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -117,8 +117,8 @@
                 </tr>
               </thead>
               <tbody id="tabla_exoneraciones">
-		{% for a,b,c,d,e,f,g,h,i in motivos2 %}
-		<tr>
+		          {% for a,b,c,d,e,f,g,h,i in motivos2 %}
+		            <tr>
                   <td>{{a.cat_cliente}}</td>
                   <td>{{a.cantidad|to_int|intcomma}}</td>
                   <td>{{b.cantidad|to_int|intcomma}}</td>
@@ -130,11 +130,11 @@
                   <td>{{h.cantidad|to_int|intcomma}}</td>
                   <td>{{i.cantidad|to_int|intcomma}}</td>
                 </tr>
-		{% endfor %}
+		          {% endfor %}
               </tbody>
-	      <tfoot>
-		{% for a,b,c,d,e,f,g,h,i in total_vd %}
-		<tr>
+	            <tfoot>
+		          {% for a,b,c,d,e,f,g,h,i in total_vd %}
+		            <tr>
                   <th>TOTAL</th>
                   <th>{{a.cantidad|to_int|intcomma}}</th>
                   <th>{{b.cantidad|to_int|intcomma}}</th>
@@ -145,8 +145,8 @@
                   <th>{{g.cantidad|to_int|intcomma}}</th>
                   <th>{{h.cantidad|to_int|intcomma}}</th>
                   <th>{{i.cantidad|to_int|intcomma}}</th>
-	        {% endfor %}
-	      </tfoot>
+	            {% endfor %}
+	            </tfoot>
             </table>
           </div>
 
@@ -157,60 +157,60 @@
 {% block script_final %}
   <script type="text/javascript">
     window.onload = function () {
-	var chart = new CanvasJS.Chart("chartContainer", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Evolución de Exoneraciones",
-                },
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedArea",
-			name: "Exonerado de Ambas",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a in exo_ambas %}
-				{ label: "{{a.mes_vigencia}}",  y: {{a.cantidad}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedArea",
-			name: "Exoneración VD",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a in exo_vd %}
-				{ label: "{{a.mes_vigencia}}",  y: {{a.cantidad}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedArea",
-			name: "Exoneración VL",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a in exo_vl %}
-				{ label: "{{a.mes_vigencia}}",  y: {{a.cantidad}}  },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedArea",
-			name: "Requiere Ambas",
-			showInLegend: "true",
-			dataPoints: [
-				{% for a in req_ambas %}
-				{ label: "{{a.mes_vigencia}}",  y: {{a.cantidad}}  },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart.render();
+	  var chart = new CanvasJS.Chart("chartContainer", {
+		    theme: "theme2",//theme1
+		    title:{
+			      text: "Evolución de Exoneraciones",
+        },
+		    animationEnabled: true,   // change to true
+		    data: [              
+		    {
+			      // Change type to "bar", "area", "spline", "pie",etc.
+			      type: "stackedArea",
+			      name: "Exonerado de Ambas",
+			      showInLegend: "true",
+			      dataPoints: [
+				        {% for key, value in exo_ambas_dict.items|sort %}
+				        { label: "{{key|convert_date}}",  y: {{value}}  },
+				        {% endfor %}
+			      ]
+		    },
+		    {
+			      // Change type to "bar", "area", "spline", "pie",etc.
+			      type: "stackedArea",
+			      name: "Exoneración VD",
+			      showInLegend: "true",
+			      dataPoints: [
+				        {% for key, value in exo_vd_dict.items|sort %}
+				        { label: "{{key|convert_date}}",  y: {{value}} },
+				        {% endfor %}
+			      ]
+		    },
+		    {
+			      // Change type to "bar", "area", "spline", "pie",etc.
+			      type: "stackedArea",
+			      name: "Exoneración VL",
+			      showInLegend: "true",
+			      dataPoints: [
+				        {% for key, value in exo_vl_dict.items|sort %}
+				        { label: "{{key|convert_date}}",  y: {{value}}  },
+				        {% endfor %}
+			      ]
+		    },
+		    {
+			      // Change type to "bar", "area", "spline", "pie",etc.
+			      type: "stackedArea",
+			      name: "Requiere Ambas",
+			      showInLegend: "true",
+			      dataPoints: [
+				        {% for key, value in req_ambas_dict.items|sort %}
+				        { label: "{{key|convert_date}}",  y: {{value}}  },
+				        {% endfor %}
+			      ]
+		    },
+		    ]
+	  });
+	  chart.render();
     }
   </script>
 {% endblock %}

@@ -215,110 +215,169 @@ def campana_exoneraciones(request, segmento='TOTAL'):
     texto = str(segmento)
     lista = texto.split(",")
     meses = Campana2.objects.values('mes_vigencia').distinct().order_by('mes_vigencia')
+    meses_dict = []
+    for i in meses:
+        meses_dict.append(i['mes_vigencia'])
+    num_meses = len(meses_dict)
+    print num_meses
+    lista_meses = range(1,num_meses)
     if segmento == 'TOTAL':
         exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        exo_ambas_dict = {}
-	for i in meses:
-	    for j in exo_ambas:
-		if i['mes_vigencia'] == j['mes_vigencia']:
-		    exo_ambas_dict[i['mes_vigencia']]=j['cantidad']
-		    break
-		else:
-		    exo_ambas_dict[i['mes_vigencia']]=0
-
         exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS').annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_ambas_dict = {}; exo_vl_dict = {}; exo_vd_dict = {}; req_ambas_dict = {};
+        exo_ambas_list = []; exo_vl_list = []; exo_vd_list = []; req_ambas_list = [];
+        for i in meses:
+            for j in exo_ambas:
+                if i['mes_vigencia'] == j['mes_vigencia']:
+                    exo_ambas_dict[i['mes_vigencia']]=j['cantidad']
+                    exo_ambas_list.append(j['cantidad'])
+                    break
+                else:
+                    exo_ambas_dict[i['mes_vigencia']]=0
+                    exo_ambas_list.append(j['cantidad'])
+            for j in exo_vl:
+                if i['mes_vigencia'] == j['mes_vigencia']:
+                    exo_vl_dict[i['mes_vigencia']]=j['cantidad']
+                    exo_vl_list.append(j['cantidad'])
+                    break
+                else:
+                    exo_vl_dict[i['mes_vigencia']]=0
+                    exo_vl_list.append(j['cantidad'])
+            for j in exo_vd:
+                if i['mes_vigencia'] == j['mes_vigencia']:
+                    exo_vd_dict[i['mes_vigencia']]=j['cantidad']
+                    exo_vd_list.append(j['cantidad'])
+                    break
+                else:
+                    exo_vd_dict[i['mes_vigencia']]=0
+                    exo_vd_list.append(j['cantidad'])
+            for j in req_ambas:
+                if i['mes_vigencia'] == j['mes_vigencia']:
+                    req_ambas_dict[i['mes_vigencia']]=j['cantidad']
+                    req_ambas_list.append(j['cantidad'])
+                    break
+                else:
+                    req_ambas_dict[i['mes_vigencia']]=0
+                    req_ambas_list.append(j['cantidad'])
 
-	esph = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='MS REGULAR').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	VLvalida = Exoneracion.objects.values( 'cat_cliente').filter(tipo='VL',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	pasiveros = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='PASIVERO >S/.1,000 X 6MESES').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	vip = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='MS VIP/PREMIUM').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	noph = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='NO PH ALTO VALOR').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	cts = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='CON CTS').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	tendencia = Exoneracion.objects.values('cat_cliente').filter(tipo='VL',motivo_exo__in=['TENENCIA DE VEH U12M','TENENCIA DE PLD U12M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	dependiente = Exoneracion.objects.values('cat_cliente').filter(tipo='VL',motivo_exo='DEPENDIENTE / AFILIADO ACTIVO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	total1 = Exoneracion.objects.values('cat_cliente').filter(tipo='VL').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	tl1 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='MS REGULAR').annotate(cantidad=Sum('cantidad'))
-	tl2 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad'))
-	tl3 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='PASIVERO >S/.1,000 X 6MESES').annotate(cantidad=Sum('cantidad'))
-	tl4 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='MS VIP/PREMIUM').annotate(cantidad=Sum('cantidad'))
-	tl5 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='NO PH ALTO VALOR').annotate(cantidad=Sum('cantidad'))
-	tl6 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='CON CTS').annotate(cantidad=Sum('cantidad'))
-	tl7 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo__in=['TENENCIA DE VEH U12M','TENENCIA DE PLD U12M']).annotate(cantidad=Sum('cantidad'))
-	tl8 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='DEPENDIENTE / AFILIADO ACTIVO').annotate(cantidad=Sum('cantidad'))
-	tl9 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL').annotate(cantidad=Sum('cantidad'))
 
-	vip2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='PREMIUM / VIP').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	pasivero2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='BUEN PASIVERO / BAJO RIESGO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	esph2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='PAGOHABER CON BUEN PERFIL').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	hipo2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='CON BUEN HIPOTECARIO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	veri2 = Exoneracion.objects.values('cat_cliente').filter(tipo='VD',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	equi2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='COMPRA EN EQUIFAX').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	ubi2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='UBIGEO EXONERADO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	fast2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='NULL').exclude(cat_cliente='9. No Identificado').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	total2 = Exoneracion.objects.values('cat_cliente').filter(tipo='VD').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	tv1 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='PREMIUM / VIP').annotate(cantidad=Sum('cantidad'))
-	tv2 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='BUEN PASIVERO / BAJO RIESGO').annotate(cantidad=Sum('cantidad'))
-	tv3 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='PAGOHABER CON BUEN PERFIL').annotate(cantidad=Sum('cantidad'))
-	tv4 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='CON BUEN HIPOTECARIO').annotate(cantidad=Sum('cantidad'))
-	tv5 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M', 'VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad'))
-	tv6 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='COMPRA EN EQUIFAX').annotate(cantidad=Sum('cantidad'))
-	tv7 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='UBIGEO EXONERADO').annotate(cantidad=Sum('cantidad'))
-	tv8 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='NULL').annotate(cantidad=Sum('cantidad'))
-	tv9 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD').annotate(cantidad=Sum('cantidad'))
+        esph = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='MS REGULAR').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        VLvalida = Exoneracion.objects.values( 'cat_cliente').filter(tipo='VL',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        pasiveros = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='PASIVERO >S/.1,000 X 6MESES').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        vip = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='MS VIP/PREMIUM').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        noph = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='NO PH ALTO VALOR').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        cts = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='CON CTS').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        tendencia = Exoneracion.objects.values('cat_cliente').filter(tipo='VL',motivo_exo__in=['TENENCIA DE VEH U12M','TENENCIA DE PLD U12M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        dependiente = Exoneracion.objects.values('cat_cliente').filter(tipo='VL',motivo_exo='DEPENDIENTE / AFILIADO ACTIVO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        total1 = Exoneracion.objects.values('cat_cliente').filter(tipo='VL').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        tl1 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='MS REGULAR').annotate(cantidad=Sum('cantidad'))
+        tl2 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad'))
+        tl3 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='PASIVERO >S/.1,000 X 6MESES').annotate(cantidad=Sum('cantidad'))
+        tl4 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='MS VIP/PREMIUM').annotate(cantidad=Sum('cantidad'))
+        tl5 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='NO PH ALTO VALOR').annotate(cantidad=Sum('cantidad'))
+        tl6 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='CON CTS').annotate(cantidad=Sum('cantidad'))
+        tl7 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo__in=['TENENCIA DE VEH U12M','TENENCIA DE PLD U12M']).annotate(cantidad=Sum('cantidad'))
+        tl8 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='DEPENDIENTE / AFILIADO ACTIVO').annotate(cantidad=Sum('cantidad'))
+        tl9 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL').annotate(cantidad=Sum('cantidad'))
+
+        vip2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='PREMIUM / VIP').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        pasivero2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='BUEN PASIVERO / BAJO RIESGO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        esph2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='PAGOHABER CON BUEN PERFIL').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        hipo2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='CON BUEN HIPOTECARIO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        veri2 = Exoneracion.objects.values('cat_cliente').filter(tipo='VD',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        equi2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='COMPRA EN EQUIFAX').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        ubi2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='UBIGEO EXONERADO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        fast2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='NULL').exclude(cat_cliente='9. No Identificado').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        total2 = Exoneracion.objects.values('cat_cliente').filter(tipo='VD').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        tv1 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='PREMIUM / VIP').annotate(cantidad=Sum('cantidad'))
+        tv2 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='BUEN PASIVERO / BAJO RIESGO').annotate(cantidad=Sum('cantidad'))
+        tv3 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='PAGOHABER CON BUEN PERFIL').annotate(cantidad=Sum('cantidad'))
+        tv4 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='CON BUEN HIPOTECARIO').annotate(cantidad=Sum('cantidad'))
+        tv5 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M', 'VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad'))
+        tv6 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='COMPRA EN EQUIFAX').annotate(cantidad=Sum('cantidad'))
+        tv7 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='UBIGEO EXONERADO').annotate(cantidad=Sum('cantidad'))
+        tv8 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='NULL').annotate(cantidad=Sum('cantidad'))
+        tv9 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD').annotate(cantidad=Sum('cantidad'))
     else:
         exo_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO AMBAS', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
-        exo_ambas_dict = {}
-	for i in meses:
-	    for j in exo_ambas:
-		if i['mes_vigencia'] == j['mes_vigencia']:
-		    exo_ambas_dict[i['mes_vigencia']]=j['cantidad']
-		    break
-		else:
-		    exo_ambas_dict[i['mes_vigencia']]=0
-
         exo_vl = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VL', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         exo_vd = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='EXONERADO SOLO VD', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
         req_ambas = Campana2.objects.values('mes_vigencia','verificacion').filter(verificacion='REQUIERE AMBAS', segmento__in=lista).annotate(cantidad=Sum('ofertas')).order_by('mes_vigencia')
+        exo_ambas_dict = {}; exo_vl_dict = {}; exo_vd_dict = {}; req_ambas_dict = {};
+        exo_ambas_list = []; exo_vl_list = []; exo_vd_list = []; req_ambas_list = [];
+        for i in meses:
+            for j in exo_ambas:
+                if i['mes_vigencia'] == j['mes_vigencia']:
+                    exo_ambas_dict[i['mes_vigencia']]=j['cantidad']
+                    exo_ambas_list.append(j['cantidad'])
+                    break
+                else:
+                    exo_ambas_dict[i['mes_vigencia']]=0
+                    exo_ambas_list.append(j['cantidad'])
+            for j in exo_vl:
+                if i['mes_vigencia'] == j['mes_vigencia']:
+                    exo_vl_dict[i['mes_vigencia']]=j['cantidad']
+                    exo_vl_list.append(j['cantidad'])
+                    break
+                else:
+                    exo_vl_dict[i['mes_vigencia']]=0
+                    exo_vl_list.append(j['cantidad'])
+            for j in exo_vd:
+                if i['mes_vigencia'] == j['mes_vigencia']:
+                    exo_vd_dict[i['mes_vigencia']]=j['cantidad']
+                    exo_vd_list.append(j['cantidad'])
+                    break
+                else:
+                    exo_vd_dict[i['mes_vigencia']]=0
+                    exo_vd_list.append(j['cantidad'])
+            for j in req_ambas:
+                if i['mes_vigencia'] == j['mes_vigencia']:
+                    req_ambas_dict[i['mes_vigencia']]=j['cantidad']
+                    req_ambas_list.append(j['cantidad'])
+                    break
+                else:
+                    req_ambas_dict[i['mes_vigencia']]=0
+                    req_ambas_list.append(j['cantidad'])
 
-	esph = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='MS REGULAR').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	VLvalida = Exoneracion.objects.values( 'cat_cliente').filter(tipo='VL',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	pasiveros = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='PASIVERO >S/.1,000 X 6MESES').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	vip = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='MS VIP/PREMIUM').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	noph = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='NO PH ALTO VALOR').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	cts = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='CON CTS').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	tendencia = Exoneracion.objects.values('cat_cliente').filter(tipo='VL',motivo_exo__in=['TENENCIA DE VEH U12M','TENENCIA DE PLD U12M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	dependiente = Exoneracion.objects.values('cat_cliente').filter(tipo='VL',motivo_exo='DEPENDIENTE / AFILIADO ACTIVO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	total1 = Exoneracion.objects.values('cat_cliente').filter(tipo='VL').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	tl1 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='MS REGULAR').annotate(cantidad=Sum('cantidad'))
-	tl2 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad'))
-	tl3 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='PASIVERO >S/.1,000 X 6MESES').annotate(cantidad=Sum('cantidad'))
-	tl4 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='MS VIP/PREMIUM').annotate(cantidad=Sum('cantidad'))
-	tl5 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='NO PH ALTO VALOR').annotate(cantidad=Sum('cantidad'))
-	tl6 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='CON CTS').annotate(cantidad=Sum('cantidad'))
-	tl7 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo__in=['TENENCIA DE VEH U12M','TENENCIA DE PLD U12M']).annotate(cantidad=Sum('cantidad'))
-	tl8 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='DEPENDIENTE / AFILIADO ACTIVO').annotate(cantidad=Sum('cantidad'))
-	tl9 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL').annotate(cantidad=Sum('cantidad'))
+        esph = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='MS REGULAR').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        VLvalida = Exoneracion.objects.values( 'cat_cliente').filter(tipo='VL',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        pasiveros = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='PASIVERO >S/.1,000 X 6MESES').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        vip = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='MS VIP/PREMIUM').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        noph = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='NO PH ALTO VALOR').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        cts = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VL',motivo_exo='CON CTS').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        tendencia = Exoneracion.objects.values('cat_cliente').filter(tipo='VL',motivo_exo__in=['TENENCIA DE VEH U12M','TENENCIA DE PLD U12M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        dependiente = Exoneracion.objects.values('cat_cliente').filter(tipo='VL',motivo_exo='DEPENDIENTE / AFILIADO ACTIVO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        total1 = Exoneracion.objects.values('cat_cliente').filter(tipo='VL').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        tl1 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='MS REGULAR').annotate(cantidad=Sum('cantidad'))
+        tl2 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad'))
+        tl3 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='PASIVERO >S/.1,000 X 6MESES').annotate(cantidad=Sum('cantidad'))
+        tl4 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='MS VIP/PREMIUM').annotate(cantidad=Sum('cantidad'))
+        tl5 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='NO PH ALTO VALOR').annotate(cantidad=Sum('cantidad'))
+        tl6 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='CON CTS').annotate(cantidad=Sum('cantidad'))
+        tl7 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo__in=['TENENCIA DE VEH U12M','TENENCIA DE PLD U12M']).annotate(cantidad=Sum('cantidad'))
+        tl8 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL',motivo_exo='DEPENDIENTE / AFILIADO ACTIVO').annotate(cantidad=Sum('cantidad'))
+        tl9 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VL').annotate(cantidad=Sum('cantidad'))
 
-	vip2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='PREMIUM / VIP').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	pasivero2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='BUEN PASIVERO / BAJO RIESGO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	esph2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='PAGOHABER CON BUEN PERFIL').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	hipo2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='CON BUEN HIPOTECARIO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	veri2 = Exoneracion.objects.values('cat_cliente').filter(tipo='VD',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	equi2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='COMPRA EN EQUIFAX').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	ubi2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='UBIGEO EXONERADO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	fast2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='NULL').exclude(cat_cliente='9. No Identificado').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	total2 = Exoneracion.objects.values('cat_cliente').filter(tipo='VD').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
-	tv1 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='PREMIUM / VIP').annotate(cantidad=Sum('cantidad'))
-	tv2 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='BUEN PASIVERO / BAJO RIESGO').annotate(cantidad=Sum('cantidad'))
-	tv3 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='PAGOHABER CON BUEN PERFIL').annotate(cantidad=Sum('cantidad'))
-	tv4 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='CON BUEN HIPOTECARIO').annotate(cantidad=Sum('cantidad'))
-	tv5 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M', 'VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad'))
-	tv6 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='COMPRA EN EQUIFAX').annotate(cantidad=Sum('cantidad'))
-	tv7 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='UBIGEO EXONERADO').annotate(cantidad=Sum('cantidad'))
-	tv8 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='NULL').annotate(cantidad=Sum('cantidad'))
-	tv9 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD').annotate(cantidad=Sum('cantidad'))
+        vip2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='PREMIUM / VIP').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        pasivero2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='BUEN PASIVERO / BAJO RIESGO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        esph2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='PAGOHABER CON BUEN PERFIL').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        hipo2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='CON BUEN HIPOTECARIO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        veri2 = Exoneracion.objects.values('cat_cliente').filter(tipo='VD',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M','VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        equi2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='COMPRA EN EQUIFAX').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        ubi2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='UBIGEO EXONERADO').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        fast2 = Exoneracion.objects.values('motivo_exo', 'cat_cliente').filter(tipo='VD',motivo_exo='NULL').exclude(cat_cliente='9. No Identificado').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        total2 = Exoneracion.objects.values('cat_cliente').filter(tipo='VD').annotate(cantidad=Sum('cantidad')).order_by('cat_cliente')
+        tv1 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='PREMIUM / VIP').annotate(cantidad=Sum('cantidad'))
+        tv2 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='BUEN PASIVERO / BAJO RIESGO').annotate(cantidad=Sum('cantidad'))
+        tv3 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='PAGOHABER CON BUEN PERFIL').annotate(cantidad=Sum('cantidad'))
+        tv4 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='CON BUEN HIPOTECARIO').annotate(cantidad=Sum('cantidad'))
+        tv5 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo__in=['VERIFICACIONES VALIDAS EN ULT12M', 'VERIFICACIONES VALIDAS EN ULT6M']).annotate(cantidad=Sum('cantidad'))
+        tv6 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='COMPRA EN EQUIFAX').annotate(cantidad=Sum('cantidad'))
+        tv7 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='UBIGEO EXONERADO').annotate(cantidad=Sum('cantidad'))
+        tv8 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD',motivo_exo='NULL').annotate(cantidad=Sum('cantidad'))
+        tv9 = Exoneracion.objects.values('mes_vigencia').filter(tipo='VD').annotate(cantidad=Sum('cantidad'))
 
     control_segmentos = Campana2.objects.all().values('segmento').distinct('segmento')
     total_vl = itertools.izip_longest(tl1,tl2,tl3,tl4,tl5,tl6,tl7, tl8,tl9)
@@ -1955,6 +2014,10 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
         for i in mora_mes:
             menor2015_list.append(i[filtro1])
         num_lista = len(menor2015_list)
+        num_mora4 = 1
+        num_mora6 = 2
+        num_mora9 = 3
+        num_mora12 = 4
     else:
         meses_moras = Seguimiento1.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
         mora_mes = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte='201501').order_by('-mes_vigencia').distinct()
@@ -1962,33 +2025,37 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
         for i in mora_mes:
             menor2015_list.append(i[filtro1])
         num_lista = len(menor2015_list)
+        num_mora4 = 4
+        num_mora6 = 6
+        num_mora9 = 10
+        num_mora12 = 12
 
     morames_list = []
     for i in meses_moras:
         morames_list.append(i[filtro1])
 
-    mora460 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='01 Consumo').annotate(sum_mora=Sum('mora4_60'),cuentas=Sum('ctas')).order_by(filtro1)
-    mora6 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='01 Consumo').annotate(sum_mora=Sum('mora6'),cuentas=Sum('ctas')).order_by(filtro1)
-    mora9 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='01 Consumo').annotate(sum_mora=Sum('mora9'),cuentas=Sum('ctas')).order_by(filtro1)
-    mora12 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='01 Consumo').annotate(sum_mora=Sum('mora12'),cuentas=Sum('ctas')).order_by(filtro1)
+    mora460 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='01 Consumo').annotate(sum_mora=Sum('mora4_60'),cuentas=Sum('form')).order_by(filtro1)
+    mora6 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='01 Consumo').annotate(sum_mora=Sum('mora6'),cuentas=Sum('form')).order_by(filtro1)
+    mora9 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='01 Consumo').annotate(sum_mora=Sum('mora9'),cuentas=Sum('form')).order_by(filtro1)
+    mora12 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='01 Consumo').annotate(sum_mora=Sum('mora12'),cuentas=Sum('form')).order_by(filtro1)
     mora460_dict = {}; mora6_dict = {}; mora9_dict = {}; mora12_dict = {};
     for j in mora460:
-        if j[filtro1] <= morames_list[4] and j[filtro1] >= morames_list[num_lista]:
+        if j[filtro1] <= morames_list[num_mora4] and j[filtro1] >= morames_list[num_lista]:
             mora460_dict[j[filtro1]]=j['sum_mora']*100/j['cuentas']
     for j in mora460:
         if j[filtro1] <= morames_list[num_lista]:
             mora460_dict[j[filtro1]]=[]
     for j in mora6:
-        if j[filtro1] <= morames_list[6]:
+        if j[filtro1] <= morames_list[num_mora6]:
             mora6_dict[j[filtro1]]=j['sum_mora']*100/j['cuentas']
     for j in mora9:
-        if j[filtro1] <= morames_list[9]:
+        if j[filtro1] <= morames_list[num_mora9]:
             mora9_dict[j[filtro1]]=j['sum_mora']*100/j['cuentas']
     for j in mora12:
-        if j[filtro1] <= morames_list[12]:
+        if j[filtro1] <= morames_list[num_mora12]:
             mora12_dict[j[filtro1]]=j['sum_mora']*100/j['cuentas']
 
-    total_moraxcamp = Seguimiento1.objects.values(filtro1,'producto','riesgos').filter(producto='01 Consumo',riesgos='CAMP').annotate(sum_ctas=Sum('form')).order_by(filtro1)
+    total_moraxcamp = Seguimiento1.objects.values(filtro1,'producto').filter(producto='01 Consumo',riesgos='CAMP').annotate(sum_ctas=Sum('form')).order_by(filtro1)
     total_moraxcamp_dict = {}
     for i in meses_moras:
         for j in total_moraxcamp:
@@ -1996,12 +2063,11 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
                total_moraxcamp_dict[i[filtro1]]=j['sum_ctas']
 
     mora_camp = Seguimiento1.objects.values(filtro1,'producto', 'riesgos').filter(producto='01 Consumo',riesgos='CAMP').annotate(sum_mora460=Sum('mora4_60'),sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by(filtro1)
-    mora_camp2 = Seguimiento1.objects.values(filtro1,'producto', 'riesgos').filter(producto='01 Consumo',riesgos='CAMP').annotate(sum_mora12=Sum('mora12'),cuentas=Sum('ctas'),form=Sum('form')).order_by(filtro1)
     mora460_camp_dict = {}; mora6_camp_dict = {}; mora9_camp_dict = {}; mora12_camp_dict = {};
     for i in meses_moras:
         for j in mora_camp:
             if i[filtro1] == j[filtro1]:
-                if i[filtro1] <= morames_list[4] and i[filtro1] >= morames_list[num_lista]:
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     mora460_camp_dict[i[filtro1]]=j['sum_mora460']*100/total_moraxcamp_dict[i[filtro1]]
                     break
         for j in mora_camp:
@@ -2011,21 +2077,21 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
                     break
         for j in mora_camp:
             if i[filtro1] == j[filtro1]:
-                if i[filtro1] <= morames_list[6]:
+                if i[filtro1] <= morames_list[num_mora6]:
                     mora6_camp_dict[i[filtro1]]=j['sum_mora6']*100/total_moraxcamp_dict[i[filtro1]]
                     break
         for j in mora_camp:
             if i[filtro1] == j[filtro1]:
-                if i[filtro1] <= morames_list[9]:
+                if i[filtro1] <= morames_list[num_mora9]:
                     mora9_camp_dict[i[filtro1]]=j['sum_mora9']*100/total_moraxcamp_dict[i[filtro1]]
                     break
         for j in mora_camp:
             if i[filtro1] == j[filtro1]:
-                if i[filtro1] <= morames_list[12]:
+                if i[filtro1] <= morames_list[num_mora12]:
                     mora12_camp_dict[i[filtro1]]=j['sum_mora12']*100/total_moraxcamp_dict[i[filtro1]]
                     break
 
-    total_moraxuno = Seguimiento1.objects.values(filtro1,'producto').filter(producto='01 Consumo',riesgos='UNO A UNO').annotate(sum_ctas=Sum('ctas')).order_by(filtro1)
+    total_moraxuno = Seguimiento1.objects.values(filtro1,'producto').filter(producto='01 Consumo',riesgos='UNO A UNO').annotate(sum_ctas=Sum('form')).order_by(filtro1)
     total_moraxuno_dict = {}
     for i in meses:
         for j in total_moraxuno:
@@ -2037,7 +2103,7 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
     for i in meses_moras:
         for j in mora_uno:
             if i[filtro1] == j[filtro1]:
-                if i[filtro1] <= morames_list[4] and i[filtro1] >= morames_list[num_lista]:
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     mora460_uno_dict[i[filtro1]]=j['sum_mora460']*100/total_moraxuno_dict[i[filtro1]]
                     break
         for j in mora_uno:
@@ -2047,21 +2113,21 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
                     break
         for j in mora_uno:
             if i[filtro1] == j[filtro1]:
-                if i[filtro1] <= morames_list[6]:
+                if i[filtro1] <= morames_list[num_mora6]:
                     mora6_uno_dict[i[filtro1]]=j['sum_mora6']*100/total_moraxuno_dict[i[filtro1]]
                     break
         for j in mora_uno:
             if i[filtro1] == j[filtro1]:
-                if i[filtro1] <= morames_list[9]:
+                if i[filtro1] <= morames_list[num_mora9]:
                     mora9_uno_dict[i[filtro1]]=j['sum_mora9']*100/total_moraxuno_dict[i[filtro1]]
                     break
         for j in mora_uno:
             if i[filtro1] == j[filtro1]:
-                if i[filtro1] <= morames_list[12]:
+                if i[filtro1] <= morames_list[num_mora12]:
                     mora12_uno_dict[i[filtro1]]=j['sum_mora12']*100/total_moraxuno_dict[i[filtro1]]
                     break
 
-    total_morasxseg = Seguimiento1.objects.values(filtro1,'producto', 'segmento').filter(producto='01 Consumo', riesgos='CAMP').annotate(sum_mora=Sum('ctas')).order_by(filtro1)
+    total_morasxseg = Seguimiento1.objects.values(filtro1,'producto', 'segmento').filter(producto='01 Consumo', riesgos='CAMP').annotate(sum_mora=Sum('form')).order_by(filtro1)
     totalxava_moras_dict = {}
     totalxms_moras_dict = {}
     totalxnoph_moras_dict = {}
@@ -2087,51 +2153,51 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
        for j in moras:
           if i[filtro1] == j[filtro1]:
             if  j['segmento']=='1.AVA':
-                if i[filtro1] <= morames_list[4] and i[filtro1] >= morames_list[num_lista]:
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     ava_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxava_moras_dict[i[filtro1]]
                 if i[filtro1] <= morames_list[num_lista]:
                     ava_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[6]:
+                if i[filtro1] <= morames_list[num_mora6]:
                     ava_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxava_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[9]:
+                if i[filtro1] <= morames_list[num_mora9]:
                     ava_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxava_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[12]:
+                if i[filtro1] <= morames_list[num_mora12]:
                     ava_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxava_moras_dict[i[filtro1]]     
             elif  j['segmento']=='2.MS':
-                if i[filtro1] <= morames_list[4] and i[filtro1] >= morames_list[num_lista]:
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     ms_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxms_moras_dict[i[filtro1]]
                 if i[filtro1] <= morames_list[num_lista]:
                     ms_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[6]:
+                if i[filtro1] <= morames_list[num_mora6]:
                     ms_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxms_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[9]:
+                if i[filtro1] <= morames_list[num_mora9]:
                     ms_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxms_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[12]:
+                if i[filtro1] <= morames_list[num_mora12]:
                     ms_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxms_moras_dict[i[filtro1]]
             elif  j['segmento']=='3.NoPH':
-                if i[filtro1] <= morames_list[4] and i[filtro1] >= morames_list[num_lista]:
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     noph_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxnoph_moras_dict[i[filtro1]]
                 if i[filtro1] <= morames_list[num_lista]:
                     noph_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[6]:
+                if i[filtro1] <= morames_list[num_mora6]:
                     noph_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxnoph_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[9]:
+                if i[filtro1] <= morames_list[num_mora9]:
                     noph_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxnoph_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[12]:
+                if i[filtro1] <= morames_list[num_mora12]:
                     noph_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxnoph_moras_dict[i[filtro1]]
             elif  j['segmento']=='4.NoCli':
-                if i[filtro1] <= morames_list[4] and i[filtro1] >= morames_list[num_lista]:
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     nocli_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxnocli_moras_dict[i[filtro1]]
                 if i[filtro1] <= morames_list[num_lista]:
                     nocli_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[6]:
+                if i[filtro1] <= morames_list[num_mora6]:
                     nocli_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxnocli_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[9]:
+                if i[filtro1] <= morames_list[num_mora9]:
                     nocli_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxnocli_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[12]:
+                if i[filtro1] <= morames_list[num_mora12]:
                     nocli_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxnocli_moras_dict[i[filtro1]]
 
-    moratot = Seguimiento1.objects.values(filtro1, 'segmento', 'producto', 'riesgos').filter(producto='01 Consumo',riesgos='UNO A UNO').annotate(cuentas=Sum('ctas')).order_by(filtro1)
+    moratot = Seguimiento1.objects.values(filtro1, 'segmento', 'producto', 'riesgos').filter(producto='01 Consumo',riesgos='UNO A UNO').annotate(cuentas=Sum('form')).order_by(filtro1)
     dict_moratotms = {}; dict_moratotnoph = {}; dict_moratotnocl = {};
     for i in moratot:
         if i['segmento'] == '2.MS':
@@ -2151,7 +2217,7 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
         if i['segmento'] == '4.NoCli':
             dict_moraunonocli[i[filtro1]] = i['sum_mora6']*100/dict_moratotnocl[i[filtro1]]
 
-    total_morasxcat = Seguimiento1.objects.values(filtro1, 'producto', 'cat_persona').filter(producto='01 Consumo', riesgos='CAMP').annotate(sum_mora=Sum('ctas')).order_by(filtro1)
+    total_morasxcat = Seguimiento1.objects.values(filtro1, 'producto', 'cat_persona').filter(producto='01 Consumo', riesgos='CAMP').annotate(sum_mora=Sum('form')).order_by(filtro1)
     totalxdep_moras_dict = {}
     totalxind_moras_dict = {}
     totalxpnn_moras_dict = {}
@@ -2177,51 +2243,51 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
        for j in morascat:
           if i[filtro1] == j[filtro1]:
             if  j['cat_persona']=='1. Dependiente':
-                if i[filtro1] <= morames_list[4] and i[filtro1] >= morames_list[num_lista]:
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     dep_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxdep_moras_dict[i[filtro1]]
                 if i[filtro1] <= morames_list[num_lista]:
                     dep_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[6]:
+                if i[filtro1] <= morames_list[num_mora6]:
                     dep_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxdep_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[9]:
+                if i[filtro1] <= morames_list[num_mora9]:
                     dep_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxdep_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[12]:
+                if i[filtro1] <= morames_list[num_mora12]:
                     dep_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxdep_moras_dict[i[filtro1]]     
             elif  j['cat_persona']=='2. Independiente':
-                if i[filtro1] <= morames_list[4] and i[filtro1] >= morames_list[num_lista]:
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     indep_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxind_moras_dict[i[filtro1]]
                 if i[filtro1] <= morames_list[num_lista]:
                     indep_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[6]:
+                if i[filtro1] <= morames_list[num_mora6]:
                     indep_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxind_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[9]:
+                if i[filtro1] <= morames_list[num_mora9]:
                     indep_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxind_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[12]:
+                if i[filtro1] <= morames_list[num_mora12]:
                     indep_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxind_moras_dict[i[filtro1]]
             elif  j['cat_persona']=='3. PNN':
-                if i[filtro1] <= morames_list[4] and i[filtro1] >= morames_list[num_lista]:
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     pnn_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxpnn_moras_dict[i[filtro1]]
                 if i[filtro1] <= morames_list[num_lista]:
                     pnn_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[6]:
+                if i[filtro1] <= morames_list[num_mora6]:
                     pnn_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxpnn_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[9]:
+                if i[filtro1] <= morames_list[num_mora9]:
                     pnn_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxpnn_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[12]:
+                if i[filtro1] <= morames_list[num_mora12]:
                     pnn_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxpnn_moras_dict[i[filtro1]]
             elif  j['cat_persona']=='4.No Reconocido':
-                if i[filtro1] <= morames_list[4] and i[filtro1] >= morames_list[num_lista]:
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     norec_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxnorec_moras_dict[i[filtro1]]
                 if i[filtro1] <= morames_list[num_lista]:
                     norec_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[6]:
+                if i[filtro1] <= morames_list[num_mora6]:
                     norec_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxnorec_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[9]:
+                if i[filtro1] <= morames_list[num_mora9]:
                     norec_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxnorec_moras_dict[i[filtro1]]
-                if i[filtro1] <= morames_list[12]:
+                if i[filtro1] <= morames_list[num_mora12]:
                     norec_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxnorec_moras_dict[i[filtro1]]
 
-    moratot2 = Seguimiento1.objects.values(filtro1, 'cat_persona', 'producto','riesgos').filter(producto='01 Consumo',riesgos='UNO A UNO').annotate(cuentas=Sum('ctas')).order_by(filtro1)
+    moratot2 = Seguimiento1.objects.values(filtro1, 'cat_persona', 'producto','riesgos').filter(producto='01 Consumo',riesgos='UNO A UNO').annotate(cuentas=Sum('form')).order_by(filtro1)
     dict_moratotdep = {};
     dict_moratotind = {};
     dict_moratotnoph = {};
@@ -2253,7 +2319,7 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
             if i[filtro1] <= morames_list[6]:
                 dict_moracamnor[i[filtro1]] = i['sum_mora6']*100/dict_moratotnocl[i[filtro1]]
 
-    moraburo = Seguimiento1.objects.values(filtro1, 'buro_camp', 'producto', 'riesgos').filter(producto='01 Consumo',riesgos='CAMP').annotate(cuentas=Sum('ctas')).order_by(filtro1)
+    moraburo = Seguimiento1.objects.values(filtro1, 'buro_camp', 'producto', 'riesgos').filter(producto='01 Consumo',riesgos='CAMP').annotate(cuentas=Sum('form')).order_by(filtro1)
     dict_moraburo1 = {}; dict_moraburo2 = {};
     dict_moraburo3 = {}; dict_moraburo4 = {};
     for i in moraburo:

@@ -8,23 +8,23 @@
 
 {% block content %}
 
-          <h1 class="page-header">Evolución de Exoneraciones</h1>
-          <div class="form-inline">
-            &nbsp;&nbsp;
-            <label class="control-label">Segmento:&nbsp;&nbsp;</label>
-            <select class="form-control" id="exoneraciones_periodo">
-              <option>TOTAL</option>
-	    {% for a in control_segmentos %}
-              <option {% if segmento == a.segmento %}selected {% endif %}>{{a.segmento}} </option>
-	    {% endfor %}
-            </select>
-            <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
-          </div>
-          <div class="rows placeholders">
-		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
-          </div>
-          <h2 class="sub-header">Detalle Exoneraciones</h2>
-          <div class="table-responsive">
+        <h1 class="page-header">Evolución de Exoneraciones</h1>
+        <div class="form-inline">
+        	&nbsp;&nbsp;
+        	<label class="control-label">Segmento:&nbsp;&nbsp;</label>
+        	<select class="form-control" id="exoneraciones_periodo">
+        	<option>TOTAL</option>
+	    	{% for a in control_segmentos %}
+        	<option {% if segmento == a.segmento %}selected {% endif %}>{{a.segmento}} </option>
+	    	{% endfor %}
+        	</select>
+        	<input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+        </div>
+        <div class="rows placeholders">
+			<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        </div>
+        <h2 class="sub-header">Detalle Exoneraciones</h2>
+        <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -37,8 +37,8 @@
                 </tr>
               </thead>
               <tbody id="tabla_exoneraciones">
-		{% for a in exoneraciones %}
-		<tr>
+				{% for a in exoneraciones %}
+				<tr>
                   <td>{{a.mes_vigencia}}</td>
                   <td>{{a.exoambas}}</td>
                   <td>{{a.solovl}}</td>
@@ -46,7 +46,7 @@
                   <td>{{a.reqambas}}</td>
                   <td>{{a.exovltc}}</td>
                 </tr>
-		{% endfor %}
+				{% endfor %}
               </tbody>
             </table>
           </div>
