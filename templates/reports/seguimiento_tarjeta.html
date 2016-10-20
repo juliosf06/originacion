@@ -9,11 +9,12 @@
 {% block content %}
 		  <div style="position: fixed; right: 3%; top: 10%; z-index:10; color:#094FA4; font-size:150%;"> Seguimiento Tarjetas </div>
           <h1 class="page-header" id="seguimiento_inicio">Seguimiento Tarjeta</h1>
-          <div class="botones" style = "text-align:left; width: 50%; font-size: 20px; display: inline-block;">
+          &nbsp;
+          <div class="botones" style = "text-align:left; width: 49%; font-size: 20px; display: inline-block; top:20%;">
             <button type="button" id="button1"> Mensual </button>&nbsp;&nbsp;
             <button type="button" id="button2"> Trimestral </button>
           </div>
-          <div class="links" style = "text-align:right; width: 50%; font-size: 20px; display: inline-block;">
+          <div class="links" style = "text-align:right; width: 49%; font-size: 20px; display: inline-block; top:20%;">
             <a href='#seguimiento_campaña'>Campañas</a>&nbsp;&nbsp;
             <a href='#seguimiento_uno'>Uno a Uno</a>&nbsp;&nbsp;
             <a href='#seguimiento_forzaje'>Forzaje</a>
@@ -139,14 +140,17 @@
 			text: "Formalizados", 
 			fontColor: "#094FA4",            
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			name: "UNO A UNO",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -161,7 +165,7 @@
 			type: "stackedColumn",
 			name: "CAMPAÑA FAST",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -176,7 +180,7 @@
 			type: "stackedColumn",
 			name: "CAMPAÑA REGULAR",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -192,7 +196,7 @@
 			type: "spline",
 			name: "# FORMALIZADOS",
 			indexLabelFontColor: "darkblue",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			indexLabelOrientation: "vertical",			
 			color: "#094FA4",
 			indexLabel: " {y}",
@@ -214,7 +218,10 @@
 			text: "Ticket Promedio",
 			fontColor: "#094FA4",              
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -282,7 +289,10 @@
 			text: "Incumplimiento Total",
 			fontColor: "#094FA4",             
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -354,14 +364,17 @@
 			text: "Segmentos - Campaña (#Form)",
 			fontColor: "#009EE5",              
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			name: "AVA",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -376,7 +389,7 @@
 			type: "stackedColumn",
 			name: "MS",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -391,7 +404,7 @@
 			type: "stackedColumn",
 			name: "No PH",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -407,7 +420,7 @@
 			type: "stackedColumn",
 			name: "NoCli",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -443,14 +456,17 @@
 			text: "Segmentos - Uno a Uno (#Form)",
 			fontColor: "#86C82D",             
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			name: "MS",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -465,7 +481,7 @@
 			type: "stackedColumn",
 			name: "No PH",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -481,7 +497,7 @@
 			type: "stackedColumn",
 			name: "NoCli",
 			indexLabelFontColor: "white",	
-			indexLabelFontSize: 12,		
+			indexLabelFontSize: 10,		
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -497,7 +513,7 @@
 			type: "scatter",
 			name: "# Formalizados",
 			indexLabelFontColor: "darkblue",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			indexLabelOrientation: "vertical",			
 			indexLabel: " {y}",
 			color: "#C8175E",
@@ -518,14 +534,17 @@
 			text: "Relación Laboral - Campaña (#Form)",
 			fontColor: "#009EE5",             
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			name: "Dependiente",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -540,7 +559,7 @@
 			type: "stackedColumn",
 			name: "Independiente",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -555,7 +574,7 @@
 			type: "stackedColumn",
 			name: "PNN",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -571,7 +590,7 @@
 			type: "stackedColumn",
 			name: "No Reconocido",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -587,7 +606,7 @@
 			type: "scatter",
 			name: "# Formalizados",
 			indexLabelFontColor: "darkblue",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			indexLabelOrientation: "vertical",			
 			indexLabel: " {y}",
 			color: "#C8175E",
@@ -608,14 +627,17 @@
 			text: "Relación Laboral - Uno a Uno (#Form)",
 			fontColor: "#86C82D",             
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			name: "Dependiente",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -630,7 +652,7 @@
 			type: "stackedColumn",
 			name: "Independiente",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -645,7 +667,7 @@
 			type: "stackedColumn",
 			name: "PNN",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -661,7 +683,7 @@
 			type: "stackedColumn",
 			name: "No Reconocido",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -677,7 +699,7 @@
 			type: "scatter",
 			name: "# Formalizados",
 			indexLabelFontColor: "darkblue",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			indexLabelOrientation: "vertical",			
 			indexLabel: " {y}",
 			color: "#C8175E",
@@ -698,7 +720,10 @@
 			text: "Nivel de Forzaje (#Form)",
 			fontColor: "#F6891E",               
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -743,7 +768,10 @@
                 axisY:{
                         interval:1,
                 },
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -818,7 +846,10 @@
                 axisY:{
                         interval:1,
                 },
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [ 
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -893,7 +924,10 @@
                 axisY:{
                         interval:1,
                 },
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [  
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -968,7 +1002,10 @@
                 axisY:{
                         interval:1,
                 },
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [ 
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1043,7 +1080,10 @@
                 axisY:{
                         interval:2,
                 },
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1118,7 +1158,10 @@
                 axisY:{
                         interval:1,
                 },
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [ 
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1193,7 +1236,10 @@
 		axisY:{
 			maximum: 120,              
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1201,7 +1247,7 @@
 			name: "[0 - 1,000]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			color: "#FDBD2C",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1217,7 +1263,7 @@
 			name: "[1,000 - 1,500]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			color: "#C8175E",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1233,7 +1279,7 @@
 			name: "[1,500 - 2,000]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			color: "#89D1F3",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1249,7 +1295,7 @@
 			name: "[2,000 - 2,500]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			color: "#009EE5",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1265,7 +1311,7 @@
 			name: "[2,500 - 3,500]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			color: "#094FA4",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1281,7 +1327,7 @@
 			name: "[3,500 - a más]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			color: "#86C82D",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1304,7 +1350,10 @@
                 axisY:{
                         interval:1,
                 },
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [ 
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1379,7 +1428,10 @@
                 axisY:{
                         interval:1,
                 },
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [  
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1454,7 +1506,10 @@
                 axisY:{
                         interval:1,
                 },
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [ 
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1529,7 +1584,10 @@
                 axisY:{
                         interval:1,
                 },
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [  
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1598,13 +1656,16 @@
 	var chart = new CanvasJS.Chart("chartContainer20", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Incumplimiento Segmento - Uno a Uno",
+			text: "Incumplimiento 6 meses Segmento - Uno a Uno",
 			fontColor: "#86C82D",              
 		},
                 axisY:{
                         interval:1,
                 },
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1658,13 +1719,16 @@
 	var chart = new CanvasJS.Chart("chartContainer21", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Incumplimiento Relación Laboral - Uno a Uno",
+			text: "Incumplimiento 6 meses Relación Laboral - Uno a Uno",
 			fontColor: "#86C82D",               
 		},
                 axisY:{
                         interval:1,
                 },
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1739,7 +1803,10 @@
 		axisY:{
 			maximum : 15,
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1811,7 +1878,10 @@
 			text: "Incumplimiento 6 Meses - Segmentos",
 			fontColor: "#009EE5",               
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1883,7 +1953,10 @@
 			text: "Incumplimiento 6 Meses - Relación Laboral",
 			fontColor: "#009EE5",               
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
@@ -1955,14 +2028,17 @@
 			text: "Buró - Campaña (#Form)",
 			fontColor: "#009EE5",             
 		},
-		animationEnabled: true,   // change to true
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,    // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			name: "G1-G4",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -1977,7 +2053,7 @@
 			type: "stackedColumn",
 			name: "G5",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -1992,7 +2068,7 @@
 			type: "stackedColumn",
 			name: "G6-G8",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -2008,7 +2084,7 @@
 			type: "stackedColumn",
 			name: "NB",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 10,			
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -2024,7 +2100,7 @@
 			type: "scatter",
 			name: "# FORMALIZADOS",
 			indexLabelFontColor: "darkblue",
-			indexLabelFontSize: 12,
+			indexLabelFontSize: 10,
 			indexLabelOrientation: "vertical",			
 			color: "#C8175E",
 			indexLabel: " {y}",
