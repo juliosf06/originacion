@@ -7,17 +7,17 @@
 {% block title %}Seguimiento Tarjeta{% endblock %}
 
 {% block content %}
-
+		  <div style="position: fixed; right: 3%; top: 10%; z-index:10; color:#094FA4; font-size:150%;"> Seguimiento Tarjetas </div>
           <h1 class="page-header" id="seguimiento_inicio">Seguimiento Tarjeta</h1>
-          <div class="links" style = "text-align:right; font-size: 20px;">
+          <div class="botones" style = "text-align:left; width: 50%; font-size: 20px; display: inline-block;">
+            <button type="button" id="button1"> Mensual </button>&nbsp;&nbsp;
+            <button type="button" id="button2"> Trimestral </button>
+          </div>
+          <div class="links" style = "text-align:right; width: 50%; font-size: 20px; display: inline-block;">
             <a href='#seguimiento_campaña'>Campañas</a>&nbsp;&nbsp;
             <a href='#seguimiento_uno'>Uno a Uno</a>&nbsp;&nbsp;
             <a href='#seguimiento_forzaje'>Forzaje</a>
           </div>
-          <div class="botones" style = "text-align:left; font-size: 20px;">
-            <button type="button" id="button1"> Mensual </button>&nbsp;&nbsp;
-            <button type="button" id="button2"> Trimestral </button>
-          </div>      
           <div class="form-inline">
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
