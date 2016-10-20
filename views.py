@@ -1204,6 +1204,7 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia'):
             meses_fast_list.append(i[filtro1])
         num_meses_fast = len(meses_fast_list)-1
 
+    print meses_fast_list[num_meses_fast]
     fact_uno = Seguimiento1.objects.values(filtro1, 'producto').filter(producto='03 Tarjeta', riesgos='UNO A UNO').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
     fact_campf = Seguimiento1.objects.values(filtro1, 'producto', 'origen').filter(producto='03 Tarjeta', riesgos='CAMP',origen='ORIGINACION FAST').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
     fact_campu = Seguimiento1.objects.values(filtro1, 'producto', 'origen').filter(producto='03 Tarjeta', riesgos='CAMP', origen='ORIGINACION MS').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
