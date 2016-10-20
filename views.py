@@ -1204,7 +1204,7 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia'):
             meses_fast_list.append(i[filtro1])
         num_meses_fast = len(meses_fast_list)-1
 
-    print meses_fast_list[num_meses_fast]
+    print meses_fast_list[0]
     fact_uno = Seguimiento1.objects.values(filtro1, 'producto').filter(producto='03 Tarjeta', riesgos='UNO A UNO').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
     fact_campf = Seguimiento1.objects.values(filtro1, 'producto', 'origen').filter(producto='03 Tarjeta', riesgos='CAMP',origen='ORIGINACION FAST').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
     fact_campu = Seguimiento1.objects.values(filtro1, 'producto', 'origen').filter(producto='03 Tarjeta', riesgos='CAMP', origen='ORIGINACION MS').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
@@ -1224,7 +1224,7 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia'):
                 fact_campu_dict[i[filtro1]] = 0
         for j in fact_campf:
             if i[filtro1] == j[filtro1]:
-                if i[filtro1] >= meses_fast_list[num_meses_fast]:
+                if i[filtro1] >= meses_fast_list[num_meses_fast] and i[filtro1] <= meses_fast_list[0]:
                     fact_campf_dict[i[filtro1]] = j['facturacion']*1000000/camp_formf_dict[i[filtro1]]
                     break
         for j in fact_campf:
@@ -1893,7 +1893,7 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
                 fact_campu_dict[i[filtro1]] = 0
         for j in fact_campf:
             if i[filtro1] == j[filtro1]:
-                if i[filtro1] >= meses_fast_list[num_meses_fast]:
+                if i[filtro1] >= meses_fast_list[num_meses_fast] and i[filtro1] <= meses_fast_list[0]:
                     fact_campf_dict[i[filtro1]] = j['facturacion']*1000000/camp_formf_dict[i[filtro1]]
                     break
         for j in fact_campf:
