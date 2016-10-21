@@ -1135,8 +1135,9 @@ def evaluacion_evaluacionpld(request):
 
 # 5.- Vistas para reportes de SEGUIMIENTO
 @login_required
-def seguimiento_tarjeta(request, filtro1='mes_vigencia'):
+def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2=before2):
     filtro1 = str(filtro1)
+    filtro2 = str(filtro2)
 
     meses = Seguimiento1.objects.values(filtro1).order_by(filtro1).distinct(filtro1)
     meses_list = []
@@ -1204,7 +1205,6 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia'):
             meses_fast_list.append(i[filtro1])
         num_meses_fast = len(meses_fast_list)-1
 
-    print meses_fast_list[0]
     fact_uno = Seguimiento1.objects.values(filtro1, 'producto').filter(producto='03 Tarjeta', riesgos='UNO A UNO').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
     fact_campf = Seguimiento1.objects.values(filtro1, 'producto', 'origen').filter(producto='03 Tarjeta', riesgos='CAMP',origen='ORIGINACION FAST').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
     fact_campu = Seguimiento1.objects.values(filtro1, 'producto', 'origen').filter(producto='03 Tarjeta', riesgos='CAMP', origen='ORIGINACION MS').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
@@ -1232,6 +1232,10 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia'):
                 if i[filtro1] < meses_fast_list[num_meses_fast]:
                     fact_campf_dict[i[filtro1]] = []
                     break
+        for j in fact_campf:
+            if i[filtro1] < meses_fast_list[num_meses_fast]:
+                fact_campf_dict[i[filtro1]] = []
+                break
 
 
     camp_form = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='03 Tarjeta', riesgos='CAMP').annotate(formalizado=Sum('form')).order_by(filtro1)
@@ -1715,10 +1719,10 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia'):
             if i[filtro1] <= morames_list[num_mora6]:
                 dict_moraburo4[i[filtro1]] = i['cuentas']
 
-    burog1 = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='03 Tarjeta', buro_camp='G1-G4').annotate(seg=Sum('ctas')).order_by(filtro1)
-    burog5 = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='03 Tarjeta', buro_camp='G5').annotate(seg=Sum('ctas')).order_by(filtro1)
-    burog6 = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='03 Tarjeta', buro_camp='G6-G8').annotate(seg=Sum('ctas')).order_by(filtro1)
-    buronb = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='03 Tarjeta', buro_camp='NB').annotate(seg=Sum('ctas')).order_by(filtro1)
+    burog1 = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='03 Tarjeta', buro_camp='G1-G4').annotate(seg=Sum('form')).order_by(filtro1)
+    burog5 = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='03 Tarjeta', buro_camp='G5').annotate(seg=Sum('form')).order_by(filtro1)
+    burog6 = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='03 Tarjeta', buro_camp='G6-G8').annotate(seg=Sum('form')).order_by(filtro1)
+    buronb = Seguimiento1.objects.values(filtro1, 'buro_camp').filter(riesgos='CAMP', producto='03 Tarjeta', buro_camp='NB').annotate(seg=Sum('form')).order_by(filtro1)
     burotot = Seguimiento1.objects.values(filtro1).filter(riesgos='CAMP', producto='03 Tarjeta').annotate(seg=Sum('form')).order_by(filtro1)
     dict_burog1 = {}; dict_burog5 = {};
     dict_burog6 = {}; dict_buronb = {};
@@ -1862,24 +1866,22 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
                 camp_formu_dict[i[filtro1]] = 0
 
     if filtro1 == 'trimestre_form':
-        meses_f = Seguimiento1.objects.values('trimestre_form').order_by('-trimestre_form').distinct() 
         meses_fast = Seguimiento1.objects.values('trimestre_form').filter(trimestre_form__gte='2014-4').order_by('-trimestre_form').distinct()
         meses_fast_list= []
         for i in meses_fast:
             meses_fast_list.append(i[filtro1])
         num_meses_fast = len(meses_fast_list)-1
     else:
-        meses_f = Seguimiento1.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct() 
         meses_fast = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte='201410').order_by('-mes_vigencia').distinct()
         meses_fast_list= []
         for i in meses_fast:
             meses_fast_list.append(i[filtro1])
         num_meses_fast = len(meses_fast_list)-1
 
-    fact_uno = Seguimiento1.objects.values(filtro1, 'producto').filter(producto='01 Consumo', riesgos='UNO A UNO').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
     fact_campf = Seguimiento1.objects.values(filtro1, 'producto', 'origen').filter(producto='01 Consumo', riesgos='CAMP',origen='ORIGINACION FAST').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
+    fact_uno = Seguimiento1.objects.values(filtro1, 'producto').filter(producto='01 Consumo', riesgos='UNO A UNO').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
     fact_campu = Seguimiento1.objects.values(filtro1, 'producto', 'origen').filter(producto='01 Consumo', riesgos='CAMP', origen='ORIGINACION MS').annotate(facturacion=Sum('facturacion')).order_by(filtro1)
-    fact_uno_dict = {}; fact_campf_dict = {}; fact_campu_dict = {};
+    fact_uno_dict = {}; fact_campu_dict = {}; fact_campf_dict = {};
     for i in meses:
         for j in fact_uno:
             if i[filtro1] == j[filtro1]:
@@ -1893,7 +1895,6 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
                 break
             else:
                 fact_campu_dict[i[filtro1]] = 0
-    for i in meses_f:
         for j in fact_campf:
             if i[filtro1] == j[filtro1]:
                 if i[filtro1] >= meses_fast_list[num_meses_fast] and i[filtro1] <= meses_fast_list[0]:
@@ -1901,10 +1902,14 @@ def seguimiento_pld(request, filtro1='mes_vigencia'):
                     break
         for j in fact_campf:
             if i[filtro1] == j[filtro1]:
-                if i[filtro1] <= meses_fast_list[num_meses_fast]:
+                if i[filtro1] < meses_fast_list[num_meses_fast]:
                     fact_campf_dict[i[filtro1]] = []
                     break
-    print fact_campf_dict
+        for j in fact_campf:
+            if i[filtro1] < meses_fast_list[num_meses_fast]:
+                fact_campf_dict[i[filtro1]] = []
+                break
+
     camp_form = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='01 Consumo', riesgos='CAMP').annotate(formalizado=Sum('form')).order_by(filtro1)
     camp_form_dict = {};
     for i in meses:
