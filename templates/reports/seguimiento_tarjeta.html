@@ -21,7 +21,7 @@
             <label>Desde:&nbsp;</label>
             <select class="form-control" id="tarjeta_periodo" style="display: inline-block; width:16%;">
               {% for a in tiempo %}
-              <option value="{{a.periodo}}" {% if fecha == a.periodo %} selected {% endif %}>{{a.periodo}}</option>
+              <option value="{{a.periodo}}" {% if filtro2 == a.periodo %} selected {% endif %}>{{a.periodo}}</option>
               {% endfor %}
             </select>
             <!--<label>&nbsp;hasta: 2016</label>-->
