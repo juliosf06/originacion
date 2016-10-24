@@ -18,14 +18,17 @@
             <button type="button" id="button2" style="display: inline-block;"> Trimestral </button>
             &nbsp;
             {% if trimestre = 0 %}
-            <select class="form-control" id="tarjeta_periodo" style="display: inline-block; width:30%;">
-              <option selected>TODOS</option>
+            <label>Desde:&nbsp;</label>
+            <select class="form-control" id="tarjeta_periodo" style="display: inline-block; width:16%;">
               {% for a in periodo %}
               <option value="{{a.periodo}}" {% if fecha == a.periodo %} selected {% endif %}>{{a.periodo}}</option>
               {% endfor %}
+            </select>
+            <!--<label>&nbsp;hasta: 2016</label>-->
             {% else %}
             {% endif %}
-            </select>
+
+
           </div>
           <div class="links" style = "text-align:right; width: 49%; font-size: 20px; display: inline-block; top:20%; padding:8% 0%;">
             <a href='#seguimiento_campaña'>Campañas</a>&nbsp;&nbsp;
