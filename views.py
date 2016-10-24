@@ -1139,7 +1139,7 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='2011'):
     filtro1 = str(filtro1)
     filtro2 = str(filtro2)
 
-    periodo = Seguimiento1.objects.values('periodo').order_by('periodo').distinct('periodo')
+    tiempo = Seguimiento1.objects.values('periodo').order_by('periodo').distinct('periodo')
     if filtro1 == 'trimestre_form':
         meses = Seguimiento1.objects.values(filtro1).order_by(filtro1).distinct(filtro1)
         trimestre = 1

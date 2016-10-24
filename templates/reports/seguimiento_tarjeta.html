@@ -20,7 +20,7 @@
             {% if trimestre = 0 %}
             <label>Desde:&nbsp;</label>
             <select class="form-control" id="tarjeta_periodo" style="display: inline-block; width:16%;">
-              {% for a in periodo %}
+              {% for a in tiempo %}
               <option value="{{a.periodo}}" {% if fecha == a.periodo %} selected {% endif %}>{{a.periodo}}</option>
               {% endfor %}
             </select>
