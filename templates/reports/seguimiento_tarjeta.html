@@ -7,14 +7,27 @@
 {% block title %}Seguimiento Tarjeta{% endblock %}
 
 {% block content %}
-		  <div style="position: fixed; right: 3%; top: 10%; z-index:10; color:#094FA4; font-size:150%;"> Seguimiento Tarjetas </div>
-          <h1 class="page-header" id="seguimiento_inicio">Seguimiento Tarjeta</h1>
+
+		  <div style="position: fixed; z-index:15; border: 34px solid white; top: 6%; width: 100%;">
+		  	<!--<div style="position: fixed; right: 3%; top: 10%; z-index:10; color:#094FA4; font-size:150%;"> Seguimiento Tarjetas </div>-->
+          	<div><h1 class="page-header" id="seguimiento_inicio" style="position: fixed; z-index:5; width: 100%; top: 7%;">Seguimiento Tarjeta</h1></div>
+          </div>
           &nbsp;
-          <div class="botones" style = "text-align:left; width: 49%; font-size: 20px; display: inline-block; top:20%;">
+          <div class="botones" style = "text-align:left; width: 49%; font-size: 20px; display: inline-block; top:20%; padding:8% 0%;">
             <button type="button" id="button1" style="display: inline-block;"> Mensual </button>&nbsp;&nbsp;
             <button type="button" id="button2" style="display: inline-block;"> Trimestral </button>
+            &nbsp;
+            {% if trimestre = 0 %}
+            <select class="form-control" id="tarjeta_periodo" style="display: inline-block; width:30%;">
+              <option selected>TODOS</option>
+              {% for a in periodo %}
+              <option value="{{a.periodo}}" {% if fecha == a.periodo %} selected {% endif %}>{{a.periodo}}</option>
+              {% endfor %}
+            {% else %}
+            {% endif %}
+            </select>
           </div>
-          <div class="links" style = "text-align:right; width: 49%; font-size: 20px; display: inline-block; top:20%;">
+          <div class="links" style = "text-align:right; width: 49%; font-size: 20px; display: inline-block; top:20%; padding:8% 0%;">
             <a href='#seguimiento_campaña'>Campañas</a>&nbsp;&nbsp;
             <a href='#seguimiento_uno'>Uno a Uno</a>&nbsp;&nbsp;
             <a href='#seguimiento_forzaje'>Forzaje</a>
@@ -2119,11 +2132,18 @@
     }
 
     $("#button1").click(function(){
-          window.location.href = "/reports/seguimiento/tarjeta/"+"mes_vigencia"+"/";
+          window.location.href = "/reports/seguimiento/tarjeta/"+"mes_vigencia"+"/"+"2015"+"/";
     });
     $("#button2").click(function(){
-          window.location.href = "/reports/seguimiento/tarjeta/"+"trimestre_form"+"/";
+          window.location.href = "/reports/seguimiento/tarjeta/"+"trimestre_form"+"/"+"2015"+"/";
+          $("#tarjeta_periodo").style.display = "none";
     });
+
+    $("#tarjeta_periodo").change(function(e){
+  		console.log($("#tarjeta_periodo").val());
+
+  		window.location.href = "/reports/seguimiento/tarjeta/"+"mes_vigencia"+"/"+$("#tarjeta_periodo").val()+"/";
+	});
   </script>
 {% endblock %}
 

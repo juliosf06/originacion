@@ -21,10 +21,10 @@
             &nbsp;&nbsp;
             <label class="control-label">Analista:&nbsp;&nbsp;</label>
             <select class="form-control" id="rvglresumen_analista">
-              <option selected>TODOS</option>
-	      {% for a in control_analistas %}  
-                  <option {% if analista == a.analista %}selected {% endif %}>{{a.analista}}</option>
-	      {% endfor %}
+              	<option selected>TODOS</option>
+	      		{% for a in control_analistas %}  
+                  	<option {% if analista == a.analista %}selected {% endif %}>{{a.analista}}</option>
+	      		{% endfor %}
             </select>
 	    </center>
           </div>

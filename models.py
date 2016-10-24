@@ -220,6 +220,7 @@ class Evaluacionpld(models.Model):
         return self.fecha+' '+self.cliente+' '+ self.documento
 
 class Seguimiento1(models.Model):
+    periodo = models.CharField(max_length=10, default=0)
     trimestre_form = models.CharField(max_length=10, default=0)
     mes_vigencia = models.CharField(max_length=10)
     buro_camp = models.CharField(max_length=20)
@@ -323,6 +324,7 @@ class PrestInmediato(models.Model):
         return self.mes_vigencia+' '+self.segmento+' '+self.rng_ingreso
 
 class Forzaje(models.Model):
+    periodo = models.CharField(max_length=10, default=0)
     trimestre_form = models.CharField(max_length=10, default=0)
     mes_vigencia = models.CharField(max_length=10)
     dic_global = models.CharField(max_length=10)
