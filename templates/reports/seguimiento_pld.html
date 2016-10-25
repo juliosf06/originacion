@@ -7,11 +7,25 @@
 {% block title %}Seguimiento PLD{% endblock %}
 
 {% block content %}
-		  <div style="position: fixed; right: 3%; top: 10%; z-index:10; color:#094FA4; font-size:150%;"> Seguimiento PLD </div>
-          <h1 class="page-header">Seguimiento PLD</h1>
-          <div class="botones" style = "text-align:left; width: 50%; font-size: 20px; display: inline-block;">
-            <button type="button" id="button1"> Mensual </button>&nbsp;&nbsp;
-            <button type="button" id="button2"> Trimestral </button>
+		  <div style="position: fixed; z-index:15; border: 34px solid white; top: 6%; width: 100%;">
+		  	<!--<div style="position: fixed; right: 3%; top: 10%; z-index:10; color:#094FA4; font-size:150%;"> Seguimiento Tarjetas </div>-->
+          	<div><h1 class="page-header" id="seguimiento_inicio" style="position: fixed; z-index:5; width: 100%; top: 7%;">Seguimiento PLD</h1></div>
+          </div>
+          &nbsp;
+          <div class="botones" style = "text-align:left; width: 49%; font-size: 20px; display: inline-block; top:20%; padding:8% 0%;">
+            <button type="button" id="button1" style="display: inline-block;"> Mensual </button>&nbsp;&nbsp;
+            <button type="button" id="button2" style="display: inline-block;"> Trimestral </button>
+            &nbsp;
+            {% if trimestre = 0 %}
+            <label>Desde:&nbsp;</label>
+            <select class="form-control" id="tarjeta_periodo" style="display: inline-block; width:16%;">
+              {% for a in tiempo %}
+              <option value="{{a.periodo}}" {% if filtro2 == a.periodo %} selected {% endif %}>{{a.periodo}}</option>
+              {% endfor %}
+            </select>
+            <!--<label>&nbsp;hasta: 2016</label>-->
+            {% else %}
+            {% endif %}
           </div>
           <div class="links" style = "text-align:right; width: 50%; font-size: 20px; display: inline-block;">
             <a href='#seguimiento_campaña'>Campañas</a>&nbsp;&nbsp;
@@ -2115,11 +2129,16 @@
     }
 
     $("#button1").click(function(){
-          window.location.href = "/reports/seguimiento_pld/"+"mes_vigencia"+"/";
+          window.location.href = "/reports/seguimiento_pld/"+"mes_vigencia"+"/"+"2011"+"/";
     });
     $("#button2").click(function(){
-          window.location.href = "/reports/seguimiento_pld/"+"trimestre_form"+"/";
+          window.location.href = "/reports/seguimiento_pld/"+"trimestre_form"+"/"+"2011"+"/";
     });
+    $("#tarjeta_periodo").change(function(e){
+  		console.log($("#tarjeta_periodo").val());
+
+  		window.location.href = "/reports/seguimiento_pld/"+"mes_vigencia"+"/"+$("#tarjeta_periodo").val()+"/";
+	});
   </script>
 {% endblock %}
 
