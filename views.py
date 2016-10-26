@@ -1144,12 +1144,19 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='2011'):
     if filtro1 == 'trimestre_form':
         meses = Seguimiento1.objects.values(filtro1).order_by(filtro1).distinct(filtro1)
         trimestre = 1
+        num_index = 12
     else:
         meses = Seguimiento1.objects.values(filtro1).filter(periodo__gte=filtro2).order_by(filtro1).distinct(filtro1)
         trimestre = 0
+        num_index = 6
     meses_list = []
     for i in meses:
         meses_list.append(i[filtro1])
+
+    if len(meses_list) < 5:
+        num_index = 12
+    else:
+        num_index = 6
 
     if filtro1 == 'trimestre_form':
         total_form = Seguimiento1.objects.values(filtro1, 'producto').filter(producto='03 Tarjeta').annotate(formalizado=Sum('form'),cuentas=Sum('ctas')).order_by(filtro1)
