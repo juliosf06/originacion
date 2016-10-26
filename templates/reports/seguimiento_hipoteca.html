@@ -658,21 +658,6 @@ window.onload = function () {
 		animationEnabled: true,   // change to true
 		data: [              
 		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
-			name: "[0-1,000]",
-			indexLabelFontColor: "white",
-			//indexLabel: "{y}%",
-			yValueFormatString: "#0.",			
-			color: "#B5E5F9",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in rango1_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
 			type: "stackedColumn",
 			name: "[1,000-1,500]",
 			indexLabelFontColor: "white",
@@ -753,43 +738,43 @@ window.onload = function () {
 		data: [              
 		{
 			type: "spline",
-			name: "MORA6",
+			name: "MORA12",
 			indexLabelFontColor: "#89D1F3",			
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.0#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in mora_6 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
-				{% endfor %}
+				{% for key, value in mora12_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
 			]
 		},
 		{
 			type: "spline",
-			name: "MORA9",
+			name: "MORA24",
 			indexLabelFontColor: "#094FA4",			
 			indexLabel: "{y}%",
 			color: "#094FA4",
 			yValueFormatString: "#0.0#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in mora_9 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
-				{% endfor %}
+				{% for key, value in mora24_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
 			]
 		},
 		{
 			type: "spline",
-			name: "MORA12",
+			name: "MORA36",
 			indexLabelFontColor: "#86C82D",			
 			indexLabel: "{y}%",
 			color: "#86C82D",
 			yValueFormatString: "#0.0#",
 			showInLegend: "true",
 			dataPoints: [
-				{% for a,b in mora_12 %}
-				{ y: {{a.sum_mora}}*100/{{b.sum_mora}} , label: '{{a.mes_form|convert_date}}' },
-				{% endfor %}
+				{% for key, value in mora36_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
 			]
 		},
 		]
