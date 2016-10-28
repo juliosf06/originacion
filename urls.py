@@ -66,6 +66,7 @@ urlpatterns = [
     url(r'^seguimiento/prestinmediato/$', views.seguimiento_prestinmediato, name='seguimiento_prestinmediato'),
     url(r'^seguimiento/increlinea/$', views.seguimiento_increlinea, name='seguimiento_increlinea'),
     url(r'^seguimiento/hipoteca/$', views.seguimiento_hipoteca, name='seguimiento_hipoteca'),
+    url(r'^seguimiento/hipoteca/(?P<fecha>[0-9]{6})/(?P<filtro1>[\w|\W]+)/(?P<filtro2>[\w|\W]+)/$', views.seguimiento_hipoteca, name='seguimiento_hipoteca'),
     url(r'^seguimiento/lifemiles/$', views.seguimiento_lifemiles, name='seguimiento_lifemiles'),
     url(r'^seguimiento/increlifemiles/$', views.seguimiento_increlifemiles, name='seguimiento_increlifemiles'),
     url(r'^seguimiento/mapa/$', views.seguimiento_mapa, name='seguimiento_mapa'),

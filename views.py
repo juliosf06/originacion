@@ -1146,7 +1146,7 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='2011'):
         time_list.append(i['periodo'])
 
     if filtro1 == 'trimestre_form' or len(time_list) < 5:
-        num_index = 12
+        num_index = 14
     else:
         num_index = 8
 
@@ -4027,143 +4027,226 @@ def seguimiento_increlifemiles(request):
                   context_instance=RequestContext(request))
 
 @login_required
-def seguimiento_hipoteca(request, fecha='201312'):
-    form = Seguimiento1.objects.values('mes_vigencia').filter(producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
-    form_dict= {}
-    for i in form:
-       form_dict[i['mes_vigencia']]=i['cantidad']
-    fact = Seguimiento1.objects.values('mes_vigencia').filter(producto="04 Hipotecario").annotate(cantidad=Sum('facturacion')).order_by('mes_vigencia')
-    meses = Seguimiento1.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
-    rango2 = Seguimiento1.objects.values('mes_vigencia').filter(rng_ing='05 [1K - 1.5K]', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
-    rango2_dict = {}
+def seguimiento_hipoteca(request, fecha='201312', filtro1='mes_vigencia', filtro2='2011'):
+    filtro1 = str(filtro1)
+    filtro2 = str(filtro2)
+
+    tiempo = Seguimiento1.objects.values('periodo').order_by('periodo').distinct('periodo')
+    time_list = []
+    for i in tiempo:
+        time_list.append(i['periodo'])
+
+    if filtro1 == 'trimestre_form' or len(time_list) < 5:
+        num_index = 14
+    else:
+        num_index = 8
+
+    if filtro1 == 'trimestre_form':
+        meses = Seguimiento1.objects.values(filtro1).order_by(filtro1).distinct(filtro1)
+        trimestre = 1
+    else:
+        meses = Seguimiento1.objects.values(filtro1).filter(periodo__gte=filtro2).order_by(filtro1).distinct(filtro1)
+        trimestre = 0
+    meses_list = []
     for i in meses:
-       for j in rango2:
-          if i['mes_vigencia'] == j['mes_vigencia']:
-             rango2_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
-             break
-       	  else:
-             rango2_dict[i['mes_vigencia']]= 0
-    rango3 = Seguimiento1.objects.values('mes_vigencia').filter(rng_ing='04 [1.5K - 2K]', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
-    rango3_dict = {}
+        meses_list.append(i[filtro1])
+
+    if filtro1 == 'trimestre_form':
+        total_form = Seguimiento1.objects.values(filtro1, 'producto').filter(producto='04 Hipotecario').annotate(formalizado=Sum('form'),cantidad=Sum('facturacion')).order_by(filtro1)
+    else:
+        total_form = Seguimiento1.objects.values(filtro1, 'producto').filter(producto='04 Hipotecario', periodo__gte=filtro2).annotate(formalizado=Sum('form'),cantidad=Sum('facturacion')).order_by(filtro1)
+    total_form_dict = {}; total_fac_dict = {};
+    for j in total_form:
+       total_form_dict[j[filtro1]]=j['formalizado']
+    for j in total_form:
+       total_fac_dict[j[filtro1]]=j['cantidad']
+
+    if filtro1 == 'trimestre_form':
+        seg_ms = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', segmento='2.MS').annotate(seg=Sum('form')).order_by(filtro1)
+        seg_noph = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', segmento='3.NoPH').annotate(seg=Sum('form')).order_by(filtro1)
+        seg_nocli = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', segmento='4.NoCli').annotate(seg=Sum('form')).order_by(filtro1)
+    else:
+        seg_ms = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', segmento='2.MS', periodo__gte=filtro2).annotate(seg=Sum('form')).order_by(filtro1)
+        seg_noph = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', segmento='3.NoPH', periodo__gte=filtro2).annotate(seg=Sum('form')).order_by(filtro1)
+        seg_nocli = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', segmento='4.NoCli', periodo__gte=filtro2).annotate(seg=Sum('form')).order_by(filtro1)
+    seg_ms_dict = {}; seg_noph_dict = {}; seg_nocli_dict = {};
     for i in meses:
-       for j in rango3:
-          if i['mes_vigencia'] == j['mes_vigencia']:
-             rango3_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
-             break
-       	  else:
-             rango3_dict[i['mes_vigencia']]= 0
-    rango4 = Seguimiento1.objects.values('mes_vigencia').filter(rng_ing='03 [2K - 2.5K]', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
-    rango4_dict = {}
+        for j in seg_ms:
+            if i[filtro1] == j[filtro1]:
+                seg_ms_dict[i[filtro1]] = j['seg']
+                break
+            else:
+                seg_ms_dict[i[filtro1]] = 0
+        for j in seg_noph:
+            if i[filtro1] == j[filtro1]:
+                seg_noph_dict[i[filtro1]] = j['seg']
+                break
+            else:
+                seg_noph_dict[i[filtro1]] = 0
+        for j in seg_nocli:
+            if i[filtro1] == j[filtro1]:
+                seg_nocli_dict[i[filtro1]] = j['seg']
+                break
+            else:
+                seg_nocli_dict[i[filtro1]] = 0
+
+    if filtro1 == 'trimestre_form':
+        depen = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='1. Dependiente').annotate(seg = Sum('form')).order_by(filtro1)
+        indep = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='2. Independiente').annotate(seg=Sum('form')).order_by(filtro1)
+        pnn = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='3. PNN').annotate(seg=Sum('form')).order_by(filtro1)
+        no_recon = Seguimiento1.objects.values(filtro1, 'riesgos').filter(riesgos='CAMP', producto='04 Hipotecario', cat_persona='4.No Reconocido').annotate(seg=Sum('form')).order_by(filtro1)
+    else:
+        depen = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='1. Dependiente', periodo__gte=filtro2).annotate(seg = Sum('form')).order_by(filtro1)
+        indep = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='2. Independiente', periodo__gte=filtro2).annotate(seg=Sum('form')).order_by(filtro1)
+        pnn = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='3. PNN', periodo__gte=filtro2).annotate(seg=Sum('form')).order_by(filtro1)
+        no_recon = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='4.No Reconocido', periodo__gte=filtro2).annotate(seg=Sum('form')).order_by(filtro1)
+    depen_dict = {}; indep_dict = {}; pnn_dict = {}; no_recon_dict = {};
     for i in meses:
-       for j in rango4:
-          if i['mes_vigencia'] == j['mes_vigencia']:
-             rango4_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
-             break
-       	  else:
-             rango4_dict[i['mes_vigencia']]= 0
-    rango5 = Seguimiento1.objects.values('mes_vigencia').filter(rng_ing='02 [2.5K - 3.5K]', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
-    rango5_dict = {}
+        for j in depen:
+            if i[filtro1] == j[filtro1]:
+                depen_dict[i[filtro1]] = j['seg']
+                break
+            else:
+                depen_dict[i[filtro1]] = 0
+        for j in indep:
+            if i[filtro1] == j[filtro1]:
+                indep_dict[i[filtro1]] = j['seg']
+                break
+            else:
+                indep_dict[i[filtro1]] = 0
+        for j in pnn:
+            if i[filtro1] == j[filtro1]:
+                pnn_dict[i[filtro1]] = j['seg']
+                break
+            else:
+                pnn_dict[i[filtro1]] = 0
+        for j in no_recon:
+            if i[filtro1] == j[filtro1]:
+                no_recon_dict[i[filtro1]] = j['seg']
+                break
+            else:
+                no_recon_dict[i[filtro1]] = 0
+
+    if filtro1 == 'trimestre_form':
+        rangos = Seguimiento1.objects.values(filtro1,'producto', 'rng_ing').filter(producto='04 Hipotecario').annotate(num_rango=Sum('form')).order_by(filtro1)
+    else:
+        rangos = Seguimiento1.objects.values(filtro1,'producto', 'rng_ing').filter(producto='04 Hipotecario', periodo__gte=filtro2).annotate(num_rango=Sum('form')).order_by(filtro1)
+    rango1_dict = {}; rango2_dict = {}; rango3_dict = {};
+    rango4_dict = {}; rango5_dict = {};
     for i in meses:
-       for j in rango5:
-          if i['mes_vigencia'] == j['mes_vigencia']:
-             rango5_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
-             break
-       	  else:
-             rango5_dict[i['mes_vigencia']]= 0
-    rango6 = Seguimiento1.objects.values('mes_vigencia').filter(rng_ing='01 [3.5K - ...]', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
-    rango6_dict = {}
-    for i in meses:
-       for j in rango6:
-          if i['mes_vigencia'] == j['mes_vigencia']:
-             rango6_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
-             break
-       	  else:
-             rango6_dict[i['mes_vigencia']]= 0
-    buro1 = Seguimiento1.objects.values('mes_vigencia').filter(buro_uno='G1-G2', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+        for j in rangos:
+            if i[filtro1] == j[filtro1]:
+                if j['rng_ing'] == '01 [3.5K - ...]':
+                    rango1_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+                elif j['rng_ing'] == '02 [2.5K - 3.5K]':
+                    rango2_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+                elif j['rng_ing'] == '03 [2K - 2.5K]':
+                    rango3_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+                elif j['rng_ing'] == '04 [1.5K - 2K]':
+                    rango4_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+                elif j['rng_ing'] == '05 [1K - 1.5K]':
+                    rango5_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+
+    buro1 = Seguimiento1.objects.values(filtro1).filter(buro_uno='G1-G2', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by(filtro1)
     buro1_dict = {}
     for i in meses:
        for j in buro1:
-          if i['mes_vigencia'] == j['mes_vigencia']:
-             buro1_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+          if i[filtro1] == j[filtro1]:
+             buro1_dict[i[filtro1]]=j['cantidad']*100/total_form_dict[i[filtro1]]
              break
        	  else:
-             buro1_dict[i['mes_vigencia']]= 0
-    buro2 = Seguimiento1.objects.values('mes_vigencia').filter(buro_uno='G3-G4', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+             buro1_dict[i[filtro1]]= 0
+    buro2 = Seguimiento1.objects.values(filtro1).filter(buro_uno='G3-G4', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by(filtro1)
     buro2_dict = {}
     for i in meses:
        for j in buro2:
-          if i['mes_vigencia'] == j['mes_vigencia']:
-             buro2_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+          if i[filtro1] == j[filtro1]:
+             buro2_dict[i[filtro1]]=j['cantidad']*100/total_form_dict[i[filtro1]]
              break
        	  else:
-             buro2_dict[i['mes_vigencia']]= 0
-    buro3 = Seguimiento1.objects.values('mes_vigencia').filter(buro_uno='G5-G6', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+             buro2_dict[i[filtro1]]= 0
+    buro3 = Seguimiento1.objects.values(filtro1).filter(buro_uno='G5-G6', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by(filtro1)
     buro3_dict = {}
     for i in meses:
        for j in buro3:
-          if i['mes_vigencia'] == j['mes_vigencia']:
-             buro3_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+          if i[filtro1] == j[filtro1]:
+             buro3_dict[i[filtro1]]=j['cantidad']*100/total_form_dict[i[filtro1]]
              break
        	  else:
-             buro3_dict[i['mes_vigencia']]= 0
-    buro4 = Seguimiento1.objects.values('mes_vigencia').filter(buro_uno='G7-G8', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+             buro3_dict[i[filtro1]]= 0
+    buro4 = Seguimiento1.objects.values(filtro1).filter(buro_uno='G7-G8', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by(filtro1)
     buro4_dict = {}
     for i in meses:
        for j in buro4:
-          if i['mes_vigencia'] == j['mes_vigencia']:
-             buro4_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+          if i[filtro1] == j[filtro1]:
+             buro4_dict[i[filtro1]]=j['cantidad']*100/total_form_dict[i[filtro1]]
              break
        	  else:
-             buro4_dict[i['mes_vigencia']]= 0
-    buro5 = Seguimiento1.objects.values('mes_vigencia').filter(buro_uno='NB', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+             buro4_dict[i[filtro1]]= 0
+    buro5 = Seguimiento1.objects.values(filtro1).filter(buro_uno='NB', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by(filtro1)
     buro5_dict = {}
     for i in meses:
        for j in buro5:
-          if i['mes_vigencia'] == j['mes_vigencia']:
-             buro5_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+          if i[filtro1] == j[filtro1]:
+             buro5_dict[i[filtro1]]=j['cantidad']*100/total_form_dict[i[filtro1]]
              break
        	  else:
-             buro5_dict[i['mes_vigencia']]= 0
+             buro5_dict[i[filtro1]]= 0
 
-    meses_moras = Seguimiento1.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+    if filtro1 == 'trimestre_form':
+        meses_moras = Seguimiento1.objects.values('trimestre_form').order_by('-trimestre_form').distinct()
+        num_mora12 = 4
+        num_mora24 = 8
+        num_mora36 = 12
+    else:
+        meses_moras = Seguimiento1.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
+        num_mora12 = 12
+        num_mora24 = 24
+        num_mora36 = 36
+
     morames_list = []
     for i in meses_moras:
-        morames_list.append(i['mes_vigencia'])
+        morames_list.append(i[filtro1])
 
-    mora12 = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='04 Hipotecario',mes_vigencia__lte =before11).annotate(sum_mora=Sum('mora12'),cuentas=Sum('form')).order_by('mes_vigencia')
-    mora24 = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='04 Hipotecario',mes_vigencia__lte =before11).annotate(sum_mora=Sum('mora24'),cuentas=Sum('form')).order_by('mes_vigencia')
-    mora36 = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto='04 Hipotecario',mes_vigencia__lte =before11).annotate(sum_mora=Sum('mora36'),cuentas=Sum('form')).order_by('mes_vigencia')
+    if filtro1 == 'trimestre_form':
+        mora12 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='04 Hipotecario').annotate(sum_mora=Sum('mora12'),cuentas=Sum('ctas')).order_by(filtro1)
+        mora24 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='04 Hipotecario').annotate(sum_mora=Sum('mora24'),cuentas=Sum('ctas')).order_by(filtro1)
+        mora36 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='04 Hipotecario').annotate(sum_mora=Sum('mora36'),cuentas=Sum('ctas')).order_by(filtro1)
+    else:
+        mora12 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='04 Hipotecario', periodo__gte=filtro2).annotate(sum_mora=Sum('mora12'),cuentas=Sum('ctas')).order_by(filtro1)
+        mora24 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='04 Hipotecario', periodo__gte=filtro2).annotate(sum_mora=Sum('mora24'),cuentas=Sum('ctas')).order_by(filtro1)
+        mora36 = Seguimiento1.objects.values(filtro1,'producto').filter(producto='04 Hipotecario', periodo__gte=filtro2).annotate(sum_mora=Sum('mora36'),cuentas=Sum('ctas')).order_by(filtro1)
     mora12_dict = {}; mora24_dict = {}; mora36_dict = {};
     for j in mora12:
-        if j['mes_vigencia'] <= morames_list[12]:
-            mora12_dict[j['mes_vigencia']]=j['sum_mora']*100/j['cuentas']
+        if j[filtro1] <= morames_list[num_mora12]:
+            mora12_dict[j[filtro1]]=j['sum_mora']*100/j['cuentas']
     for j in mora24:
-        if j['mes_vigencia'] <= morames_list[24]:
-            mora24_dict[j['mes_vigencia']]=j['sum_mora']*100/j['cuentas']
+        if j[filtro1] <= morames_list[num_mora24]:
+            mora24_dict[j[filtro1]]=j['sum_mora']*100/j['cuentas']
     for j in mora36:
-        if j['mes_vigencia'] <= morames_list[36]:
-            mora36_dict[j['mes_vigencia']]=j['sum_mora']*100/j['cuentas']
+        if j[filtro1] <= morames_list[num_mora36]:
+            mora36_dict[j[filtro1]]=j['sum_mora']*100/j['cuentas']
 
-    total_forzaje = Forzaje.objects.values('mes_vigencia').filter(producto='04 Hipotecario').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    total_forzaje = Forzaje.objects.values(filtro1).filter(producto='04 Hipotecario').annotate(cantidad=Sum('form')).order_by(filtro1)
     forzaje_dict = {}
     for i in meses:
 	for j in total_forzaje:
-	    if i['mes_vigencia'] == j['mes_vigencia']:
-		forzaje_dict[j['mes_vigencia']]=j['cantidad']
+	    if i[filtro1] == j[filtro1]:
+		forzaje_dict[j[filtro1]]=j['cantidad']
 
-    forzaje2 = Forzaje.objects.values('mes_vigencia', 'dic_global').filter(producto = '04 Hipotecario').exclude(dic_global='AP').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    forzaje2 = Forzaje.objects.values(filtro1, 'dic_global').filter(producto = '04 Hipotecario').exclude(dic_global='AP').annotate(cantidad=Sum('form')).order_by(filtro1)
     duda_dict = {}
     rechazo_dict = {}
     for i in meses:
        for j in forzaje2:
-          if i['mes_vigencia'] == j['mes_vigencia']:
+          if i[filtro1] == j[filtro1]:
 	     if  j['dic_global']=='DU':
-             	duda_dict[i['mes_vigencia']]=j['cantidad']*100/forzaje_dict[i['mes_vigencia']]
+             	duda_dict[i[filtro1]]=j['cantidad']*100/forzaje_dict[i[filtro1]]
 	     elif  j['dic_global']=='RE':
-             	rechazo_dict[i['mes_vigencia']]=j['cantidad']*100/forzaje_dict[i['mes_vigencia']]
+             	rechazo_dict[i[filtro1]]=j['cantidad']*100/forzaje_dict[i[filtro1]]
        	     else:
-             	duda_dict[i['mes_vigencia']]= 0
-             	rechazo_dict[i['mes_vigencia']]= 0
+             	duda_dict[i[filtro1]]= 0
+             	rechazo_dict[i[filtro1]]= 0
 
     meses_mapa = Mapa.objects.values('codmes').order_by('codmes').distinct()
     list_meses=[]; d=0

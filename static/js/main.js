@@ -212,8 +212,18 @@ $("#ex13").change(function(e){
        var html = "";
        for (var datos in result){
         html = html + "<tr><td>"+result[datos].distrito+"</td>"+"<td>"+result[datos].contrato.toFixed(0)+"</td>"+"<td>"+result[datos].inver.toFixed(0)+"</td>"+"<td>"+result[datos].mora.toFixed(2)+"%"+"</td></tr>";
+        $("#"+result[datos].ubigeo).tooltipster('content',$("<span><center><font color='blue'>"+result[datos].distrito+"</font></center></br><center><font size=3># Ctas: "+ result[datos].contrato +"</font></center></br><center><font size=3>Inver: "+result[datos].inver.toFixed(0)+"</font></center></br><center><font size=3>Mora: "+result[datos].mora.toFixed(2)+"%"+"</font></center></br></span>"));
        };
        $("#tabla_mapa").html(html);
+       /*
+       var html2 = "";
+       for (var datos in result){
+        if (result[datos].ubigeo == "070106"){
+          html2 = html2 + '<span><center><font color="blue">Ventanilla</font></font></center></br><center><font size=3># Ctas:'+ result[datos].contrato +'</font></center></br><center><font size=3>Inver:'+ result[datos].inver.toFixed(0) +'</font></center></br><center><font size=3>% Mora:'+ result[datos].mora.toFixed(2) +'%</font></center></br></span>';
+        }
+       };
+       $("#070106").tooltipster('content',html2);*/
+       
     }
   });
 });
