@@ -4094,7 +4094,7 @@ def seguimiento_hipoteca(request, fecha='201312', filtro1='mes_vigencia', filtro
         depen = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='1. Dependiente').annotate(seg = Sum('form')).order_by(filtro1)
         indep = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='2. Independiente').annotate(seg=Sum('form')).order_by(filtro1)
         pnn = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='3. PNN').annotate(seg=Sum('form')).order_by(filtro1)
-        no_recon = Seguimiento1.objects.values(filtro1, 'riesgos').filter(riesgos='CAMP', producto='04 Hipotecario', cat_persona='4.No Reconocido').annotate(seg=Sum('form')).order_by(filtro1)
+        no_recon = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='4.No Reconocido').annotate(seg=Sum('form')).order_by(filtro1)
     else:
         depen = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='1. Dependiente', periodo__gte=filtro2).annotate(seg = Sum('form')).order_by(filtro1)
         indep = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='04 Hipotecario', cat_persona='2. Independiente', periodo__gte=filtro2).annotate(seg=Sum('form')).order_by(filtro1)
@@ -4195,14 +4195,14 @@ def seguimiento_hipoteca(request, fecha='201312', filtro1='mes_vigencia', filtro
 
     if filtro1 == 'trimestre_form':
         meses_moras = Seguimiento1.objects.values('trimestre_form').order_by('-trimestre_form').distinct()
-        num_mora12 = 4
-        num_mora24 = 8
-        num_mora36 = 12
+        num_mora12 = 2 #4
+        num_mora24 = 2 #8
+        num_mora36 = 2 #12
     else:
         meses_moras = Seguimiento1.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
-        num_mora12 = 12
-        num_mora24 = 24
-        num_mora36 = 36
+        num_mora12 = 12 #12
+        num_mora24 = 12 #24
+        num_mora36 = 12 #36
 
     morames_list = []
     for i in meses_moras:
