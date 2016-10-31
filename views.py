@@ -4138,14 +4138,37 @@ def seguimiento_hipoteca(request, fecha='201312', filtro1='mes_vigencia', filtro
             if i[filtro1] == j[filtro1]:
                 if j['rng_ing'] == '01 [3.5K - ...]':
                     rango1_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
-                elif j['rng_ing'] == '02 [2.5K - 3.5K]':
+                    break
+                else:
+                    rango1_dict[i[filtro1]]=[]
+        for j in rangos:
+            if i[filtro1] == j[filtro1]:
+                if j['rng_ing'] == '02 [2.5K - 3.5K]':
                     rango2_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
-                elif j['rng_ing'] == '03 [2K - 2.5K]':
+                    break
+                else:
+                    rango2_dict[i[filtro1]]=[]
+        for j in rangos:
+            if i[filtro1] == j[filtro1]:
+                if j['rng_ing'] == '03 [2K - 2.5K]':
                     rango3_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
-                elif j['rng_ing'] == '04 [1.5K - 2K]':
+                    break
+                else:
+                    rango3_dict[i[filtro1]]=[]
+        for j in rangos:
+            if i[filtro1] == j[filtro1]:
+                if j['rng_ing'] == '04 [1.5K - 2K]':
                     rango4_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
-                elif j['rng_ing'] == '05 [1K - 1.5K]':
+                    break
+                else:
+                    rango4_dict[i[filtro1]]=[]
+        for j in rangos:
+            if i[filtro1] == j[filtro1]:
+                if j['rng_ing'] == '05 [1K - 1.5K]':
                     rango5_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+                    break
+                else:
+                    rango5_dict[i[filtro1]]=[]
 
     buro1 = Seguimiento1.objects.values(filtro1).filter(buro_uno='G1-G2', producto="04 Hipotecario").annotate(cantidad=Sum('form')).order_by(filtro1)
     buro1_dict = {}
