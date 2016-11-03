@@ -10,6 +10,7 @@
 		  <div style="position: fixed; z-index:15; border: 34px solid white; top: 6%; width: 100%;">
 		  	<!--<div style="position: fixed; right: 3%; top: 10%; z-index:10; color:#094FA4; font-size:150%;"> Seguimiento Tarjetas </div>-->
           	<div><h1 class="page-header" id="seguimiento_inicio" style="position: fixed; z-index:5; width: 100%; top: 7%;">Seguimiento PLD</h1></div>
+          	<button id="show3" style="position: fixed; z-index:5; width: 6%; top: 9.5%; right: 4%;">Mora4</button>
           </div>
           &nbsp;
           <div class="botones" style = "text-align:left; width: 49%; font-size: 20px; display: inline-block; top:20%; padding:8% 0%;">
@@ -18,13 +19,19 @@
             &nbsp;
             {% if trimestre = 0 %}
             <label>Desde:&nbsp;</label>
-            <select class="form-control" id="tarjeta_periodo" style="display: inline-block; width:16%;">
+            <select class="form-control" id="pld_periodo" style="display: inline-block; width:16%;">
               {% for a in tiempo %}
               <option value="{{a.periodo}}" {% if filtro2 == a.periodo %} selected {% endif %}>{{a.periodo}}</option>
               {% endfor %}
             </select>
             <!--<label>&nbsp;hasta: 2016</label>-->
             {% else %}
+            <label>Desde:&nbsp;</label>
+            <select class="form-control" id="pld_periodo2" style="display: inline-block; width:16%;">
+              {% for a in tiempo %}
+              <option value="{{a.periodo}}" {% if filtro2 == a.periodo %} selected {% endif %}>{{a.periodo}}</option>
+              {% endfor %}
+            </select>
             {% endif %}
           </div>
           <div class="links" style = "text-align:right; width: 50%; font-size: 20px; display: inline-block;">
@@ -162,7 +169,7 @@
 			type: "stackedColumn",
 			name: "UNO A UNO",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -177,7 +184,7 @@
 			type: "stackedColumn",
 			name: "CAMPAÑA FAST",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -192,7 +199,7 @@
 			type: "stackedColumn",
 			name: "CAMPAÑA REGULAR",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -208,10 +215,10 @@
 			type: "spline",
 			name: "# FORMALIZADOS",
 			indexLabelFontColor: "darkblue",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			indexLabelOrientation: "vertical",			
 			color: "#094FA4",
-			indexLabel: "{y}",
+			indexLabel: " {y}",
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
@@ -239,7 +246,7 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "UNO A UNO",
-			indexLabelFontColor: "#89D1F3",	
+			indexLabelFontColor: "#89D1F3",
 			color: "#89D1F3",			
 			indexLabel: "{y}",
 			yValueFormatString: "##,###",
@@ -295,7 +302,7 @@
         chart2.render();
 	});
 
-	var chart = new CanvasJS.Chart("chartContainer5", {
+	var chart5 = new CanvasJS.Chart("chartContainer5", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento Total",
@@ -311,6 +318,7 @@
 			type: "spline",
 			name: "MORA4_60",
 			indexLabelFontColor: "#C8175E",
+			visible: true,
 			color: "#C8175E",			
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.##",
@@ -368,7 +376,19 @@
 		},
 		]
 	});
-	chart.render();
+	chart5.render();
+	var mostrar5 = "true";
+	$("#show3").click(function () {
+		if ( mostrar5 == "true" ){
+			chart5.options.data[0].visible = false;
+        	chart5.render();
+        	mostrar5 = "false";
+		} else {
+			chart5.options.data[0].visible = true;
+        	chart5.render();
+        	mostrar5 = "true";
+		}
+	});
 
 	var chart = new CanvasJS.Chart("chartContainer4", {
 		theme: "theme2",//theme1
@@ -386,7 +406,7 @@
 			type: "stackedColumn",
 			name: "AVA",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -401,7 +421,7 @@
 			type: "stackedColumn",
 			name: "MS",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -416,7 +436,7 @@
 			type: "stackedColumn",
 			name: "No PH",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -432,7 +452,7 @@
 			type: "stackedColumn",
 			name: "NoCli",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -448,9 +468,8 @@
 			type: "scatter",
 			name: "# Formalizados",
 			indexLabelFontColor: "darkblue",
-			 indexLabelFontSize: 10,
 			indexLabelOrientation: "vertical",			
-			indexLabel: "{y}",
+			indexLabel: " {y}",
 			color: "#C8175E",
 			showInLegend: "true",
 			dataPoints: [
@@ -479,7 +498,7 @@
 			type: "stackedColumn",
 			name: "MS",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -494,7 +513,7 @@
 			type: "stackedColumn",
 			name: "No PH",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -509,8 +528,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
 			name: "NoCli",
-			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontColor: "white",	
+			indexLabelFontSize: {{num_index}},		
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -526,9 +545,9 @@
 			type: "scatter",
 			name: "# Formalizados",
 			indexLabelFontColor: "darkblue",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			indexLabelOrientation: "vertical",			
-			indexLabel: "{y}",
+			indexLabel: " {y}",
 			color: "#C8175E",
 			showInLegend: "true",
 			dataPoints: [
@@ -557,7 +576,7 @@
 			type: "stackedColumn",
 			name: "Dependiente",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -572,7 +591,7 @@
 			type: "stackedColumn",
 			name: "Independiente",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -587,7 +606,7 @@
 			type: "stackedColumn",
 			name: "PNN",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -603,7 +622,7 @@
 			type: "stackedColumn",
 			name: "No Reconocido",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -619,9 +638,9 @@
 			type: "scatter",
 			name: "# Formalizados",
 			indexLabelFontColor: "darkblue",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			indexLabelOrientation: "vertical",			
-			indexLabel: "{y}",
+			indexLabel: " {y}",
 			color: "#C8175E",
 			showInLegend: "true",
 			dataPoints: [
@@ -650,7 +669,7 @@
 			type: "stackedColumn",
 			name: "Dependiente",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -665,7 +684,7 @@
 			type: "stackedColumn",
 			name: "Independiente",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -680,7 +699,7 @@
 			type: "stackedColumn",
 			name: "PNN",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -696,7 +715,7 @@
 			type: "stackedColumn",
 			name: "No Reconocido",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -712,9 +731,9 @@
 			type: "scatter",
 			name: "# Formalizados",
 			indexLabelFontColor: "darkblue",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			indexLabelOrientation: "vertical",			
-			indexLabel: "{y}",
+			indexLabel: " {y}",
 			color: "#C8175E",
 			showInLegend: "true",
 			dataPoints: [
@@ -772,7 +791,7 @@
 	});
 	chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer7", {
+	var chart7 = new CanvasJS.Chart("chartContainer7", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento - Segmento AVA",
@@ -791,6 +810,7 @@
 			type: "spline",
 			name: "Mora 4_60",
 			//indexLabel: "{y}%",
+			visible: true,
 			indexLabelFontColor: "#C8175E",
 			color: "#C8175E",
 			yValueFormatString: "#0.#",
@@ -848,9 +868,22 @@
 		},
 		]
 	});
-	chart.render();
+	chart7.render();
+	var mostrar7 = "true";
+	$("#show3").click(function () {
+		if ( mostrar7 == "true" ){
+			chart7.options.data[0].visible = false;
+        	chart7.render();
+        	mostrar7 = "false";
+		} else {
+			chart7.options.data[0].visible = true;
+        	chart7.render();
+        	mostrar7 = "true";
+		}
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer8", {
+
+	var chart8 = new CanvasJS.Chart("chartContainer8", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento - Segmento MS",
@@ -926,9 +959,21 @@
 		},
 		]
 	});
-	chart.render();
+	chart8.render();
+	var mostrar8 = "true";
+	$("#show3").click(function () {
+		if ( mostrar8 == "true" ){
+			chart8.options.data[0].visible = false;
+        	chart8.render();
+        	mostrar8 = "false";
+		} else {
+			chart8.options.data[0].visible = true;
+        	chart8.render();
+        	mostrar8 = "true";
+		}
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer9", {
+	var chart9 = new CanvasJS.Chart("chartContainer9", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento - Segmento NoPH",
@@ -949,6 +994,7 @@
 			//indexLabel: "{y}%",
 			indexLabelFontColor: "#C8175E",
 			color: "#C8175E",
+			visible: true,
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
 			dataPoints: [
@@ -1004,9 +1050,21 @@
 		},
 		]
 	});
-	chart.render();
+	chart9.render();
+	var mostrar9 = "true";
+	$("#show3").click(function () {
+		if ( mostrar9 == "true" ){
+			chart9.options.data[0].visible = false;
+        	chart9.render();
+        	mostrar9 = "false";
+		} else {
+			chart9.options.data[0].visible = true;
+        	chart9.render();
+        	mostrar9 = "true";
+		}
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer10", {
+	var chart10 = new CanvasJS.Chart("chartContainer10", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento - Segmento NoCli",
@@ -1082,14 +1140,29 @@
 		},
 		]
 	});
-	chart.render();
+	chart10.render();
+	var mostrar10 = "true";
+	$("#show3").click(function () {
+		if ( mostrar10 == "true" ){
+			chart10.options.data[0].visible = false;
+        	chart10.render();
+        	mostrar10 = "false";
+		} else {
+			chart10.options.data[0].visible = true;
+        	chart10.render();
+        	mostrar10 = "true";
+		}
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer12", {
+	var chart12 = new CanvasJS.Chart("chartContainer12", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento Uno a Uno",
 			fontColor: "#86C82D",             
 		},
+                axisY:{
+                        interval:2,
+                },
 		legend:{
 			fontSize: 15,
 		},
@@ -1157,9 +1230,21 @@
 		},
 		]
 	});
-	chart.render();
+	chart12.render();
+	var mostrar12 = "true";
+	$("#show3").click(function () {
+		if ( mostrar12 == "true" ){
+			chart12.options.data[0].visible = false;
+        	chart12.render();
+        	mostrar12 = "false";
+		} else {
+			chart12.options.data[0].visible = true;
+        	chart12.render();
+        	mostrar12 = "true";
+		}
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer6", {
+	var chart6 = new CanvasJS.Chart("chartContainer6", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento Campaña",
@@ -1235,7 +1320,19 @@
 		},
 		]
 	});
-	chart.render();
+	chart6.render();
+	var mostrar6 = "true";
+	$("#show3").click(function () {
+		if ( mostrar6 == "true" ){
+			chart6.options.data[0].visible = false;
+        	chart6.render();
+        	mostrar6 = "false";
+		} else {
+			chart6.options.data[0].visible = true;
+        	chart6.render();
+        	mostrar6 = "true";
+		}
+	});
 
 	var chart = new CanvasJS.Chart("chartContainer3", {
 		theme: "theme2",//theme1
@@ -1257,7 +1354,7 @@
 			name: "[0 - 1,000]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			color: "#FDBD2C",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1273,7 +1370,7 @@
 			name: "[1,000 - 1,500]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			color: "#C8175E",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1289,7 +1386,7 @@
 			name: "[1,500 - 2,000]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			color: "#89D1F3",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1305,7 +1402,7 @@
 			name: "[2,000 - 2,500]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			color: "#009EE5",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1321,7 +1418,7 @@
 			name: "[2,500 - 3,500]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			color: "#094FA4",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1337,7 +1434,7 @@
 			name: "[3,500 - a más]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			color: "#86C82D",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1351,7 +1448,7 @@
 	});
 	chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer14", {
+	var chart14 = new CanvasJS.Chart("chartContainer14", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento - Dependientes",
@@ -1427,9 +1524,21 @@
 		},
 		]
 	});
-	chart.render();
+	chart14.render();
+	var mostrar14 = "true";
+	$("#show3").click(function () {
+		if ( mostrar14 == "true" ){
+			chart14.options.data[0].visible = false;
+        	chart14.render();
+        	mostrar14 = "false";
+		} else {
+			chart14.options.data[0].visible = true;
+        	chart14.render();
+        	mostrar14 = "true";
+		}
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer15", {
+	var chart15 = new CanvasJS.Chart("chartContainer15", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento - Independientes",
@@ -1505,9 +1614,21 @@
 		},
 		]
 	});
-	chart.render();
+	chart15.render();
+	var mostrar15 = "true";
+	$("#show3").click(function () {
+		if ( mostrar15 == "true" ){
+			chart15.options.data[0].visible = false;
+        	chart15.render();
+        	mostrar15 = "false";
+		} else {
+			chart15.options.data[0].visible = true;
+        	chart15.render();
+        	mostrar15 = "true";
+		}
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer16", {
+	var chart16 = new CanvasJS.Chart("chartContainer16", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento - PNN",
@@ -1583,9 +1704,21 @@
 		},
 		]
 	});
-	chart.render();
+	chart16.render();
+	var mostrar16 = "true";
+	$("#show3").click(function () {
+		if ( mostrar16 == "true" ){
+			chart16.options.data[0].visible = false;
+        	chart16.render();
+        	mostrar16 = "false";
+		} else {
+			chart16.options.data[0].visible = true;
+        	chart16.render();
+        	mostrar16 = "true";
+		}
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer17", {
+	var chart17 = new CanvasJS.Chart("chartContainer17", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento - No Reconocidos",
@@ -1661,7 +1794,19 @@
 		},
 		]
 	});
-	chart.render();
+	chart17.render();
+	var mostrar17 = "true";
+	$("#show3").click(function () {
+		if ( mostrar17 == "true" ){
+			chart17.options.data[0].visible = false;
+        	chart17.render();
+        	mostrar17 = "false";
+		} else {
+			chart17.options.data[0].visible = true;
+        	chart17.render();
+        	mostrar17 = "true";
+		}
+	});
 
 	var chart = new CanvasJS.Chart("chartContainer20", {
 		theme: "theme2",//theme1
@@ -2048,7 +2193,7 @@
 			type: "stackedColumn",
 			name: "G1-G4",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -2063,7 +2208,7 @@
 			type: "stackedColumn",
 			name: "G5",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -2078,7 +2223,7 @@
 			type: "stackedColumn",
 			name: "G6-G8",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -2094,7 +2239,7 @@
 			type: "stackedColumn",
 			name: "NB",
 			indexLabelFontColor: "white",
-			 indexLabelFontSize: 10,			
+			indexLabelFontSize: {{num_index}},			
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -2110,10 +2255,10 @@
 			type: "scatter",
 			name: "# FORMALIZADOS",
 			indexLabelFontColor: "darkblue",
-			 indexLabelFontSize: 10,
+			indexLabelFontSize: {{num_index}},
 			indexLabelOrientation: "vertical",			
 			color: "#C8175E",
-			indexLabel: "{y}",
+			indexLabel: " {y}",
 			//percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
@@ -2133,12 +2278,35 @@
     });
     $("#button2").click(function(){
           window.location.href = "/reports/seguimiento_pld/"+"trimestre_form"+"/"+"2011"+"/";
+          $("#pld_periodo").style.display = "none";
     });
-    $("#tarjeta_periodo").change(function(e){
-  		console.log($("#tarjeta_periodo").val());
 
-  		window.location.href = "/reports/seguimiento_pld/"+"mes_vigencia"+"/"+$("#tarjeta_periodo").val()+"/";
+    $("#pld_periodo").change(function(e){
+  		console.log($("#pld_periodo").val());
+
+  		window.location.href = "/reports/seguimiento_pld/"+"mes_vigencia"+"/"+$("#pld_periodo").val()+"/";
 	});
+
+	$("#pld_periodo2").change(function(e){
+  		console.log($("#pld_periodo2").val());
+
+  		window.location.href = "/reports/seguimiento_pld/"+"trimestre_form"+"/"+$("#pld_periodo2").val()+"/";
+	});
+
+	/*
+	if (mostrar = true){
+		$("#show3").click(function () {
+			chart3.options.data[0].visible = true;
+			chart3.render();
+			mostrar = true;       	
+		});
+	} else {
+		$("#show3").click(function () {
+			chart3.options.data[0].visible = false;
+        	chart3.render();
+			mostrar = false;
+		});
+	}*/
   </script>
 {% endblock %}
 
