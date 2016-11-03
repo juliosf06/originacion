@@ -1466,10 +1466,10 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='2011'):
         for i in mora_mes:
             menor2015_list.append(i[filtro1])
         num_lista = len(menor2015_list)
-        num_mora4 = 4
-        num_mora6 = 6
-        num_mora9 = 10
-        num_mora12 = 12
+        num_mora4 = 3 #4
+        num_mora6 = 5 #6
+        num_mora9 = 9 #10
+        num_mora12 = 11 #12
 
     morames_list = []
     for i in meses_moras:
@@ -2252,10 +2252,10 @@ def seguimiento_pld(request, filtro1='mes_vigencia', filtro2='2011'):
         for i in mora_mes:
             menor2015_list.append(i[filtro1])
         num_lista = len(menor2015_list)
-        num_mora4 = 4
-        num_mora6 = 6
-        num_mora9 = 10
-        num_mora12 = 12
+        num_mora4 = 3 #4
+        num_mora6 = 5 #6
+        num_mora9 = 9 #10
+        num_mora12 = 11 #12
 
     morames_list = []
     for i in meses_moras:
