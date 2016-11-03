@@ -11,6 +11,7 @@
 		  <div style="position: fixed; z-index:15; border: 34px solid white; top: 6%; width: 100%;">
 		  	<!--<div style="position: fixed; right: 3%; top: 10%; z-index:10; color:#094FA4; font-size:150%;"> Seguimiento Tarjetas </div>-->
           	<div><h1 class="page-header" id="seguimiento_inicio" style="position: fixed; z-index:5; width: 100%; top: 7%;">Seguimiento Tarjeta</h1></div>
+          	<button id="show3" style="position: fixed; z-index:5; width: 8%; top: 9.5%; right: 4%;">Mora4</button>
           </div>
           &nbsp;
           <div class="botones" style = "text-align:left; width: 49%; font-size: 20px; display: inline-block; top:20%; padding:8% 0%;">
@@ -26,6 +27,12 @@
             </select>
             <!--<label>&nbsp;hasta: 2016</label>-->
             {% else %}
+            <label>Desde:&nbsp;</label>
+            <select class="form-control" id="tarjeta_periodo2" style="display: inline-block; width:16%;">
+              {% for a in tiempo %}
+              <option value="{{a.periodo}}" {% if filtro2 == a.periodo %} selected {% endif %}>{{a.periodo}}</option>
+              {% endfor %}
+            </select>
             {% endif %}
           </div>
           <div class="links" style = "text-align:right; width: 49%; font-size: 20px; display: inline-block; top:20%; padding:8% 0%;">
@@ -297,7 +304,7 @@
         chart2.render();
 	});
 
-	var chart = new CanvasJS.Chart("chartContainer5", {
+	var chart3 = new CanvasJS.Chart("chartContainer5", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento Total",
@@ -313,6 +320,7 @@
 			type: "spline",
 			name: "MORA4_60",
 			indexLabelFontColor: "#C8175E",
+			visible: true,
 			color: "#C8175E",			
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.##",
@@ -370,7 +378,19 @@
 		},
 		]
 	});
-	chart.render();
+	chart3.render();
+	var mostrar3 = "true";
+	$("#show3").click(function () {
+		if ( mostrar3 == "true" ){
+			chart3.options.data[0].visible = false;
+        	chart3.render();
+        	mostrar3 = "false";
+		} else {
+			chart3.options.data[0].visible = true;
+        	chart3.render();
+        	mostrar3 = "true";
+		}
+	});
 
 	var chart = new CanvasJS.Chart("chartContainer4", {
 		theme: "theme2",//theme1
@@ -773,7 +793,7 @@
 	});
 	chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer7", {
+	var chart4 = new CanvasJS.Chart("chartContainer7", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento - Segmento AVA",
@@ -792,6 +812,7 @@
 			type: "spline",
 			name: "Mora 4_60",
 			//indexLabel: "{y}%",
+			visible: true,
 			indexLabelFontColor: "#C8175E",
 			color: "#C8175E",
 			yValueFormatString: "#0.#",
@@ -849,9 +870,22 @@
 		},
 		]
 	});
-	chart.render();
+	chart4.render();
+	var mostrar4 = "true";
+	$("#show3").click(function () {
+		if ( mostrar4 == "true" ){
+			chart4.options.data[0].visible = false;
+        	chart4.render();
+        	mostrar4 = "false";
+		} else {
+			chart4.options.data[0].visible = true;
+        	chart4.render();
+        	mostrar4 = "true";
+		}
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer8", {
+
+	var chart5 = new CanvasJS.Chart("chartContainer8", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento - Segmento MS",
@@ -927,9 +961,21 @@
 		},
 		]
 	});
-	chart.render();
+	chart5.render();
+	var mostrar5 = "true";
+	$("#show3").click(function () {
+		if ( mostrar5 == "true" ){
+			chart5.options.data[0].visible = false;
+        	chart5.render();
+        	mostrar5 = "false";
+		} else {
+			chart5.options.data[0].visible = true;
+        	chart5.render();
+        	mostrar5 = "true";
+		}
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer9", {
+	var chart6 = new CanvasJS.Chart("chartContainer9", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento - Segmento NoPH",
@@ -1005,9 +1051,21 @@
 		},
 		]
 	});
-	chart.render();
+	chart6.render();
+	var mostrar6 = "true";
+	$("#show3").click(function () {
+		if ( mostrar6 == "true" ){
+			chart6.options.data[0].visible = false;
+        	chart6.render();
+        	mostrar6 = "false";
+		} else {
+			chart6.options.data[0].visible = true;
+        	chart6.render();
+        	mostrar6 = "true";
+		}
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer10", {
+	var chart7 = new CanvasJS.Chart("chartContainer10", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento - Segmento NoCli",
@@ -1083,7 +1141,19 @@
 		},
 		]
 	});
-	chart.render();
+	chart7.render();
+	var mostrar7 = "true";
+	$("#show3").click(function () {
+		if ( mostrar7 == "true" ){
+			chart7.options.data[0].visible = false;
+        	chart7.render();
+        	mostrar7 = "false";
+		} else {
+			chart7.options.data[0].visible = true;
+        	chart7.render();
+        	mostrar7 = "true";
+		}
+	});
 
 	var chart = new CanvasJS.Chart("chartContainer12", {
 		theme: "theme2",//theme1
@@ -2145,6 +2215,27 @@
 
   		window.location.href = "/reports/seguimiento/tarjeta/"+"mes_vigencia"+"/"+$("#tarjeta_periodo").val()+"/";
 	});
+
+	$("#tarjeta_periodo2").change(function(e){
+  		console.log($("#tarjeta_periodo2").val());
+
+  		window.location.href = "/reports/seguimiento/tarjeta/"+"trimestre_form"+"/"+$("#tarjeta_periodo2").val()+"/";
+	});
+
+	/*
+	if (mostrar = true){
+		$("#show3").click(function () {
+			chart3.options.data[0].visible = true;
+			chart3.render();
+			mostrar = true;       	
+		});
+	} else {
+		$("#show3").click(function () {
+			chart3.options.data[0].visible = false;
+        	chart3.render();
+			mostrar = false;
+		});
+	}*/
   </script>
 {% endblock %}
 

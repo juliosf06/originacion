@@ -487,6 +487,7 @@ class Comentario(models.Model):
     comentario = models.CharField(max_length=3500, default=0)
     usuario = models.CharField(max_length=20)
     tiempo = models.CharField(max_length=50, default=0)
+    hora = models.CharField(max_length=20, default=0)
 
     def __str__(self):
         return self.periodo+' '+self.usuario

@@ -45,6 +45,8 @@
         <th>Periodo</th>
         <th>Usuario</th>
         <th>Tiempo</th>
+        <th>Hora</th>
+        <th></th>
       </tr>
     </thead>
     <tbody id="tabla_comentarios" class="tabla_comentarios">
@@ -53,7 +55,8 @@
         <td>{{a.periodo}}</td>
         <td>{{a.usuario}}</td>
         <td>{{a.tiempo}}</td>
-        <td><button type="button" id="{{a.usuario}}{{a.tiempo|convert_time}}"> BORRAR </button></td>
+        <td>{{a.hora}}</td>
+        <td><button type="button" id="{{a.usuario}}-{{a.tiempo|convert_time}}-{{a.hora|convert_time}}"> BORRAR </button></td>
       </tr>
 
       {% endfor %}
@@ -81,8 +84,8 @@ var today = dd+'/'+mm+'/'+yyyy;
 document.getElementById('time').innerHTML=today;
 
 {% for a in coment %}
-  $("#{{a.usuario}}{{a.tiempo|convert_time}}").click(function(){
-    window.location.href = "/reports/comentario/"+"{{a.usuario}}"+"/"+"{{a.tiempo}}"+"/";
+  $("#{{a.usuario}}-{{a.tiempo|convert_time}}-{{a.hora|convert_time}}").click(function(){
+    window.location.href = "/reports/comentario/"+"{{a.usuario}}"+"/"+"{{a.tiempo|convert_time2}}"+"/"+"{{a.hora|convert_time2}}"+"/";
   });
 {% endfor %}
 

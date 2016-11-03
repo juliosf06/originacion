@@ -82,9 +82,13 @@ def x_cien(value):
 @register.filter
 def convert_time(value):
     value1 = value.replace("/","")
-    value2 = value1.replace(" ","")
-    value = value2.replace(":","")
+    value = value1.replace(":","")
     return value
 
+@register.filter
+def convert_time2(value):
+    value1 = value.replace("/","_")
+    value = value1.replace(":","_")
+    return value
 
 
