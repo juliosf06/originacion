@@ -79,5 +79,12 @@ def to_str(value):
 def x_cien(value):
     return value*100
 
+@register.filter
+def convert_time(value):
+    value1 = value.replace("/","")
+    value2 = value1.replace(" ","")
+    value = value2.replace(":","")
+    return value
+
 
 

@@ -90,6 +90,7 @@ urlpatterns = [
     url(r'^delete/$', views.delete, name='delete'),
     url(r'^delete/(?P<base>\d+)/(?P<fecha>[0-9]{6})/(?P<numsemana>\d+)/$', views.delete, name='delete'),
     url(r'^comentario/$', views.comentario, name='comentario'),
+    url(r'^comentario/(?P<filtro1>[\w|\W]+)/(?P<filtro2>[\w|\W]+)/$', views.comentario, name='comentario'),
 
     # URLS para carga de archivos
     url(r'^load_data/carga_rvgl/$', views.carga_rvgl, name='carga_rvgl'),

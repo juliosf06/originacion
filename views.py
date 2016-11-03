@@ -21,6 +21,7 @@ import sys
 from .models import Comentario
 
 hoy = datetime.now().strftime("%d/%m/%Y %I:%M %p")
+hora = datetime.now().strftime("%I:%M %p")
 fecha_actual = datetime.now().strftime("%Y%m")
 m1 = datetime.now()-timedelta(days=1*30)
 before1 = m1.strftime("%Y%m")
@@ -48,6 +49,7 @@ next1 = datetime.now()+timedelta(days=1*30)
 after1 = next1.strftime("%Y%m")
 print fecha_actual
 print after1
+print hora
 
 # 1.- Vista para links en contruccion
 def login_reports(request): #agregado
@@ -4218,14 +4220,14 @@ def seguimiento_hipoteca(request, fecha='201312', filtro1='mes_vigencia', filtro
 
     if filtro1 == 'trimestre_form':
         meses_moras = Seguimiento1.objects.values('trimestre_form').order_by('-trimestre_form').distinct()
-        num_mora12 = 2 #4
-        num_mora24 = 2 #8
-        num_mora36 = 2 #12
+        num_mora12 = 3 #4
+        num_mora24 = 7 #8
+        num_mora36 = 11 #12
     else:
         meses_moras = Seguimiento1.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
-        num_mora12 = 12 #12
-        num_mora24 = 12 #24
-        num_mora36 = 12 #36
+        num_mora12 = 11 #12
+        num_mora24 = 23 #24
+        num_mora36 = 35 #36
 
     morames_list = []
     for i in meses_moras:
@@ -4743,18 +4745,24 @@ def delete(request, base=0, fecha=after1, numsemana=0):
 
 # Vista para comentarios
 @login_required
-def comentario(request):
+def comentario(request, filtro1='1', filtro2='1'):
     meses = Seguimiento1.objects.values('mes_vigencia').distinct('mes_vigencia').order_by('mes_vigencia')
     coment = Comentario.objects.all();
-    num = Comentario.objects.count()
+    num = Comentario.objects.count();
+    filtro1 = str(filtro1)
+    filtro2 = str(filtro2)
 
-    username = None
-    if request.method == 'POST':
-        if request.user.is_authenticated():
-            username = request.user.username
-            periodo = request.POST.get('periodo')
-            comentario = request.POST.get('comentarios')
-            comentario_instance = Comentario.objects.create(usuario=username,periodo=periodo,comentario=comentario, tiempo=hoy ) 
+    if filtro1 == '1':
+        username = None
+        if request.method == 'POST':
+            if request.user.is_authenticated():
+                username = request.user.username
+                periodo = request.POST.get('periodo')
+                comentario = request.POST.get('comentarios')
+                comentario_instance = Comentario.objects.create(usuario=username,periodo=periodo,comentario=comentario, tiempo=hoy ) 
+                comments = Comentario.objects.values('usuario','tiempo').order_by('usuario')
+    else:
+        Comentario.objects.filter(usuario=filtro1,tiempo=filtro2).delete()
 
 
     static_url=settings.STATIC_URL

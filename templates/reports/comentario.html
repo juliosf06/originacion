@@ -53,6 +53,7 @@
         <td>{{a.periodo}}</td>
         <td>{{a.usuario}}</td>
         <td>{{a.tiempo}}</td>
+        <td><button type="button" id="{{a.usuario}}{{a.tiempo|convert_time}}"> BORRAR </button></td>
       </tr>
 
       {% endfor %}
@@ -79,10 +80,18 @@ if(mm<10){
 var today = dd+'/'+mm+'/'+yyyy;
 document.getElementById('time').innerHTML=today;
 
+{% for a in coment %}
+  $("#{{a.usuario}}{{a.tiempo|convert_time}}").click(function(){
+    window.location.href = "/reports/comentario/"+"{{a.usuario}}"+"/"+"{{a.tiempo}}"+"/";
+  });
+{% endfor %}
+
+
+/*
 $('#tabla_comentarios tr td').each(function(){
   $(this).attr("id","id_"+$(this).index()+1);
 });
-
+*/
 
 </script>
 {% endblock %}
