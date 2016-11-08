@@ -10,6 +10,8 @@
 		  <div style="position: fixed; z-index:15; border: 34px solid white; top: 6%; width: 100%;">
 		  	<!--<div style="position: fixed; right: 3%; top: 10%; z-index:10; color:#094FA4; font-size:150%;"> Seguimiento Tarjetas </div>-->
           	<div><h1 class="page-header" id="seguimiento_inicio" style="position: fixed; z-index:5; width: 100%; top: 7%;">Seguimiento PLD</h1></div>
+          	<button id="uptext" style="position: fixed; z-index:5; width: 2%; top: 9.5%; right: 12%;">+</button>
+          	<button id="downtext" style="position: fixed; z-index:5; width: 2%; top: 9.5%; right: 10%;">-</button>
           	<button id="show3" style="position: fixed; z-index:5; width: 6%; top: 9.5%; right: 4%;">Mora4</button>
           </div>
           &nbsp;
@@ -153,7 +155,7 @@
 {% block script_final %}
   <script type="text/javascript">
     window.onload = function () {
-	var chart = new CanvasJS.Chart("chartContainer", {
+	var chart1 = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Formalizados", 
@@ -169,7 +171,7 @@
 			type: "stackedColumn",
 			name: "UNO A UNO",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -184,7 +186,7 @@
 			type: "stackedColumn",
 			name: "CAMPAÑA FAST",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -199,7 +201,7 @@
 			type: "stackedColumn",
 			name: "CAMPAÑA REGULAR",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -215,7 +217,7 @@
 			type: "spline",
 			name: "# FORMALIZADOS",
 			indexLabelFontColor: "darkblue",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			indexLabelOrientation: "vertical",			
 			color: "#094FA4",
 			indexLabel: " {y}",
@@ -229,7 +231,26 @@
 		},
 		]
 	});
-	chart.render();
+	chart1.render();
+	var letra1 = 12;
+	$("#uptext").click(function () {
+		letra1 = letra1 + 2;
+		console.log(letra1);
+		chart1.options.data[0].indexLabelFontSize = letra1;
+		chart1.options.data[1].indexLabelFontSize = letra1;
+		chart1.options.data[2].indexLabelFontSize = letra1;
+		chart1.options.data[3].indexLabelFontSize = letra1;
+        chart1.render();        
+	});
+	$("#downtext").click(function () {
+		letra1 = letra1 - 2;
+		console.log(letra1);
+		chart1.options.data[0].indexLabelFontSize = letra1;
+		chart1.options.data[1].indexLabelFontSize = letra1;
+		chart1.options.data[2].indexLabelFontSize = letra1;
+		chart1.options.data[3].indexLabelFontSize = letra1;
+        chart1.render();
+	});
 
 	var chart2 = new CanvasJS.Chart("chartContainer2", {
 		theme: "theme2",//theme1
@@ -247,6 +268,7 @@
 			type: "spline",
 			name: "UNO A UNO",
 			indexLabelFontColor: "#89D1F3",
+			indexLabelFontSize: 12,
 			color: "#89D1F3",			
 			indexLabel: "{y}",
 			yValueFormatString: "##,###",
@@ -261,7 +283,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "CAMPAÑAS FAST",
-			indexLabelFontColor: "#009EE5",	
+			indexLabelFontColor: "#009EE5",
+			indexLabelFontSize: 12,	
 			color: "#009EE5",		
 			indexLabel: "{y}",
 			yValueFormatString: "##,###.",
@@ -276,7 +299,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "CAMPAÑAS MS",
-			indexLabelFontColor: "#86C82D",	
+			indexLabelFontColor: "#86C82D",
+			indexLabelFontSize: 12,	
 			color: "#86C82D",		
 			indexLabel: "{y}",
 			yValueFormatString: "##,###.",
@@ -301,6 +325,23 @@
 	chart2.options.data[1].indexLabel = "{y}";
         chart2.render();
 	});
+	var letra2 = 12;
+	$("#uptext").click(function () {
+		letra2 = letra2 + 2;
+		console.log(letra2);
+		chart2.options.data[0].indexLabelFontSize = letra2;
+		chart2.options.data[1].indexLabelFontSize = letra2;
+		chart2.options.data[2].indexLabelFontSize = letra2;
+        chart2.render();        
+	});
+	$("#downtext").click(function () {
+		letra2 = letra2 - 2;
+		console.log(letra2);
+		chart2.options.data[0].indexLabelFontSize = letra2;
+		chart2.options.data[1].indexLabelFontSize = letra2;
+		chart2.options.data[2].indexLabelFontSize = letra2;
+        chart2.render();
+	});
 
 	var chart5 = new CanvasJS.Chart("chartContainer5", {
 		theme: "theme2",//theme1
@@ -318,6 +359,7 @@
 			type: "spline",
 			name: "MORA4_60",
 			indexLabelFontColor: "#C8175E",
+			indexLabelFontSize: 12,
 			visible: true,
 			color: "#C8175E",			
 			indexLabel: "{y}%",
@@ -334,6 +376,7 @@
 			type: "spline",
 			name: "MORA6",
 			indexLabelFontColor: "#89D1F3",
+			indexLabelFontSize: 12,
 			color: "#89D1F3",			
 			indexLabel: "{y}%",
 			yValueFormatString: "#0.##",
@@ -348,7 +391,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "MORA9",
-			indexLabelFontColor: "#094FA4",			
+			indexLabelFontColor: "#094FA4",
+			indexLabelFontSize: 12,			
 			indexLabel: "{y}%",
 			color: "#094FA4",
 			yValueFormatString: "#0.##",
@@ -363,7 +407,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "spline",
 			name: "MORA12",
-			indexLabelFontColor: "#86C82D",			
+			indexLabelFontColor: "#86C82D",	
+			indexLabelFontSize: 12,		
 			indexLabel: "{y}%",
 			color: "#86C82D",
 			yValueFormatString: "#0.##",
@@ -389,8 +434,27 @@
         	mostrar5 = "true";
 		}
 	});
+	var letra5 = 12;
+	$("#uptext").click(function () {
+		letra5 = letra5 + 2;
+		console.log(letra5);
+		chart5.options.data[0].indexLabelFontSize = letra5;
+		chart5.options.data[1].indexLabelFontSize = letra5;
+		chart5.options.data[2].indexLabelFontSize = letra5;
+		chart5.options.data[3].indexLabelFontSize = letra5;
+        chart5.render();        
+	});
+	$("#downtext").click(function () {
+		letra5 = letra5 - 2;
+		console.log(letra5);
+		chart5.options.data[0].indexLabelFontSize = letra5;
+		chart5.options.data[1].indexLabelFontSize = letra5;
+		chart5.options.data[2].indexLabelFontSize = letra5;
+		chart5.options.data[3].indexLabelFontSize = letra5;
+        chart5.render();
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer4", {
+	var chart4 = new CanvasJS.Chart("chartContainer4", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Segmentos - Campaña (#Form)",
@@ -406,7 +470,7 @@
 			type: "stackedColumn",
 			name: "AVA",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -421,7 +485,7 @@
 			type: "stackedColumn",
 			name: "MS",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -436,7 +500,7 @@
 			type: "stackedColumn",
 			name: "No PH",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -452,7 +516,7 @@
 			type: "stackedColumn",
 			name: "NoCli",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -468,7 +532,8 @@
 			type: "scatter",
 			name: "# Formalizados",
 			indexLabelFontColor: "darkblue",
-			indexLabelOrientation: "vertical",			
+			indexLabelOrientation: "vertical",
+			indexLabelFontSize: 12,			
 			indexLabel: " {y}",
 			color: "#C8175E",
 			showInLegend: "true",
@@ -480,9 +545,30 @@
 		},
 		]
 	});
-	chart.render();
+	chart4.render();
+	var letra4 = 12;
+	$("#uptext").click(function () {
+		letra4 = letra4 + 2;
+		console.log(letra4);
+		chart4.options.data[0].indexLabelFontSize = letra4;
+		chart4.options.data[1].indexLabelFontSize = letra4;
+		chart4.options.data[2].indexLabelFontSize = letra4;
+		chart4.options.data[3].indexLabelFontSize = letra4;
+		chart4.options.data[4].indexLabelFontSize = letra4;
+        chart4.render();        
+	});
+	$("#downtext").click(function () {
+		letra4 = letra4 - 2;
+		console.log(letra4);
+		chart4.options.data[0].indexLabelFontSize = letra4;
+		chart4.options.data[1].indexLabelFontSize = letra4;
+		chart4.options.data[2].indexLabelFontSize = letra4;
+		chart4.options.data[3].indexLabelFontSize = letra4;
+		chart4.options.data[4].indexLabelFontSize = letra4;
+        chart4.render();
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer18", {
+	var chart18 = new CanvasJS.Chart("chartContainer18", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Segmentos - Uno a Uno (#Form)",
@@ -498,7 +584,7 @@
 			type: "stackedColumn",
 			name: "MS",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -513,7 +599,7 @@
 			type: "stackedColumn",
 			name: "No PH",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -529,7 +615,7 @@
 			type: "stackedColumn",
 			name: "NoCli",
 			indexLabelFontColor: "white",	
-			indexLabelFontSize: {{num_index}},		
+			indexLabelFontSize: 12,		
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -545,7 +631,7 @@
 			type: "scatter",
 			name: "# Formalizados",
 			indexLabelFontColor: "darkblue",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			indexLabelOrientation: "vertical",			
 			indexLabel: " {y}",
 			color: "#C8175E",
@@ -558,9 +644,28 @@
 		},
 		]
 	});
-	chart.render();
+	chart18.render();
+	var letra18 = 12;
+	$("#uptext").click(function () {
+		letra18 = letra18 + 2;
+		console.log(letra18);
+		chart18.options.data[0].indexLabelFontSize = letra18;
+		chart18.options.data[1].indexLabelFontSize = letra18;
+		chart18.options.data[2].indexLabelFontSize = letra18;
+		chart18.options.data[3].indexLabelFontSize = letra18;
+        chart18.render();        
+	});
+	$("#downtext").click(function () {
+		letra18 = letra18 - 2;
+		console.log(letra18);
+		chart18.options.data[0].indexLabelFontSize = letra18;
+		chart18.options.data[1].indexLabelFontSize = letra18;
+		chart18.options.data[2].indexLabelFontSize = letra18;
+		chart18.options.data[3].indexLabelFontSize = letra18;
+        chart18.render();
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer13", {
+	var chart13 = new CanvasJS.Chart("chartContainer13", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Relación Laboral - Campaña (#Form)",
@@ -576,7 +681,7 @@
 			type: "stackedColumn",
 			name: "Dependiente",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -591,7 +696,7 @@
 			type: "stackedColumn",
 			name: "Independiente",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -606,7 +711,7 @@
 			type: "stackedColumn",
 			name: "PNN",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -622,7 +727,7 @@
 			type: "stackedColumn",
 			name: "No Reconocido",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -638,7 +743,7 @@
 			type: "scatter",
 			name: "# Formalizados",
 			indexLabelFontColor: "darkblue",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			indexLabelOrientation: "vertical",			
 			indexLabel: " {y}",
 			color: "#C8175E",
@@ -651,9 +756,30 @@
 		},
 		]
 	});
-	chart.render();
+	chart13.render();
+	var letra13 = 12;
+	$("#uptext").click(function () {
+		letra13 = letra13 + 2;
+		console.log(letra13);
+		chart13.options.data[0].indexLabelFontSize = letra13;
+		chart13.options.data[1].indexLabelFontSize = letra13;
+		chart13.options.data[2].indexLabelFontSize = letra13;
+		chart13.options.data[3].indexLabelFontSize = letra13;
+		chart13.options.data[4].indexLabelFontSize = letra13;
+        chart13.render();        
+	});
+	$("#downtext").click(function () {
+		letra13 = letra13 - 2;
+		console.log(letra13);
+		chart13.options.data[0].indexLabelFontSize = letra13;
+		chart13.options.data[1].indexLabelFontSize = letra13;
+		chart13.options.data[2].indexLabelFontSize = letra13;
+		chart13.options.data[3].indexLabelFontSize = letra13;
+		chart13.options.data[4].indexLabelFontSize = letra13;
+        chart13.render();
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer19", {
+	var chart19 = new CanvasJS.Chart("chartContainer19", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Relación Laboral - Uno a Uno (#Form)",
@@ -669,7 +795,7 @@
 			type: "stackedColumn",
 			name: "Dependiente",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -684,7 +810,7 @@
 			type: "stackedColumn",
 			name: "Independiente",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -699,7 +825,7 @@
 			type: "stackedColumn",
 			name: "PNN",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -715,7 +841,7 @@
 			type: "stackedColumn",
 			name: "No Reconocido",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -731,7 +857,7 @@
 			type: "scatter",
 			name: "# Formalizados",
 			indexLabelFontColor: "darkblue",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			indexLabelOrientation: "vertical",			
 			indexLabel: " {y}",
 			color: "#C8175E",
@@ -744,9 +870,30 @@
 		},
 		]
 	});
-	chart.render();
+	chart19.render();
+	var letra19 = 12;
+	$("#uptext").click(function () {
+		letra19 = letra19 + 2;
+		console.log(letra19);
+		chart19.options.data[0].indexLabelFontSize = letra19;
+		chart19.options.data[1].indexLabelFontSize = letra19;
+		chart19.options.data[2].indexLabelFontSize = letra19;
+		chart19.options.data[3].indexLabelFontSize = letra19;
+		chart19.options.data[4].indexLabelFontSize = letra19;
+        chart19.render();        
+	});
+	$("#downtext").click(function () {
+		letra19 = letra19 - 2;
+		console.log(letra19);
+		chart19.options.data[0].indexLabelFontSize = letra19;
+		chart19.options.data[1].indexLabelFontSize = letra19;
+		chart19.options.data[2].indexLabelFontSize = letra19;
+		chart19.options.data[3].indexLabelFontSize = letra19;
+		chart19.options.data[4].indexLabelFontSize = letra19;
+        chart19.render();
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer11", {
+	var chart11 = new CanvasJS.Chart("chartContainer11", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Nivel de Forzaje (#Form)",
@@ -761,7 +908,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "column",
 			name: "Duda",
-			indexLabelFontColor: "#89D1F3",			
+			indexLabelFontColor: "#89D1F3",	
+			indexLabelFontSize: 12,		
 			indexLabel: "{y}%",
 			color: "#89D1F3",
 			yValueFormatString: "#0.",
@@ -776,7 +924,8 @@
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "column",
 			name: "Rechazo",
-			indexLabelFontColor: "#F6891E",			
+			indexLabelFontColor: "#F6891E",	
+			indexLabelFontSize: 12,		
 			indexLabel: "{y}%",
 			color: "#F6891E",
 			yValueFormatString: "#0.",
@@ -789,7 +938,22 @@
 		},
 		]
 	});
-	chart.render();
+	chart11.render();
+	var letra11 = 12;
+	$("#uptext").click(function () {
+		letra11 = letra11 + 2;
+		console.log(letra11);
+		chart11.options.data[0].indexLabelFontSize = letra11;
+		chart11.options.data[1].indexLabelFontSize = letra11;
+        chart11.render();        
+	});
+	$("#downtext").click(function () {
+		letra11 = letra11 - 2;
+		console.log(letra11);
+		chart11.options.data[0].indexLabelFontSize = letra11;
+		chart11.options.data[1].indexLabelFontSize = letra11;
+        chart11.render();
+	});
 
 	var chart7 = new CanvasJS.Chart("chartContainer7", {
 		theme: "theme2",//theme1
@@ -1174,6 +1338,7 @@
 			name: "Mora 4_60",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "#C8175E",
+			indexLabelFontSize: 12,
 			color: "#C8175E",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
@@ -1189,6 +1354,7 @@
 			name: "Mora 6",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "#89D1F3",
+			indexLabelFontSize: 12,
 			color: "#89D1F3",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
@@ -1204,6 +1370,7 @@
 			name: "Mora 9",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "#094FA4",
+			indexLabelFontSize: 12,
 			color: "#094FA4",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
@@ -1219,6 +1386,7 @@
 			name: "Mora 12",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "#86C82D",
+			indexLabelFontSize: 12,
 			color: "#86C82D",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
@@ -1243,6 +1411,25 @@
         	mostrar12 = "true";
 		}
 	});
+	var letra12 = 12;
+	$("#uptext").click(function () {
+		letra12 = letra12 + 2;
+		console.log(letra12);
+		chart12.options.data[0].indexLabelFontSize = letra12;
+		chart12.options.data[1].indexLabelFontSize = letra12;
+		chart12.options.data[2].indexLabelFontSize = letra12;
+		chart12.options.data[3].indexLabelFontSize = letra12;
+        chart12.render();        
+	});
+	$("#downtext").click(function () {
+		letra12 = letra12 - 2;
+		console.log(letra12);
+		chart12.options.data[0].indexLabelFontSize = letra12;
+		chart12.options.data[1].indexLabelFontSize = letra12;
+		chart12.options.data[2].indexLabelFontSize = letra12;
+		chart12.options.data[3].indexLabelFontSize = letra12;
+        chart12.render();
+	});
 
 	var chart6 = new CanvasJS.Chart("chartContainer6", {
 		theme: "theme2",//theme1
@@ -1264,6 +1451,7 @@
 			name: "Mora 4_60",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "#C8175E",
+			indexLabelFontSize: 12,
 			color: "#C8175E",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
@@ -1279,6 +1467,7 @@
 			name: "Mora 6",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "#89D1F3",
+			indexLabelFontSize: 12,
 			color: "#89D1F3",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
@@ -1294,6 +1483,7 @@
 			name: "Mora 9",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "#094FA4",
+			indexLabelFontSize: 12,
 			color: "#094FA4",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
@@ -1309,6 +1499,7 @@
 			name: "Mora 12",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "#86C82D",
+			indexLabelFontSize: 12,
 			color: "#86C82D",
 			yValueFormatString: "#0.#",
 			showInLegend: "true",
@@ -1333,8 +1524,27 @@
         	mostrar6 = "true";
 		}
 	});
+	var letra6 = 12;
+	$("#uptext").click(function () {
+		letra6 = letra6 + 2;
+		console.log(letra6);
+		chart6.options.data[0].indexLabelFontSize = letra6;
+		chart6.options.data[1].indexLabelFontSize = letra6;
+		chart6.options.data[2].indexLabelFontSize = letra6;
+		chart6.options.data[3].indexLabelFontSize = letra6;
+        chart6.render();        
+	});
+	$("#downtext").click(function () {
+		letra6 = letra6 - 2;
+		console.log(letra6);
+		chart6.options.data[0].indexLabelFontSize = letra6;
+		chart6.options.data[1].indexLabelFontSize = letra6;
+		chart6.options.data[2].indexLabelFontSize = letra6;
+		chart6.options.data[3].indexLabelFontSize = letra6;
+        chart6.render();
+	});
 
-	var chart = new CanvasJS.Chart("chartContainer3", {
+	var chart3 = new CanvasJS.Chart("chartContainer3", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Rango de Ingresos (#Form)",
@@ -1354,7 +1564,7 @@
 			name: "[0 - 1,000]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			color: "#FDBD2C",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1370,7 +1580,7 @@
 			name: "[1,000 - 1,500]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			color: "#C8175E",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1386,7 +1596,7 @@
 			name: "[1,500 - 2,000]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			color: "#89D1F3",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1402,7 +1612,7 @@
 			name: "[2,000 - 2,500]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			color: "#009EE5",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1418,7 +1628,7 @@
 			name: "[2,500 - 3,500]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			color: "#094FA4",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1434,7 +1644,7 @@
 			name: "[3,500 - a más]",
 			indexLabel: "{y}%",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			color: "#86C82D",
 			yValueFormatString: "#0.",
 			showInLegend: "true",
@@ -1446,7 +1656,30 @@
 		},
 		]
 	});
-	chart.render();
+	chart3.render();
+	var letra3 = 12;
+	$("#uptext").click(function () {
+		letra3 = letra3 + 2;
+		console.log(letra3);
+		chart3.options.data[0].indexLabelFontSize = letra3;
+		chart3.options.data[1].indexLabelFontSize = letra3;
+		chart3.options.data[2].indexLabelFontSize = letra3;
+		chart3.options.data[3].indexLabelFontSize = letra3;
+		chart3.options.data[4].indexLabelFontSize = letra3;
+		chart3.options.data[5].indexLabelFontSize = letra3;
+        chart3.render();        
+	});
+	$("#downtext").click(function () {
+		letra3 = letra3 - 2;
+		console.log(letra3);
+		chart3.options.data[0].indexLabelFontSize = letra3;
+		chart3.options.data[1].indexLabelFontSize = letra3;
+		chart3.options.data[2].indexLabelFontSize = letra3;
+		chart3.options.data[3].indexLabelFontSize = letra3;
+		chart3.options.data[4].indexLabelFontSize = letra3;
+		chart3.options.data[5].indexLabelFontSize = letra3;
+        chart3.render();
+	});
 
 	var chart14 = new CanvasJS.Chart("chartContainer14", {
 		theme: "theme2",//theme1
@@ -2177,7 +2410,7 @@
 	});
 	chart.render();
 
-	var chart = new CanvasJS.Chart("chartContainer25", {
+	var chart25 = new CanvasJS.Chart("chartContainer25", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Buró - Campaña (#Form)",
@@ -2193,7 +2426,7 @@
 			type: "stackedColumn",
 			name: "G1-G4",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -2208,7 +2441,7 @@
 			type: "stackedColumn",
 			name: "G5",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -2223,7 +2456,7 @@
 			type: "stackedColumn",
 			name: "G6-G8",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			color: '#86C82D',			
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
@@ -2239,7 +2472,7 @@
 			type: "stackedColumn",
 			name: "NB",
 			indexLabelFontColor: "white",
-			indexLabelFontSize: {{num_index}},			
+			indexLabelFontSize: 12,			
 			indexLabel: "#percent%",
 			color: "#C8175E",
 			percentFormatString: "#0.",
@@ -2255,7 +2488,7 @@
 			type: "scatter",
 			name: "# FORMALIZADOS",
 			indexLabelFontColor: "darkblue",
-			indexLabelFontSize: {{num_index}},
+			indexLabelFontSize: 12,
 			indexLabelOrientation: "vertical",			
 			color: "#C8175E",
 			indexLabel: " {y}",
@@ -2269,7 +2502,28 @@
 		},
 		]
 	});
-	chart.render();
+	chart25.render();
+	var letra25 = 12;
+	$("#uptext").click(function () {
+		letra25 = letra25 + 2;
+		console.log(letra25);
+		chart25.options.data[0].indexLabelFontSize = letra25;
+		chart25.options.data[1].indexLabelFontSize = letra25;
+		chart25.options.data[2].indexLabelFontSize = letra25;
+		chart25.options.data[3].indexLabelFontSize = letra25;
+		chart25.options.data[4].indexLabelFontSize = letra25;
+        chart25.render();        
+	});
+	$("#downtext").click(function () {
+		letra25 = letra25 - 2;
+		console.log(letra25);
+		chart25.options.data[0].indexLabelFontSize = letra25;
+		chart25.options.data[1].indexLabelFontSize = letra25;
+		chart25.options.data[2].indexLabelFontSize = letra25;
+		chart25.options.data[3].indexLabelFontSize = letra25;
+		chart25.options.data[4].indexLabelFontSize = letra25;
+        chart25.render();
+	});
 
     }
 
