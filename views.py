@@ -3354,7 +3354,7 @@ def seguimiento_increlinea(request):
 	form2_dict[i['mes_vigencia']]=i['cantidad']
     meses_mora = IncreLinea.objects.values('mes_vigencia').filter(mes_vigencia__lte=time[12]).order_by('mes_vigencia').distinct('mes_vigencia')
     ava = IncreLinea.objects.values('mes_vigencia').filter(segmento__in=['Vip','Premium']).annotate(cantidad=Sum('ctas'),cantidad_uso=Sum('ctas_uso'),mora12=Sum('mora12')).order_by('mes_vigencia')
-    ava_mora = IncreLinea.objects.values('mes_vigencia').filter(segmento__in=['Vip','Premium'],mes_vigencia__lte=time[12]).annotate(cantidad_uso=Sum('ctas_uso'),mora12=Sum('mora12')).order_by('mes_vigencia')
+    ava_mora = IncreLinea.objects.values('mes_vigencia').filter(segmento__in=['Vip','Premium'],mes_vigencia__lte=time[12]).annotate(cantidad=Sum('ctas'),mora12=Sum('mora12')).order_by('mes_vigencia')
     ava_dict = {}; moraava_dict = {};
     for i in meses:
         for j in ava:
@@ -3366,7 +3366,7 @@ def seguimiento_increlinea(request):
     for i in meses_mora:
         for j in ava_mora:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             moraava_dict[i['mes_vigencia']]=j['mora12']*100/j['cantidad_uso']
+             moraava_dict[i['mes_vigencia']]=j['mora12']*100/j['cantidad']
              break
           else:
              moraava_dict[i['mes_vigencia']]= 0
@@ -3384,7 +3384,7 @@ def seguimiento_increlinea(request):
     for i in meses_mora:
        for j in ms_mora:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             morams_dict[i['mes_vigencia']]=j['mora12']*100/j['cantidad_uso']
+             morams_dict[i['mes_vigencia']]=j['mora12']*100/j['cantidad']
              break
           else:
              morams_dict[i['mes_vigencia']]= 0
@@ -3401,7 +3401,7 @@ def seguimiento_increlinea(request):
     for i in meses_mora:
        for j in pasivo_mora:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             morapasivo_dict[i['mes_vigencia']]=j['mora12']*100/j['cantidad_uso']
+             morapasivo_dict[i['mes_vigencia']]=j['mora12']*100/j['cantidad']
              break
           else:
              morapasivo_dict[i['mes_vigencia']]= 0
@@ -3418,7 +3418,7 @@ def seguimiento_increlinea(request):
     for i in meses_mora:
        for j in noph_mora:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             moranoph_dict[i['mes_vigencia']]=j['mora12']*100/j['cantidad_uso']
+             moranoph_dict[i['mes_vigencia']]=j['mora12']*100/j['cantidad']
              break
           else:
              moranoph_dict[i['mes_vigencia']]= 0
@@ -3435,7 +3435,7 @@ def seguimiento_increlinea(request):
     for i in meses_mora:
        for j in noclie_mora:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             moranoclie_dict[i['mes_vigencia']]=j['mora12']*100/j['cantidad_uso']
+             moranoclie_dict[i['mes_vigencia']]=j['mora12']*100/j['cantidad']
              break
           else:
              moranoclie_dict[i['mes_vigencia']]= 0
@@ -3494,7 +3494,7 @@ def seguimiento_increlinea(request):
        	  else:
              rango6_dict[i['mes_vigencia']]= 0
     buro1 = IncreLinea.objects.values('mes_vigencia').filter(buro='01 G1-G4').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    buro1_mora = IncreLinea.objects.values('mes_vigencia').filter(buro='01 G1-G4',mes_vigencia__lte=time[12]).annotate(cantidad=Sum('ctas_uso'),mora12=Sum('mora12')).order_by('mes_vigencia')
+    buro1_mora = IncreLinea.objects.values('mes_vigencia').filter(buro='01 G1-G4',mes_vigencia__lte=time[12]).annotate(cantidad=Sum('ctas'),mora12=Sum('mora12')).order_by('mes_vigencia')
     buro1_dict = {}; moraburo1_dict = {};
     for i in meses:
        for j in buro1:
@@ -3511,7 +3511,7 @@ def seguimiento_increlinea(request):
           else:
              moraburo1_dict[i['mes_vigencia']]= 0
     buro2 = IncreLinea.objects.values('mes_vigencia').filter(buro='02 G5').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    buro2_mora = IncreLinea.objects.values('mes_vigencia').filter(buro='02 G5',mes_vigencia__lte=time[12]).annotate(cantidad=Sum('ctas_uso'),mora12=Sum('mora12')).order_by('mes_vigencia')
+    buro2_mora = IncreLinea.objects.values('mes_vigencia').filter(buro='02 G5',mes_vigencia__lte=time[12]).annotate(cantidad=Sum('ctas'),mora12=Sum('mora12')).order_by('mes_vigencia')
     buro2_dict = {}; moraburo2_dict = {};
     for i in meses:
        for j in buro2:
@@ -3528,7 +3528,7 @@ def seguimiento_increlinea(request):
           else:
              moraburo2_dict[i['mes_vigencia']]= 0
     buro3 = IncreLinea.objects.values('mes_vigencia').filter(buro='03 G6-G8').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    buro3_mora = IncreLinea.objects.values('mes_vigencia').filter(buro='03 G6-G8',mes_vigencia__lte=time[12]).annotate(cantidad=Sum('ctas_uso'),mora12=Sum('mora12')).order_by('mes_vigencia')
+    buro3_mora = IncreLinea.objects.values('mes_vigencia').filter(buro='03 G6-G8',mes_vigencia__lte=time[12]).annotate(cantidad=Sum('ctas'),mora12=Sum('mora12')).order_by('mes_vigencia')
     buro3_dict = {}; moraburo3_dict = {};
     for i in meses:
        for j in buro3:
@@ -3545,7 +3545,7 @@ def seguimiento_increlinea(request):
           else:
              moraburo3_dict[i['mes_vigencia']]= 0
     buro4 = IncreLinea.objects.values('mes_vigencia').filter(buro='NB').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    buro4_mora = IncreLinea.objects.values('mes_vigencia').filter(buro='NB',mes_vigencia__lte=time[12]).annotate(cantidad=Sum('ctas_uso'),mora12=Sum('mora12')).order_by('mes_vigencia')
+    buro4_mora = IncreLinea.objects.values('mes_vigencia').filter(buro='NB',mes_vigencia__lte=time[12]).annotate(cantidad=Sum('ctas'),mora12=Sum('mora12')).order_by('mes_vigencia')
     buro4_dict = {}; moraburo4_dict = {};
     for i in meses:
        for j in buro4:
@@ -3563,7 +3563,7 @@ def seguimiento_increlinea(request):
              moraburo4_dict[i['mes_vigencia']]= 0
 
     cat_cliente = IncreLinea.objects.values('mes_vigencia','laboral').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
-    moracat_cliente = IncreLinea.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte=time[12]).annotate(cantidad=Sum('ctas_uso'),mora12=Sum('mora12')).order_by('mes_vigencia')
+    moracat_cliente = IncreLinea.objects.values('mes_vigencia','laboral').filter(mes_vigencia__lte=time[12]).annotate(cantidad=Sum('ctas'),mora12=Sum('mora12')).order_by('mes_vigencia')
     dep_dict = {}; inde_dict = {}; pnn_dict = {}; nr_dict = {};
     moradep_dict = {}; morainde_dict = {}; morapnn_dict = {}; moranr_dict = {};
     for i in meses:
