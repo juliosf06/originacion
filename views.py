@@ -1463,7 +1463,7 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='2011'):
         num_lista = len(menor2015_list)
         num_mora4 = 4 #4
         num_mora6 = 6 #6
-        num_mora9 = 10 #10
+        num_mora9 = 9 #9
         num_mora12 = 12 #12
 
     morames_list = []
@@ -2254,7 +2254,7 @@ def seguimiento_pld(request, filtro1='mes_vigencia', filtro2='2011'):
         num_lista = len(menor2015_list)
         num_mora4 = 4 #4
         num_mora6 = 6 #6
-        num_mora9 = 10 #10
+        num_mora9 = 9 #10
         num_mora12 = 12 #12
 
     morames_list = []
