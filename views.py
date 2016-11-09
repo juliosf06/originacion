@@ -1147,11 +1147,6 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='2011'):
     for i in tiempo:
         time_list.append(i['periodo'])
 
-    if filtro1 == 'trimestre_form' or len(time_list) < 5:
-        num_index = 14
-    else:
-        num_index = 6
-
     if filtro1 == 'trimestre_form':
         meses = Seguimiento1.objects.values(filtro1).filter(periodo__gte=filtro2).order_by(filtro1).distinct(filtro1)
         trimestre = 1
@@ -1466,10 +1461,10 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='2011'):
         for i in mora_mes:
             menor2015_list.append(i[filtro1])
         num_lista = len(menor2015_list)
-        num_mora4 = 3 #4
-        num_mora6 = 5 #6
-        num_mora9 = 8 #10
-        num_mora12 = 11 #12
+        num_mora4 = 4 #4
+        num_mora6 = 6 #6
+        num_mora9 = 10 #10
+        num_mora12 = 12 #12
 
     morames_list = []
     for i in meses_moras:
@@ -1943,11 +1938,6 @@ def seguimiento_pld(request, filtro1='mes_vigencia', filtro2='2011'):
     for i in tiempo:
         time_list.append(i['periodo'])
 
-    if filtro1 == 'trimestre_form' or len(time_list) < 5:
-        num_index = 14
-    else:
-        num_index = 6
-
     if filtro1 == 'trimestre_form':
         meses = Seguimiento1.objects.values(filtro1).filter(periodo__gte=filtro2).order_by(filtro1).distinct(filtro1)
         trimestre = 1
@@ -2262,10 +2252,10 @@ def seguimiento_pld(request, filtro1='mes_vigencia', filtro2='2011'):
         for i in mora_mes:
             menor2015_list.append(i[filtro1])
         num_lista = len(menor2015_list)
-        num_mora4 = 3 #4
-        num_mora6 = 5 #6
-        num_mora9 = 8 #10
-        num_mora12 = 11 #12
+        num_mora4 = 4 #4
+        num_mora6 = 6 #6
+        num_mora9 = 10 #10
+        num_mora12 = 12 #12
 
     morames_list = []
     for i in meses_moras:
