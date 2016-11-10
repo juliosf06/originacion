@@ -40,7 +40,8 @@
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Formalizados"              
+			text: "Formalizados",
+			fontColor: "#094FA4",               
 		},
 		axisY:{
 			interval: 500,
@@ -90,7 +91,8 @@
 	var chart = new CanvasJS.Chart("chartContainer2", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Segmentos"              
+			text: "Segmentos",
+			fontColor: "#094FA4",               
 		},
 		axisY:{
 			maximum: 120,
@@ -129,20 +131,6 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "stackedColumn",
-			name: "Pasivo",
-			indexLabelFontColor: "white",			
-			indexLabel: "#percent%",
-			percentFormatString: "#0.",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in pasivo_dict.items|sort %}
-				{ y: {{value}} , label: '{{key|convert_date}}' },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedColumn",
 			name: "No PH",
 			indexLabelFontColor: "white",			
 			indexLabel: "#percent%",
@@ -163,7 +151,7 @@
 			percentFormatString: "#0.",
 			showInLegend: "true",
 			dataPoints: [
-				{% for key, value in noclie_dict.items|sort %}
+				{% for key, value in nocli_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
@@ -175,7 +163,8 @@
 	var chart = new CanvasJS.Chart("chartContainer3", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Rango de Ingresos"              
+			text: "Rango de Ingresos",
+			fontColor: "#094FA4",               
 		},
 		axisY:{
 			maximum: 120,
@@ -279,7 +268,8 @@
 	var chart = new CanvasJS.Chart("chartContainer4", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Buró"              
+			text: "Buró",
+			fontColor: "#094FA4",               
 		},
 		axisY:{
 			maximum: 120,
@@ -357,7 +347,8 @@
 	var chart = new CanvasJS.Chart("chartContainer5", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora Total"              
+			text: "Mora Total",
+			fontColor: "#094FA4",               
 		},
 		animationEnabled: true,   // change to true
 		data: [              
