@@ -3439,60 +3439,65 @@ def seguimiento_increlinea(request):
              break
           else:
              moranoclie_dict[i['mes_vigencia']]= 0
+
+    totrango = IncreLinea.objects.values('mes_vigencia').exclude(rng_sueldo__in=['00 Sin Ingreso','EMPLEADOS']).annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
+    totrango_dict = {}
+    for i in totrango:
+        totrango_dict[i['mes_vigencia']]=i['cantidad']
     rango1 = IncreLinea.objects.values('mes_vigencia').filter(rng_sueldo='01 [-1000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango1_dict = {}
     for i in meses:
        for j in rango1:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             rango1_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             rango1_dict[i['mes_vigencia']]=j['cantidad']*100/totrango_dict[i['mes_vigencia']]
              break
        	  else:
-             rango1_dict[i['mes_vigencia']]= 0
+             rango1_dict[i['mes_vigencia']]= []
     rango2 = IncreLinea.objects.values('mes_vigencia').filter(rng_sueldo='02 [1000-1500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango2_dict = {}
     for i in meses:
        for j in rango2:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             rango2_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             rango2_dict[i['mes_vigencia']]=j['cantidad']*100/totrango_dict[i['mes_vigencia']]
              break
        	  else:
-             rango2_dict[i['mes_vigencia']]= 0
+             rango2_dict[i['mes_vigencia']]= []
     rango3 = IncreLinea.objects.values('mes_vigencia').filter(rng_sueldo='03 [1500-2000>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango3_dict = {}
     for i in meses:
        for j in rango3:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             rango3_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             rango3_dict[i['mes_vigencia']]=j['cantidad']*100/totrango_dict[i['mes_vigencia']]
              break
        	  else:
-             rango3_dict[i['mes_vigencia']]= 0
+             rango3_dict[i['mes_vigencia']]= []
     rango4 = IncreLinea.objects.values('mes_vigencia').filter(rng_sueldo='04 [2000-2500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango4_dict = {}
     for i in meses:
        for j in rango4:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             rango4_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             rango4_dict[i['mes_vigencia']]=j['cantidad']*100/totrango_dict[i['mes_vigencia']]
              break
        	  else:
-             rango4_dict[i['mes_vigencia']]= 0
+             rango4_dict[i['mes_vigencia']]= []
     rango5 = IncreLinea.objects.values('mes_vigencia').filter(rng_sueldo='05 [2500-3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango5_dict = {}
     for i in meses:
        for j in rango5:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             rango5_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             rango5_dict[i['mes_vigencia']]=j['cantidad']*100/totrango_dict[i['mes_vigencia']]
              break
        	  else:
-             rango5_dict[i['mes_vigencia']]= 0
+             rango5_dict[i['mes_vigencia']]= []
     rango6 = IncreLinea.objects.values('mes_vigencia').filter(rng_sueldo='06 [+3500>').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     rango6_dict = {}
     for i in meses:
        for j in rango6:
           if i['mes_vigencia'] == j['mes_vigencia']:
-             rango6_dict[i['mes_vigencia']]=j['cantidad']*100/form_dict[i['mes_vigencia']]
+             rango6_dict[i['mes_vigencia']]=j['cantidad']*100/totrango_dict[i['mes_vigencia']]
              break
        	  else:
-             rango6_dict[i['mes_vigencia']]= 0
+             rango6_dict[i['mes_vigencia']]= []
     buro1 = IncreLinea.objects.values('mes_vigencia').filter(buro='01 G1-G4').annotate(cantidad=Sum('ctas')).order_by('mes_vigencia')
     buro1_mora = IncreLinea.objects.values('mes_vigencia').filter(buro='01 G1-G4',mes_vigencia__lte=time[12]).annotate(cantidad=Sum('ctas'),mora12=Sum('mora12')).order_by('mes_vigencia')
     buro1_dict = {}; moraburo1_dict = {};
