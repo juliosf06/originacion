@@ -49,6 +49,7 @@ def sidebar(tipo=1):
                	   temp = 'reports/sidebar_hipotecario.html'
 		else:
                    temp = 'reports/sidebar.html'
+
     t = loader.get_template(temp)
     return t.render(Context)
 

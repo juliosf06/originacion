@@ -21,6 +21,9 @@
           </div></center>
           <div class="rows placeholders">
           <h2 class="sub-header">1. Ofertas por Producto</h2>
+          <div class="rows placeholders">
+            <div id="chartContainer3" style="height: 380px; width: 100%;"></div>
+          </div>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -30,67 +33,68 @@
                   <th>Monto de Oferta (S/. MM)</th>
               </thead>
               <tbody id="tabla_detalles">
-		{% for a in detalles %}
-		<tr>
+		            {% for a in detalles %}
+		            <tr>
                   <td>Tarjeta</td>
                   <td>{{a.q_tc|intcomma}}</td>
                   <td>{{a.monto_tc|floatformat:2|intcomma}}</td>
                 </tr>
-		<tr>
+		            <tr>
                   <td>Consumo</td>
                   <td>{{a.q_pld|intcomma}}</td>
                   <td>{{a.monto_pld|floatformat:2|intcomma}}</td>
                 </tr>
-		<tr>
+		            <tr>
                   <td>Auto</td>
                   <td>{{a.q_veh|intcomma}}</td>
                   <td>{{a.monto_veh|floatformat:2|intcomma}}</td>
                 </tr>
-		<tr>
+		            <tr>
                   <td>Subrogación</td>
                   <td>{{a.q_subrogacion|intcomma}}</td>
                   <td>{{a.monto_subrogacion|floatformat:2|intcomma}}</td>
                 </tr>
-		<tr>
+		            <tr>
                   <td>Renovados</td>
                   <td>{{a.q_renovado|intcomma}}</td>
                   <td>{{a.monto_renovado|floatformat:2|intcomma}}</td>
                 </tr>
-		<tr>
+		            <tr>
                   <td>Auto de 2da</td>
                   <td>{{a.q_auto_2da|intcomma}}</td>
                   <td>{{a.monto_auto_2da|floatformat:2|intcomma}}</td>
                 </tr>
-		<tr>
+		            <tr>
                   <td>Subrogación Plus</td>
                   <td>{{a.q_adelanto_sueldo|intcomma}}</td>
                   <td>{{a.monto_adelanto_sueldo|floatformat:2|intcomma}}</td>
                 </tr>
-		<tr>
+		            <tr>
                   <td>Efectivo Plus</td>
                   <td>{{a.q_efectivo_plus|intcomma}}</td>
                   <td>{{a.monto_efectivo_plus|floatformat:2|intcomma}}</td>
                 </tr>
-		<tr>
+		            <tr>
                   <td>Prestamo al Toque</td>
                   <td>{{a.q_prestamo_inmediato|intcomma}}</td>
                   <td>{{a.monto_prestamo_inmediato|floatformat:2|intcomma}}</td>
                 </tr>
-		<tr>
+		            <tr>
                   <td>Incremento de Linea</td>
                   <td>{{a.q_incr_linea|intcomma}}</td>
                   <td>{{a.monto_incr_linea|floatformat:2|intcomma}}</td>
                 </tr>
-		{% endfor %}
+		          {% endfor %}
               </tbody>
-	      <tfoot>
-		{% for b in total %}
-		<tr>
+	            <tfoot>
+		          {% for b in total %}
+		            <tr>
                   <th>TOTAL</th>
                   <th>{{b.total_q|intcomma}}</th>
                   <th>{{b.total_m|floatformat:2|intcomma}}</th>
-	        {% endfor %}
-	      </tfoot>
+                </tr>
+	            {% endfor %}
+	            </tfoot>
             </table>
           </div>
           <div class="rows placeholders">
@@ -304,8 +308,43 @@
 		]
 	});
 	chart.render();
+
+  var chart3 = new CanvasJS.Chart("chartContainer3", {
+    theme: "theme2",//theme1
+    title:{
+      text: "Cantidad de Ofertas",
+    },
+    axisX:{
+      labelAngle: -30,
+    },
+    animationEnabled: true,   // change to true
+    data: [              
+                {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "column",
+       dataPoints: [
+        {% for i in detalles %}
+        {   y: {{i.q_tc}}, label: "TARJETA", name: "TARJETA" },
+        {   y: {{i.q_pld}}, label: "CONSUMO", name: "CONSUMO" },
+        {   y: {{i.q_veh}}, label: "AUTO" , name: "AUTO" }, 
+        {   y: {{i.q_subrogacion}}, label: "SUBROGACION" , name: "SUBROGACION" },
+        {   y: {{i.q_renovado}}, label: "RENOVADOS" , name: "RENOVADOS" },
+        {   y: {{i.q_auto_2da}}, label: "AUTO DE 2DA" , name: "UTO DE 2DA" },
+        {   y: {{i.q_adelanto_sueldo}}, label: "ADELANTO SUELDO" , name: "ADELANTO SUELDO" },
+        {   y: {{i.q_efectivo_plus}}, label: "EFECTIVO PLUS" , name: "EFECTIVO PLUS"  },
+        {   y: {{i.q_prestamo_inmediato}}, label: "PRESTAMO AL TOQUE" , name: "PRESTAMO AL TOQUE" },
+        {   y: {{i.q_incr_linea}}, label: "INCREMENTO DE LINEA" , name: "INCREMENTO DE LINEA" },
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart3.render();
+
     }
   </script>
 {% endblock %}
+
+
 
 

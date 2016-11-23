@@ -71,18 +71,19 @@
           </div>
 	  &nbsp;
 	  &nbsp;
-          <div class="rows placeholders">
+          <div class="rows placeholders" >
 		<div id="chartContainer8" style="height: 350px; width: 50%;"></div>
-          </div>
+          </div>""
 
           <h1 class="page-header" style="margin-bottom:20px">Hipotecas Lima-Metropolitana</h1>
 	  <center>
-          <div class="rows placeholders">
-	      <div class="slider" style="width: 30%; display: inline-block;"> 
-	          <input id="ex13" type="text" data-slider-min=1 data-slider-max=d data-slider-step="1" data-slider-value=1 />
-	      </div>
-	      <div id="chartContainer9" style="height: 300px; width: 50%; display: inline-block;"></div>
-          </div>
+        <div class="rows placeholders" >
+           <div id="chartContainer9" style="height: 300px; width: 45%; display:inline-block;"></div> 
+           &nbsp;
+	         <div class="slider" style="width: 50%; "> 
+	            <input id="ex13" type="text" />
+	         </div>	         
+        </div>
           &nbsp;&nbsp;
 	  <p> </p>
           <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
@@ -183,9 +184,13 @@
 <script type="text/javascript">
 
 $("#ex13").slider({
-   ticks: [1 ,2 ,3 , 4],
-   ticks_labels: ['201312', '201412', '201512', '201607'],
-   ticks_snap_bounds: 1,
+   orientation: "vertical",
+   ticks: [1, 2, 3, 4, 5, 6, 7],
+   ticks_labels: ['201312', '201412', '201512', '201607', '201608', '201609', '201610'],
+   min: 1,
+   max: 7,
+   step: 1,
+   value: 1,
 });
 
 $("#ancon").tooltipster({
@@ -1614,226 +1619,171 @@ window.onload = function () {
 			$("#150140").attr("fill","{{dict_moras3.150140}}");
 			$("#070106").attr("fill","{{dict_moras3.070106}}");
 		}
+    if (value == 5) {
+      chart1.options.data[0].dataPoints[0].y = {{dict_lp5.Lima}};
+      chart1.options.data[0].dataPoints[1].y = {{dict_lp5.Provincias}};
+      chart1.render();
+      $("#ancon").attr("fill","silver");
+      $("#santa_rosa").attr("fill","silver");
+      $("#150106").attr("fill","{{dict_moras4.150106}}");
+      $("#070102").attr("fill","{{dict_moras4.070102}}");
+      $("#carmen_de_la_legua").attr("fill","silver");
+      $("#070104").attr("fill","{{dict_moras4.070104}}");
+      $("#la_punta").attr("fill","silver");
+      $("#070101").attr("fill", "{{dict_moras4.070101}}");
+      $("#150133").attr("fill","{{dict_moras4.150133}}");
+      $("#150114").attr("fill","{{dict_moras4.150114}}");
+      $("#150125").attr("fill","{{dict_moras4.150125}}");
+      $("#pucusana").attr("fill","silver");
+      $("#santa_maria").attr("fill","silver");
+      $("#san_bartolo").attr("fill","silver");
+      $("#punta_negra").attr("fill","silver");
+      $("#punta_hermosa").attr("fill","silver");
+      $("#150119").attr("fill","{{dict_moras4.150119}}");
+      $("#150142").attr("fill","{{dict_moras4.150142}}");
+      $("#lurigancho_chosica").attr("fill","silver");
+      $("#chaclacayo").attr("fill","silver");
+      $("#150108").attr("fill","{{dict_moras4.150108}}");
+      $("#150104").attr("fill","{{dict_moras4.150104}}");
+      $("#150122").attr("fill","{{dict_moras4.150122}}");
+      $("#150131").attr("fill","{{dict_moras4.150131}}");
+      $("#150120").attr("fill","{{dict_moras4.150120}}");
+      $("#150134").attr("fill","{{dict_moras4.150134}}");
+      $("#150101").attr("fill","{{dict_moras4.150101}}");
+      $("#150121").attr("fill","{{dict_moras4.150121}}");
+      $("#150103").attr("fill","{{dict_moras4.150103}}");
+      $("#cieneguilla").attr("fill","silver");
+      $("#150105").attr("fill","{{dict_moras4.150105}}");
+      $("#150113").attr("fill","{{dict_moras4.150113}}");
+      $("#150116").attr("fill","{{dict_moras4.150116}}");
+      $("#150115").attr("fill","{{dict_moras4.150115}}");
+      $("#150141").attr("fill","{{dict_moras4.150141}}");
+      $("#150130").attr("fill","{{dict_moras4.150130}}");
+      $("#150136").attr("fill","{{dict_moras4.150136}}");
+      $("#150128").attr("fill","{{dict_moras4.150128}}");
+      $("#pachacamac").attr("fill","silver");
+      $("#150143").attr("fill","{{dict_moras4.150143}}");
+      $("#150135").attr("fill","{{dict_moras4.150135}}");
+      $("#150117").attr("fill","{{dict_moras4.150117}}");
+      $("#150112").attr("fill","{{dict_moras4.150112}}");
+      $("#150110").attr("fill","{{dict_moras4.150110}}");
+      $("#150132").attr("fill","{{dict_moras4.150132}}");
+      $("#150111").attr("fill","{{dict_moras4.150111}}");
+      $("#150137").attr("fill","{{dict_moras4.150137}}");
+      $("#150140").attr("fill","{{dict_moras4.150140}}");
+      $("#070106").attr("fill","{{dict_moras4.070106}}");
+    }
+    if (value == 6) {
+      chart1.options.data[0].dataPoints[0].y = {{dict_lp6.Lima}};
+      chart1.options.data[0].dataPoints[1].y = {{dict_lp6.Provincias}};
+      chart1.render();
+      $("#ancon").attr("fill","silver");
+      $("#santa_rosa").attr("fill","silver");
+      $("#150106").attr("fill","{{dict_moras5.150106}}");
+      $("#070102").attr("fill","{{dict_moras5.070102}}");
+      $("#carmen_de_la_legua").attr("fill","silver");
+      $("#070104").attr("fill","{{dict_moras5.070104}}");
+      $("#la_punta").attr("fill","silver");
+      $("#070101").attr("fill", "{{dict_moras5.070101}}");
+      $("#150133").attr("fill","{{dict_moras5.150133}}");
+      $("#150114").attr("fill","{{dict_moras5.150114}}");
+      $("#150125").attr("fill","{{dict_moras5.150125}}");
+      $("#pucusana").attr("fill","silver");
+      $("#santa_maria").attr("fill","silver");
+      $("#san_bartolo").attr("fill","silver");
+      $("#punta_negra").attr("fill","silver");
+      $("#punta_hermosa").attr("fill","silver");
+      $("#150119").attr("fill","{{dict_moras5.150119}}");
+      $("#150142").attr("fill","{{dict_moras5.150142}}");
+      $("#lurigancho_chosica").attr("fill","silver");
+      $("#chaclacayo").attr("fill","silver");
+      $("#150108").attr("fill","{{dict_moras5.150108}}");
+      $("#150104").attr("fill","{{dict_moras5.150104}}");
+      $("#150122").attr("fill","{{dict_moras5.150122}}");
+      $("#150131").attr("fill","{{dict_moras5.150131}}");
+      $("#150120").attr("fill","{{dict_moras5.150120}}");
+      $("#150134").attr("fill","{{dict_moras5.150134}}");
+      $("#150101").attr("fill","{{dict_moras5.150101}}");
+      $("#150121").attr("fill","{{dict_moras5.150121}}");
+      $("#150103").attr("fill","{{dict_moras5.150103}}");
+      $("#cieneguilla").attr("fill","silver");
+      $("#150105").attr("fill","{{dict_moras5.150105}}");
+      $("#150113").attr("fill","{{dict_moras5.150113}}");
+      $("#150116").attr("fill","{{dict_moras5.150116}}");
+      $("#150115").attr("fill","{{dict_moras5.150115}}");
+      $("#150141").attr("fill","{{dict_moras5.150141}}");
+      $("#150130").attr("fill","{{dict_moras5.150130}}");
+      $("#150136").attr("fill","{{dict_moras5.150136}}");
+      $("#150128").attr("fill","{{dict_moras5.150128}}");
+      $("#pachacamac").attr("fill","silver");
+      $("#150143").attr("fill","{{dict_moras5.150143}}");
+      $("#150135").attr("fill","{{dict_moras5.150135}}");
+      $("#150117").attr("fill","{{dict_moras5.150117}}");
+      $("#150112").attr("fill","{{dict_moras5.150112}}");
+      $("#150110").attr("fill","{{dict_moras5.150110}}");
+      $("#150132").attr("fill","{{dict_moras5.150132}}");
+      $("#150111").attr("fill","{{dict_moras5.150111}}");
+      $("#150137").attr("fill","{{dict_moras5.150137}}");
+      $("#150140").attr("fill","{{dict_moras5.150140}}");
+      $("#070106").attr("fill","{{dict_moras5.070106}}");
+    }
+    if (value == 7) {
+      chart1.options.data[0].dataPoints[0].y = {{dict_lp7.Lima}};
+      chart1.options.data[0].dataPoints[1].y = {{dict_lp7.Provincias}};
+      chart1.render();
+      $("#ancon").attr("fill","silver");
+      $("#santa_rosa").attr("fill","silver");
+      $("#150106").attr("fill","{{dict_moras6.150106}}");
+      $("#070102").attr("fill","{{dict_moras6.070102}}");
+      $("#carmen_de_la_legua").attr("fill","silver");
+      $("#070104").attr("fill","{{dict_moras6.070104}}");
+      $("#la_punta").attr("fill","silver");
+      $("#070101").attr("fill", "{{dict_moras6.070101}}");
+      $("#150133").attr("fill","{{dict_moras6.150133}}");
+      $("#150114").attr("fill","{{dict_moras6.150114}}");
+      $("#150125").attr("fill","{{dict_moras6.150125}}");
+      $("#pucusana").attr("fill","silver");
+      $("#santa_maria").attr("fill","silver");
+      $("#san_bartolo").attr("fill","silver");
+      $("#punta_negra").attr("fill","silver");
+      $("#punta_hermosa").attr("fill","silver");
+      $("#150119").attr("fill","{{dict_moras6.150119}}");
+      $("#150142").attr("fill","{{dict_moras6.150142}}");
+      $("#lurigancho_chosica").attr("fill","silver");
+      $("#chaclacayo").attr("fill","silver");
+      $("#150108").attr("fill","{{dict_moras6.150108}}");
+      $("#150104").attr("fill","{{dict_moras6.150104}}");
+      $("#150122").attr("fill","{{dict_moras6.150122}}");
+      $("#150131").attr("fill","{{dict_moras6.150131}}");
+      $("#150120").attr("fill","{{dict_moras6.150120}}");
+      $("#150134").attr("fill","{{dict_moras6.150101}}");
+      $("#150121").attr("fill","{{dict_moras6.150121}}");
+      $("#150103").attr("fill","{{dict_moras6.150103}}");
+      $("#cieneguilla").attr("fill","silver");
+      $("#150105").attr("fill","{{dict_moras6.150105}}");
+      $("#150113").attr("fill","{{dict_moras6.150113}}");
+      $("#150116").attr("fill","{{dict_moras6.150116}}");
+      $("#150115").attr("fill","{{dict_moras6.150115}}");
+      $("#150141").attr("fill","{{dict_moras6.150141}}");
+      $("#150130").attr("fill","{{dict_moras6.150130}}");
+      $("#150136").attr("fill","{{dict_moras6.150136}}");
+      $("#150128").attr("fill","{{dict_moras6.150128}}");
+      $("#pachacamac").attr("fill","silver");
+      $("#150143").attr("fill","{{dict_moras6.150143}}");
+      $("#150135").attr("fill","{{dict_moras6.150135}}");
+      $("#150117").attr("fill","{{dict_moras6.150117}}");
+      $("#150112").attr("fill","{{dict_moras6.150112}}");
+      $("#150110").attr("fill","{{dict_moras6.150110}}");
+      $("#150132").attr("fill","{{dict_moras6.150132}}");
+      $("#150111").attr("fill","{{dict_moras6.150111}}");
+      $("#150137").attr("fill","{{dict_moras6.150137}}");
+      $("#150140").attr("fill","{{dict_moras6.150140}}");
+      $("#070106").attr("fill","{{dict_moras6.070106}}");
+    }
 	    }
 	});
 
 };
-
-/*
-$("#ex13").slider({
-    formatter: function(value){
-
-	var len = {{d}}
-		switch (value){
-	    case 1:
-		$("#ancon").attr("fill","silver");
-		$("#santa_rosa").attr("fill","silver");
-		$("#150106").attr("fill","{{dict_moras.150106}}");
-		$("#070102").attr("fill","{{dict_moras.070102}}");
-		$("#carmen_de_la_legua").attr("fill","silver");
-		$("#070104").attr("fill","silver");
-		$("#la_punta").attr("fill","silver");
-		$("#070101").attr("fill", "{{dict_moras.070101}}");
-		$("#150133").attr("fill","{{dict_moras.150133}}");
-		$("#150114").attr("fill","{{dict_moras.150114}}");
-		$("#150125").attr("fill","{{dict_moras.150125}}");
-		$("#pucusana").attr("fill","silver");
-		$("#santa_maria").attr("fill","silver");
-		$("#san_bartolo").attr("fill","silver");
-		$("#punta_negra").attr("fill","silver");
-		$("#punta_hermosa").attr("fill","silver");
-		$("#150119").attr("fill","{{dict_moras.150119}}");
-		$("#150142").attr("fill","{{dict_moras.150142}}");
-		$("#lurigancho_chosica").attr("fill","silver");
-		$("#chaclacayo").attr("fill","silver");
-		$("#150108").attr("fill","{{dict_moras.150108}}");
-		$("#150104").attr("fill","{{dict_moras.150104}}");
-		$("#150122").attr("fill","{{dict_moras.150122}}");
-		$("#150131").attr("fill","{{dict_moras.150131}}");
-		$("#150120").attr("fill","{{dict_moras.150120}}");
-		$("#150134").attr("fill","{{dict_moras.150134}}");
-		$("#150101").attr("fill","{{dict_moras.150101}}");
-		$("#150121").attr("fill","{{dict_moras.150121}}");
-		$("#150103").attr("fill","{{dict_moras.150103}}");
-		$("#cieneguilla").attr("fill","silver");
-		$("#150105").attr("fill","{{dict_moras.150105}}");
-		$("#150113").attr("fill","{{dict_moras.150113}}");
-		$("#150116").attr("fill","{{dict_moras.150116}}");
-		$("#150115").attr("fill","{{dict_moras.150115}}");
-		$("#150141").attr("fill","{{dict_moras.150141}}");
-		$("#150130").attr("fill","{{dict_moras.150130}}");
-		$("#150136").attr("fill","{{dict_moras.150136}}");
-		$("#150128").attr("fill","{{dict_moras.150128}}");
-		$("#pachacamac").attr("fill","silver");
-		$("#150143").attr("fill","{{dict_moras.150143}}");
-		$("#150135").attr("fill","{{dict_moras.150135}}");
-		$("#150117").attr("fill","{{dict_moras.150117}}");
-		$("#150112").attr("fill","{{dict_moras.150112}}");
-		$("#150110").attr("fill","{{dict_moras.150110}}");
-		$("#150132").attr("fill","{{dict_moras.150132}}");
-		$("#150111").attr("fill","{{dict_moras.150111}}");
-		$("#150137").attr("fill","{{dict_moras.150137}}");
-		$("#150140").attr("fill","{{dict_moras.150140}}");
-		$("#070106").attr("fill","{{dict_moras.070106}}");
-		break;
-	    case 2:
-		$("#ancon").attr("fill","silver");
-		$("#santa_rosa").attr("fill","silver");
-		$("#150106").attr("fill","{{dict_moras1.150106}}");
-		$("#070102").attr("fill","{{dict_moras1.070102}}");
-		$("#carmen_de_la_legua").attr("fill","silver");
-		$("#070104").attr("fill","silver");
-		$("#la_punta").attr("fill","silver");
-		$("#070101").attr("fill", "{{dict_moras1.070101}}");
-		$("#150133").attr("fill","{{dict_moras1.150133}}");
-		$("#150114").attr("fill","{{dict_moras1.150114}}");
-		$("#150125").attr("fill","{{dict_moras1.150125}}");
-		$("#pucusana").attr("fill","silver");
-		$("#santa_maria").attr("fill","silver");
-		$("#san_bartolo").attr("fill","silver");
-		$("#punta_negra").attr("fill","silver");
-		$("#punta_hermosa").attr("fill","silver");
-		$("#150119").attr("fill","{{dict_moras1.150119}}");
-		$("#150142").attr("fill","{{dict_moras1.150142}}");
-		$("#lurigancho_chosica").attr("fill","silver");
-		$("#chaclacayo").attr("fill","silver");
-		$("#150108").attr("fill","{{dict_moras1.150108}}");
-		$("#150104").attr("fill","{{dict_moras1.150104}}");
-		$("#150122").attr("fill","{{dict_moras1.150122}}");
-		$("#150131").attr("fill","{{dict_moras1.150131}}");
-		$("#150120").attr("fill","{{dict_moras1.150120}}");
-		$("#150134").attr("fill","{{dict_moras1.150134}}");
-		$("#150101").attr("fill","{{dict_moras1.150101}}");
-		$("#150121").attr("fill","{{dict_moras1.150121}}");
-		$("#150103").attr("fill","{{dict_moras1.150103}}");
-		$("#cieneguilla").attr("fill","silver");
-		$("#150105").attr("fill","{{dict_moras1.150105}}");
-		$("#150113").attr("fill","{{dict_moras1.150113}}");
-		$("#150116").attr("fill","{{dict_moras1.150116}}");
-		$("#150115").attr("fill","{{dict_moras1.150115}}");
-		$("#150141").attr("fill","{{dict_moras1.150141}}");
-		$("#150130").attr("fill","{{dict_moras1.150130}}");
-		$("#150136").attr("fill","{{dict_moras1.150136}}");
-		$("#150128").attr("fill","{{dict_moras1.150128}}");
-		$("#pachacamac").attr("fill","silver");
-		$("#150143").attr("fill","{{dict_moras1.150143}}");
-		$("#150135").attr("fill","{{dict_moras1.150135}}");
-		$("#150117").attr("fill","{{dict_moras1.150117}}");
-		$("#150112").attr("fill","{{dict_moras1.150112}}");
-		$("#150110").attr("fill","{{dict_moras1.150110}}");
-		$("#150132").attr("fill","{{dict_moras1.150132}}");
-		$("#150111").attr("fill","{{dict_moras1.150111}}");
-		$("#150137").attr("fill","{{dict_moras1.150137}}");
-		$("#150140").attr("fill","{{dict_moras1.150140}}");
-		$("#070106").attr("fill","{{dict_moras1.070106}}");
-		break;
-	    case 3:
-		$("#ancon").attr("fill","silver");
-		$("#santa_rosa").attr("fill","silver");
-		$("#150106").attr("fill","{{dict_moras2.150106}}");
-		$("#070102").attr("fill","{{dict_moras2.070102}}");
-		$("#carmen_de_la_legua").attr("fill","silver");
-		$("#070104").attr("fill","{{dict_moras2.070104}}");
-		$("#la_punta").attr("fill","silver");
-		$("#070101").attr("fill", "{{dict_moras2.070101}}");
-		$("#150133").attr("fill","{{dict_moras2.150133}}");
-		$("#150114").attr("fill","{{dict_moras2.150114}}");
-		$("#150125").attr("fill","{{dict_moras2.150125}}");
-		$("#pucusana").attr("fill","silver");
-		$("#santa_maria").attr("fill","silver");
-		$("#san_bartolo").attr("fill","silver");
-		$("#punta_negra").attr("fill","silver");
-		$("#punta_hermosa").attr("fill","silver");
-		$("#150119").attr("fill","{{dict_moras2.150119}}");
-		$("#150142").attr("fill","{{dict_moras2.150142}}");
-		$("#lurigancho_chosica").attr("fill","silver");
-		$("#chaclacayo").attr("fill","silver");
-		$("#150108").attr("fill","{{dict_moras2.150108}}");
-		$("#150104").attr("fill","{{dict_moras2.150104}}");
-		$("#150122").attr("fill","{{dict_moras2.150122}}");
-		$("#150131").attr("fill","{{dict_moras2.150131}}");
-		$("#150120").attr("fill","{{dict_moras2.150120}}");
-		$("#150134").attr("fill","{{dict_moras2.150134}}");
-		$("#150101").attr("fill","{{dict_moras2.150101}}");
-		$("#150121").attr("fill","{{dict_moras2.150121}}");
-		$("#150103").attr("fill","{{dict_moras2.150103}}");
-		$("#cieneguilla").attr("fill","silver");
-		$("#150105").attr("fill","{{dict_moras2.150105}}");
-		$("#150113").attr("fill","{{dict_moras2.150113}}");
-		$("#150116").attr("fill","{{dict_moras2.150116}}");
-		$("#150115").attr("fill","{{dict_moras2.150115}}");
-		$("#150141").attr("fill","{{dict_moras2.150141}}");
-		$("#150130").attr("fill","{{dict_moras2.150130}}");
-		$("#150136").attr("fill","{{dict_moras2.150136}}");
-		$("#150128").attr("fill","{{dict_moras2.150128}}");
-		$("#pachacamac").attr("fill","silver");
-		$("#150143").attr("fill","{{dict_moras2.150143}}");
-		$("#150135").attr("fill","{{dict_moras2.150135}}");
-		$("#150117").attr("fill","{{dict_moras2.150117}}");
-		$("#150112").attr("fill","{{dict_moras2.150112}}");
-		$("#150110").attr("fill","{{dict_moras2.150110}}");
-		$("#150132").attr("fill","{{dict_moras2.150132}}");
-		$("#150111").attr("fill","{{dict_moras2.150111}}");
-		$("#150137").attr("fill","{{dict_moras2.150137}}");
-		$("#150140").attr("fill","{{dict_moras2.150140}}");
-		$("#070106").attr("fill","{{dict_moras2.070106}}");
-		break;
-	    case 4:
-		$("#ancon").attr("fill","silver");
-		$("#santa_rosa").attr("fill","silver");
-		$("#150106").attr("fill","{{dict_moras3.150106}}");
-		$("#070102").attr("fill","{{dict_moras3.070102}}");
-		$("#carmen_de_la_legua").attr("fill","silver");
-		$("#070104").attr("fill","{{dict_moras3.070104}}");
-		$("#la_punta").attr("fill","silver");
-		$("#070101").attr("fill", "{{dict_moras3.070101}}");
-		$("#150133").attr("fill","{{dict_moras3.150133}}");
-		$("#150114").attr("fill","{{dict_moras3.150114}}");
-		$("#150125").attr("fill","{{dict_moras3.150125}}");
-		$("#pucusana").attr("fill","silver");
-		$("#santa_maria").attr("fill","silver");
-		$("#san_bartolo").attr("fill","silver");
-		$("#punta_negra").attr("fill","silver");
-		$("#punta_hermosa").attr("fill","silver");
-		$("#150119").attr("fill","{{dict_moras3.150119}}");
-		$("#150142").attr("fill","{{dict_moras3.150142}}");
-		$("#lurigancho_chosica").attr("fill","silver");
-		$("#chaclacayo").attr("fill","silver");
-		$("#150108").attr("fill","{{dict_moras3.150108}}");
-		$("#150104").attr("fill","{{dict_moras3.150104}}");
-		$("#150122").attr("fill","{{dict_moras3.150122}}");
-		$("#150131").attr("fill","{{dict_moras3.150131}}");
-		$("#150120").attr("fill","{{dict_moras3.150120}}");
-		$("#150134").attr("fill","{{dict_moras3.150134}}");
-		$("#150101").attr("fill","{{dict_moras3.150101}}");
-		$("#150121").attr("fill","{{dict_moras3.150121}}");
-		$("#150103").attr("fill","{{dict_moras3.150103}}");
-		$("#cieneguilla").attr("fill","silver");
-		$("#150105").attr("fill","{{dict_moras3.150105}}");
-		$("#150113").attr("fill","{{dict_moras3.150113}}");
-		$("#150116").attr("fill","{{dict_moras3.150116}}");
-		$("#150115").attr("fill","{{dict_moras3.150115}}");
-		$("#150141").attr("fill","{{dict_moras3.150141}}");
-		$("#150130").attr("fill","{{dict_moras3.150130}}");
-		$("#150136").attr("fill","{{dict_moras3.150136}}");
-		$("#150128").attr("fill","{{dict_moras3.150128}}");
-		$("#pachacamac").attr("fill","silver");
-		$("#150143").attr("fill","{{dict_moras3.150143}}");
-		$("#150135").attr("fill","{{dict_moras3.150135}}");
-		$("#150117").attr("fill","{{dict_moras3.150117}}");
-		$("#150112").attr("fill","{{dict_moras3.150112}}");
-		$("#150110").attr("fill","{{dict_moras3.150110}}");
-		$("#150132").attr("fill","{{dict_moras3.150132}}");
-		$("#150111").attr("fill","{{dict_moras3.150111}}");
-		$("#150137").attr("fill","{{dict_moras3.150137}}");
-		$("#150140").attr("fill","{{dict_moras3.150140}}");
-		$("#070106").attr("fill","{{dict_moras3.070106}}");
-		break;
-	}
-	return value;
-    }
-});
-*/
 
 
 </script>

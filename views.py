@@ -88,10 +88,9 @@ def dummy(request):
                   context_instance=RequestContext(request))
 
 def prueba(request):
-    banca = RVGL.objects.filter(mes_vigencia='201602').values('seco').annotate(num_seco=Count('seco')).order_by('seco')
-    dictamen = RVGL.objects.filter(mes_vigencia='201602').values('dictamen').annotate(num_dictamen=Count('dictamen')).order_by('dictamen')
+    
     static_url=settings.STATIC_URL
-
+    tipo_side = 6
     return render('reports/prueba.html', locals(),
                   context_instance=RequestContext(request))
 
@@ -4142,14 +4141,14 @@ def seguimiento_hipoteca(request, fecha='201312', filtro1='mes_vigencia', filtro
 
     if filtro1 == 'trimestre_form':
         meses_moras = Seguimiento1.objects.values('trimestre_form').order_by('-trimestre_form').distinct()
-        num_mora12 = 3 #4
-        num_mora24 = 7 #8
-        num_mora36 = 11 #12
+        num_mora12 = 3 #3
+        num_mora24 = 7 #7
+        num_mora36 = 11 #11
     else:
         meses_moras = Seguimiento1.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
-        num_mora12 = 11 #12
-        num_mora24 = 23 #24
-        num_mora36 = 35 #36
+        num_mora12 = 11 #11
+        num_mora24 = 11 #23
+        num_mora36 = 11 #35
 
     morames_list = []
     for i in meses_moras:
@@ -4221,75 +4220,128 @@ def seguimiento_hipoteca(request, fecha='201312', filtro1='mes_vigencia', filtro
 
     dict_moras = {}; dict_moras1 = {}; 
     dict_moras2 = {}; dict_moras3 = {};dict_moras4 = {};
+    dict_moras5 = {}; dict_moras6 = {};
     for i in distrito:
-	if i['codmes']=='201312':
-	   if i['mora']>3:
-	      dict_moras[i['ubigeo']]='#E31A1C'
-	   if i['mora']>2 and i['mora']<=3:
-	      dict_moras[i['ubigeo']]='#FC4E2A'
-	   if i['mora']>1.5 and i['mora']<=2:
-	      dict_moras[i['ubigeo']]='#FB8D29'
-	   if i['mora']>1.2 and i['mora']<=1.5:
-	      dict_moras[i['ubigeo']]='#FEB228'
-	   if i['mora']>0.9 and i['mora']<=1.2:
-	      dict_moras[i['ubigeo']]='#FED976'
-	   if i['mora']>0.6 and i['mora']<=0.9:
-	      dict_moras[i['ubigeo']]='#FBE975'
-	   if i['mora']>0.3 and i['mora']<=0.6:
-	      dict_moras[i['ubigeo']]='#66BD63'
-	   if i['mora']<=0.3:
-	      dict_moras[i['ubigeo']]='#A6D974'
-	if i['codmes']=='201412':
-	   if i['mora']>3:
-	      dict_moras1[i['ubigeo']]='#E31A1C'
-	   if i['mora']>2 and i['mora']<=3:
-	      dict_moras1[i['ubigeo']]='#FC4E2A'
-	   if i['mora']>1.5 and i['mora']<=2:
-	      dict_moras1[i['ubigeo']]='#FB8D29'
-	   if i['mora']>1.2 and i['mora']<=1.5:
-	      dict_moras1[i['ubigeo']]='#FEB228'
-	   if i['mora']>0.9 and i['mora']<=1.2:
-	      dict_moras1[i['ubigeo']]='#FED976'
-	   if i['mora']>0.6 and i['mora']<=0.9:
-	      dict_moras1[i['ubigeo']]='#FBE975'
-	   if i['mora']>0.3 and i['mora']<=0.6:
-	      dict_moras1[i['ubigeo']]='#66BD63'
-	   if i['mora']<=0.3:
-	      dict_moras1[i['ubigeo']]='#A6D974'
-	if i['codmes']=='201512':
-	   if i['mora']>3:
-	      dict_moras2[i['ubigeo']]='#E31A1C'
-	   if i['mora']>2 and i['mora']<=3:
-	      dict_moras2[i['ubigeo']]='#FC4E2A'
-	   if i['mora']>1.5 and i['mora']<=2:
-	      dict_moras2[i['ubigeo']]='#FB8D29'
-	   if i['mora']>1.2 and i['mora']<=1.5:
-	      dict_moras2[i['ubigeo']]='#FEB228'
-	   if i['mora']>0.9 and i['mora']<=1.2:
-	      dict_moras2[i['ubigeo']]='#FED976'
-	   if i['mora']>0.6 and i['mora']<=0.9:
-	      dict_moras2[i['ubigeo']]='#FBE975'
-	   if i['mora']>0.3 and i['mora']<=0.6:
-	      dict_moras2[i['ubigeo']]='#66BD63'
-	   if i['mora']<=0.3:
-	      dict_moras2[i['ubigeo']]='#A6D974'
-	if i['codmes']=='201607':
-	   if i['mora']>3:
-	      dict_moras3[i['ubigeo']]='#E31A1C'
-	   if i['mora']>2 and i['mora']<=3:
-	      dict_moras3[i['ubigeo']]='#FC4E2A'
-	   if i['mora']>1.5 and i['mora']<=2:
-	      dict_moras3[i['ubigeo']]='#FB8D29'
-	   if i['mora']>1.2 and i['mora']<=1.5:
-	      dict_moras3[i['ubigeo']]='#FEB228'
-	   if i['mora']>0.9 and i['mora']<=1.2:
-	      dict_moras3[i['ubigeo']]='#FED976'
-	   if i['mora']>0.6 and i['mora']<=0.9:
-	      dict_moras3[i['ubigeo']]='#FBE975'
-	   if i['mora']>0.3 and i['mora']<=0.6:
-	      dict_moras3[i['ubigeo']]='#66BD63'
-	   if i['mora']<=0.3:
-	      dict_moras3[i['ubigeo']]='#A6D974'
+      if i['codmes']=='201312':
+        if i['mora']>3:
+	        dict_moras[i['ubigeo']]='#E31A1C'
+        if i['mora']>2 and i['mora']<=3:
+	        dict_moras[i['ubigeo']]='#FC4E2A'
+        if i['mora']>1.5 and i['mora']<=2:
+	        dict_moras[i['ubigeo']]='#FB8D29'
+        if i['mora']>1.2 and i['mora']<=1.5:
+	        dict_moras[i['ubigeo']]='#FEB228'
+        if i['mora']>0.9 and i['mora']<=1.2:
+	        dict_moras[i['ubigeo']]='#FED976'
+        if i['mora']>0.6 and i['mora']<=0.9:
+	        dict_moras[i['ubigeo']]='#FBE975'
+        if i['mora']>0.3 and i['mora']<=0.6:
+	        dict_moras[i['ubigeo']]='#66BD63'
+        if i['mora']<=0.3:
+	        dict_moras[i['ubigeo']]='#A6D974'
+      if i['codmes']=='201412':
+        if i['mora']>3:
+          dict_moras1[i['ubigeo']]='#E31A1C'
+        if i['mora']>2 and i['mora']<=3:
+          dict_moras1[i['ubigeo']]='#FC4E2A'
+        if i['mora']>1.5 and i['mora']<=2:
+          dict_moras1[i['ubigeo']]='#FB8D29'
+        if i['mora']>1.2 and i['mora']<=1.5:
+          dict_moras1[i['ubigeo']]='#FEB228'
+        if i['mora']>0.9 and i['mora']<=1.2:
+          dict_moras1[i['ubigeo']]='#FED976'
+        if i['mora']>0.6 and i['mora']<=0.9:
+          dict_moras1[i['ubigeo']]='#FBE975'
+        if i['mora']>0.3 and i['mora']<=0.6:
+          dict_moras1[i['ubigeo']]='#66BD63'
+        if i['mora']<=0.3:
+          dict_moras1[i['ubigeo']]='#A6D974'
+      if i['codmes']=='201512':
+        if i['mora']>3:
+          dict_moras2[i['ubigeo']]='#E31A1C'
+        if i['mora']>2 and i['mora']<=3:
+          dict_moras2[i['ubigeo']]='#FC4E2A'
+        if i['mora']>1.5 and i['mora']<=2:
+          dict_moras2[i['ubigeo']]='#FB8D29'
+        if i['mora']>1.2 and i['mora']<=1.5:
+          dict_moras2[i['ubigeo']]='#FEB228'
+        if i['mora']>0.9 and i['mora']<=1.2:
+          dict_moras2[i['ubigeo']]='#FED976'
+        if i['mora']>0.6 and i['mora']<=0.9:
+          dict_moras2[i['ubigeo']]='#FBE975'
+        if i['mora']>0.3 and i['mora']<=0.6:
+          dict_moras2[i['ubigeo']]='#66BD63'
+        if i['mora']<=0.3:
+          dict_moras2[i['ubigeo']]='#A6D974'
+      if i['codmes']=='201607':
+        if i['mora']>3:
+          dict_moras3[i['ubigeo']]='#E31A1C'
+        if i['mora']>2 and i['mora']<=3:
+          dict_moras3[i['ubigeo']]='#FC4E2A'
+        if i['mora']>1.5 and i['mora']<=2:
+          dict_moras3[i['ubigeo']]='#FB8D29'
+        if i['mora']>1.2 and i['mora']<=1.5:
+          dict_moras3[i['ubigeo']]='#FEB228'
+        if i['mora']>0.9 and i['mora']<=1.2:
+          dict_moras3[i['ubigeo']]='#FED976'
+        if i['mora']>0.6 and i['mora']<=0.9:
+          dict_moras3[i['ubigeo']]='#FBE975'
+        if i['mora']>0.3 and i['mora']<=0.6:
+          dict_moras3[i['ubigeo']]='#66BD63'
+        if i['mora']<=0.3:
+          dict_moras3[i['ubigeo']]='#A6D974'
+      if i['codmes']=='201608':
+        if i['mora']>3:
+          dict_moras4[i['ubigeo']]='#E31A1C'
+        if i['mora']>2 and i['mora']<=3:
+          dict_moras4[i['ubigeo']]='#FC4E2A'
+        if i['mora']>1.5 and i['mora']<=2:
+          dict_moras4[i['ubigeo']]='#FB8D29'
+        if i['mora']>1.2 and i['mora']<=1.5:
+          dict_moras4[i['ubigeo']]='#FEB228'
+        if i['mora']>0.9 and i['mora']<=1.2:
+          dict_moras4[i['ubigeo']]='#FED976'
+        if i['mora']>0.6 and i['mora']<=0.9:
+          dict_moras4[i['ubigeo']]='#FBE975'
+        if i['mora']>0.3 and i['mora']<=0.6:
+          dict_moras4[i['ubigeo']]='#66BD63'
+        if i['mora']<=0.3:
+          dict_moras4[i['ubigeo']]='#A6D974'
+      if i['codmes']=='201609':
+        if i['mora']>3:
+          dict_moras5[i['ubigeo']]='#E31A1C'
+        if i['mora']>2 and i['mora']<=3:
+          dict_moras5[i['ubigeo']]='#FC4E2A'
+        if i['mora']>1.5 and i['mora']<=2:
+          dict_moras5[i['ubigeo']]='#FB8D29'
+        if i['mora']>1.2 and i['mora']<=1.5:
+          dict_moras5[i['ubigeo']]='#FEB228'
+        if i['mora']>0.9 and i['mora']<=1.2:
+          dict_moras5[i['ubigeo']]='#FED976'
+        if i['mora']>0.6 and i['mora']<=0.9:
+          dict_moras5[i['ubigeo']]='#FBE975'
+        if i['mora']>0.3 and i['mora']<=0.6:
+          dict_moras5[i['ubigeo']]='#66BD63'
+        if i['mora']<=0.3:
+          dict_moras5[i['ubigeo']]='#A6D974'
+      if i['codmes']=='201610':
+        if i['mora']>3:
+          dict_moras6[i['ubigeo']]='#E31A1C'
+        if i['mora']>2 and i['mora']<=3:
+          dict_moras6[i['ubigeo']]='#FC4E2A'
+        if i['mora']>1.5 and i['mora']<=2:
+          dict_moras6[i['ubigeo']]='#FB8D29'
+        if i['mora']>1.2 and i['mora']<=1.5:
+          dict_moras6[i['ubigeo']]='#FEB228'
+        if i['mora']>0.9 and i['mora']<=1.2:
+          dict_moras6[i['ubigeo']]='#FED976'
+        if i['mora']>0.6 and i['mora']<=0.9:
+          dict_moras6[i['ubigeo']]='#FBE975'
+        if i['mora']>0.3 and i['mora']<=0.6:
+          dict_moras6[i['ubigeo']]='#66BD63'
+        if i['mora']<=0.3:
+          dict_moras6[i['ubigeo']]='#A6D974'
+
 
     control_fecha = HipotecaSSFF.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
     time = []; timex = []; timez = []; timeu = []
@@ -4360,16 +4412,29 @@ def seguimiento_hipoteca(request, fecha='201312', filtro1='mes_vigencia', filtro
 
     conce = HipotecaConce.objects.values('mes','territorio').filter(mes='201512').annotate(sum_inv=Sum('inversion')).order_by('territorio')
     limaprov = Mapa.objects.values('codmes','lima_prov').annotate(num=Sum('ctas')).order_by('codmes')
-    dict_lp1 = {}; dict_lp2 = {}; dict_lp3 = {}; dict_lp4 = {};
+    dict_lp1= {}; dict_lp2 = {}; dict_lp3 = {}; dict_lp4 = {};
+    dict_lp5 = {}; dict_lp6 = {}; dict_lp7 = {};
     for i in limaprov:
-	if i['codmes'] == '201312':
-	    dict_lp1[i['lima_prov']] = i['num']
-	if i['codmes'] == '201412':
-	    dict_lp2[i['lima_prov']] = i['num']
-	if i['codmes'] == '201512':
-	    dict_lp3[i['lima_prov']] = i['num']
-	if i['codmes'] == '201607':
-	    dict_lp4[i['lima_prov']] = i['num']
+	    if i['codmes'] == '201312':
+	       dict_lp1[i['lima_prov']] = i['num']
+    for i in limaprov:
+	    if i['codmes'] == '201412':
+	       dict_lp2[i['lima_prov']] = i['num']
+    for i in limaprov:
+	    if i['codmes'] == '201512':
+	       dict_lp3[i['lima_prov']] = i['num']
+    for i in limaprov:
+	    if i['codmes'] == '201607':
+	       dict_lp4[i['lima_prov']] = i['num']
+    for i in limaprov:
+        if i['codmes'] == '201608':
+            dict_lp5[i['lima_prov']] = i['num']
+    for i in limaprov:
+        if i['codmes'] == '201609':
+            dict_lp6[i['lima_prov']] = i['num']
+    for i in limaprov:
+        if i['codmes'] == '201610': 
+            dict_lp7[i['lima_prov']] = i['num']
 
     static_url=settings.STATIC_URL
     tipo_side = 4
@@ -4598,6 +4663,9 @@ def delete(request, base=0, fecha=after1, numsemana=0):
     if fecha == '000011' and base == '13':
         IncreLinea.objects.all().delete()
 
+    if fecha == '000012' and base == '19':
+        Mapa.objects.all().delete()
+
     control_fecha3 = Seguimiento1.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
     for i in control_fecha3:
         if fecha == i['mes_vigencia'] and base == '7':
@@ -4657,6 +4725,11 @@ def delete(request, base=0, fecha=after1, numsemana=0):
     for i in control_fecha13:
         if fecha == i['mes_vigencia'] and base == '18':
             EfectividadTC.objects.filter(mes_vigencia=fecha).delete()
+
+    control_fecha14 = Mapa.objects.values('codmes').order_by('codmes').distinct('codmes')
+    for i in control_fecha14:
+        if fecha == i['codmes'] and base == '19':
+            Mapa.objects.filter(codmes=fecha).delete()
     
 
     static_url=settings.STATIC_URL
@@ -4669,8 +4742,6 @@ def delete(request, base=0, fecha=after1, numsemana=0):
 @login_required
 def comentario(request, filtro1='1', filtro2='1', filtro3='1'):
     meses = Seguimiento1.objects.values('mes_vigencia').distinct('mes_vigencia').order_by('mes_vigencia')
-    coment = Comentario.objects.all();
-    num = Comentario.objects.count();
     filtro1 = str(filtro1)
     filtro2 = str(filtro2.replace('_','/'))
     filtro3 = str(filtro3.replace('_',':'))
@@ -4685,9 +4756,7 @@ def comentario(request, filtro1='1', filtro2='1', filtro3='1'):
                 comentario_instance = Comentario.objects.create(usuario=username,periodo=periodo,comentario=comentario, tiempo=hoy, hora=hora ) 
                 comments = Comentario.objects.values('usuario','tiempo').order_by('usuario')
     else:
-        borrar = Comentario.objects.filter(usuario=filtro1,tiempo=filtro2)
         Comentario.objects.filter(usuario=filtro1,tiempo=filtro2,hora=filtro3).delete()
-        print borrar
 
     static_url=settings.STATIC_URL
     tipo_side = 4
@@ -5645,7 +5714,6 @@ def carga_forzaje(request):
         return load(campana_resumen)
 
 def carga_mapa(request):
-    Mapa.objects.all().delete()
     if request.method == 'POST':
         form = UploadMapa(request.POST, request.FILES)
         if form.is_valid():

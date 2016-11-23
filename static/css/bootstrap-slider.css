@@ -28,7 +28,7 @@
  * ========================================================= */
 .slider {
   display: inline-block;
-  vertical-align: middle;
+  /*vertical-align: middle;*/
   position: relative;
 }
 .slider.slider-horizontal {
