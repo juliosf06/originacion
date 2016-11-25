@@ -47,9 +47,6 @@ m18 = datetime.now()-timedelta(days=18*30)
 before18 = m18.strftime("%Y%m")
 next1 = datetime.now()+timedelta(days=1*30)
 after1 = next1.strftime("%Y%m")
-print fecha_actual
-print after1
-print hora
 
 # 1.- Vista para links en contruccion
 def login_reports(request): #agregado
@@ -4745,6 +4742,7 @@ def comentario(request, filtro1='1', filtro2='1', filtro3='1'):
     filtro1 = str(filtro1)
     filtro2 = str(filtro2.replace('_','/'))
     filtro3 = str(filtro3.replace('_',':'))
+    coment = Comentario.objects.all()
 
     if filtro1 == '1':
         username = None
@@ -4752,11 +4750,13 @@ def comentario(request, filtro1='1', filtro2='1', filtro3='1'):
             if request.user.is_authenticated():
                 username = request.user.username
                 periodo = request.POST.get('periodo')
+                hora1 = datetime.now().strftime("%H:%M:%S")
                 comentario = request.POST.get('comentarios')
-                comentario_instance = Comentario.objects.create(usuario=username,periodo=periodo,comentario=comentario, tiempo=hoy, hora=hora ) 
+                comentario_instance = Comentario.objects.create(usuario=username,periodo=periodo,comentario=comentario, tiempo=hoy, hora=hora1 ) 
                 comments = Comentario.objects.values('usuario','tiempo').order_by('usuario')
     else:
         Comentario.objects.filter(usuario=filtro1,tiempo=filtro2,hora=filtro3).delete()
+    
 
     static_url=settings.STATIC_URL
     tipo_side = 4
