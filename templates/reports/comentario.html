@@ -95,7 +95,7 @@ $("#write").click(function(){
 {% for a in coment %}
   $("#{{a.usuario}}-{{a.tiempo|convert_time}}-{{a.hora|convert_time}}").click(function(){
     window.location.href = "/reports/comentario/"+"{{a.usuario}}"+"/"+"{{a.tiempo|convert_time2}}"+"/"+"{{a.hora|convert_time2}}"+"/";
-    window.location.href = "/reports/comentario/";
+    /*window.location.href = "/reports/comentario/";*/
   });
 {% endfor %}
 
