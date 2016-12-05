@@ -4753,7 +4753,6 @@ def comentario(request, filtro1='1', filtro2='1', filtro3='1'):
                 periodo = request.POST.get('periodo')
                 hora1 = datetime.now().strftime("%H:%M:%S")
                 comentario = request.POST.get('comentarios')
-                print comentario
                 comentario2 = str(comentario.replace('\r\n','<br/>'))
                 comentario_instance = Comentario.objects.create(usuario=username,periodo=periodo,comentario=comentario2, tiempo=hoy, hora=hora1 ) 
                 comments = Comentario.objects.values('usuario','tiempo').order_by('usuario')
