@@ -17,7 +17,7 @@
     <p class="user-label" style="position: relative; left: 0%; font-size: 150%; color: #094FA4; display: inline-block;">Usuario: <strong style="color: grey;" name="nombre_user">{{user}}</strong></p>
     <p class="user-label" style="position: relative; left: 25%; font-size: 150%; color: #094FA4; display: inline-block;">Fecha: <strong style="color: grey;"><span id="time" name="time"></span></strong></p>
     </div style="position: relative; left: 0%;">
-    <div>
+    <div id="periodo_control">
     <label class="control-label">Periodo:&nbsp;&nbsp;</label>
       <select class="form-control" name="periodo" id="comentario_periodo" style="width: 20%">
         {% for a in meses %}
@@ -30,8 +30,10 @@
     <textarea id="comentario-area" name="comentarios" rows="5" cols="80">Escribe aquí tus comentarios</textarea>
     </div>
     &nbsp;
-    <input type="submit" class="btn btn-default" value="Save Comment"> </input>
+    <input id="input_boton" type="submit" class="btn btn-default" value="Save Comment"> </input>   
   </form>
+  &nbsp;
+  <button id="write">Write Comment</button>
 </div>
 <div class="izquierda">
 
@@ -71,6 +73,7 @@
 
 
 {% block script_final %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
 var today = new Date();
 var dd = today.getDate();
@@ -84,6 +87,10 @@ if(mm<10){
 }
 var today = dd+'/'+mm+'/'+yyyy;
 document.getElementById('time').innerHTML=today;
+document.getElementById("write").style.visibility = 'hidden';
+$("#write").click(function(){
+  window.location.href = "/reports/comentario";
+});
 
 {% for a in coment %}
   $("#{{a.usuario}}-{{a.tiempo|convert_time}}-{{a.hora|convert_time}}").click(function(){
@@ -93,11 +100,21 @@ document.getElementById('time').innerHTML=today;
 {% endfor %}
 
 {% for a in coment %}
-  $("#S-{{a.usuario}}-{{a.tiempo|convert_time}}-{{a.hora|convert_time}}").click(function(){
-    document.getElementById("{{a.periodo}}").selected = true;
-    document.getElementById("comentario-area").innerHTML = "{{a.comentario}}";
-  });
+  $("#S-{{a.usuario}}-{{a.tiempo|convert_time}}-{{a.hora|convert_time}}").click(function(){ 
+    /*document.getElementById("{{a.periodo}}").selected = true;*/
+    var value = "{{a.comentario}}";
+    var value2 = value.replace(new RegExp("&lt;br/&gt;","g"),"<br/>")
+    var html = String(value2);
+    /*document.getElementById("comentario-area").value = "";*/
+    document.getElementById("comentario-area").outerHTML = "<center><div style='font-size: 140%; font-weight: bold;'>Periodo: "+"{{a.periodo}}</div>"+"&nbsp;"+"<div style='border: 2px solid #094FA4; border-radius: 25px; width:50%;'>"+html+"</div></center>"+"&nbsp;&nbsp;";
+    document.getElementById("input_boton").style.display = 'none';
+    document.getElementById("periodo_control").style.display = 'none';
+    document.getElementById("write").style.visibility = '';
+    document.getElementById("write").style.marginLeft = '43%';
+   });
 {% endfor %}
+
+
 
 
 /*
