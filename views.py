@@ -4143,9 +4143,9 @@ def seguimiento_hipoteca(request, fecha='201312', filtro1='mes_vigencia', filtro
         num_mora36 = 11 #11
     else:
         meses_moras = Seguimiento1.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct()
-        num_mora12 = 12 #11
-        num_mora24 = 24 #23
-        num_mora36 = 36 #35
+        num_mora12 = 11 #11
+        num_mora24 = 23 #23
+        num_mora36 = 35 #35
 
     morames_list = []
     for i in meses_moras:
