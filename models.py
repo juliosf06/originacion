@@ -484,6 +484,7 @@ class Moras(models.Model):
 
 class Comentario(models.Model):
     periodo = models.CharField(max_length=10)
+    titulo = models.CharField(max_length=400, default=0)
     comentario = models.CharField(max_length=3500, default=0)
     usuario = models.CharField(max_length=20)
     tiempo = models.CharField(max_length=50, default=0)

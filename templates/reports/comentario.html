@@ -27,6 +27,10 @@
     </div>
     &nbsp;
     <div style="position: relative; left: 0%;">
+    <b id="text1">Tema:</b><br>
+    <input type="text" id="titulo" name="titulo" style="width:30%;">
+    <br><br>
+    <b id="text2">Comentario:</b><br>
     <textarea id="comentario-area" name="comentarios" rows="5" cols="80">Escribe aquí tus comentarios</textarea>
     </div>
     &nbsp;
@@ -45,6 +49,7 @@
     <thead>
       <tr>
         <th>Periodo</th>
+        <th>Tema</th>
         <th>Usuario</th>
         <th>Tiempo</th>
         <th>Hora</th>
@@ -56,11 +61,12 @@
       {% for a in coment %}
       <tr>                       
         <td>{{a.periodo}}</td>
+        <td>{{a.titulo}}</td>
         <td>{{a.usuario}}</td>
         <td>{{a.tiempo}}</td>
         <td>{{a.hora}}</td>
         <td><button type="button" id="S-{{a.usuario}}-{{a.tiempo|convert_time}}-{{a.hora|convert_time}}"> SHOW </button></td>
-        <td><button type="button" id="{{a.usuario}}-{{a.tiempo|convert_time}}-{{a.hora|convert_time}}"> BORRAR </button></td>
+        <td><button type="button" id="{{a.usuario}}-{{a.tiempo|convert_time}}-{{a.hora|convert_time}}"> DELETE </button></td>
       </tr>
 
       {% endfor %}
@@ -106,9 +112,13 @@ $("#write").click(function(){
     var value2 = value.replace(new RegExp("&lt;br/&gt;","g"),"<br/>")
     var html = String(value2);
     /*document.getElementById("comentario-area").value = "";*/
-    document.getElementById("comentario-area").outerHTML = "<center><div style='font-size: 140%; font-weight: bold;'>Periodo: "+"{{a.periodo}}</div>"+"&nbsp;"+"<div style='border: 2px solid #094FA4; border-radius: 25px; width:50%;'>"+html+"</div></center>"+"&nbsp;&nbsp;";
+    document.getElementById("comentario-area").outerHTML = "<center><div style='font-size: 140%; font-weight: bold;'>Periodo: "+"{{a.periodo}}</div>"+
+    "<div style='font-size: 140%; font-weight: bold;'>"+"{{a.titulo}}</div>"+"&nbsp;"+"<div style='border: 2px solid #094FA4; border-radius: 25px; width:50%;'>"+html+"</div></center>"+"&nbsp;&nbsp;";
     document.getElementById("input_boton").style.display = 'none';
     document.getElementById("periodo_control").style.display = 'none';
+    document.getElementById("text1").style.display = 'none';
+    document.getElementById("text2").style.display = 'none';
+    document.getElementById("titulo").style.display = 'none';
     document.getElementById("write").style.visibility = '';
     document.getElementById("write").style.marginLeft = '43%';
    });
