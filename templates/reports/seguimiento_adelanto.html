@@ -41,6 +41,10 @@
         <div class="rows placeholders">
 			<div id="chartContainer6" style="height: 250px; width: 100%; display: inline-block;"></div>
         </div>
+        &nbsp;
+        <div class="rows placeholders">
+			<div id="chartContainer9" style="height: 300px; width: 100%;"></div>
+        </div>
 
 
 {% endblock %}
@@ -547,6 +551,77 @@
 			showInLegend: "true",
 			dataPoints: [
 				{% for key, value in moranr_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		]
+	});
+	chart.render();
+
+	var chart = new CanvasJS.Chart("chartContainer9", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Nivel de Incumplimiento según Buró",
+			fontColor: "#094FA4",              
+		},
+		legend:{
+			fontSize: 15,
+		},
+		animationEnabled: true,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "[G1-G4]",
+			indexLabelFontColor: "darkblue",			
+			//indexLabel: "{y}%",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in moraburo1_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "[G5]",
+			indexLabelFontColor: "#009EE5",			
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in moraburo2_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "[G6-G8]",
+			indexLabelFontColor: "darkblue",			
+			//indexLabel: "{y}%",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in moraburo3_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			name: "[NB]",
+			indexLabelFontColor: "#86C82D",			
+			indexLabel: "{y}%",
+			yValueFormatString: "#0.#",
+			showInLegend: "true",
+			dataPoints: [
+				{% for key, value in moraburo4_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]

@@ -2876,38 +2876,42 @@ def seguimiento_adelanto(request):
 
 
     buro1 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G1-G4]').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
-    buro1_dict = {}
+    buro1_dict = {}; buro1_tot = {};
     for i in meses:
        for j in buro1:
           if i['mes_vigencia'] == j['mes_vigencia']:
              buro1_dict[i['mes_vigencia']]=j['formalizado']*100/rango_tot[i['mes_vigencia']]
+             buro1_tot[i['mes_vigencia']]=j['formalizado']
              break
        	  else:
              buro1_dict[i['mes_vigencia']]= 0
     buro2 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='G5').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
-    buro2_dict = {}
+    buro2_dict = {}; buro2_tot = {};
     for i in meses:
        for j in buro2:
           if i['mes_vigencia'] == j['mes_vigencia']:
              buro2_dict[i['mes_vigencia']]=j['formalizado']*100/rango_tot[i['mes_vigencia']]
+             buro2_tot[i['mes_vigencia']]=j['formalizado']
              break
        	  else:
              buro2_dict[i['mes_vigencia']]= 0
     buro3 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='[G6-G8]').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
-    buro3_dict = {}
+    buro3_dict = {}; buro3_tot = {};
     for i in meses:
        for j in buro3:
           if i['mes_vigencia'] == j['mes_vigencia']:
              buro3_dict[i['mes_vigencia']]=j['formalizado']*100/rango_tot[i['mes_vigencia']]
+             buro3_tot[i['mes_vigencia']]=j['formalizado']
              break
        	  else:
              buro3_dict[i['mes_vigencia']]= 0
     buro4 = AdelantoSueldo.objects.values('mes_vigencia').filter(rng_buro='NB').annotate(formalizado=Sum('ctas')).order_by('mes_vigencia')
-    buro4_dict = {}
+    buro4_dict = {}; buro4_tot = {};
     for i in meses:
        for j in buro4:
           if i['mes_vigencia'] == j['mes_vigencia']:
              buro4_dict[i['mes_vigencia']]=j['formalizado']*100/rango_tot[i['mes_vigencia']]
+             buro4_tot[i['mes_vigencia']]=j['formalizado']
              break
        	  else:
              buro4_dict[i['mes_vigencia']]= 0
@@ -3016,6 +3020,36 @@ def seguimiento_adelanto(request):
             else:
                 moranr_dict[i['mes_vigencia']] = 0
 
+    moraburo1= AdelantoSueldo.objects.values('mes_vigencia','rng_buro').filter(mes_vigencia__lte =time[2],rng_buro='[G1-G4]').annotate(mora=Sum('mora')).order_by('mes_vigencia')
+    moraburo2 = AdelantoSueldo.objects.values('mes_vigencia','rng_buro').filter(mes_vigencia__lte =time[2],rng_buro='G5').annotate(mora=Sum('mora')).order_by('mes_vigencia')
+    moraburo3 = AdelantoSueldo.objects.values('mes_vigencia','rng_buro').filter(mes_vigencia__lte =time[2],rng_buro='[G6-G8]').annotate(mora=Sum('mora')).order_by('mes_vigencia')
+    moraburo4 = AdelantoSueldo.objects.values('mes_vigencia','rng_buro').filter(mes_vigencia__lte =time[2],rng_buro='NB').annotate(mora=Sum('mora')).order_by('mes_vigencia')
+    moraburo1_dict = {}; moraburo2_dict={}; moraburo3_dict = {}; moraburo4_dict = {};
+    for i in meses_sit:
+        for j in moraburo1:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                moraburo1_dict[i['mes_vigencia']] = j['mora']*100/buro1_tot[i['mes_vigencia']]
+                break
+            else:
+                moraburo1_dict[i['mes_vigencia']] = 0
+        for j in moraburo2:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                moraburo2_dict[i['mes_vigencia']] = j['mora']*100/buro2_tot[i['mes_vigencia']]
+                break
+            else:
+                moraburo2_dict[i['mes_vigencia']] = 0
+        for j in moraburo3:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                moraburo3_dict[i['mes_vigencia']] = j['mora']*100/buro3_tot[i['mes_vigencia']]
+                break
+            else:
+                moraburo3_dict[i['mes_vigencia']] = 0
+        for j in moraburo4:
+            if i['mes_vigencia'] == j['mes_vigencia']:
+                moraburo4_dict[i['mes_vigencia']] = j['mora']*100/buro4_tot[i['mes_vigencia']]
+                break
+            else:
+                moraburo4_dict[i['mes_vigencia']] = 0
     
 
     static_url=settings.STATIC_URL
