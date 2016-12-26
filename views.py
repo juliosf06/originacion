@@ -1761,6 +1761,114 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='2011'):
                     norec_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxnorec_moras_dict[i[filtro1]]
 
     if filtro1 == 'trimestre_form':
+        total_morascluster = Seguimiento1.objects.values(filtro1, 'producto', 'cluster').filter(producto='03 Tarjeta', periodo__gte=filtro2).annotate(sum_mora=Sum('ctas')).order_by(filtro1)
+    else:
+        total_morascluster = Seguimiento1.objects.values(filtro1, 'producto', 'cluster').filter(producto='03 Tarjeta', periodo__gte=filtro2).annotate(sum_mora=Sum('ctas')).order_by(filtro1)
+    totalxsd_moras_dict = {}
+    totalxmode_moras_dict = {}
+    totalxdesl_moras_dict = {}
+    totalxprogre_moras_dict = {}
+    totalxaspi_moras_dict = {}
+    totalxprospe_moras_dict = {}
+    for i in meses:
+        for j in total_morascluster:
+            if i[filtro1] == j[filtro1]:
+                if j['cluster']=='0. S.D.':
+                    totalxsd_moras_dict[i[filtro1]]=j['sum_mora']
+                elif j['cluster']=='1. Modestos':
+                    totalxmode_moras_dict[i[filtro1]]=j['sum_mora']
+                elif j['cluster']=='2. Desligados':
+                    totalxdesl_moras_dict[i[filtro1]]=j['sum_mora']
+                elif j['cluster']=='3. Progresistas':
+                    totalxprogre_moras_dict[i[filtro1]]=j['sum_mora']
+                elif j['cluster']=='4. Aspirantes':
+                    totalxaspi_moras_dict[i[filtro1]]=j['sum_mora']
+                elif j['cluster']=='5. Prosperos':
+                    totalxprospe_moras_dict[i[filtro1]]=j['sum_mora']
+
+    if filtro1 == 'trimestre_form':
+        morascluster = Seguimiento1.objects.values(filtro1, 'cluster', 'producto').filter(producto='03 Tarjeta', periodo__gte=filtro2).annotate(sum_mora460=Sum('mora4_60'),sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by(filtro1)
+    else:
+        morascluster = Seguimiento1.objects.values(filtro1, 'cluster', 'producto').filter(producto='03 Tarjeta', periodo__gte=filtro2).annotate(sum_mora460=Sum('mora4_60'),sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by(filtro1)
+    sd_mora460_dict = {}; sd_mora6_dict = {}; sd_mora9_dict = {}; sd_mora12_dict = {}
+    modes_mora460_dict = {}; modes_mora6_dict = {}; modes_mora9_dict = {}; modes_mora12_dict = {}
+    desli_mora460_dict = {}; desli_mora6_dict = {}; desli_mora9_dict = {}; desli_mora12_dict = {}
+    progre_mora460_dict = {}; progre_mora6_dict = {}; progre_mora9_dict = {}; progre_mora12_dict = {}
+    aspi_mora460_dict = {}; aspi_mora6_dict = {}; aspi_mora9_dict = {}; aspi_mora12_dict = {}
+    prospe_mora460_dict = {}; prospe_mora6_dict = {}; prospe_mora9_dict = {}; prospe_mora12_dict = {}
+    for i in meses:
+       for j in morascluster:
+          if i[filtro1] == j[filtro1]:
+            if  j['cluster']=='0. S.D.':
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
+                    sd_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxsd_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_lista]:
+                    sd_mora460_dict[i[filtro1]]=[]
+                if i[filtro1] <= morames_list[num_mora6]:
+                    sd_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxsd_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_mora9]:
+                    sd_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxsd_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_mora12]:
+                    sd_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxsd_moras_dict[i[filtro1]]     
+            elif  j['cluster']=='1. Modestos':
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
+                    modes_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxmode_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_lista]:
+                    modes_mora460_dict[i[filtro1]]=[]
+                if i[filtro1] <= morames_list[num_mora6]:
+                    modes_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxmode_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_mora9]:
+                    modes_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxmode_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_mora12]:
+                    modes_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxmode_moras_dict[i[filtro1]]
+            elif  j['cluster']=='2. Desligados':
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
+                    desli_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxdesl_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_lista]:
+                    desli_mora460_dict[i[filtro1]]=[]
+                if i[filtro1] <= morames_list[num_mora6]:
+                    desli_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxdesl_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_mora9]:
+                    desli_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxdesl_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_mora12]:
+                    desli_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxdesl_moras_dict[i[filtro1]]
+            elif  j['cluster']=='3. Progresistas':
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
+                    progre_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxprogre_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_lista]:
+                    progre_mora460_dict[i[filtro1]]=[]
+                if i[filtro1] <= morames_list[num_mora6]:
+                    progre_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxprogre_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_mora9]:
+                    progre_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxprogre_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_mora12]:
+                    progre_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxprogre_moras_dict[i[filtro1]]
+            elif  j['cluster']=='4. Aspirantes':
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
+                    aspi_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxaspi_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_lista]:
+                    aspi_mora460_dict[i[filtro1]]=[]
+                if i[filtro1] <= morames_list[num_mora6]:
+                    aspi_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxaspi_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_mora9]:
+                    aspi_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxaspi_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_mora12]:
+                    aspi_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxaspi_moras_dict[i[filtro1]]
+            elif  j['cluster']=='5. Prosperos':
+                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
+                    prospe_mora460_dict[i[filtro1]]=j['sum_mora460']*100/totalxprospe_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_lista]:
+                    prospe_mora460_dict[i[filtro1]]=[]
+                if i[filtro1] <= morames_list[num_mora6]:
+                    prospe_mora6_dict[i[filtro1]]=j['sum_mora6']*100/totalxprospe_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_mora9]:
+                    prospe_mora9_dict[i[filtro1]]=j['sum_mora9']*100/totalxprospe_moras_dict[i[filtro1]]
+                if i[filtro1] <= morames_list[num_mora12]:
+                    prospe_mora12_dict[i[filtro1]]=j['sum_mora12']*100/totalxprospe_moras_dict[i[filtro1]]
+
+
+
+    if filtro1 == 'trimestre_form':
         moratot2 = Seguimiento1.objects.values(filtro1, 'cat_persona', 'producto','riesgos').filter(producto='03 Tarjeta',riesgos='UNO A UNO', periodo__gte=filtro2).annotate(cuentas=Sum('ctas')).order_by(filtro1)
     else:
         moratot2 = Seguimiento1.objects.values(filtro1, 'cat_persona', 'producto','riesgos').filter(producto='03 Tarjeta',riesgos='UNO A UNO', periodo__gte=filtro2).annotate(cuentas=Sum('ctas')).order_by(filtro1)
@@ -1883,6 +1991,61 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='2011'):
             if i[filtro1] <= morames_list[num_mora6]:
                 dict_mora6buro4[i[filtro1]] = i['sum_mora6']*100/dict_moraburo4[i[filtro1]]
                 dict_mora12buro4[i[filtro1]] = i['sum_mora12']*100/dict_moraburo4[i[filtro1]]
+
+    if filtro1 == 'trimestre_form':
+        form_modestos = Seguimiento1.objects.values(filtro1, 'cluster').filter(cluster='1. Modestos', producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form')).order_by(filtro1)
+        form_desligados = Seguimiento1.objects.values(filtro1, 'cluster').filter(cluster='2. Desligados', producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form')).order_by(filtro1)
+        form_progresistas = Seguimiento1.objects.values(filtro1, 'cluster').filter(cluster='3. Progresistas', producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form')).order_by(filtro1)
+        form_aspirantes = Seguimiento1.objects.values(filtro1, 'cluster').filter(cluster='4. Aspirantes', producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form')).order_by(filtro1)
+        form_prosperos = Seguimiento1.objects.values(filtro1, 'cluster').filter(cluster='5. Prosperos', producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form')).order_by(filtro1)
+        form_sd = Seguimiento1.objects.values(filtro1, 'cluster').filter(cluster='0. S.D.', producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form')).order_by(filtro1)
+    else:
+        form_modestos = Seguimiento1.objects.values(filtro1, 'cluster').filter(cluster='1. Modestos', producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form')).order_by(filtro1)
+        form_desligados = Seguimiento1.objects.values(filtro1, 'cluster').filter(cluster='2. Desligados', producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form')).order_by(filtro1)
+        form_progresistas = Seguimiento1.objects.values(filtro1, 'cluster').filter(cluster='3. Progresistas', producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form')).order_by(filtro1)
+        form_aspirantes = Seguimiento1.objects.values(filtro1, 'cluster').filter(cluster='4. Aspirantes', producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form')).order_by(filtro1)
+        form_prosperos = Seguimiento1.objects.values(filtro1, 'cluster').filter(cluster='5. Prosperos', producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form')).order_by(filtro1)
+        form_sd = Seguimiento1.objects.values(filtro1, 'cluster').filter(cluster='0. S.D.', producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form')).order_by(filtro1)
+    form_modes_dict = {}; form_desli_dict = {}; form_progre_dict = {};
+    form_aspi_dict = {}; form_prospe_dict = {}; form_sd_dict = {};
+    for i in meses:
+        for j in form_modestos:
+            if i[filtro1] == j[filtro1]:
+                form_modes_dict[i[filtro1]] = j['formalizados']#*100/total_form_dict[i[filtro1]]
+                break
+            else:
+                form_modes_dict[i[filtro1]] = 0
+        for j in form_desligados:
+            if i[filtro1] == j[filtro1]:
+                form_desli_dict[i[filtro1]] = j['formalizados']#*100/total_form_dict[i[filtro1]]
+                break
+            else:
+                form_desli_dict[i[filtro1]] = 0
+        for j in form_progresistas:
+            if i[filtro1] == j[filtro1]:
+                form_progre_dict[i[filtro1]] = j['formalizados']#*100/total_form_dict[i[filtro1]]
+                break
+            else:
+                form_progre_dict[i[filtro1]] = 0
+        for j in form_aspirantes:
+            if i[filtro1] == j[filtro1]:
+                form_aspi_dict[i[filtro1]] = j['formalizados']#*100/total_form_dict[i[filtro1]]
+                break
+            else:
+                form_aspi_dict[i[filtro1]] = 0
+        for j in form_prosperos:
+            if i[filtro1] == j[filtro1]:
+                form_prospe_dict[i[filtro1]] = j['formalizados']#*100/total_form_dict[i[filtro1]]
+                break
+            else:
+                form_prospe_dict[i[filtro1]] = 0
+        for j in form_sd:
+            if i[filtro1] == j[filtro1]:
+                form_sd_dict[i[filtro1]] = j['formalizados']#*100/total_form_dict[i[filtro1]]
+                break
+            else:
+                form_sd_dict[i[filtro1]] = 0
+
 
     if filtro1 == 'trimestre_form':
         total_forzaje = Forzaje.objects.values(filtro1).filter(producto='03 Tarjeta').annotate(cantidad=Sum('form')).order_by(filtro1)

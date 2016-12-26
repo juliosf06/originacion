@@ -231,6 +231,7 @@ class Seguimiento1(models.Model):
     rng_ing = models.CharField(max_length=20)
     producto = models.CharField(max_length=50)
     riesgos = models.CharField(max_length=20)
+    cluster = models.CharField(max_length=50, default=0)
     flg_lifemiles = models.IntegerField(default=0)
     digital = models.IntegerField(default=0)
     canal_digital = models.CharField(max_length=30, default=0)
