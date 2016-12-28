@@ -2943,6 +2943,34 @@ def seguimiento_auto(request):
                   context_instance=RequestContext(request))
 
 @login_required
+def resumen_seguimiento(request):
+    meses_total = Seguimiento1.objects.values('mes_vigencia').distinct('mes_vigencia').order_by('-mes_vigencia')
+    time = []
+    for i in meses_total:
+        time.append(i['mes_vigencia'])
+
+    form_producto2015 = Seguimiento1.objects.values('periodo','producto').filter(periodo=('2015')).annotate(cantidad=Sum('form'),factura=Sum('facturacion')).order_by('producto')
+    form_producto2016 = Seguimiento1.objects.values('periodo','producto').filter(periodo=('2016')).annotate(cantidad=Sum('form'),factura=Sum('facturacion')).order_by('producto')
+
+    mes_inicial = '201411'
+    mes_final = '201511'
+    mora_productoxprogre = Seguimiento1.objects.values('producto','cluster').filter(mes_vigencia__gte=mes_inicial,mes_vigencia__lte=mes_final,cluster='3. Progresistas').annotate(mora=Sum('mora12'),cuentas=Sum('ctas')).order_by('producto')
+    mora_productoxaspi = Seguimiento1.objects.values('producto','cluster').filter(mes_vigencia__gte=mes_inicial,mes_vigencia__lte=mes_final, cluster='4. Aspirantes').annotate(mora=Sum('mora12'),cuentas=Sum('ctas')).order_by('producto')
+    mora_productoxprospe = Seguimiento1.objects.values('producto','cluster').filter(mes_vigencia__gte=mes_inicial,mes_vigencia__lte=mes_final, cluster='5. Prosperos').annotate(mora=Sum('mora12'),cuentas=Sum('ctas')).order_by('producto')
+
+    form_segmento = Seguimiento1.objects.values('periodo','segmento').filter(periodo__in=[2015,2016]).annotate(cantidad=Sum('form')).order_by('periodo')
+
+    form_buro = Seguimiento1.objects.values('periodo','buro_camp').filter(periodo__in=[2015,2016]).annotate(cantidad=Sum('form')).order_by('periodo')
+
+    form_forzaje = Forzaje.objects.values('periodo', 'dic_global').exclude(dic_global='AP').filter(periodo__in=[2015,2016]).annotate(cantidad=Sum('form')).order_by('periodo')
+
+    static_url=settings.STATIC_URL
+    tipo_side = 4
+
+    return render('reports/resumen_seguimiento.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
 def seguimiento_adelanto(request):
     control_fecha = AdelantoSueldo.objects.values('mes_vigencia' ).distinct('mes_vigencia').order_by('-mes_vigencia')
     time = []
