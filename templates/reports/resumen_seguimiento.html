@@ -8,20 +8,21 @@
 
 {% block content %}
 
-<h1 class="page-header">Sistema Financiero y BBVA</h1>
+<h1 class="page-header">Resumen Seguimiento</h1>
 <div class="form-inline">
 	<input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
 </div>
-&nbsp;
 <div class="rows placeholders">
 	<div id="chartContainer7" style="height: 300px; width: 60%; display: inline-block;"></div>
 	<div id="chartContainer1" style="height: 300px; width: 40%; display: inline-block;"></div>
 </div>
+<div ALIGN=left>(*) Gráfico al cierre de mes</div>
 &nbsp;
 <div class="rows placeholders">
 	<div id="chartContainer2" style="height: 300px; width: 60%; display: inline-block;"></div>
 	<div id="chartContainer3" style="height: 300px; width: 40%; display: inline-block;"></div>
 </div>
+<div>(*) La linea punteada corresponde al 2014</div>
 &nbsp;
 <div class="rows placeholders">
 	<div id="chartContainer8" style="height: 300px; width: 60%; display: inline-block;"></div>
@@ -29,14 +30,15 @@
 </div>
 &nbsp;
 <div class="rows placeholders">
-	<div id="chartContainer5" style="height: 300px; width: 40%; display: inline-block;"></div>
 	<div id="chartContainer10" style="height: 300px; width: 60%; display: inline-block;"></div>
+	<div id="chartContainer5" style="height: 300px; width: 40%; display: inline-block;"></div>
 </div>
 &nbsp;
 <div class="rows placeholders">
 	<div id="chartContainer11" style="height: 300px; width: 60%; display: inline-block;"></div>
 	<div id="chartContainer6" style="height: 300px; width: 40%; display: inline-block;"></div>
 </div>
+<div>(*) La linea punteada corresponde al 2015</div>
 
 
 {% endblock %}
@@ -47,7 +49,7 @@
 	var chart1 = new CanvasJS.Chart("chartContainer1", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Formalizados-Facturado por Producto",
+			text: "Formalizados-Facturado por Producto(*)",
 			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
@@ -190,7 +192,7 @@
 			name: "Progresistas",
 			indexLabelFontColor: "#89D1F3",
 			color: "#89D1F3",			
-			showInLegend: "true",
+			//showInLegend: "true",
 			dataPoints: [
 			{% for a in mora_productoxprogre2 %} 			
 				{ label: "{{a.producto}}",  y: {{a.mora}}*100/{{a.cuentas}}  },
@@ -206,7 +208,7 @@
 			name: "Aspirantes",
 			indexLabelFontColor: "#094FA4",
 			color: "#094FA4",			
-			showInLegend: "true",
+			//showInLegend: "true",
 			dataPoints: [
 			{% for a in mora_productoxaspi2 %} 			
 				{ label: "{{a.producto}}",  y: {{a.mora}}*100/{{a.cuentas}}  },
@@ -222,7 +224,7 @@
 			name: "Prósperos",
 			indexLabelFontColor: "#86C82D",
 			color: "#86C82D",			
-			showInLegend: "true",
+			//showInLegend: "true",
 			dataPoints: [
 			{% for a in mora_productoxprospe2 %} 			
 				{ label: "{{a.producto}}",  y: {{a.mora}}*100/{{a.cuentas}}  },
@@ -626,7 +628,7 @@
 		data: [ 
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedBar",
+			type: "stackedColumn",
 			name: "G1-G4",
 			indexLabelFontColor: "white",
 			indexLabelFontSize: 12,			
@@ -642,7 +644,7 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedBar",
+			type: "stackedColumn",
 			name: "G5",
 			indexLabelFontColor: "white",
 			indexLabelFontSize: 12,			
@@ -658,7 +660,7 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedBar",
+			type: "stackedColumn",
 			name: "G6-G8",
 			indexLabelFontColor: "white",
 			indexLabelFontSize: 12,			
@@ -674,7 +676,7 @@
 		},
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "stackedBar",
+			type: "stackedColumn",
 			name: "NB",
 			indexLabelFontColor: "white",
 			indexLabelFontSize: 12,			
@@ -698,6 +700,10 @@
 			text: "Formalizados por Forzaje (Mensual)",
 			fontColor: "#094FA4",              
 		},
+		axisX:{
+			labelFontColor: "transparent",
+			tickColor: "transparent",
+		},
 		animationEnabled: true,   // change to true
 
 		data: [ 
@@ -706,7 +712,7 @@
 			type: "spline",
 			name: "DUDA",
 			indexLabelFontColor: "#094FA4",
-			indexLabelFontSize: 12,			
+			indexLabelFontSize: 12,		
 			indexLabel: "{y}",
 			percentFormatString: "#0.",
 			showInLegend: "true",
@@ -729,6 +735,42 @@
 			color: "#F6891E",
 			dataPoints: [
 				{% for key, value in rechazo_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			lineDashType: "dot",
+			markerType: "triangle",
+			name: "DUDA",
+			indexLabelFontColor: "#094FA4",
+			indexLabelFontSize: 12,			
+			//indexLabel: "{y}",
+			percentFormatString: "#0.",
+			//showInLegend: "true",
+			color: "#89D1F3",
+			dataPoints: [
+				{% for key, value in duda2_dict.items|sort %}
+				{ y: {{value}} , label: '{{key|convert_date}}' },
+				{% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "spline",
+			lineDashType: "dot",
+			markerType: "triangle",
+			name: "RECHAZO",
+			indexLabelFontColor: "#094FA4",
+			indexLabelFontSize: 12,			
+			//indexLabel: "{y}",
+			percentFormatString: "#0.",
+			//showInLegend: "true",
+			color: "#F6891E",
+			dataPoints: [
+				{% for key, value in rechazo2_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]

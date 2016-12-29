@@ -2991,7 +2991,7 @@ def resumen_seguimiento(request):
         noph_dict[i['mes_vigencia']]=i['cantidad']
       if i['segmento'] == '4.NoCli':
         nocli_dict[i['mes_vigencia']]=i['cantidad']
-    form_segmento2015 = Seguimiento1.objects.values('periodo','segmento').filter(periodo='2015').exclude(segmento__in=['AVA','PNN']).annotate(cantidad=Sum('form')).order_by('segmento')
+    form_segmento2015 = Seguimiento1.objects.values('periodo','segmento').filter(periodo='2015').exclude(segmento__in=['AVA','PNN']).exclude(mes_vigencia='201512').annotate(cantidad=Sum('form')).order_by('segmento')
     form_segmento2016 = Seguimiento1.objects.values('periodo','segmento').filter(periodo='2016').exclude(segmento__in=['AVA','PNN']).annotate(cantidad=Sum('form')).order_by('segmento')
 
     form_buro = Seguimiento1.objects.values('mes_vigencia','buro_camp').filter(periodo='2016').exclude(buro_camp__in=['','AL','AP',' ']).annotate(cantidad=Sum('form')).order_by('mes_vigencia')
@@ -3005,7 +3005,7 @@ def resumen_seguimiento(request):
         buro3_dict[i['mes_vigencia']]=i['cantidad']
       if i['buro_camp'] == 'NB':
         buro4_dict[i['mes_vigencia']]=i['cantidad']
-    form_buro2015 = Seguimiento1.objects.values('periodo','buro_camp').filter(periodo='2015').exclude(buro_camp__in=['','AL','AP',' ']).annotate(cantidad=Sum('form')).order_by('buro_camp')
+    form_buro2015 = Seguimiento1.objects.values('periodo','buro_camp').filter(periodo='2015').exclude(buro_camp__in=['','AL','AP',' ']).exclude(mes_vigencia='201512').annotate(cantidad=Sum('form')).order_by('buro_camp')
     form_buro2016 = Seguimiento1.objects.values('periodo','buro_camp').filter(periodo='2016').exclude(buro_camp__in=['','AL','AP',' ']).annotate(cantidad=Sum('form')).order_by('buro_camp')
 
     form_forzaje = Forzaje.objects.values('mes_vigencia','dic_global').filter(periodo='2016').exclude(dic_global='AP').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
@@ -3015,7 +3015,14 @@ def resumen_seguimiento(request):
         duda_dict[i['mes_vigencia']]=i['cantidad']
       if i['dic_global'] == 'RE':
         rechazo_dict[i['mes_vigencia']]=i['cantidad']
-    form_forzaje2015 = Forzaje.objects.values('periodo', 'dic_global').filter(periodo='2015').exclude(dic_global='AP').annotate(cantidad=Sum('form')).order_by('dic_global')
+    form_forzaje2 = Forzaje.objects.values('mes_vigencia','dic_global').filter(periodo='2015').exclude(dic_global='AP').exclude(mes_vigencia='201512').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    duda2_dict={}; rechazo2_dict={}; 
+    for i in form_forzaje2:
+      if i['dic_global'] == 'DU':
+        duda2_dict[i['mes_vigencia']]=i['cantidad']
+      if i['dic_global'] == 'RE':
+        rechazo2_dict[i['mes_vigencia']]=i['cantidad']
+    form_forzaje2015 = Forzaje.objects.values('periodo', 'dic_global').filter(periodo='2015').exclude(dic_global='AP').exclude(mes_vigencia='201512').annotate(cantidad=Sum('form')).order_by('dic_global')
     form_forzaje2016 = Forzaje.objects.values('periodo', 'dic_global').filter(periodo='2016').exclude(dic_global='AP').annotate(cantidad=Sum('form')).order_by('dic_global')
 
     static_url=settings.STATIC_URL
