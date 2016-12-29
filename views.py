@@ -2949,6 +2949,19 @@ def resumen_seguimiento(request):
     for i in meses_total:
         time.append(i['mes_vigencia'])
 
+    form_total= Seguimiento1.objects.values('mes_vigencia').filter(periodo=('2016')).annotate(cantidad=Sum('form'),factura=Sum('facturacion')).order_by('mes_vigencia')
+    form_producto = Seguimiento1.objects.values('mes_vigencia','producto').filter(periodo=('2016')).annotate(cantidad=Sum('form'),factura=Sum('facturacion')).order_by('mes_vigencia')
+    pldform_dict={}; autoform_dict={}; tdcform_dict={}; hipoform_dict={};
+    for i in form_producto:
+      if i['producto'] == '01 Consumo':
+        pldform_dict[i['mes_vigencia']]=i['cantidad']
+      if i['producto'] == '02 Auto':
+        autoform_dict[i['mes_vigencia']]=i['cantidad']
+      if i['producto'] == '03 Tarjeta':
+        tdcform_dict[i['mes_vigencia']]=i['cantidad']
+      if i['producto'] == '04 Hipotecario':
+        hipoform_dict[i['mes_vigencia']]=i['cantidad']
+
     form_producto2015 = Seguimiento1.objects.values('periodo','producto').filter(periodo=('2015')).annotate(cantidad=Sum('form'),factura=Sum('facturacion')).order_by('producto')
     form_producto2016 = Seguimiento1.objects.values('periodo','producto').filter(periodo=('2016')).annotate(cantidad=Sum('form'),factura=Sum('facturacion')).order_by('producto')
 
@@ -2958,11 +2971,49 @@ def resumen_seguimiento(request):
     mora_productoxaspi = Seguimiento1.objects.values('producto','cluster').filter(mes_vigencia__gte=mes_inicial,mes_vigencia__lte=mes_final, cluster='4. Aspirantes').annotate(mora=Sum('mora12'),cuentas=Sum('ctas')).order_by('producto')
     mora_productoxprospe = Seguimiento1.objects.values('producto','cluster').filter(mes_vigencia__gte=mes_inicial,mes_vigencia__lte=mes_final, cluster='5. Prosperos').annotate(mora=Sum('mora12'),cuentas=Sum('ctas')).order_by('producto')
 
-    form_segmento = Seguimiento1.objects.values('periodo','segmento').filter(periodo__in=[2015,2016]).annotate(cantidad=Sum('form')).order_by('periodo')
+    mes_inicial2 = '201311'
+    mes_final2 = '201411'
+    mora_productoxprogre2 = Seguimiento1.objects.values('producto','cluster').filter(mes_vigencia__gte=mes_inicial2,mes_vigencia__lte=mes_final2,cluster='3. Progresistas').annotate(mora=Sum('mora12'),cuentas=Sum('ctas')).order_by('producto')
+    mora_productoxaspi2 = Seguimiento1.objects.values('producto','cluster').filter(mes_vigencia__gte=mes_inicial2,mes_vigencia__lte=mes_final2, cluster='4. Aspirantes').annotate(mora=Sum('mora12'),cuentas=Sum('ctas')).order_by('producto')
+    mora_productoxprospe2 = Seguimiento1.objects.values('producto','cluster').filter(mes_vigencia__gte=mes_inicial2,mes_vigencia__lte=mes_final2, cluster='5. Prosperos').annotate(mora=Sum('mora12'),cuentas=Sum('ctas')).order_by('producto')
 
-    form_buro = Seguimiento1.objects.values('periodo','buro_camp').filter(periodo__in=[2015,2016]).annotate(cantidad=Sum('form')).order_by('periodo')
+    form_segmento = Seguimiento1.objects.values('mes_vigencia','segmento').filter(periodo='2016').exclude(segmento__in=['AVA','PNN']).annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    ava_dict={}; ms_dict={}; noph_dict={}; nocli_dict={};
+    for i in form_segmento:
+      if i['segmento'] == '1.AVA':
+        ava_dict[i['mes_vigencia']]=i['cantidad']
+      if i['segmento'] == '2.MS':
+        ms_dict[i['mes_vigencia']]=i['cantidad']
+      if i['segmento'] == '3.NoPH':
+        noph_dict[i['mes_vigencia']]=i['cantidad']
+      if i['segmento'] == '4.NoCli':
+        nocli_dict[i['mes_vigencia']]=i['cantidad']
+    form_segmento2015 = Seguimiento1.objects.values('periodo','segmento').filter(periodo='2015').exclude(segmento__in=['AVA','PNN']).annotate(cantidad=Sum('form')).order_by('segmento')
+    form_segmento2016 = Seguimiento1.objects.values('periodo','segmento').filter(periodo='2016').exclude(segmento__in=['AVA','PNN']).annotate(cantidad=Sum('form')).order_by('segmento')
 
-    form_forzaje = Forzaje.objects.values('periodo', 'dic_global').exclude(dic_global='AP').filter(periodo__in=[2015,2016]).annotate(cantidad=Sum('form')).order_by('periodo')
+    form_buro = Seguimiento1.objects.values('mes_vigencia','buro_camp').filter(periodo='2016').exclude(buro_camp__in=['','AL','AP',' ']).annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    buro1_dict={}; buro2_dict={}; buro3_dict={}; buro4_dict={};
+    for i in form_buro:
+      if i['buro_camp'] == 'G1-G4':
+        buro1_dict[i['mes_vigencia']]=i['cantidad']
+      if i['buro_camp'] == 'G5':
+        buro2_dict[i['mes_vigencia']]=i['cantidad']
+      if i['buro_camp'] == 'G6-G8':
+        buro3_dict[i['mes_vigencia']]=i['cantidad']
+      if i['buro_camp'] == 'NB':
+        buro4_dict[i['mes_vigencia']]=i['cantidad']
+    form_buro2015 = Seguimiento1.objects.values('periodo','buro_camp').filter(periodo='2015').exclude(buro_camp__in=['','AL','AP',' ']).annotate(cantidad=Sum('form')).order_by('buro_camp')
+    form_buro2016 = Seguimiento1.objects.values('periodo','buro_camp').filter(periodo='2016').exclude(buro_camp__in=['','AL','AP',' ']).annotate(cantidad=Sum('form')).order_by('buro_camp')
+
+    form_forzaje = Forzaje.objects.values('mes_vigencia','dic_global').filter(periodo='2016').exclude(dic_global='AP').annotate(cantidad=Sum('form')).order_by('mes_vigencia')
+    duda_dict={}; rechazo_dict={}; 
+    for i in form_forzaje:
+      if i['dic_global'] == 'DU':
+        duda_dict[i['mes_vigencia']]=i['cantidad']
+      if i['dic_global'] == 'RE':
+        rechazo_dict[i['mes_vigencia']]=i['cantidad']
+    form_forzaje2015 = Forzaje.objects.values('periodo', 'dic_global').filter(periodo='2015').exclude(dic_global='AP').annotate(cantidad=Sum('form')).order_by('dic_global')
+    form_forzaje2016 = Forzaje.objects.values('periodo', 'dic_global').filter(periodo='2016').exclude(dic_global='AP').annotate(cantidad=Sum('form')).order_by('dic_global')
 
     static_url=settings.STATIC_URL
     tipo_side = 4
