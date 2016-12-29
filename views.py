@@ -2962,8 +2962,11 @@ def resumen_seguimiento(request):
       if i['producto'] == '04 Hipotecario':
         hipoform_dict[i['mes_vigencia']]=i['cantidad']
 
-    form_producto2015 = Seguimiento1.objects.values('periodo','producto').filter(periodo=('2015')).annotate(cantidad=Sum('form'),factura=Sum('facturacion')).order_by('producto')
+    form_producto2015 = Seguimiento1.objects.values('periodo','producto').filter(periodo=('2015')).exclude(mes_vigencia='201512').annotate(cantidad=Sum('form'),factura=Sum('facturacion')).order_by('producto')
     form_producto2016 = Seguimiento1.objects.values('periodo','producto').filter(periodo=('2016')).annotate(cantidad=Sum('form'),factura=Sum('facturacion')).order_by('producto')
+
+    form_cluster2015 = Seguimiento1.objects.values('periodo','cluster').filter(periodo=('2015')).exclude(mes_vigencia='201512').exclude(cluster__in=['0. S.D.','1. Modestos','2. Desligados']).annotate(cantidad=Sum('form'),factura=Sum('facturacion')).order_by('cluster')
+    form_cluster2016 = Seguimiento1.objects.values('periodo','cluster').filter(periodo=('2016')).exclude(cluster__in=['0. S.D.','1. Modestos','2. Desligados']).annotate(cantidad=Sum('form'),factura=Sum('facturacion')).order_by('cluster')
 
     mes_inicial = '201411'
     mes_final = '201511'

@@ -19,8 +19,8 @@
 </div>
 &nbsp;
 <div class="rows placeholders">
-	<div id="chartContainer2" style="height: 300px; width: 50%; display: inline-block;"></div>
-	<div id="chartContainer3" style="height: 300px; width: 50%; display: inline-block;"></div>
+	<div id="chartContainer2" style="height: 300px; width: 60%; display: inline-block;"></div>
+	<div id="chartContainer3" style="height: 300px; width: 40%; display: inline-block;"></div>
 </div>
 &nbsp;
 <div class="rows placeholders">
@@ -29,9 +29,8 @@
 </div>
 &nbsp;
 <div class="rows placeholders">
-	<div id="chartContainer5" style="height: 300px; width: 30%; display: inline-block;"></div>
-	<div id="chartContainer9" style="height: 300px; width: 30%; display: inline-block;"></div>
-	<div id="chartContainer10" style="height: 300px; width: 40%; display: inline-block;"></div>
+	<div id="chartContainer5" style="height: 300px; width: 40%; display: inline-block;"></div>
+	<div id="chartContainer10" style="height: 300px; width: 60%; display: inline-block;"></div>
 </div>
 &nbsp;
 <div class="rows placeholders">
@@ -133,7 +132,7 @@
 	var chart2 = new CanvasJS.Chart("chartContainer2", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Mora12 por Cluster-Producto (201411-201511)",
+			text: "Mora12 por Cluster-Producto (2014-2015)",
 			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
@@ -142,8 +141,7 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "line",
-			//indexLabel: "{z}",
-			//zValueFormatString: "#0.0#",
+			markerType: "circle",
 			name: "Progresistas",
 			indexLabelFontColor: "#89D1F3",
 			color: "#89D1F3",			
@@ -158,8 +156,7 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "line",
-			//indexLabel: "{z}",
-			//zValueFormatString: "#0.0#",
+			markerType: "circle",
 			name: "Aspirantes",
 			indexLabelFontColor: "#094FA4",
 			color: "#094FA4",			
@@ -174,8 +171,7 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "line",
-			//indexLabel: "{z}",
-			//zValueFormatString: "#0.0#",
+			markerType: "circle",
 			name: "Prósperos",
 			indexLabelFontColor: "#86C82D",
 			color: "#86C82D",			
@@ -185,26 +181,12 @@
 				{ label: "{{a.producto}}",  y: {{a.mora}}*100/{{a.cuentas}}  },
 		    {% endfor %}
 			]
-
 		},
-		]
-	});
-	chart2.render();
-
-	var chart3 = new CanvasJS.Chart("chartContainer3", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Mora12 por Cluster-Producto (201311-201411)",
-			fontColor: "#094FA4",              
-		},
-		animationEnabled: true,   // change to true
-
-		data: [ 
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "line",
-			//indexLabel: "{z}",
-			//zValueFormatString: "#0.0#",
+			lineDashType: "dot",
+			markerType: "triangle",
 			name: "Progresistas",
 			indexLabelFontColor: "#89D1F3",
 			color: "#89D1F3",			
@@ -219,8 +201,8 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "line",
-			//indexLabel: "{z}",
-			//zValueFormatString: "#0.0#",
+			lineDashType: "dot",
+			markerType: "triangle",
 			name: "Aspirantes",
 			indexLabelFontColor: "#094FA4",
 			color: "#094FA4",			
@@ -235,8 +217,8 @@
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "line",
-			//indexLabel: "{z}",
-			//zValueFormatString: "#0.0#",
+			lineDashType: "dot",
+			markerType: "triangle",
 			name: "Prósperos",
 			indexLabelFontColor: "#86C82D",
 			color: "#86C82D",			
@@ -244,6 +226,55 @@
 			dataPoints: [
 			{% for a in mora_productoxprospe2 %} 			
 				{ label: "{{a.producto}}",  y: {{a.mora}}*100/{{a.cuentas}}  },
+		    {% endfor %}
+			]
+
+		},
+		]
+	});
+	chart2.render();
+
+	var chart3 = new CanvasJS.Chart("chartContainer3", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Formalizados por Cluster",
+			fontColor: "#094FA4",              
+		},
+		animationEnabled: true,   // change to true
+
+		data: [ 
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			indexLabel: "{y}",
+			//zValueFormatString: "#0.0#",
+			name: "2015",
+			indexLabelFontColor: "#094FA4",
+			indexLabelPlacement: "inside",
+			indexLabelOrientation: "vertical",
+			color: "#89D1F3",			
+			showInLegend: "true",
+			dataPoints: [
+			{% for a in form_cluster2015 %} 			
+				{ label: "{{a.cluster}}",  y: {{a.cantidad}} },
+		    {% endfor %}
+			]
+
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			indexLabel: "{y}",
+			//zValueFormatString: "#0.0#",
+			name: "2016",
+			indexLabelFontColor: "#094FA4",
+			indexLabelPlacement: "inside",
+			indexLabelOrientation: "vertical",
+			color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			{% for a in form_cluster2016 %} 			
+				{ label: "{{a.cluster}}",  y: {{a.cantidad}} },
 		    {% endfor %}
 			]
 
@@ -300,7 +331,7 @@
 	var chart5 = new CanvasJS.Chart("chartContainer5", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Formalizados por Buró (2015)",
+			text: "Formalizados por Buró",
 			fontColor: "#094FA4",              
 		},
 		animationEnabled: true,   // change to true
@@ -308,21 +339,40 @@
 		data: [ 
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "doughnut",
-			indexLabel: "{label} : {y}",
+			type: "column",
+			name: "2015",
+			indexLabel: "{y}",
 			indexLabelFontColor: "#094FA4",
-			//color: "#89D1F3",			
-			//showInLegend: "true",
+			indexLabelPlacement: "inside",
+			indexLabelOrientation: "vertical",
+			color: "#89D1F3",			
+			showInLegend: "true",
 			dataPoints: [
 			{% for a in form_buro2015 %} 			
-				{ y: {{a.cantidad}} , label: "{{a.buro_camp}}" },
+				{ label: "{{a.buro_camp}}",  y: {{a.cantidad}}  },
+		    {% endfor %}
+			]
+		},
+		{
+			// Change type to "bar", "area", "spline", "pie",etc.
+			type: "column",
+			name: "2016",
+			indexLabel: "{y}",
+			indexLabelFontColor: "#094FA4",
+			indexLabelPlacement: "inside",
+			indexLabelOrientation: "vertical",
+			color: "#86C82D",			
+			showInLegend: "true",
+			dataPoints: [
+			{% for a in form_buro2016 %} 			
+				{ label: "{{a.buro_camp}}",  y: {{a.cantidad}}  },
 		    {% endfor %}
 			]
 		},
 		]
 	});
 	chart5.render();
-
+/*
 	var chart9 = new CanvasJS.Chart("chartContainer9", {
 		theme: "theme2",//theme1
 		title:{
@@ -348,7 +398,7 @@
 		]
 	});
 	chart9.render();
-
+*/
 	var chart6 = new CanvasJS.Chart("chartContainer6", {
 		theme: "theme2",//theme1
 		title:{
