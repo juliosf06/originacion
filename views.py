@@ -3032,6 +3032,41 @@ def resumen_seguimiento(request):
                   context_instance=RequestContext(request))
 
 @login_required
+def resumen_campanas(request):
+    ofertas_tdc_pld = Campana2.objects.values('mes_vigencia').filter(mes_vigencia__gte='201601',mes_vigencia__lte='201611').annotate(cantidad_tdc=Sum('q_tc'),cantidad_pld=Sum('q_pld'))
+    formal_tdc_pld = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto__in=['01 Consumo','03 Tarjeta'],mes_vigencia__gte='201601',mes_vigencia__lte='201611').annotate(cantidad=Sum('form'))
+    efecxtdc = {}; efecxpld ={};
+    for i in formal_tdc_pld:
+      for j in ofertas_tdc_pld:
+        if i['mes_vigencia'] == j['mes_vigencia']:
+          if i['producto'] == '01 Consumo':          
+            efecxpld[i['mes_vigencia']] = i['cantidad']*100/j['cantidad_pld']
+          if i['producto'] == '03 Tarjeta':          
+            efecxtdc[i['mes_vigencia']] = i['cantidad']*100/j['cantidad_pld']
+    ofertas_tdc_pld2015 = Campana2.objects.values('mes_vigencia').filter(mes_vigencia__gte='201501',mes_vigencia__lte='201511').annotate(cantidad_tdc=Sum('q_tc'),cantidad_pld=Sum('q_pld'))
+    formal_tdc_pld2015 = Seguimiento1.objects.values('mes_vigencia','producto').filter(producto__in=['01 Consumo','03 Tarjeta'],mes_vigencia__gte='201501',mes_vigencia__lte='201511').annotate(cantidad=Sum('form'))
+    efecxtdc2015 = {}; efecxpld2015 ={};
+    for i in formal_tdc_pld2015:
+      for j in ofertas_tdc_pld2015:
+        if i['mes_vigencia'] == j['mes_vigencia']:
+          if i['producto'] == '01 Consumo':          
+            efecxpld2015[i['mes_vigencia']] = i['cantidad']*100/j['cantidad_pld']
+          if i['producto'] == '03 Tarjeta':          
+            efecxtdc2015[i['mes_vigencia']] = i['cantidad']*100/j['cantidad_pld']
+
+    ofertas_tdc_pld2015 = Campana2.objects.all().filter(mes_vigencia__gte='201501',mes_vigencia__lte='201511').aggregate(cantidad_tdc=Sum('q_tc'),cantidad_pld=Sum('q_pld'),suma_tdc=Sum('monto_tc'),suma_pld=Sum('monto_pld'))
+    ofertas_tdc_pld2016 = Campana2.objects.all().filter(mes_vigencia__gte='201601',mes_vigencia__lte='201611').aggregate(cantidad_tdc=Sum('q_tc'),cantidad_pld=Sum('q_pld'),suma_tdc=Sum('monto_tc'),suma_pld=Sum('monto_pld'))
+
+    ofertas_seg2015 = Campana2.objects.values('segmento').filter(mes_vigencia__gte='201501',mes_vigencia__lte='201511',segmento__in=['AVA','MS','No PH','NoCli']).annotate(cantidad_tdc=Sum('q_tc'),cantidad_pld=Sum('q_pld'),suma_tdc=Sum('monto_tc'))
+    ofertas_seg2016 = Campana2.objects.values('segmento').filter(mes_vigencia__gte='201601',mes_vigencia__lte='201611',segmento__in=['AVA','MS','No PH','NoCli']).annotate(cantidad_tdc=Sum('q_tc'),cantidad_pld=Sum('q_pld'),suma_tdc=Sum('monto_tc'))
+
+    static_url=settings.STATIC_URL
+    tipo_side = 4
+
+    return render('reports/resumen_campanas.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
 def seguimiento_adelanto(request):
     control_fecha = AdelantoSueldo.objects.values('mes_vigencia' ).distinct('mes_vigencia').order_by('-mes_vigencia')
     time = []

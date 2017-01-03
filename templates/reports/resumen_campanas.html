@@ -1,0 +1,357 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Resumen de Campañas{% endblock %}
+
+{% block content %}
+<div id='titulo' style="position: fixed; z-index:15; border: 38px solid white; top: 5%; width: 100%;">
+  <h1 class="page-header" style="position: fixed; z-index:5; width: 100%; top: 7%;">Resumen Campañas</h1>
+  <button id='boton' onclick="PDF()" style="width:6%; border-radius: 8px; background-color: #AF0000; color: white; right:10%; position: fixed; z-index:5; top: 8%;">PDF</button>
+</div>
+<div class="form-inline">
+  <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+</div>
+<div class="rows placeholders">
+  <div id="chartContainer1" style="height: 300px; width: 50%; display: inline-block;"></div>
+  <div id="chartContainer2" style="height: 300px; width: 50%; display: inline-block;"></div>
+</div>
+&nbsp;
+<div class="rows placeholders">
+  <div id="chartContainer3" style="height: 300px; width: 50%; display: inline-block;"></div>
+  <div id="chartContainer4" style="height: 300px; width: 50%; display: inline-block;"></div>
+</div>
+
+{% endblock %}
+
+
+{% block script_final %}
+<script type="text/javascript">
+  window.onload = function () {
+  var chart1 = new CanvasJS.Chart("chartContainer1", {
+    theme: "theme2",//theme1
+    title:{
+      text: "Efectividad",
+      fontColor: "#094FA4",              
+    },
+    animationEnabled: true,   // change to true
+
+    data: [ 
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "spline",
+      indexLabel: "{y} %",
+      yValueFormatString: "#0.0#",
+      name: "PLD",
+      indexLabelFontColor: "#094FA4",
+      color: "#89D1F3",     
+      showInLegend: "true",
+      dataPoints: [
+      {% for key, value in efecxpld.items|sort %}
+        { label: '{{key|convert_date}}', y: {{value}} },
+      {% endfor %}
+      ]
+
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "spline",
+      indexLabel: "{y} %",
+      yValueFormatString: "#0.0#",
+      name: "TDC",
+      indexLabelFontColor: "#F6891E",
+      color: "#F6891E",     
+      showInLegend: "true",
+      dataPoints: [
+      {% for key, value in efecxtdc.items|sort %}
+        { label: '{{key|convert_date}}', y: {{value}} },
+      {% endfor %}
+      ]
+    },
+    /*
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "spline",
+      lineDashType: "dot",
+      markerType: "triangle",
+      //indexLabel: "{y} %",
+      yValueFormatString: "#0.0#",
+      name: "PLD",
+      indexLabelFontColor: "#094FA4",
+      color: "#89D1F3",     
+      //showInLegend: "true",
+      dataPoints: [
+      {% for key, value in efecxpld2015.items|sort %}
+        { label: '{{key|convert_date}}', y: {{value}} },
+      {% endfor %}
+      ]
+
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "spline",
+      //indexLabel: "{y} %",
+      lineDashType: "dot",
+      markerType: "triangle",
+      yValueFormatString: "#0.0#",
+      name: "TDC",
+      indexLabelFontColor: "#F6891E",
+      color: "#F6891E",     
+      //showInLegend: "true",
+      dataPoints: [
+      {% for key, value in efecxtdc2015.items|sort %}
+        { label: '{{key|convert_date}}', y: {{value}} },
+      {% endfor %}
+      ]
+    },
+    */
+    ]
+  });
+  chart1.render();
+
+  var chart2 = new CanvasJS.Chart("chartContainer2", {
+    theme: "theme2",//theme1
+    title:{
+      text: "Ofertas - Montos",
+      fontColor: "#094FA4",              
+    },
+    animationEnabled: true,   // change to true
+    data: [ 
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "column",
+      indexLabel: "   {y}",
+      //yValueFormatString: "#0",
+      indexLabelPlacement: "inside",
+      name: "2015",
+      indexLabelFontColor: "#094FA4",
+      indexLabelOrientation: "vertical",
+      color: "#89D1F3",     
+      showInLegend: "true",
+      dataPoints: [     
+        { label: "TDC",  y: {{ofertas_tdc_pld2015.cantidad_tdc}}  },
+        { label: "PLD",  y: {{ofertas_tdc_pld2015.cantidad_pld}}  },
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "column",
+      indexLabel: "   {y}",
+      //yValueFormatString: "#0.0#",
+      name: "2016",
+      indexLabelFontColor: "#094FA4",
+      indexLabelPlacement: "inside",
+      indexLabelOrientation: "vertical",
+      color: "#86C82D",     
+      showInLegend: "true",
+      dataPoints: [
+        { label: "TDC",  y: {{ofertas_tdc_pld2016.cantidad_tdc}}  },
+        { label: "PLD",  y: {{ofertas_tdc_pld2016.cantidad_pld}}  },
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      axisYType: "secondary",
+      type: "column",
+      indexLabel: "S/. {y} MM",
+      yValueFormatString: "#,##0",
+      indexLabelPlacement: "inside",
+      name: "2015 (S/.)",
+      indexLabelFontColor: "#094FA4",
+      indexLabelOrientation: "vertical",
+      color: "#FDBD2C",     
+      showInLegend: "true",
+      dataPoints: [
+        { label: "TDC",  y: {{ofertas_tdc_pld2015.suma_tdc}}/1000000  },
+        { label: "PLD",  y: {{ofertas_tdc_pld2015.suma_pld}}/1000000  },
+      ]
+
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      axisYType: "secondary",
+      type: "column",
+      indexLabel: "S/. {y} MM",
+      yValueFormatString: "#,##0",
+      name: "2016 (S/.)",
+      indexLabelFontColor: "#094FA4",
+      indexLabelPlacement: "inside",
+      indexLabelOrientation: "vertical",
+      color: "#F6891E",     
+      showInLegend: "true",
+      dataPoints: [     
+        { label: "TDC",  y: {{ofertas_tdc_pld2016.suma_tdc}}/1000000  },
+        { label: "PLD",  y: {{ofertas_tdc_pld2016.suma_pld}}/1000000  },
+      ]
+    },
+    ]
+  });
+  chart2.render();
+
+  var chart3 = new CanvasJS.Chart("chartContainer3", {
+    theme: "theme2",//theme1
+    title:{
+      text: "Ofertas TDC - Segmento",
+      fontColor: "#094FA4",              
+    },
+    animationEnabled: true,   // change to true
+    data: [ 
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "bar",
+      indexLabel: "   {y}",
+      //yValueFormatString: "#0",
+      indexLabelPlacement: "inside",
+      name: "2015",
+      indexLabelFontColor: "#094FA4",
+      //indexLabelOrientation: "vertical",
+      color: "#89D1F3",     
+      showInLegend: "true",
+      dataPoints: [     
+      {% for a in ofertas_seg2015 %}      
+        { label: "{{a.segmento}}",  y: {{a.cantidad_tdc}} },
+      {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "bar",
+      indexLabel: "   {y}",
+      //yValueFormatString: "#0.0#",
+      name: "2016",
+      indexLabelFontColor: "#094FA4",
+      indexLabelPlacement: "inside",
+      //indexLabelOrientation: "vertical",
+      color: "#86C82D",     
+      showInLegend: "true",
+      dataPoints: [
+      {% for a in ofertas_seg2016 %}      
+        { label: "{{a.segmento}}",  y: {{a.cantidad_tdc}}   },
+      {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart3.render();
+
+  var chart4 = new CanvasJS.Chart("chartContainer4", {
+    theme: "theme2",//theme1
+    title:{
+      text: "Ofertas PLD - Segmento",
+      fontColor: "#094FA4",              
+    },
+    animationEnabled: true,   // change to true
+    data: [ 
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "bar",
+      indexLabel: "   {y}",
+      //yValueFormatString: "#0",
+      indexLabelPlacement: "inside",
+      name: "2015",
+      indexLabelFontColor: "#094FA4",
+      //indexLabelOrientation: "vertical",
+      color: "#89D1F3",     
+      showInLegend: "true",
+      dataPoints: [     
+      {% for a in ofertas_seg2015 %}      
+        { label: "{{a.segmento}}",  y: {{a.cantidad_pld}} },
+      {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "bar",
+      indexLabel: "   {y}",
+      //yValueFormatString: "#0.0#",
+      name: "2016",
+      indexLabelFontColor: "#094FA4",
+      indexLabelPlacement: "inside",
+      //indexLabelOrientation: "vertical",
+      color: "#86C82D",     
+      showInLegend: "true",
+      dataPoints: [
+      {% for a in ofertas_seg2016 %}      
+        { label: "{{a.segmento}}",  y: {{a.cantidad_pld}}   },
+      {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart4.render();
+
+  };
+
+  function PDF(){
+    var canvas1 = $("#chartContainer1 .canvasjs-chart-canvas").get(0);
+    dataURL1 = canvas1.toDataURL();
+    var canvas2 = $("#chartContainer2 .canvasjs-chart-canvas").get(0);
+    dataURL2 = canvas2.toDataURL();
+    var canvas3 = $("#chartContainer3 .canvasjs-chart-canvas").get(0);
+    dataURL3 = canvas3.toDataURL();
+    var canvas4 = $("#chartContainer4 .canvasjs-chart-canvas").get(0);
+    dataURL4 = canvas4.toDataURL();
+    //console.log(dataURL);
+    var docDefinition = { 
+      content: [
+        { text: 'Resumen de Campañas', style: 'header' },
+        { text: '_______________________________________________________________________________________________', style: 'line' },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL1,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL2,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL3,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL4,
+              width: 250
+            },
+          ]
+        },
+        
+      ],
+      styles: {
+        header: {
+          fontSize: 20,
+          bold: true,
+          color: '#094FA4',
+          alignment: 'center'
+        },
+        line: {
+          bold: true,
+          color: '#094FA4',
+          alignment: 'center'
+        },
+      }
+
+    };
+    pdfMake.createPdf(docDefinition).open();
+  }
+
+
+</script>
+{% endblock %}
+
+
+
+

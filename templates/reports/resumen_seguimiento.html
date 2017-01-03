@@ -8,35 +8,35 @@
 
 {% block content %}
 
-<h1 class="page-header">Resumen Seguimiento</h1>
-<div class="form-inline">
-	<input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+<div id='titulo' style="position: fixed; z-index:15; border: 38px solid white; top: 5%; width: 100%;">
+  <h1 class="page-header" style="position: fixed; z-index:5; width: 100%; top: 7%;">Resumen Seguimiento</h1>
+  <button id='boton' onclick="PDF()" style="width:6%; border-radius: 8px; background-color: #AF0000; color: white; right:10%; position: fixed; z-index:5; top: 8%;">PDF</button>
 </div>
 <div class="rows placeholders">
-	<div id="chartContainer7" style="height: 300px; width: 60%; display: inline-block;"></div>
-	<div id="chartContainer1" style="height: 300px; width: 40%; display: inline-block;"></div>
+	<div id="chartContainer7" style="height: 300px; width: 50%; display: inline-block;"></div>
+	<div id="chartContainer1" style="height: 300px; width: 50%; display: inline-block;"></div>
 </div>
 <div ALIGN=left>(*) Gráfico al cierre de mes</div>
 &nbsp;
 <div class="rows placeholders">
-	<div id="chartContainer2" style="height: 300px; width: 60%; display: inline-block;"></div>
-	<div id="chartContainer3" style="height: 300px; width: 40%; display: inline-block;"></div>
+	<div id="chartContainer2" style="height: 300px; width: 50%; display: inline-block;"></div>
+	<div id="chartContainer3" style="height: 300px; width: 50%; display: inline-block;"></div>
 </div>
 <div>(*) La linea punteada corresponde al 2014</div>
 &nbsp;
 <div class="rows placeholders">
-	<div id="chartContainer8" style="height: 300px; width: 60%; display: inline-block;"></div>
-	<div id="chartContainer4" style="height: 300px; width: 40%; display: inline-block;"></div>
+	<div id="chartContainer8" style="height: 300px; width: 50%; display: inline-block;"></div>
+	<div id="chartContainer4" style="height: 300px; width: 50%; display: inline-block;"></div>
 </div>
 &nbsp;
 <div class="rows placeholders">
-	<div id="chartContainer10" style="height: 300px; width: 60%; display: inline-block;"></div>
-	<div id="chartContainer5" style="height: 300px; width: 40%; display: inline-block;"></div>
+	<div id="chartContainer10" style="height: 300px; width: 50%; display: inline-block;"></div>
+	<div id="chartContainer5" style="height: 300px; width: 50%; display: inline-block;"></div>
 </div>
 &nbsp;
 <div class="rows placeholders">
-	<div id="chartContainer11" style="height: 300px; width: 60%; display: inline-block;"></div>
-	<div id="chartContainer6" style="height: 300px; width: 40%; display: inline-block;"></div>
+	<div id="chartContainer11" style="height: 300px; width: 50%; display: inline-block;"></div>
+	<div id="chartContainer6" style="height: 300px; width: 50%; display: inline-block;"></div>
 </div>
 <div>(*) La linea punteada corresponde al 2015</div>
 
@@ -779,7 +779,128 @@
 	});
 	chart11.render();
 
-    }
+    };
+
+    function PDF(){
+    var canvas1 = $("#chartContainer1 .canvasjs-chart-canvas").get(0);
+    dataURL1 = canvas1.toDataURL();
+    var canvas2 = $("#chartContainer2 .canvasjs-chart-canvas").get(0);
+    dataURL2 = canvas2.toDataURL();
+    var canvas3 = $("#chartContainer3 .canvasjs-chart-canvas").get(0);
+    dataURL3 = canvas3.toDataURL();
+    var canvas4 = $("#chartContainer4 .canvasjs-chart-canvas").get(0);
+    dataURL4 = canvas4.toDataURL();
+    var canvas5 = $("#chartContainer5 .canvasjs-chart-canvas").get(0);
+    dataURL5 = canvas5.toDataURL();
+    var canvas6 = $("#chartContainer6 .canvasjs-chart-canvas").get(0);
+    dataURL6 = canvas6.toDataURL();
+    var canvas7 = $("#chartContainer7 .canvasjs-chart-canvas").get(0);
+    dataURL7 = canvas7.toDataURL();
+    var canvas8 = $("#chartContainer8 .canvasjs-chart-canvas").get(0);
+    dataURL8 = canvas8.toDataURL();
+    var canvas10 = $("#chartContainer10 .canvasjs-chart-canvas").get(0);
+    dataURL10 = canvas10.toDataURL();
+    var canvas11 = $("#chartContainer11 .canvasjs-chart-canvas").get(0);
+    dataURL11 = canvas11.toDataURL();
+    //console.log(dataURL);
+    var docDefinition = { 
+      content: [
+        { text: 'Resumen Seguimiento ', style: 'header' },
+        { text: '_______________________________________________________________________________________________', style: 'line' },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL7,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL1,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL2,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL3,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL8,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL4,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL10,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL5,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL11,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL6,
+              width: 250
+            },
+          ]
+        },
+        
+      ],
+      styles: {
+        header: {
+          fontSize: 20,
+          bold: true,
+          color: '#094FA4',
+          alignment: 'center'
+        },
+        line: {
+          bold: true,
+          color: '#094FA4',
+          alignment: 'center'
+        },
+      }
+
+    };
+    pdfMake.createPdf(docDefinition).open();
+  }
   </script>
 {% endblock %}
 
