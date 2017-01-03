@@ -837,7 +837,8 @@
             },
           ]
         },
-        '\n\n',
+        { text: '(*) La linea punteada corresponde al 2014', style: 'nota' },
+        '\n',
         {
           alignment: 'justify',
           columns: [
@@ -882,6 +883,7 @@
             },
           ]
         },
+        { text: '(*) La linea punteada corresponde al 2015', style: 'nota' },
         
       ],
       styles: {
@@ -895,6 +897,11 @@
           bold: true,
           color: '#094FA4',
           alignment: 'center'
+        },
+        nota: {
+          fontSize: 5,
+          bold: false,
+          color: '#094FA4'
         },
       }
 
