@@ -7,14 +7,16 @@
 {% block title %}Resumen de Campañas{% endblock %}
 
 {% block content %}
+
 <div id='titulo' style="position: fixed; z-index:15; border: 38px solid white; top: 5%; width: 100%;">
-  <h1 class="page-header" style="position: fixed; z-index:5; width: 100%; top: 7%;">Resumen Campañas</h1>
+  <h1 class="page-header" style="position: fixed; z-index:5; width: 100%; top: 7%;">Resumen de Campañas</h1>
   <button id='boton' onclick="PDF()" style="width:5%; border-radius: 8px; background-color: #AF0000; color: white; right:10%; position: fixed; z-index:5; top: 9%;">PDF</button>
 </div>
-<div class="form-inline" style = "padding:6% 0%;">
+<!--
+<div class="rows placeholders" style = "padding:6% 0%;">
   <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
-</div>
-<div class="rows placeholders">
+</div>-->
+<div class="rows placeholders" style = "padding:6% 0%;" >
   <div id="chartContainer1" style="height: 300px; width: 50%; display: inline-block;"></div>
   <div id="chartContainer2" style="height: 300px; width: 50%; display: inline-block;"></div>
 </div>
