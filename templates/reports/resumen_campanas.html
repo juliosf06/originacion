@@ -25,6 +25,17 @@
   <div id="chartContainer3" style="height: 300px; width: 50%; display: inline-block;"></div>
   <div id="chartContainer4" style="height: 300px; width: 50%; display: inline-block;"></div>
 </div>
+&nbsp;
+<div class="rows placeholders">
+  <div id="chartContainer5" style="height: 300px; width: 50%; display: inline-block;"></div>
+  <div id="chartContainer6" style="height: 300px; width: 50%; display: inline-block;"></div>
+</div>
+<div class="rows placeholders">
+  <div id="chartContainer7" style="height: 300px; width: 25%; display: inline-block;"></div>
+  <div id="chartContainer8" style="height: 300px; width: 25%; display: inline-block;"></div>
+  <div id="chartContainer9" style="height: 300px; width: 25%; display: inline-block;"></div>
+  <div id="chartContainer10" style="height: 300px; width: 25%; display: inline-block;"></div>
+</div>
 
 {% endblock %}
 
@@ -36,7 +47,8 @@
     theme: "theme2",//theme1
     title:{
       text: "Efectividad",
-      fontColor: "#094FA4",              
+      fontColor: "#094FA4",
+      fontFamily: "tahoma",           
     },
     animationEnabled: true,   // change to true
 
@@ -117,7 +129,8 @@
     theme: "theme2",//theme1
     title:{
       text: "Ofertas - Montos",
-      fontColor: "#094FA4",              
+      fontColor: "#094FA4", 
+      fontFamily: "tahoma",             
     },
     animationEnabled: true,   // change to true
     data: [ 
@@ -196,7 +209,8 @@
     theme: "theme2",//theme1
     title:{
       text: "Ofertas TDC - Segmento",
-      fontColor: "#094FA4",              
+      fontColor: "#094FA4",
+      fontFamily: "tahoma",              
     },
     animationEnabled: true,   // change to true
     data: [ 
@@ -242,7 +256,8 @@
     theme: "theme2",//theme1
     title:{
       text: "Ofertas PLD - Segmento",
-      fontColor: "#094FA4",              
+      fontColor: "#094FA4",
+      fontFamily: "tahoma",              
     },
     animationEnabled: true,   // change to true
     data: [ 
@@ -286,6 +301,258 @@
 
   };
 
+  var chart5 = new CanvasJS.Chart("chartContainer5", {
+    theme: "theme2",//theme1
+    title:{
+      text: "Formalizados TDC - Relación Laboral", 
+      fontColor: "#094FA4",
+      fontFamily: "tahoma",            
+    },
+    animationEnabled: true,   // change to true
+    data: [              
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "DEPENDIENTE",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 15,     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in dict_dep.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "INDEPENDIENTE",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 15,     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in dict_indep.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "PNN",
+      indexLabelFontColor: "white",     
+      //indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      indexLabelFontSize: 15,
+      showInLegend: "true",
+      color: "#86C82D",
+      dataPoints: [
+        {% for key, value in dict_pnn.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "NO RECONOCIDO",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 15,     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      color: "#C8175E",
+      dataPoints: [
+        {% for key, value in dict_nr.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart5.render();
+
+  var chart6 = new CanvasJS.Chart("chartContainer6", {
+    theme: "theme2",//theme1
+    title:{
+      text: "Formalizados TDC - Buró", 
+      fontColor: "#094FA4",
+      fontFamily: "tahoma",            
+    },
+    animationEnabled: true,   // change to true
+    data: [              
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "G1-G4",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 15,     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in buro1_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "G5",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 15,     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      dataPoints: [
+        {% for key, value in buro2_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "G6-G8",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 15,     
+      //indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      //color: "#86C82D",
+      dataPoints: [
+        {% for key, value in buro3_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "stackedColumn",
+      name: "NB",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 15,     
+      indexLabel: "#percent%",
+      percentFormatString: "#0.",
+      showInLegend: "true",
+      //color: "#86C82D",
+      dataPoints: [
+        {% for key, value in buro4_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart6.render();
+
+  CanvasJS.addColorSet("laboralColors",["#89D1F3","#009EE5","#C8175E","#86C82D"]);
+
+  var chart7 = new CanvasJS.Chart("chartContainer7", {
+    theme: "theme2",//theme1
+    colorSet: "laboralColors",
+    title:{
+      text: "2015", 
+      fontColor: "#094FA4",
+      fontFamily: "tahoma",            
+    },
+    animationEnabled: true,   // change to true
+    data: [              
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "doughnut",
+      startAngle: 60,
+      //yValueFormatString: "#0",
+      dataPoints: [
+        {% for a in categorias2015 %}
+        { y: {{a.cant_tc}} , indexLabel: '{{a.cant_tc|to_int}}' },
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart7.render();
+
+  var chart8 = new CanvasJS.Chart("chartContainer8", {
+    theme: "theme2",//theme1
+    colorSet: "laboralColors",
+    title:{
+      text: "2016", 
+      fontColor: "#094FA4",
+      fontFamily: "tahoma",            
+    },
+    animationEnabled: true,   // change to true
+    data: [              
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "doughnut",
+      startAngle: 60,
+      //showInLegend: "true",
+      dataPoints: [
+        {% for a in categorias2016 %}
+        { y: {{a.cant_tc}} , indexLabel: '{{a.cant_tc|to_int}}' },
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart8.render();
+
+  var chart9 = new CanvasJS.Chart("chartContainer9", {
+    theme: "theme2",//theme1
+    title:{
+      text: "2015", 
+      fontColor: "#094FA4",
+      fontFamily: "tahoma",            
+    },
+    animationEnabled: true,   // change to true
+    data: [              
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "doughnut",
+      startAngle: 60,
+      //yValueFormatString: "#0",
+      dataPoints: [
+        { y: {{buro1_2015.cant_tc}} , indexLabel: '{{buro1_2015.cant_tc|to_int}}' },
+        { y: {{buro2_2015.cant_tc}} , indexLabel: '{{buro2_2015.cant_tc|to_int}}' },
+        { y: {{buro3_2015.cant_tc}} , indexLabel: '{{buro3_2015.cant_tc|to_int}}' },
+        { y: {{buro4_2015.cant_tc}} , indexLabel: '{{buro4_2015.cant_tc|to_int}}' },
+      ]
+    },
+    ]
+  });
+  chart9.render();
+
+  var chart10 = new CanvasJS.Chart("chartContainer10", {
+    theme: "theme2",//theme1
+    title:{
+      text: "2016", 
+      fontColor: "#094FA4",
+      fontFamily: "tahoma",            
+    },
+    animationEnabled: true,   // change to true
+    data: [              
+    {
+      // Change type to "bar", "area", "spline", "pie",etc.
+      type: "doughnut",
+      startAngle: 60,
+      //showInLegend: "true",
+      dataPoints: [
+        { y: {{buro1_2016.cant_tc}} , indexLabel: '{{buro1_2016.cant_tc|to_int}}' },
+        { y: {{buro2_2016.cant_tc}} , indexLabel: '{{buro2_2016.cant_tc|to_int}}' },
+        { y: {{buro3_2016.cant_tc}} , indexLabel: '{{buro3_2016.cant_tc|to_int}}' },
+        { y: {{buro4_2016.cant_tc}} , indexLabel: '{{buro4_2016.cant_tc|to_int}}' },
+      ]
+    },
+    ]
+  });
+  chart10.render();
+
   function PDF(){
     var canvas1 = $("#chartContainer1 .canvasjs-chart-canvas").get(0);
     dataURL1 = canvas1.toDataURL();
@@ -295,6 +562,18 @@
     dataURL3 = canvas3.toDataURL();
     var canvas4 = $("#chartContainer4 .canvasjs-chart-canvas").get(0);
     dataURL4 = canvas4.toDataURL();
+    var canvas5 = $("#chartContainer5 .canvasjs-chart-canvas").get(0);
+    dataURL5 = canvas5.toDataURL();
+    var canvas6 = $("#chartContainer6 .canvasjs-chart-canvas").get(0);
+    dataURL6 = canvas6.toDataURL();
+    var canvas7 = $("#chartContainer7 .canvasjs-chart-canvas").get(0);
+    dataURL7 = canvas7.toDataURL();
+    var canvas8 = $("#chartContainer8 .canvasjs-chart-canvas").get(0);
+    dataURL8 = canvas8.toDataURL();
+    var canvas9 = $("#chartContainer9 .canvasjs-chart-canvas").get(0);
+    dataURL9 = canvas9.toDataURL();
+    var canvas10 = $("#chartContainer10 .canvasjs-chart-canvas").get(0);
+    dataURL10 = canvas10.toDataURL();
     //console.log(dataURL);
     var docDefinition = { 
       content: [
@@ -327,6 +606,46 @@
             { 
               image: dataURL4,
               width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL5,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL6,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL7,
+              width: 125
+            },
+            '',
+            { 
+              image: dataURL8,
+              width: 125
+            },
+            '',
+            { 
+              image: dataURL9,
+              width: 125
+            },
+            '',
+            { 
+              image: dataURL10,
+              width: 125
             },
           ]
         },

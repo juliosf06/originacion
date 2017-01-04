@@ -3059,6 +3059,62 @@ def resumen_campanas(request):
 
     ofertas_seg2015 = Campana2.objects.values('segmento').filter(mes_vigencia__gte='201501',mes_vigencia__lte='201511',segmento__in=['AVA','MS','No PH','NoCli']).annotate(cantidad_tdc=Sum('q_tc'),cantidad_pld=Sum('q_pld'),suma_tdc=Sum('monto_tc'))
     ofertas_seg2016 = Campana2.objects.values('segmento').filter(mes_vigencia__gte='201601',mes_vigencia__lte='201611',segmento__in=['AVA','MS','No PH','NoCli']).annotate(cantidad_tdc=Sum('q_tc'),cantidad_pld=Sum('q_pld'),suma_tdc=Sum('monto_tc'))
+    
+    meses = EfectividadTC.objects.values('mes_vigencia').distinct().order_by('mes_vigencia')
+    categorias2015 = EfectividadTC.objects.values('tipo_clie').filter(mes_vigencia__lte='201512').annotate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('tipo_clie')
+    categorias2016 = EfectividadTC.objects.values('tipo_clie').filter(mes_vigencia__gte='201601').annotate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('tipo_clie')
+    categorias = EfectividadTC.objects.values('mes_vigencia','tipo_clie').filter(mes_vigencia__gte='201601').annotate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    dict_dep = {}; dict_indep = {}; dict_pnn = {}; dict_nr = {};
+    for i in meses:
+      for j in categorias:
+        if i['mes_vigencia'] == j['mes_vigencia']:
+          if j['tipo_clie'] == 'DEPENDIENTE':
+            dict_dep[i['mes_vigencia']] = j['cant_tc']
+          elif j['tipo_clie'] == 'INDEPENDIENTE':
+            dict_indep[i['mes_vigencia']] = j['cant_tc']
+          elif j['tipo_clie'] == 'PNN':
+            dict_pnn[i['mes_vigencia']] = j['cant_tc']
+          elif j['tipo_clie'] == 'NO RECONOCIDO':
+            dict_nr[i['mes_vigencia']] = j['cant_tc']
+          else:
+            dict_dep[i['mes_vigencia']] = 0
+            dict_indep[i['mes_vigencia']] = 0
+            dict_pnn[i['mes_vigencia']] = 0
+            dict_nr[i['mes_vigencia']] = 0
+
+    buro1 = EfectividadTC.objects.values('mes_vigencia').filter(buro__in=['G1','G2','G3','G4'],mes_vigencia__gte='201601').annotate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    buro1_dict = {}; ticket_buro1 = {};
+    for i in buro1:
+        buro1_dict[i['mes_vigencia']] = i['cant_tc']
+        ticket_buro1[i['mes_vigencia']] = i['monto_ticket']/i['cant_tc']
+
+    buro2 = EfectividadTC.objects.values('mes_vigencia',).filter(buro__in=['G5'],mes_vigencia__gte='201601').annotate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    buro2_dict = {}; ticket_buro2 = {};
+    for i in buro2:
+        buro2_dict[i['mes_vigencia']] = i['cant_tc']
+        ticket_buro2[i['mes_vigencia']] = i['monto_ticket']/i['cant_tc']
+
+    buro3 = EfectividadTC.objects.values('mes_vigencia').filter(buro__in=['G6','G7','G8'],mes_vigencia__gte='201601').annotate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    buro3_dict = {}; ticket_buro3 = {};
+    for i in buro3:
+        buro3_dict[i['mes_vigencia']] = i['cant_tc']
+        ticket_buro3[i['mes_vigencia']] = i['monto_ticket']/i['cant_tc']
+
+    buro4 = EfectividadTC.objects.values('mes_vigencia',).filter(buro__in=['NB'],mes_vigencia__gte='201601').annotate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form')).order_by('mes_vigencia')
+    buro4_dict = {}; ticket_buro4 = {};
+    for i in buro4:
+        buro4_dict[i['mes_vigencia']] = i['cant_tc']
+        ticket_buro4[i['mes_vigencia']] = i['monto_ticket']/i['cant_tc']
+
+    buro1_2015 = EfectividadTC.objects.filter(buro__in=['G1','G2','G3','G4'],mes_vigencia__lte='201512').aggregate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form'))
+    buro2_2015 = EfectividadTC.objects.filter(buro__in=['G5'],mes_vigencia__lte='201512').aggregate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form'))
+    buro3_2015 = EfectividadTC.objects.filter(buro__in=['G6','G7','G8'],mes_vigencia__lte='201512').aggregate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form'))
+    buro4_2015 = EfectividadTC.objects.filter(buro__in=['NB'],mes_vigencia__lte='201512').aggregate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form'))
+
+    buro1_2016 = EfectividadTC.objects.filter(buro__in=['G1','G2','G3','G4'],mes_vigencia__gte='201601').aggregate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form'))
+    buro2_2016 = EfectividadTC.objects.filter(buro__in=['G5'],mes_vigencia__gte='201601').aggregate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form'))
+    buro3_2016 = EfectividadTC.objects.filter(buro__in=['G6','G7','G8'],mes_vigencia__gte='201601').aggregate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form'))
+    buro4_2016 = EfectividadTC.objects.filter(buro__in=['NB'],mes_vigencia__gte='201601').aggregate(cant_tc=Sum('total_form'),monto_ticket=Sum('monto_form'))
 
     static_url=settings.STATIC_URL
     tipo_side = 4
