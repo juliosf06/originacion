@@ -10,6 +10,7 @@
 
 <div id='titulo' style="position: fixed; z-index:15; border: 38px solid white; top: 5%; width: 100%;">
   <h1 class="page-header" style="position: fixed; z-index:5; width: 100%; top: 7%;">Resumen de Campañas</h1>
+  <p id="porcentaje" style="position: fixed; z-index:5; top: 9%; right:4%;color:gray;font-size:20px;"></p>
   <button id='boton' onclick="PDF()" style="width:5%; border-radius: 8px; background-color: #AF0000; color: white; right:10%; position: fixed; z-index:5; top: 9%;">PDF</button>
 </div>
 <!--
@@ -672,6 +673,16 @@
     };
     pdfMake.createPdf(docDefinition).open();
   }
+
+  $(window).scroll(function(){
+    var docheight = parseInt($(document).height());
+    var screenheight = parseInt($(window).height());
+    var realheight = docheight-screenheight;
+    var scroll = parseInt($(window).scrollTop());
+    var porcentaje = scroll*100/realheight;
+    $("p#porcentaje").html(porcentaje.toFixed(0)+"%");
+    console.log(porcentaje.toFixed(0)+"%");
+  });
 
 
 </script>
