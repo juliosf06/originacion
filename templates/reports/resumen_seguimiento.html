@@ -636,9 +636,9 @@
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
-			color: "#89D1F3",
+			//color: "#89D1F3",
 			dataPoints: [
-				{% for key, value in bur1_dict.items|sort %}
+				{% for key, value in buro1_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
 				{% endfor %}
 			]
@@ -652,7 +652,7 @@
 			indexLabel: "#percent%",
 			percentFormatString: "#0.",
 			showInLegend: "true",
-			color: "#094FA4",
+			//color: "#094FA4",
 			dataPoints: [
 				{% for key, value in buro2_dict.items|sort %}
 				{ y: {{value}} , label: '{{key|convert_date}}' },
@@ -919,7 +919,7 @@
     $("p#porcentaje").html(porcentaje.toFixed(0)+"%");
     console.log(porcentaje.toFixed(0)+"%");
   });
-  
+
   </script>
 {% endblock %}
 

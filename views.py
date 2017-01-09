@@ -3005,6 +3005,7 @@ def resumen_seguimiento(request):
         buro3_dict[i['mes_vigencia']]=i['cantidad']
       if i['buro_camp'] == 'NB':
         buro4_dict[i['mes_vigencia']]=i['cantidad']
+    print buro2_dict
     form_buro2015 = Seguimiento1.objects.values('periodo','buro_camp').filter(periodo='2015').exclude(buro_camp__in=['','AL','AP',' ']).exclude(mes_vigencia='201512').annotate(cantidad=Sum('form')).order_by('buro_camp')
     form_buro2016 = Seguimiento1.objects.values('periodo','buro_camp').filter(periodo='2016').exclude(buro_camp__in=['','AL','AP',' ']).annotate(cantidad=Sum('form')).order_by('buro_camp')
 
