@@ -13,10 +13,10 @@
           	<div><h1 class="page-header" id="seguimiento_inicio" style="position: fixed; z-index:5; width: 100%; top: 7%;">Seguimiento Tarjeta</h1></div>
           	<button id="uptext" style="position: fixed; z-index:5; width: 2%; top: 9.5%; right: 12%;">+</button>
           	<button id="downtext" style="position: fixed; z-index:5; width: 2%; top: 9.5%; right: 10%;">-</button>
-          	<button id="show3" style="position: fixed; z-index:5; width: 6%; top: 9.5%; right: 4%;">Mora4</button>
+          	<button id='boton' onclick="PDF()" style="width:5%; border-radius: 8px; background-color: #89D1F3; color: white; right:4%; position: fixed; z-index:5; top: 9.5%;height:3%;">PDF</button>
           </div>
           &nbsp;
-          <div id="botones" class="botones" style = "text-align:left; width: 49%; font-size: 20px; display: inline-block; top:20%; padding:8% 0%;">
+          <div id="botones" class="botones" style = "text-align:left; width: 49%; font-size: 20px; display: inline-block; top:20%; padding:6% 0%;">
             <button type="button" id="button1" style="display: inline-block;"> Mensual </button>&nbsp;&nbsp;
             <button type="button" id="button2" style="display: inline-block;"> Trimestral </button>
             &nbsp;
@@ -37,7 +37,7 @@
             </select>
             {% endif %}
           </div>
-          <div class="links" style = "text-align:right; width: 49%; font-size: 20px; display: inline-block; top:20%; padding:8% 0%;">
+          <div class="links" style = "text-align:right; width: 49%; font-size: 20px; display: inline-block; top:10%; padding:6% 0%;">
             <a href='#seguimiento_campaña'>Campañas</a>&nbsp;&nbsp;
             <a href='#seguimiento_uno'>Uno a Uno</a>&nbsp;&nbsp;
             <a href='#seguimiento_forzaje'>Forzaje</a>
@@ -46,7 +46,7 @@
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
           </div>
           <div class="rows placeholders">
-		<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+		<div id="chartContainer1" style="height: 300px; width: 100%;"></div>
           </div>
 	  &nbsp;
           <div class="rows placeholders">
@@ -178,7 +178,7 @@
 {% block script_final %}
   <script type="text/javascript">
     window.onload = function () {
-	var chart1 = new CanvasJS.Chart("chartContainer", {
+	var chart1 = new CanvasJS.Chart("chartContainer1", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Formalizados", 
@@ -186,6 +186,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -283,6 +295,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -337,16 +361,6 @@
 		]
 	});
 	chart2.render();
-	$("#show1").click(function () {
-	chart2.options.data[0].indexLabel = "{y}";
-	chart2.options.data[1].indexLabel = "";
-        chart2.render();
-	});
-	$("#show2").click(function () {
-	chart2.options.data[0].indexLabel = "";
-	chart2.options.data[1].indexLabel = "{y}";
-        chart2.render();
-	});
 	var letra2 = 12;
 	$("#uptext").click(function () {
 		letra2 = letra2 + 2;
@@ -373,6 +387,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [
@@ -444,18 +470,6 @@
 		]
 	});
 	chart5.render();
-	var mostrar5 = "true";
-	$("#show3").click(function () {
-		if ( mostrar5 == "true" ){
-			chart5.options.data[0].visible = false;
-        	chart5.render();
-        	mostrar5 = "false";
-		} else {
-			chart5.options.data[0].visible = true;
-        	chart5.render();
-        	mostrar5 = "true";
-		}
-	});
 	var letra5 = 12;
 	$("#uptext").click(function () {
 		letra5 = letra5 + 2;
@@ -484,6 +498,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -598,6 +624,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -695,6 +733,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -809,6 +859,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -923,6 +985,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -983,11 +1057,23 @@
 			text: "Incumplimiento - Segmento AVA",
 			fontColor: "#009EE5",               
 		},
-                axisY:{
-                        interval:1,
-                },
+        axisY:{
+            interval:1,
+        },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [
@@ -1055,18 +1141,6 @@
 		]
 	});
 	chart7.render();
-	var mostrar7 = "true";
-	$("#show3").click(function () {
-		if ( mostrar7 == "true" ){
-			chart7.options.data[0].visible = false;
-        	chart7.render();
-        	mostrar7 = "false";
-		} else {
-			chart7.options.data[0].visible = true;
-        	chart7.render();
-        	mostrar7 = "true";
-		}
-	});
 
 
 	var chart8 = new CanvasJS.Chart("chartContainer8", {
@@ -1080,6 +1154,18 @@
                 },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [ 
@@ -1146,18 +1232,6 @@
 		]
 	});
 	chart8.render();
-	var mostrar8 = "true";
-	$("#show3").click(function () {
-		if ( mostrar8 == "true" ){
-			chart8.options.data[0].visible = false;
-        	chart8.render();
-        	mostrar8 = "false";
-		} else {
-			chart8.options.data[0].visible = true;
-        	chart8.render();
-        	mostrar8 = "true";
-		}
-	});
 
 	var chart9 = new CanvasJS.Chart("chartContainer9", {
 		theme: "theme2",//theme1
@@ -1165,11 +1239,23 @@
 			text: "Incumplimiento - Segmento NoPH",
 			fontColor: "#009EE5",               
 		},
-                axisY:{
-                        interval:1,
-                },
+        axisY:{
+            interval:1,
+        },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [  
@@ -1237,18 +1323,6 @@
 		]
 	});
 	chart9.render();
-	var mostrar9 = "true";
-	$("#show3").click(function () {
-		if ( mostrar9 == "true" ){
-			chart9.options.data[0].visible = false;
-        	chart9.render();
-        	mostrar9 = "false";
-		} else {
-			chart9.options.data[0].visible = true;
-        	chart9.render();
-        	mostrar9 = "true";
-		}
-	});
 
 	var chart10 = new CanvasJS.Chart("chartContainer10", {
 		theme: "theme2",//theme1
@@ -1261,6 +1335,18 @@
                 },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [ 
@@ -1328,17 +1414,6 @@
 	});
 	chart10.render();
 	var mostrar10 = "true";
-	$("#show3").click(function () {
-		if ( mostrar10 == "true" ){
-			chart10.options.data[0].visible = false;
-        	chart10.render();
-        	mostrar10 = "false";
-		} else {
-			chart10.options.data[0].visible = true;
-        	chart10.render();
-        	mostrar10 = "true";
-		}
-	});
 
 	var chart12 = new CanvasJS.Chart("chartContainer12", {
 		theme: "theme2",//theme1
@@ -1351,6 +1426,18 @@
                 },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [
@@ -1422,17 +1509,6 @@
 	});
 	chart12.render();
 	var mostrar12 = "true";
-	$("#show3").click(function () {
-		if ( mostrar12 == "true" ){
-			chart12.options.data[0].visible = false;
-        	chart12.render();
-        	mostrar12 = "false";
-		} else {
-			chart12.options.data[0].visible = true;
-        	chart12.render();
-        	mostrar12 = "true";
-		}
-	});
 	var letra12 = 12;
 	$("#uptext").click(function () {
 		letra12 = letra12 + 2;
@@ -1464,6 +1540,18 @@
                 },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [ 
@@ -1534,18 +1622,6 @@
 		]
 	});
 	chart6.render();
-	var mostrar6 = "true";
-	$("#show3").click(function () {
-		if ( mostrar6 == "true" ){
-			chart6.options.data[0].visible = false;
-        	chart6.render();
-        	mostrar6 = "false";
-		} else {
-			chart6.options.data[0].visible = true;
-        	chart6.render();
-        	mostrar6 = "true";
-		}
-	});
 	var letra6 = 12;
 	$("#uptext").click(function () {
 		letra6 = letra6 + 2;
@@ -1577,6 +1653,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -1714,6 +1802,18 @@
                 },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [ 
@@ -1780,18 +1880,6 @@
 		]
 	});
 	chart14.render();
-	var mostrar14 = "true";
-	$("#show3").click(function () {
-		if ( mostrar14 == "true" ){
-			chart14.options.data[0].visible = false;
-        	chart14.render();
-        	mostrar14 = "false";
-		} else {
-			chart14.options.data[0].visible = true;
-        	chart14.render();
-        	mostrar14 = "true";
-		}
-	});
 
 	var chart15 = new CanvasJS.Chart("chartContainer15", {
 		theme: "theme2",//theme1
@@ -1804,6 +1892,18 @@
                 },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [  
@@ -1870,18 +1970,6 @@
 		]
 	});
 	chart15.render();
-	var mostrar15 = "true";
-	$("#show3").click(function () {
-		if ( mostrar15 == "true" ){
-			chart15.options.data[0].visible = false;
-        	chart15.render();
-        	mostrar15 = "false";
-		} else {
-			chart15.options.data[0].visible = true;
-        	chart15.render();
-        	mostrar15 = "true";
-		}
-	});
 
 	var chart16 = new CanvasJS.Chart("chartContainer16", {
 		theme: "theme2",//theme1
@@ -1894,6 +1982,18 @@
                 },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [ 
@@ -1961,17 +2061,6 @@
 	});
 	chart16.render();
 	var mostrar16 = "true";
-	$("#show3").click(function () {
-		if ( mostrar16 == "true" ){
-			chart16.options.data[0].visible = false;
-        	chart16.render();
-        	mostrar16 = "false";
-		} else {
-			chart16.options.data[0].visible = true;
-        	chart16.render();
-        	mostrar16 = "true";
-		}
-	});
 
 	var chart17 = new CanvasJS.Chart("chartContainer17", {
 		theme: "theme2",//theme1
@@ -1984,6 +2073,18 @@
                 },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [  
@@ -2050,20 +2151,8 @@
 		]
 	});
 	chart17.render();
-	var mostrar17 = "true";
-	$("#show3").click(function () {
-		if ( mostrar17 == "true" ){
-			chart17.options.data[0].visible = false;
-        	chart17.render();
-        	mostrar17 = "false";
-		} else {
-			chart17.options.data[0].visible = true;
-        	chart17.render();
-        	mostrar17 = "true";
-		}
-	});
 
-	var chart = new CanvasJS.Chart("chartContainer20", {
+	var chart20 = new CanvasJS.Chart("chartContainer20", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento 6 meses Segmento - Uno a Uno",
@@ -2074,6 +2163,18 @@
                 },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -2124,9 +2225,9 @@
 		},
 		]
 	});
-	chart.render();
+	chart20.render();
 
-	var chart = new CanvasJS.Chart("chartContainer21", {
+	var chart21 = new CanvasJS.Chart("chartContainer21", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento 6 meses Relación Laboral - Uno a Uno",
@@ -2137,6 +2238,18 @@
                 },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -2202,9 +2315,9 @@
 		},
 		]
 	});
-	chart.render();
+	chart21.render();
 
-	var chart = new CanvasJS.Chart("chartContainer22", {
+	var chart22 = new CanvasJS.Chart("chartContainer22", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento 6 Meses - Buró",
@@ -2215,6 +2328,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -2280,9 +2405,9 @@
 		},
 		]
 	});
-	chart.render();
+	chart22.render();
 
-	var chart = new CanvasJS.Chart("chartContainer23", {
+	var chart23 = new CanvasJS.Chart("chartContainer23", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento 6 Meses - Segmentos",
@@ -2290,6 +2415,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -2355,9 +2492,9 @@
 		},
 		]
 	});
-	chart.render();
+	chart23.render();
 
-	var chart = new CanvasJS.Chart("chartContainer24", {
+	var chart24 = new CanvasJS.Chart("chartContainer24", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Incumplimiento 6 Meses - Relación Laboral",
@@ -2365,6 +2502,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -2430,7 +2579,7 @@
 		},
 		]
 	});
-	chart.render();
+	chart24.render();
 
 	var chart25 = new CanvasJS.Chart("chartContainer25", {
 		theme: "theme2",//theme1
@@ -2440,6 +2589,18 @@
 		},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -2558,6 +2719,18 @@
 		//},
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [              
@@ -2712,6 +2885,18 @@
         },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [ 
@@ -2778,18 +2963,6 @@
 		]
 	});
 	chart27.render();
-	var mostrar27 = "true";
-	$("#show3").click(function () {
-		if ( mostrar27 == "true" ){
-			chart27.options.data[0].visible = false;
-        	chart27.render();
-        	mostrar27 = "false";
-		} else {
-			chart27.options.data[0].visible = true;
-        	chart27.render();
-        	mostrar27 = "true";
-		}
-	});
 
 	var chart28 = new CanvasJS.Chart("chartContainer28", {
 		theme: "theme2",//theme1
@@ -2802,6 +2975,18 @@
         },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [ 
@@ -2868,18 +3053,6 @@
 		]
 	});
 	chart28.render();
-	var mostrar28 = "true";
-	$("#show3").click(function () {
-		if ( mostrar28 == "true" ){
-			chart28.options.data[0].visible = false;
-        	chart28.render();
-        	mostrar28 = "false";
-		} else {
-			chart28.options.data[0].visible = true;
-        	chart28.render();
-        	mostrar28 = "true";
-		}
-	});
 
 	var chart29 = new CanvasJS.Chart("chartContainer29", {
 		theme: "theme2",//theme1
@@ -2892,6 +3065,18 @@
         },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [ 
@@ -2958,18 +3143,6 @@
 		]
 	});
 	chart29.render();
-	var mostrar29 = "true";
-	$("#show3").click(function () {
-		if ( mostrar29 == "true" ){
-			chart29.options.data[0].visible = false;
-        	chart29.render();
-        	mostrar29 = "false";
-		} else {
-			chart29.options.data[0].visible = true;
-        	chart29.render();
-        	mostrar29 = "true";
-		}
-	});
 
 	var chart30 = new CanvasJS.Chart("chartContainer30", {
 		theme: "theme2",//theme1
@@ -2982,6 +3155,18 @@
         },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [ 
@@ -3048,18 +3233,6 @@
 		]
 	});
 	chart30.render();
-	var mostrar30 = "true";
-	$("#show3").click(function () {
-		if ( mostrar30 == "true" ){
-			chart30.options.data[0].visible = false;
-        	chart30.render();
-        	mostrar30 = "false";
-		} else {
-			chart30.options.data[0].visible = true;
-        	chart30.render();
-        	mostrar30 = "true";
-		}
-	});
 
 	var chart31 = new CanvasJS.Chart("chartContainer31", {
 		theme: "theme2",//theme1
@@ -3072,6 +3245,18 @@
         },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [ 
@@ -3138,18 +3323,6 @@
 		]
 	});
 	chart31.render();
-	var mostrar31 = "true";
-	$("#show3").click(function () {
-		if ( mostrar31 == "true" ){
-			chart31.options.data[0].visible = false;
-        	chart31.render();
-        	mostrar31 = "false";
-		} else {
-			chart31.options.data[0].visible = true;
-        	chart31.render();
-        	mostrar31 = "true";
-		}
-	});
 
 	var chart32 = new CanvasJS.Chart("chartContainer32", {
 		theme: "theme2",//theme1
@@ -3162,6 +3335,18 @@
         },
 		legend:{
 			fontSize: 15,
+			cursor: "pointer",
+			itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
 		},
 		animationEnabled: true,    // change to true
 		data: [ 
@@ -3228,20 +3413,430 @@
 		]
 	});
 	chart32.render();
-	var mostrar32 = "true";
-	$("#show3").click(function () {
-		if ( mostrar32 == "true" ){
-			chart32.options.data[0].visible = false;
-        	chart32.render();
-        	mostrar32 = "false";
-		} else {
-			chart32.options.data[0].visible = true;
-        	chart32.render();
-        	mostrar32 = "true";
-		}
-	});
 
-    }
+    };
+
+    function PDF(){
+    var canvas1 = $("#chartContainer1 .canvasjs-chart-canvas").get(0);
+    dataURL1 = canvas1.toDataURL();
+    var canvas2 = $("#chartContainer2 .canvasjs-chart-canvas").get(0);
+    dataURL2 = canvas2.toDataURL();
+    var canvas3 = $("#chartContainer3 .canvasjs-chart-canvas").get(0);
+    dataURL3 = canvas3.toDataURL();
+    var canvas4 = $("#chartContainer4 .canvasjs-chart-canvas").get(0);
+    dataURL4 = canvas4.toDataURL();
+    var canvas5 = $("#chartContainer5 .canvasjs-chart-canvas").get(0);
+    dataURL5 = canvas5.toDataURL();
+    var canvas6 = $("#chartContainer6 .canvasjs-chart-canvas").get(0);
+    dataURL6 = canvas6.toDataURL();
+    var canvas7 = $("#chartContainer7 .canvasjs-chart-canvas").get(0);
+    dataURL7 = canvas7.toDataURL();
+    var canvas8 = $("#chartContainer8 .canvasjs-chart-canvas").get(0);
+    dataURL8 = canvas8.toDataURL();
+    var canvas9 = $("#chartContainer9 .canvasjs-chart-canvas").get(0);
+    dataURL9 = canvas9.toDataURL();
+    var canvas10 = $("#chartContainer10 .canvasjs-chart-canvas").get(0);
+    dataURL10 = canvas10.toDataURL();
+    var canvas11 = $("#chartContainer11 .canvasjs-chart-canvas").get(0);
+    dataURL11 = canvas11.toDataURL();
+    var canvas12 = $("#chartContainer12 .canvasjs-chart-canvas").get(0);
+    dataURL12 = canvas12.toDataURL();
+    var canvas13 = $("#chartContainer13 .canvasjs-chart-canvas").get(0);
+    dataURL13 = canvas13.toDataURL();
+    var canvas14 = $("#chartContainer14 .canvasjs-chart-canvas").get(0);
+    dataURL14 = canvas14.toDataURL();
+    var canvas15 = $("#chartContainer15 .canvasjs-chart-canvas").get(0);
+    dataURL15 = canvas15.toDataURL();
+    var canvas16 = $("#chartContainer16 .canvasjs-chart-canvas").get(0);
+    dataURL16 = canvas16.toDataURL();
+    var canvas17 = $("#chartContainer17 .canvasjs-chart-canvas").get(0);
+    dataURL17 = canvas17.toDataURL();
+    var canvas18 = $("#chartContainer18 .canvasjs-chart-canvas").get(0);
+    dataURL18 = canvas18.toDataURL();
+    var canvas19 = $("#chartContainer19 .canvasjs-chart-canvas").get(0);
+    dataURL19 = canvas19.toDataURL();
+    var canvas20 = $("#chartContainer20 .canvasjs-chart-canvas").get(0);
+    dataURL20 = canvas20.toDataURL();
+    var canvas21 = $("#chartContainer21 .canvasjs-chart-canvas").get(0);
+    dataURL21 = canvas21.toDataURL();
+    var canvas22 = $("#chartContainer22 .canvasjs-chart-canvas").get(0);
+    dataURL22 = canvas22.toDataURL();
+    var canvas23 = $("#chartContainer23 .canvasjs-chart-canvas").get(0);
+    dataURL23 = canvas23.toDataURL();
+    var canvas24 = $("#chartContainer24 .canvasjs-chart-canvas").get(0);
+    dataURL24 = canvas24.toDataURL();
+    var canvas25 = $("#chartContainer25 .canvasjs-chart-canvas").get(0);
+    dataURL25 = canvas25.toDataURL();
+    var canvas26 = $("#chartContainer26 .canvasjs-chart-canvas").get(0);
+    dataURL26 = canvas26.toDataURL();
+    var canvas27 = $("#chartContainer27 .canvasjs-chart-canvas").get(0);
+    dataURL27 = canvas27.toDataURL();
+    var canvas28 = $("#chartContainer28 .canvasjs-chart-canvas").get(0);
+    dataURL28 = canvas28.toDataURL();
+    var canvas29 = $("#chartContainer29 .canvasjs-chart-canvas").get(0);
+    dataURL29 = canvas29.toDataURL();
+    var canvas30 = $("#chartContainer30 .canvasjs-chart-canvas").get(0);
+    dataURL30 = canvas30.toDataURL();
+    var canvas31 = $("#chartContainer31 .canvasjs-chart-canvas").get(0);
+    dataURL31 = canvas31.toDataURL();
+    var canvas32 = $("#chartContainer32 .canvasjs-chart-canvas").get(0);
+    dataURL32 = canvas32.toDataURL();
+    //console.log(dataURL);
+    var docDefinition = { 
+      content: [
+        { text: 'Seguimiento Tarjeta', style: 'header' },
+        { text: '_______________________________________________________________________________________________', style: 'line' },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL1,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL2,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL5,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL3,
+              width: 500,
+              height: 140,
+              pageBreak: 'after',
+            },
+          ]
+        },
+        '\n\n',
+        { text: 'Seguimiento Tarjeta - Campañas', style: 'subheader' },
+        { text: '_______________________________________________________________________________________________', style: 'line' },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL4,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL6,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL23,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL7,
+              height: 140,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL8,
+              height: 140,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL9,
+              height: 140,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL10,
+              height: 140,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL13,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL24,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL14,
+              height: 140,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL15,
+              height: 140,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL16,
+              height: 140,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL17,
+              height: 140,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL25,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL22,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        { text: 'Seguimiento Tarjeta - Uno a Uno', style: 'subheader' },
+        { text: '_______________________________________________________________________________________________', style: 'line' },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL18,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL19,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL12,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL20,
+              height: 140,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL21,
+              height: 140,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        { text: 'Seguimiento Tarjeta - Forzaje', style: 'subheader' },
+        { text: '_______________________________________________________________________________________________', style: 'line' },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL11,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        /*
+        '\n\n',
+        { text: 'Seguimiento Tarjeta - Clústers', style: 'subheader' },
+        { text: '_______________________________________________________________________________________________', style: 'line' },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL26,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL27,
+              height: 140,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL28,
+              height: 140,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL29,
+              height: 140,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL30,
+              height: 140,
+              width: 250
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL31,
+              height: 140,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL32,
+              height: 140,
+              width: 250
+            },
+          ]
+        },
+        */
+        
+      ],
+      styles: {
+        header: {
+          fontSize: 20,
+          bold: true,
+          color: '#094FA4',
+          alignment: 'center'
+        },
+        subheader: {
+          fontSize: 12,
+          bold: true,
+          color: '#094FA4',
+        },
+        line: {
+          bold: true,
+          color: '#094FA4',
+          alignment: 'center'
+        },
+      }
+
+    };
+    pdfMake.createPdf(docDefinition).open();
+  }
 
     $("#button1").click(function(){
           window.location.href = "/reports/seguimiento/tarjeta/"+"mes_vigencia"+"/"+"2011"+"/";
