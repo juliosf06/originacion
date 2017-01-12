@@ -12,7 +12,7 @@
           	<div><h1 class="page-header" id="seguimiento_inicio" style="position: fixed; z-index:5; width: 100%; top: 7%;">Seguimiento PLD</h1></div>
           	<button id="uptext" style="position: fixed; z-index:5; width: 2%; top: 9.5%; right: 12%;">+</button>
           	<button id="downtext" style="position: fixed; z-index:5; width: 2%; top: 9.5%; right: 10%;">-</button>
-          	<button id='boton' onclick="PDF()" style="width:5%; border-radius: 8px; background-color: #89D1F3; color: white; right:4%; position: fixed; z-index:5; top: 9.5%;height:3%;">PDF</button>
+          	<button id='boton' onclick="PDF()" style="width:5%; border-radius: 8px; background-color: #89D1F3; color: white; right:4%; position: fixed; z-index:5; top: 9.5%;height:4.5%;">PDF</button>
           </div>
           &nbsp;
           <div id="botones" class="botones" style = "text-align:left; width: 49%; font-size: 20px; display: inline-block; top:20%; padding:6% 0%;">
@@ -21,7 +21,7 @@
             &nbsp;
             {% if trimestre = 0 %}
             <label>Desde:&nbsp;</label>
-            <select class="form-control" id="pld_periodo" style="display: inline-block; width:16%;">
+            <select class="form-control" id="pld_periodo" style="display: inline-block; width:18%;">
               {% for a in tiempo %}
               <option value="{{a.periodo}}" {% if filtro2 == a.periodo %} selected {% endif %}>{{a.periodo}}</option>
               {% endfor %}
