@@ -8,12 +8,17 @@
 
 {% block content %}
 
-        <h1 class="page-header">Seguimiento Adelanto Sueldo</h1>
+        <div style="position: fixed; z-index:15; border: 34px solid white; top: 6%; width: 100%;">
+		  	<!--<div style="position: fixed; right: 3%; top: 10%; z-index:10; color:#094FA4; font-size:150%;"> Seguimiento Tarjetas </div>-->
+          	<div><h1 class="page-header" id="seguimiento_inicio" style="position: fixed; z-index:5; width: 100%; top: 7%;">Seguimiento Adelanto Sueldo</h1></div>
+          	<button id='boton' onclick="PDF()" style="width:5%; border-radius: 8px; background-color: #89D1F3; color: white; right:4%; position: fixed; z-index:5; top: 9.5%;height:4.5%;">PDF</button>
+        </div>
+        &nbsp;
         <div class="form-inline">
         <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
         </div>
-        <div class="rows placeholders">
-			<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        <div class="rows placeholders" style = "top:20%; padding:6% 0%";>
+			<div id="chartContainer1" style="height: 300px; width: 100%;"></div>
         </div>
       	&nbsp;
         <div class="rows placeholders">
@@ -52,7 +57,7 @@
 {% block script_final %}
   <script type="text/javascript">
     window.onload = function () {
-	var chart = new CanvasJS.Chart("chartContainer", {
+	var chart1 = new CanvasJS.Chart("chartContainer1", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Formalizados",
@@ -100,9 +105,9 @@
 		},
 		]
 	});
-	chart.render();
+	chart1.render();
 
-	var chart = new CanvasJS.Chart("chartContainer2", {
+	var chart2 = new CanvasJS.Chart("chartContainer2", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Rango de Ingresos (#Form)",
@@ -208,9 +213,9 @@
 		},
 		]
 	});
-	chart.render();
+	chart2.render();
 
-	var chart = new CanvasJS.Chart("chartContainer3", {
+	var chart3 = new CanvasJS.Chart("chartContainer3", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Buró (#Form)",
@@ -290,9 +295,9 @@
 		},
 		]
 	});
-	chart.render();
+	chart3.render();
 
-	var chart = new CanvasJS.Chart("chartContainer4", {
+	var chart4 = new CanvasJS.Chart("chartContainer4", {
 		theme: "theme2",//theme1
 		//title:{
 			//text: "Situación Actual - Nivel de Incumplimiento"              
@@ -319,9 +324,9 @@
 		},
 		]
 	});
-	chart.render();
+	chart4.render();
 
-	var chart = new CanvasJS.Chart("chartContainer5", {
+	var chart5 = new CanvasJS.Chart("chartContainer5", {
 		theme: "theme2",//theme1
 		//title:{
 			//text: "Situación Actual - Nivel de Incumplimiento"              
@@ -347,9 +352,9 @@
 		},
 		]
 	});
-	chart.render();
+	chart5.render();
 
-	var chart = new CanvasJS.Chart("chartContainer6", {
+	var chart6 = new CanvasJS.Chart("chartContainer6", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Nivel de Incumplimiento según Nivel de Ingresos",
@@ -404,9 +409,9 @@
 		},
 		]
 	});
-	chart.render();
+	chart6.render();
 
-	var chart = new CanvasJS.Chart("chartContainer7", {
+	var chart7 = new CanvasJS.Chart("chartContainer7", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Relación Laboral (#Form)",
@@ -486,9 +491,9 @@
 		},
 		]
 	});
-	chart.render();
+	chart7.render();
 
-	var chart = new CanvasJS.Chart("chartContainer8", {
+	var chart8 = new CanvasJS.Chart("chartContainer8", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Nivel de Incumplimiento según Relación Laboral",
@@ -557,9 +562,9 @@
 		},
 		]
 	});
-	chart.render();
+	chart8.render();
 
-	var chart = new CanvasJS.Chart("chartContainer9", {
+	var chart9 = new CanvasJS.Chart("chartContainer9", {
 		theme: "theme2",//theme1
 		title:{
 			text: "Nivel de Incumplimiento según Buró",
@@ -628,9 +633,154 @@
 		},
 		]
 	});
-	chart.render();
+	chart9.render();
 
-    }
+    };
+
+    function PDF(){
+    var canvas1 = $("#chartContainer1 .canvasjs-chart-canvas").get(0);
+    dataURL1 = canvas1.toDataURL();
+    var canvas2 = $("#chartContainer2 .canvasjs-chart-canvas").get(0);
+    dataURL2 = canvas2.toDataURL();
+    var canvas3 = $("#chartContainer3 .canvasjs-chart-canvas").get(0);
+    dataURL3 = canvas3.toDataURL();
+    var canvas4 = $("#chartContainer4 .canvasjs-chart-canvas").get(0);
+    dataURL4 = canvas4.toDataURL();
+    var canvas5 = $("#chartContainer5 .canvasjs-chart-canvas").get(0);
+    dataURL5 = canvas5.toDataURL();
+    var canvas6 = $("#chartContainer6 .canvasjs-chart-canvas").get(0);
+    dataURL6 = canvas6.toDataURL();
+    var canvas7 = $("#chartContainer7 .canvasjs-chart-canvas").get(0);
+    dataURL7 = canvas7.toDataURL();
+    var canvas8 = $("#chartContainer8 .canvasjs-chart-canvas").get(0);
+    dataURL8 = canvas8.toDataURL();
+    var canvas9 = $("#chartContainer9 .canvasjs-chart-canvas").get(0);
+    dataURL9 = canvas9.toDataURL();
+    //console.log(dataURL);
+    var docDefinition = { 
+      content: [
+        { text: 'Seguimiento Adelanto Sueldo', style: 'header' },
+        { text: '_______________________________________________________________________________________________', style: 'line' },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL1,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL7,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL2,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL3,
+              width: 500,
+              height: 140,
+              pageBreak: 'after',
+            },
+          ]
+        },
+        '\n\n',
+        { text: 'Situación Actual - Nivel de Incumplimiento', style: 'subheader' },
+        { text: '_______________________________________________________________________________________________', style: 'line' },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL4,
+              height: 140,
+              width: 250
+            },
+            '',
+            { 
+              image: dataURL5,
+              height: 140,
+              width: 250
+            },
+          ]
+        },
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL8,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL6,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL9,
+              height: 140,
+              width: 500
+            },
+          ]
+        },        
+      ],
+      styles: {
+        header: {
+          fontSize: 20,
+          bold: true,
+          color: '#094FA4',
+          alignment: 'center'
+        },
+        subheader: {
+          fontSize: 12,
+          bold: true,
+          color: '#094FA4',
+        },
+        line: {
+          bold: true,
+          color: '#094FA4',
+          alignment: 'center'
+        },
+      }
+
+    };
+    pdfMake.createPdf(docDefinition).open();
+  }
   </script>
 {% endblock %}
 
