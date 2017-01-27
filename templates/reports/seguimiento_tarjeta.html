@@ -155,20 +155,12 @@
       &nbsp;
 		<div id="chartContainer26" style="height: 300px; width: 100%;"></div>
           </div>
-          <!--
-      &nbsp;
-          <div class="rows placeholders">
-		<div id="chartContainer27" style="height: 300px; width: 50%; display: inline-block;"></div>
-		<div id="chartContainer28" style="height: 300px; width: 50%; display: inline-block;"></div>
-          </div>
-          -->
       &nbsp;
           <div class="rows placeholders">
 		<div id="chartContainer33" style="height: 300px; width: 100%; display: inline-block;"></div>
           </div>
 	  &nbsp;
           <div class="rows placeholders">
-		<!--<div id="chartContainer29" style="height: 300px; width: 50%; display: inline-block;"></div>-->
 		<div id="chartContainer30" style="height: 300px; width: 100%; display: inline-block;"></div>
           </div>
       &nbsp;
@@ -2880,275 +2872,6 @@
         chart26.render();
 	});
 
-	var chart27 = new CanvasJS.Chart("chartContainer27", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Incumplimiento - Sin Datos",
-			fontColor: "#009EE5",              
-		},
-        axisY:{
-            interval:1,
-        },
-		legend:{
-			fontSize: 15,
-			cursor: "pointer",
-			itemclick: function (e) {
-                //console.log("legend click: " + e.dataPointIndex);
-                //console.log(e);
-                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                    e.dataSeries.visible = false;
-                } else {
-                    e.dataSeries.visible = true;
-                }
- 
-                e.chart.render();
-            }
-		},
-		animationEnabled: true,    // change to true
-		data: [ 
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 4_60",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#C8175E",
-			color: "#C8175E",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in sd_mora460_dict.items|sort %}
-				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-				{% endfor %}
-			]
-		},             
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 6",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#89D1F3",
-			color: "#89D1F3",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in sd_mora6_dict.items|sort %}
-				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 9",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#094FA4",
-			color: "#094FA4",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in sd_mora9_dict.items|sort %}
-				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 12",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#86C82D",
-			color: "#86C82D",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in sd_mora12_dict.items|sort %}
-				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart27.render();
-
-	var chart28 = new CanvasJS.Chart("chartContainer28", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Incumplimiento - Modestos",
-			fontColor: "#009EE5",              
-		},
-        axisY:{
-            interval:1,
-        },
-		legend:{
-			fontSize: 15,
-			cursor: "pointer",
-			itemclick: function (e) {
-                //console.log("legend click: " + e.dataPointIndex);
-                //console.log(e);
-                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                    e.dataSeries.visible = false;
-                } else {
-                    e.dataSeries.visible = true;
-                }
- 
-                e.chart.render();
-            }
-		},
-		animationEnabled: true,    // change to true
-		data: [ 
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 4_60",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#C8175E",
-			color: "#C8175E",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in modes_mora460_dict.items|sort %}
-				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-				{% endfor %}
-			]
-		},             
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 6",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#89D1F3",
-			color: "#89D1F3",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in modes_mora6_dict.items|sort %}
-				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 9",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#094FA4",
-			color: "#094FA4",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in modes_mora9_dict.items|sort %}
-				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 12",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#86C82D",
-			color: "#86C82D",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in modes_mora12_dict.items|sort %}
-				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart28.render();
-
-	var chart29 = new CanvasJS.Chart("chartContainer29", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Incumplimiento - Desligados",
-			fontColor: "#009EE5",              
-		},
-        axisY:{
-            interval:1,
-        },
-		legend:{
-			fontSize: 15,
-			cursor: "pointer",
-			itemclick: function (e) {
-                //console.log("legend click: " + e.dataPointIndex);
-                //console.log(e);
-                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                    e.dataSeries.visible = false;
-                } else {
-                    e.dataSeries.visible = true;
-                }
- 
-                e.chart.render();
-            }
-		},
-		animationEnabled: true,    // change to true
-		data: [ 
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 4_60",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#C8175E",
-			color: "#C8175E",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in desli_mora460_dict.items|sort %}
-				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-				{% endfor %}
-			]
-		},             
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 6",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#89D1F3",
-			color: "#89D1F3",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in desli_mora6_dict.items|sort %}
-				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 9",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#094FA4",
-			color: "#094FA4",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in desli_mora9_dict.items|sort %}
-				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-				{% endfor %}
-			]
-		},
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			name: "Mora 12",
-			//indexLabel: "{y}%",
-			indexLabelFontColor: "#86C82D",
-			color: "#86C82D",
-			yValueFormatString: "#0.#",
-			showInLegend: "true",
-			dataPoints: [
-				{% for key, value in desli_mora12_dict.items|sort %}
-				{ y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-				{% endfor %}
-			]
-		},
-		]
-	});
-	chart29.render();
 
 	var chart30 = new CanvasJS.Chart("chartContainer30", {
 		theme: "theme2",//theme1
@@ -3580,18 +3303,14 @@
     dataURL25 = canvas25.toDataURL();
     var canvas26 = $("#chartContainer26 .canvasjs-chart-canvas").get(0);
     dataURL26 = canvas26.toDataURL();
-    var canvas27 = $("#chartContainer27 .canvasjs-chart-canvas").get(0);
-    dataURL27 = canvas27.toDataURL();
-    var canvas28 = $("#chartContainer28 .canvasjs-chart-canvas").get(0);
-    dataURL28 = canvas28.toDataURL();
-    var canvas29 = $("#chartContainer29 .canvasjs-chart-canvas").get(0);
-    dataURL29 = canvas29.toDataURL();
     var canvas30 = $("#chartContainer30 .canvasjs-chart-canvas").get(0);
     dataURL30 = canvas30.toDataURL();
     var canvas31 = $("#chartContainer31 .canvasjs-chart-canvas").get(0);
     dataURL31 = canvas31.toDataURL();
     var canvas32 = $("#chartContainer32 .canvasjs-chart-canvas").get(0);
     dataURL32 = canvas32.toDataURL();
+    var canvas33 = $("#chartContainer33 .canvasjs-chart-canvas").get(0);
+    dataURL33 = canvas33.toDataURL();
     //console.log(dataURL);
     var docDefinition = { 
       content: [
@@ -3857,73 +3576,6 @@
             },
           ]
         },
-        /*
-        '\n\n',
-        { text: 'Seguimiento Tarjeta - Clústers', style: 'subheader' },
-        { text: '_______________________________________________________________________________________________', style: 'line' },
-        '\n\n',
-        {
-          alignment: 'justify',
-          columns: [
-            { 
-              image: dataURL26,
-              height: 140,
-              width: 500
-            },
-          ]
-        },
-        '\n\n',
-        {
-          alignment: 'justify',
-          columns: [
-            { 
-              image: dataURL27,
-              height: 140,
-              width: 250
-            },
-            '',
-            { 
-              image: dataURL28,
-              height: 140,
-              width: 250
-            },
-          ]
-        },
-        '\n\n',
-        {
-          alignment: 'justify',
-          columns: [
-            { 
-              image: dataURL29,
-              height: 140,
-              width: 250
-            },
-            '',
-            { 
-              image: dataURL30,
-              height: 140,
-              width: 250
-            },
-          ]
-        },
-        '\n\n',
-        {
-          alignment: 'justify',
-          columns: [
-            { 
-              image: dataURL31,
-              height: 140,
-              width: 250
-            },
-            '',
-            { 
-              image: dataURL32,
-              height: 140,
-              width: 250
-            },
-          ]
-        },
-        */
         
       ],
       styles: {
