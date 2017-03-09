@@ -58,6 +58,8 @@ urlpatterns = [
     # URLS para reportes de Seguimiento
     url(r'^seguimiento/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
     #url(r'^seguimiento/(?P<filtro1>[\w|\W]+)/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
+    url(r'^seguimiento/tdc/$', views.seguimiento_tdc, name='seguimiento_tdc'),
+    url(r'^seguimiento/tdc/(?P<filtro1>[\w|\W]+)/(?P<filtro2>[\w|\W]+)/$', views.seguimiento_tdc, name='seguimiento_tdc'),
     url(r'^seguimiento/tarjeta/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
     url(r'^seguimiento/tarjeta/(?P<filtro1>[\w|\W]+)/(?P<filtro2>[\w|\W]+)/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
     url(r'^seguimiento_pld/$', views.seguimiento_pld, name='seguimiento_pld'),
@@ -75,10 +77,9 @@ urlpatterns = [
     url(r'^seguimiento/json_limaprov/$', views.json_limaprov, name='json_limaprov'),
     url(r'^seguimiento/departamentos_web/$', views.departamentos_web, name='departamentos_web'),
     url(r'^seguimiento/departamentos_web/(?P<semana>\d+)/$', views.departamentos_web, name='departamentos_web_2'),
-    url(r'^seguimiento/altas/$', views.altas_seguimiento, name='altas_seguimiento'),
+    url(r'^benchmark/$', views.altas_seguimiento, name='altas_seguimiento'),
     url(r'^seguimiento/web/$', views.seguimiento_web, name='seguimiento_web'),
     url(r'^seguimiento/resumen_seguimiento/$', views.resumen_seguimiento, name='resumen_seguimiento'),
-
 
     # URLS para reportes de Hipotecario
     url(r'^hipotecario/$', views.hipoteca_ssff, name='hipoteca_ssff'),
@@ -102,6 +103,7 @@ urlpatterns = [
     url(r'^load_data/carga_verificaciones/$', views.carga_verificaciones, name='carga_verificaciones'),
     url(r'^load_data/carga_evaluaciontc/$', views.carga_evaluaciontc, name='carga_evaluaciontc'),
     url(r'^load_data/carga_evaluacionpld/$', views.carga_evaluacionpld, name='carga_evaluacionpld'),
+    url(r'^load_data/carga_seguimiento/$', views.carga_seguimiento, name='carga_seguimiento'),
     url(r'^load_data/carga_seguimiento1/$', views.carga_seguimiento1, name='carga_seguimiento1'),
     url(r'^load_data/carga_flujoperativo/$', views.carga_flujoperativo, name='carga_flujoperativo'),
     url(r'^load_data/carga_hipotecassff/$', views.carga_hipotecassff, name='carga_hipotecassff'),
@@ -119,7 +121,7 @@ urlpatterns = [
     url(r'^load_data/carga_mapa/$', views.carga_mapa, name='carga_mapa'),
     url(r'^load_data/carga_departamentosweb/$', views.carga_departamentosweb, name='carga_departamentosweb'),
     url(r'^load_data/carga_campanaefec/$', views.carga_campanaefec, name='carga_campanaefec'),
-    url(r'^load_data/carga_campanalabseg/$', views.carga_campanalabseg, name='carga_campanalabseg'),
+    #url(r'^load_data/carga_campanalabseg/$', views.carga_campanalabseg, name='carga_campanalabseg'),
     url(r'^load_data/carga_campanaequifax/$', views.carga_campanaequifax, name='carga_campanaequifax'),
     url(r'^load_data/carga_comentario/$', views.carga_comentario, name='carga_comentario'),
     url(r'^load_data/carga_efectividadtc/$', views.carga_efectividadtc, name='carga_efectividadtc'),

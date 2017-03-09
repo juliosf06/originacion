@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import AltasSeguimiento, OfertasProducto, Campana2, MoraDistrito, RVGL, Verificaciones, Caida, Evaluaciontc, Evaluacionpld, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles, Exoneracion, Forzaje, CampanaWeb, Mapa, DepartamentosWeb, CampanaLabSeg, CampanaEfec, CampanaEquifax, Comentario, EfectividadTC, ComentarioBackup
+from .models import AltasSeguimiento, OfertasProducto, Campana2, MoraDistrito, RVGL, Verificaciones, Caida, Evaluaciontc, Evaluacionpld, Seguimiento, Seguimiento1, FlujOperativo, HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles, Exoneracion, Forzaje, CampanaWeb, Mapa, DepartamentosWeb, CampanaEfec, CampanaEquifax, Comentario, EfectividadTC, ComentarioBackup
 
 #admin.site.register(Campana) importar model para uso
 admin.site.register(Campana2)
@@ -10,6 +10,7 @@ admin.site.register(Verificaciones)
 admin.site.register(Caida)
 admin.site.register(Evaluaciontc)
 admin.site.register(Evaluacionpld)
+admin.site.register(Seguimiento)
 admin.site.register(Seguimiento1)
 admin.site.register(FlujOperativo)
 admin.site.register(HipotecaSSFF)
@@ -27,7 +28,7 @@ admin.site.register(CampanaWeb)
 admin.site.register(Mapa)
 admin.site.register(DepartamentosWeb)
 admin.site.register(CampanaEfec)
-admin.site.register(CampanaLabSeg)
+#admin.site.register(CampanaLabSeg)
 admin.site.register(CampanaEquifax)
 admin.site.register(Comentario)
 admin.site.register(ComentarioBackup)
