@@ -5643,6 +5643,14 @@ def delete(request, base=0, fecha=after1, numsemana=0):
     if fecha == '000012' and base == '19':
         Mapa.objects.all().delete()
 
+    if fecha == '000013' and base == '20':
+        Seguimiento.objects.all().delete()
+
+    control_fecha15 = Seguimiento.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha15:
+        if fecha == i['mes_vigencia'] and base == '20':
+            Seguimiento.objects.filter(mes_vigencia=fecha).delete()
+
     control_fecha3 = Seguimiento1.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
     for i in control_fecha3:
         if fecha == i['mes_vigencia'] and base == '7':
