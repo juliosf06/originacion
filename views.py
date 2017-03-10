@@ -1177,8 +1177,8 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                 ticketUno_dict[i[filtro1]] = j['facturacion']*1000000/j['formalizado']
                 break
             else:
-                formUno_dict[i[filtro1]] = []
-                ticketUno_dict[i[filtro1]] = []
+                formUno_dict[i[filtro1]] = 0
+                ticketUno_dict[i[filtro1]] = 0
         for j in camp_fast:
             if i[filtro1] == j[filtro1]:
                 formFast_dict[i[filtro1]] = j['formalizado']
@@ -1186,16 +1186,16 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                   ticketFast_dict[i[filtro1]] = j['facturacion']*1000000/j['formalizado']
                 break
             else:
-                formFast_dict[i[filtro1]] = []
-                ticketFast_dict[i[filtro1]] = []
+                formFast_dict[i[filtro1]] = 0
+                ticketFast_dict[i[filtro1]] = 0
         for j in camp_regular:
             if i[filtro1] == j[filtro1]:
                 formRegular_dict[i[filtro1]] = j['formalizado']
                 ticketRegular_dict[i[filtro1]] = j['facturacion']*1000000/j['formalizado']
                 break
             else:
-                formRegular_dict[i[filtro1]] = []
-                ticketRegular_dict[i[filtro1]] = []
+                formRegular_dict[i[filtro1]] = 0
+                ticketRegular_dict[i[filtro1]] = 0
 
     if filtro1 == 'trimestre_form':
         meses_moras = Seguimiento.objects.values('trimestre_form').order_by('-trimestre_form').distinct()
@@ -1234,7 +1234,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
             mora460_dict[j[filtro1]]=j['sum_mora']*100/j['cuentas']
     for j in mora460:
         if j[filtro1] <= morames_list[num_lista]:
-            mora460_dict[j[filtro1]]=[]
+            mora460_dict[j[filtro1]]=0
     for j in mora6:
         if j[filtro1] <= morames_list[num_mora6]:
             mora6_dict[j[filtro1]]=j['sum_mora']*100/j['cuentas']
@@ -1273,14 +1273,14 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                 camp_form_dict[i[filtro1]] = j['formalizado']
                 break
             else:
-                camp_form_dict[i[filtro1]] = []
+                camp_form_dict[i[filtro1]] = 0
         for j in formxcampxuno:
           if j['riesgos'] == 'UNO A UNO':
             if i[filtro1] == j[filtro1]:
                 uno_form_dict[i[filtro1]] = j['formalizado']
                 break
             else:
-                uno_form_dict[i[filtro1]] = []
+                uno_form_dict[i[filtro1]] = 0
 
     seg_ava = Seguimiento.objects.values(filtro1).filter(riesgos='CAMP', producto='03 Tarjeta', segmento='1.AVA', periodo__gte=filtro2).annotate(seg=Sum('form')).order_by(filtro1)
     seg_ms = Seguimiento.objects.values(filtro1,'riesgos').filter(producto='03 Tarjeta', segmento='2.MS', periodo__gte=filtro2).annotate(seg=Sum('form')).order_by(filtro1)
@@ -1294,49 +1294,49 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                 seg_ava_dict[i[filtro1]] = j['seg']
                 break
             else:
-                seg_ava_dict[i[filtro1]] = []
+                seg_ava_dict[i[filtro1]] = 0
         for j in seg_ms:
           if j['riesgos'] == 'CAMP':
             if i[filtro1] == j[filtro1]:
                 seg_ms_dict[i[filtro1]] = j['seg']
                 break
             else:
-                seg_ms_dict[i[filtro1]] = []
+                seg_ms_dict[i[filtro1]] = 0
         for j in seg_ms:
           if j['riesgos'] == 'UNO A UNO':
             if i[filtro1] == j[filtro1]:
                 useg_ms_dict[i[filtro1]] = j['seg']
                 break
             else:
-                useg_ms_dict[i[filtro1]] = []
+                useg_ms_dict[i[filtro1]] = 0
         for j in seg_noph:
           if j['riesgos'] == 'CAMP':
             if i[filtro1] == j[filtro1]:
                 seg_noph_dict[i[filtro1]] = j['seg']
                 break
             else:
-                seg_noph_dict[i[filtro1]] = []
+                seg_noph_dict[i[filtro1]] = 0
         for j in seg_noph:
           if j['riesgos'] == 'UNO A UNO':
             if i[filtro1] == j[filtro1]:
                 useg_noph_dict[i[filtro1]] = j['seg']
                 break
             else:
-                useg_noph_dict[i[filtro1]] = []
+                useg_noph_dict[i[filtro1]] = 0
         for j in seg_nocli:
           if j['riesgos'] == 'CAMP':
             if i[filtro1] == j[filtro1]:
                 seg_nocli_dict[i[filtro1]] = j['seg']
                 break
             else:
-                seg_nocli_dict[i[filtro1]] = []
+                seg_nocli_dict[i[filtro1]] = 0
         for j in seg_nocli:
           if j['riesgos'] == 'UNO A UNO':
             if i[filtro1] == j[filtro1]:
                 useg_nocli_dict[i[filtro1]] = j['seg']
                 break
             else:
-                useg_nocli_dict[i[filtro1]] = []
+                useg_nocli_dict[i[filtro1]] = 0
 
     total_ctasxmorasxcampxuno = Seguimiento.objects.values(filtro1,'riesgos').filter(producto='03 Tarjeta', periodo__gte=filtro2).annotate(sum_ctas=Sum('ctas'),sum_mora460=Sum('mora4_60'),sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by(filtro1)
     total_ctasxcamp_dict = {}; mora460_camp_dict = {}; mora6_camp_dict = {}; mora9_camp_dict = {}; mora12_camp_dict = {};
@@ -1346,7 +1346,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
         if j[filtro1] <= morames_list[num_mora4] and j[filtro1] >= morames_list[num_lista]:
           mora460_camp_dict[j[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
         elif j[filtro1] < morames_list[num_lista]:
-          mora460_camp_dict[j[filtro1]]=[]
+          mora460_camp_dict[j[filtro1]]=0
     for j in total_ctasxmorasxcampxuno:
       if j['riesgos'] == 'CAMP':
         if j[filtro1] <= morames_list[num_mora6]:
@@ -1364,7 +1364,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
         if j[filtro1] <= morames_list[num_mora4] and j[filtro1] >= morames_list[num_lista]:
           mora460_uno_dict[j[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
         elif j[filtro1] < morames_list[num_lista]:
-          mora460_uno_dict[j[filtro1]]=[]
+          mora460_uno_dict[j[filtro1]]=0
     for j in total_ctasxmorasxcampxuno:
       if j['riesgos'] == 'UNO A UNO':
         if j[filtro1] <= morames_list[num_mora6]:
@@ -1395,7 +1395,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                   if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                       ava_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
                   if i[filtro1] < morames_list[num_lista]:
-                      ava_mora460_dict[i[filtro1]]=[]
+                      ava_mora460_dict[i[filtro1]]=0
                   if i[filtro1] <= morames_list[num_mora6]:
                       ava_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
                   if i[filtro1] <= morames_list[num_mora9]:
@@ -1406,7 +1406,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                   if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                       ms_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
                   if i[filtro1] < morames_list[num_lista]:
-                      ms_mora460_dict[i[filtro1]]=[]
+                      ms_mora460_dict[i[filtro1]]=0
                   if i[filtro1] <= morames_list[num_mora6]:
                       ms_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
                   if i[filtro1] <= morames_list[num_mora9]:
@@ -1417,7 +1417,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                   if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                       noph_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
                   if i[filtro1] < morames_list[num_lista]:
-                      noph_mora460_dict[i[filtro1]]=[]
+                      noph_mora460_dict[i[filtro1]]=0
                   if i[filtro1] <= morames_list[num_mora6]:
                       noph_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
                   if i[filtro1] <= morames_list[num_mora9]:
@@ -1428,7 +1428,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                   if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                       nocli_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
                   if i[filtro1] < morames_list[num_lista]:
-                      nocli_mora460_dict[i[filtro1]]=[]
+                      nocli_mora460_dict[i[filtro1]]=0
                   if i[filtro1] <= morames_list[num_mora6]:
                       nocli_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
                   if i[filtro1] <= morames_list[num_mora9]:
@@ -1462,56 +1462,56 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                 depen_dict[i[filtro1]] = j['seg']
                 break
             else:
-                depen_dict[i[filtro1]] = []
+                depen_dict[i[filtro1]] = 0
         for j in indep:
           if j['riesgos'] == 'CAMP':
             if i[filtro1] == j[filtro1]:
                 indep_dict[i[filtro1]] = j['seg']
                 break
             else:
-                indep_dict[i[filtro1]] = []
+                indep_dict[i[filtro1]] = 0
         for j in pnn:
           if j['riesgos'] == 'CAMP':
             if i[filtro1] == j[filtro1]:
                 pnn_dict[i[filtro1]] = j['seg']
                 break
             else:
-                pnn_dict[i[filtro1]] = []
+                pnn_dict[i[filtro1]] = 0
         for j in no_recon:
           if j['riesgos'] == 'CAMP':
             if i[filtro1] == j[filtro1]:
                 no_recon_dict[i[filtro1]] = j['seg']
                 break
             else:
-                no_recon_dict[i[filtro1]] = []
+                no_recon_dict[i[filtro1]] = 0
         for j in depen:
           if j['riesgos'] == 'UNO A UNO':
             if i[filtro1] == j[filtro1]:
                 udepen_dict[i[filtro1]] = j['seg']
                 break
             else:
-                udepen_dict[i[filtro1]] = []
+                udepen_dict[i[filtro1]] = 0
         for j in indep:
           if j['riesgos'] == 'UNO A UNO':
             if i[filtro1] == j[filtro1]:
                 uindep_dict[i[filtro1]] = j['seg']
                 break
             else:
-                uindep_dict[i[filtro1]] = []
+                uindep_dict[i[filtro1]] = 0
         for j in pnn:
           if j['riesgos'] == 'UNO A UNO':
             if i[filtro1] == j[filtro1]:
                 upnn_dict[i[filtro1]] = j['seg']
                 break
             else:
-                upnn_dict[i[filtro1]] = []
+                upnn_dict[i[filtro1]] = 0
         for j in no_recon:
           if j['riesgos'] == 'UNO A UNO':
             if i[filtro1] == j[filtro1]:
                 uno_recon_dict[i[filtro1]] = j['seg']
                 break
             else:
-                uno_recon_dict[i[filtro1]] = []
+                uno_recon_dict[i[filtro1]] = 0
 
 
     morascat = Seguimiento.objects.values(filtro1, 'cat_persona','riesgos').filter(producto='03 Tarjeta', periodo__gte=filtro2).annotate(sum_ctas=Sum('ctas'),sum_mora460=Sum('mora4_60'),sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by(filtro1)
@@ -1531,7 +1531,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                   if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                       dep_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
                   if i[filtro1] <= morames_list[num_lista]:
-                      dep_mora460_dict[i[filtro1]]=[]
+                      dep_mora460_dict[i[filtro1]]=0
                   if i[filtro1] <= morames_list[num_mora6]:
                       dep_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
                   if i[filtro1] <= morames_list[num_mora9]:
@@ -1542,7 +1542,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                   if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                       indep_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
                   if i[filtro1] <= morames_list[num_lista]:
-                      indep_mora460_dict[i[filtro1]]=[]
+                      indep_mora460_dict[i[filtro1]]=0
                   if i[filtro1] <= morames_list[num_mora6]:
                       indep_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
                   if i[filtro1] <= morames_list[num_mora9]:
@@ -1553,7 +1553,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                   if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                       pnn_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
                   if i[filtro1] <= morames_list[num_lista]:
-                      pnn_mora460_dict[i[filtro1]]=[]
+                      pnn_mora460_dict[i[filtro1]]=0
                   if i[filtro1] <= morames_list[num_mora6]:
                       pnn_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
                   if i[filtro1] <= morames_list[num_mora9]:
@@ -1564,7 +1564,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                   if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                       norec_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
                   if i[filtro1] <= morames_list[num_lista]:
-                      norec_mora460_dict[i[filtro1]]=[]
+                      norec_mora460_dict[i[filtro1]]=0
                   if i[filtro1] <= morames_list[num_mora6]:
                       norec_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
                   if i[filtro1] <= morames_list[num_mora9]:
@@ -1698,7 +1698,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                 if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     progre_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['formalizados']
                 if i[filtro1] <= morames_list[num_lista]:
-                    progre_mora460_dict[i[filtro1]]=[]
+                    progre_mora460_dict[i[filtro1]]=0
                 if i[filtro1] <= morames_list[num_mora6]:
                     progre_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
                 if i[filtro1] <= morames_list[num_mora9]:
@@ -1709,7 +1709,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                 if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     aspi_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['formalizados']
                 if i[filtro1] <= morames_list[num_lista]:
-                    aspi_mora460_dict[i[filtro1]]=[]
+                    aspi_mora460_dict[i[filtro1]]=0
                 if i[filtro1] <= morames_list[num_mora6]:
                     aspi_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
                 if i[filtro1] <= morames_list[num_mora9]:
@@ -1720,7 +1720,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                 if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
                     prospe_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['formalizados']
                 if i[filtro1] <= morames_list[num_lista]:
-                    prospe_mora460_dict[i[filtro1]]=[]
+                    prospe_mora460_dict[i[filtro1]]=0
                 if i[filtro1] <= morames_list[num_mora6]:
                     prospe_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
                 if i[filtro1] <= morames_list[num_mora9]:
