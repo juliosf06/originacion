@@ -2025,20 +2025,20 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='2011'):
     rango1_dict = {}; rango2_dict = {}; rango3_dict = {}
     rango4_dict = {}; rango5_dict = {}; rango6_dict = {}
     for i in meses:
-	for j in rangos:
-	   if i[filtro1] == j[filtro1]:
-		if j['rng_ing'] == '01 [3.5K - ...]':
-		   rango1_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
-		elif j['rng_ing'] == '02 [2.5K - 3.5K]':
-		   rango2_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
-		elif j['rng_ing'] == '03 [2K - 2.5K]':
-		   rango3_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
-		elif j['rng_ing'] == '04 [1.5K - 2K]':
-		   rango4_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
-		elif j['rng_ing'] == '05 [1K - 1.5K]':
-		   rango5_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
-		elif j['rng_ing'] == '06 [0 - 1K]':
-		   rango6_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+	   for j in rangos:
+	     if i[filtro1] == j[filtro1]:
+		    if j['rng_ing'] == '01 [3.5K - ...]':
+		      rango1_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+		    elif j['rng_ing'] == '02 [2.5K - 3.5K]':
+		      rango2_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+		    elif j['rng_ing'] == '03 [2K - 2.5K]':
+		      rango3_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+		    elif j['rng_ing'] == '04 [1.5K - 2K]':
+		      rango4_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+		    elif j['rng_ing'] == '05 [1K - 1.5K]':
+		      rango5_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+		    elif j['rng_ing'] == '06 [0 - 1K]':
+		      rango6_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
 
 
     if filtro1 == 'trimestre_form':
