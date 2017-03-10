@@ -1780,19 +1780,19 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='2011'):
                 uno_form_dict[i[filtro1]] = j['formalizado']
                 break
             else:
-                uno_form_dict[i[filtro1]] = []
+                uno_form_dict[i[filtro1]] = 0
         for j in camp_fast:
             if i[filtro1] == j[filtro1]:
                 camp_fast_dict[i[filtro1]] = j['formalizado']
                 break
             else:
-                camp_fast_dict[i[filtro1]] = []
+                camp_fast_dict[i[filtro1]] = 0
         for j in camp_uno:
             if i[filtro1] == j[filtro1]:
                 camp_uno_dict[i[filtro1]] = j['formalizado']
                 break
             else:
-                camp_uno_dict[i[filtro1]] = []
+                camp_uno_dict[i[filtro1]] = 0
 
     if filtro1 == 'trimestre_form':
         camp_formf = Seguimiento1.objects.values(filtro1, 'riesgos').filter(producto='03 Tarjeta', riesgos='CAMP',origen='ORIGINACION FAST', periodo__gte=filtro2).annotate(formalizado=Sum('form')).order_by(filtro1)
@@ -1858,11 +1858,11 @@ def seguimiento_tarjeta(request, filtro1='mes_vigencia', filtro2='2011'):
         for j in fact_campf:
             if i[filtro1] == j[filtro1]:
                 if i[filtro1] < meses_fast_list[num_meses_fast]:
-                    fact_campf_dict[i[filtro1]] = []
+                    fact_campf_dict[i[filtro1]] = 0
                     break
         for j in fact_campf:
             if i[filtro1] < meses_fast_list[num_meses_fast]:
-                fact_campf_dict[i[filtro1]] = []
+                fact_campf_dict[i[filtro1]] = 0
                 break
 
     if filtro1 == 'trimestre_form':
