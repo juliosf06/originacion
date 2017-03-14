@@ -1133,19 +1133,19 @@ def evaluacion_evaluacionpld(request):
 
 # 5.- Vistas para reportes de SEGUIMIENTO
 @login_required
-def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
+def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012'):
     filtro1 = str(filtro1)
     filtro2 = str(filtro2)
 
     tiempo = Seguimiento.objects.values('periodo').order_by('periodo').distinct('periodo')
 
     if filtro1 == 'trimestre_form':
-        meses = Seguimiento.objects.values(filtro1).filter(periodo__gte=filtro2).order_by(filtro1).distinct(filtro1)
+        meses = Seguimiento.objects.values(filtro1).filter(periodo__gte=filtro2).exclude(trimestre_form__in=['']).order_by(filtro1).distinct(filtro1)
         trimestre = 1
     else:
         meses = Seguimiento.objects.values(filtro1).filter(periodo__gte=filtro2).order_by(filtro1).distinct(filtro1)
         trimestre = 0
-
+    print meses
     total_form = Seguimiento.objects.values(filtro1, 'producto').filter(producto='03 Tarjeta', periodo__gte=filtro2, origen__in=['FAST','REGULAR','UNO A UNO']).annotate(formalizado=Sum('form'),cuentas=Sum('ctas')).order_by(filtro1)
     total_form_dict = {}; total_ctas_dict = {};
     for j in total_form:
@@ -1184,6 +1184,8 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2011'):
                 formFast_dict[i[filtro1]] = j['formalizado']
                 if i[filtro1] >= meses_fast_list[num_meses_fast]:
                   ticketFast_dict[i[filtro1]] = j['facturacion']*1000000/j['formalizado']
+                elif i[filtro1] < meses_fast_list[num_meses_fast]:
+                  ticketFast_dict[i[filtro1]] = []
                 break
             else:
                 formFast_dict[i[filtro1]] = 0

@@ -56,12 +56,12 @@ urlpatterns = [
     url(r'^evaluacion/evaluacionpld/$', views.evaluacion_evaluacionpld, name='evaluacion_evaluacionpld'),
 
     # URLS para reportes de Seguimiento
-    url(r'^seguimiento/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
+    url(r'^seguimiento/$', views.seguimiento_tdc, name='seguimiento_tarjeta'),
     #url(r'^seguimiento/(?P<filtro1>[\w|\W]+)/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
     url(r'^seguimiento/tdc/$', views.seguimiento_tdc, name='seguimiento_tdc'),
     url(r'^seguimiento/tdc/(?P<filtro1>[\w|\W]+)/(?P<filtro2>[\w|\W]+)/$', views.seguimiento_tdc, name='seguimiento_tdc'),
-    url(r'^seguimiento/tarjeta/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
-    url(r'^seguimiento/tarjeta/(?P<filtro1>[\w|\W]+)/(?P<filtro2>[\w|\W]+)/$', views.seguimiento_tarjeta, name='seguimiento_tarjeta'),
+    url(r'^seguimiento/tarjeta/$', views.seguimiento_tdc, name='seguimiento_tarjeta'),
+    url(r'^seguimiento/tarjeta/(?P<filtro1>[\w|\W]+)/(?P<filtro2>[\w|\W]+)/$', views.seguimiento_tdc, name='seguimiento_tarjeta'),
     url(r'^seguimiento_pld/$', views.seguimiento_pld, name='seguimiento_pld'),
     url(r'^seguimiento_pld/(?P<filtro1>[\w|\W]+)/(?P<filtro2>[\w|\W]+)/$', views.seguimiento_pld, name='seguimiento_pld'),
     url(r'^seguimiento/auto/$', views.seguimiento_auto, name='seguimiento_auto'),
