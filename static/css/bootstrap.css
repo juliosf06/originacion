@@ -3552,12 +3552,12 @@ tbody.collapse.in {
   display: none;
   float: left;
   min-width: 130px;
-  padding: 5px 0;
+  padding: 5px 2px;
   margin: 1px 0 0;
   font-size: 14px;
   text-align: right;
   list-style: none;
-  background-color: #C3C3C3;
+  background-color: #E3E3E3;
   -webkit-background-clip: padding-box;
           background-clip: padding-box;
   border: 1px solid #ccc;
