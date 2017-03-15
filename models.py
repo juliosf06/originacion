@@ -241,6 +241,7 @@ class Seguimiento(models.Model):
     mora6 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     mora9 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     mora12 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora18 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     mora24 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     mora36 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     

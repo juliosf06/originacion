@@ -3547,17 +3547,17 @@ tbody.collapse.in {
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 160px;
+  min-width: 125px;
   padding: 5px 0;
-  margin: 2px 0 0;
+  margin: 1px 0 0;
   font-size: 14px;
-  text-align: left;
+  text-align: right;
   list-style: none;
-  background-color: #fff;
+  background-color: #C3C3C3;
   -webkit-background-clip: padding-box;
           background-clip: padding-box;
   border: 1px solid #ccc;

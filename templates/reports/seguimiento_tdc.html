@@ -10,14 +10,22 @@
 
         <div style="position: fixed; z-index:15; border: 34px solid white; top: 6%; width: 100%;">
             <div><h1 class="page-header" id="seguimiento_inicio" style="position: fixed; z-index:5; width: 100%; top: 7%;">Seguimiento Tarjeta</h1></div>
-            <button id="uptext" style="position: fixed; z-index:5; width: 2%; top: 9%; right: 12%;">+</button>
-            <button id="downtext" style="position: fixed; z-index:5; width: 2%; top: 9%; right: 10%;">-</button>
-            <button id='boton' onclick="PDF()" style="width:5%; border-radius: 8px; background-color: #89D1F3; color: white; right:4%; position: fixed; z-index:5; top: 8.5%;height:3.5%;">PDF</button>
+            <!--<button id="uptext" style="position: fixed; z-index:5; width: 2%; top: 9%; right: 14%;">+</button>
+            <button id="downtext" style="position: fixed; z-index:5; width: 2%; top: 9%; right: 12%;">-</button>-->
+            <button id='boton' onclick="PDF()" style="width:5%; border-radius: 8px; background-color: #89D1F3; color: white; right:6%; position: fixed; z-index:5; top: 8.5%;height:3.5%;">PDF</button>
+            <div class="btn-group" style="position: fixed; z-index:5; width: 2%; top: 8.5%; right: 3%;">
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="border-radius: 8px; background-color: #89D1F3; color: white;">
+                <span class="glyphicon glyphicon-th"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><button id="uptext" style="border:none;border-radius: 8px;background-color: #008CBA;color: white;font-size:15px; font-weight:bold; padding:1px 6px 1px 6px;">+</button>&nbsp;<button id="downtext" style="border:none;border-radius: 8px; background-color: #008CBA;color: white; font-size:15px;font-weight:bold;padding:1px 9px 1px 9px;">-</button>&nbsp;&nbsp;{% if trimestre = 0 %}<button id='btn_form' style="color: #008CBA;border:none;border-radius: 8px;font-size:15px;font-weight:bold;padding:1px 6px 1px 6px;">#</button>&nbsp;<button id='btn_fact' style="color: #008CBA; border:none;border-radius: 8px;font-size:15px;font-weight:bold;padding:1px 6px 1px 6px;">$</button>{% else %}<button id='btn_form2' style="color: #008CBA; border:none;border-radius: 8px;font-size:15px;font-weight:bold;padding:1px 6px 1px 6px;">#</button>&nbsp;<button id='btn_fact2' style="color: #008CBA; border:none;border-radius: 8px;font-size:15px;font-weight:bold;padding:1px 6px 1px 6px;"">$</button>{% endif %}</li>
+              </ul>
+            </div>
         </div>
         &nbsp;
         <div id="botones" class="botones" style = "text-align:left; width: 49%; height:40%;font-size: 20px; display: inline-block; top:20%; padding:5% 0% 0% 1%;">
-            <button type="button" id="button1" style="display: inline-block;"> Mensual </button>&nbsp;&nbsp;
-            <button type="button" id="button2" style="display: inline-block;"> Trimestral </button>
+            <button type="button" id="button1" style="color: white;background-color: #89D1F3;border-radius: 8px;display: inline-block;"> Mensual </button>&nbsp;
+            <button type="button" id="button2" style="color: white;background-color: #89D1F3;border-radius: 8px;display: inline-block;"> Trimestral </button>
             &nbsp;
             {% if trimestre = 0 %}
             <label>Desde:&nbsp;</label>
@@ -28,7 +36,7 @@
             </select>
             {% else %}
             <label>Desde:&nbsp;</label>
-            <select class="form-control" id="tarjeta_periodo2" style="display: inline-block; width:16%;">
+            <select class="form-control" id="tarjeta_periodo2" style="display: inline-block; width:18%;">
               {% for a in tiempo %}
               <option value="{{a.periodo}}" {% if filtro2 == a.periodo %} selected {% endif %}>{{a.periodo}}</option>
               {% endfor %}
@@ -39,7 +47,7 @@
             <a href='#seguimiento_campaña'>Campañas</a>&nbsp;&nbsp;
             <a href='#seguimiento_uno'>Uno a Uno</a>&nbsp;&nbsp;
             <a href='#seguimiento_forzaje'>Forzaje</a>
-          </div>
+        </div>
         <div class="form-inline">
         	<input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
         </div>
@@ -202,7 +210,7 @@ window.onload = function () {
     theme: "theme2",
     zoomEnabled: true,
     title:{
-      text: "Formalizados", 
+      {% if tipo_form = 1 %}text: "Formalizados",{% else %}text: "Facturados",{% endif %}
       fontColor: "#094FA4",
       fontWeight: "bold",       
     },
@@ -268,12 +276,13 @@ window.onload = function () {
     },         
     {
       type: "spline",
-      name: "# FORMALIZADOS",
+      {% if tipo_form = 1 %}name: "# FORMALIZADOS",{% else %}name: "Facturación (MM)",{% endif %}
       indexLabelFontColor: "darkblue",
       indexLabelFontSize: 12,
       indexLabelOrientation: "vertical",      
       color: "#094FA4",
       indexLabel: " {y}",
+      yValueFormatString: "#,###.##",
       showInLegend: "true",
       click: onClick,
       dataPoints: [
@@ -439,7 +448,7 @@ window.onload = function () {
       indexLabelFontColor: "#89D1F3",
       indexLabelFontSize: 12,
       color: "#89D1F3",     
-      indexLabel: "{y}%",
+      //indexLabel: "{y}%",
       yValueFormatString: "#0.##",
       showInLegend: "true",
       click: onClick3,
@@ -454,7 +463,7 @@ window.onload = function () {
       name: "MORA9",
       indexLabelFontColor: "#094FA4",
       indexLabelFontSize: 12,     
-      indexLabel: "{y}%",
+      //indexLabel: "{y}%",
       color: "#094FA4",
       yValueFormatString: "#0.##",
       showInLegend: "true",
@@ -470,13 +479,61 @@ window.onload = function () {
       name: "MORA12",
       indexLabelFontColor: "#86C82D",
       indexLabelFontSize: 12,     
-      indexLabel: "{y}%",
+      //indexLabel: "{y}%",
       color: "#86C82D",
       yValueFormatString: "#0.##",
       showInLegend: "true",
       click: onClick3,
       dataPoints: [
         {% for key, value in mora12_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "MORA18",
+      indexLabelFontColor: "#FDBD2C",
+      indexLabelFontSize: 12,     
+      //indexLabel: "{y}%",
+      color: "#FDBD2C",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mora18_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "MORA24",
+      indexLabelFontColor: "#F6891E",
+      indexLabelFontSize: 12,     
+      //indexLabel: "{y}%",
+      color: "#F6891E",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mora24_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "MORA36",
+      indexLabelFontColor: "#C8175E",
+      indexLabelFontSize: 12,     
+      //indexLabel: "{y}%",
+      color: "#C8175E",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mora36_dict.items|sort %}
         { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
         {% endfor %}
       ]
@@ -508,7 +565,7 @@ window.onload = function () {
     theme: "theme2",
     zoomEnabled: true,
     title:{
-      text: "Rango de Ingresos (#Form)",
+      {% if tipo_form = 1 %}text: "Rango de Ingresos (#Form)",{% else %}text: "Rango de Ingresos (S/. Fact)",{% endif %}
       fontColor: "#094FA4",
       fontWeight: "bold",            
     },
@@ -655,7 +712,7 @@ window.onload = function () {
     theme: "theme2",
     zoomEnabled: true,
     title:{
-      text: "Segmentos - Campaña (#Form)",
+      {% if tipo_form = 1 %}text: "Segmentos - Campaña (#Form)",{% else %}text: "Segmentos - Campaña (S/. Fact)",{% endif %}
       fontColor: "#009EE5",
       fontWeight: "bold",             
     },
@@ -736,11 +793,12 @@ window.onload = function () {
     },
     {
       type: "scatter",
-      name: "# Formalizados",
+      {% if tipo_form = 1 %}name: "# FORMALIZADOS",{% else %}name: "Facturación (MM)",{% endif %}
       indexLabelFontColor: "darkblue",
       indexLabelOrientation: "vertical",
       indexLabelFontSize: 12,     
       indexLabel: "{y}",
+      yValueFormatString: "#,###.##",
       color: "#C8175E",
       showInLegend: "true",
       click: onClick,
@@ -783,9 +841,6 @@ window.onload = function () {
       fontColor: "#009EE5",
       fontWeight: "bold",                
     },
-    axisY:{
-      interval:1,
-    },
     legend:{
       fontSize: 15,
       cursor: "pointer",
@@ -819,7 +874,7 @@ window.onload = function () {
     {
       type: "spline",
       name: "Mora 6",
-      indexLabel: "{y}%",
+      //indexLabel: "{y}%",
       indexLabelFontColor: "#89D1F3",
       indexLabelFontSize: 12,
       color: "#89D1F3",
@@ -835,7 +890,7 @@ window.onload = function () {
     {
       type: "spline",
       name: "Mora 9",
-      indexLabel: "{y}%",
+      //indexLabel: "{y}%",
       indexLabelFontColor: "#094FA4",
       indexLabelFontSize: 12,
       color: "#094FA4",
@@ -851,7 +906,7 @@ window.onload = function () {
     {
       type: "spline",
       name: "Mora 12",
-      indexLabel: "{y}%",
+      //indexLabel: "{y}%",
       indexLabelFontColor: "#86C82D",
       indexLabelFontSize: 12,
       color: "#86C82D",
@@ -860,6 +915,54 @@ window.onload = function () {
       click: onClick3,
       dataPoints: [
         {% for key, value in mora12_camp_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "Mora 18",
+      //indexLabel: "{y}%",
+      indexLabelFontColor: "#FDBD2C",
+      indexLabelFontSize: 12,
+      color: "#FDBD2C",
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mora18_camp_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "Mora 24",
+      //indexLabel: "{y}%",
+      indexLabelFontColor: "#F6891E",
+      indexLabelFontSize: 12,
+      color: "#F6891E",
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mora24_camp_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "Mora 36",
+      //indexLabel: "{y}%",
+      indexLabelFontColor: "#C8175E",
+      indexLabelFontSize: 12,
+      color: "#C8175E",
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mora36_camp_dict.items|sort %}
         { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
         {% endfor %}
       ]
@@ -1315,7 +1418,7 @@ window.onload = function () {
     theme: "theme2",
     zoomEnabled: true,
     title:{
-      text: "Relación Laboral - Campaña (#Form)",
+      {% if tipo_form = 1 %}text: "Relación Laboral - Campaña (#Form)",{% else %}text: "Relación Laboral - Campaña (S/. Fact)",{% endif %}
       fontColor: "#009EE5",
       fontWeight: "bold",            
     },
@@ -1395,11 +1498,12 @@ window.onload = function () {
     },
     {
       type: "scatter",
-      name: "# Formalizados",
+      {% if tipo_form = 1 %}name: "# FORMALIZADOS",{% else %}name: "Facturación (MM)",{% endif %}
       indexLabelFontColor: "darkblue",
       indexLabelFontSize: 12,
       indexLabelOrientation: "vertical",      
       indexLabel: "{y}",
+      yValueFormatString: "#,###.##",
       color: "#C8175E",
       showInLegend: "true",
       click: onClick,
@@ -1846,7 +1950,7 @@ window.onload = function () {
     theme: "theme2",
     zoomEnabled: true,
     title:{
-      text: "Buró - Campaña (#Form)",
+      {% if tipo_form = 1 %}text: "Buró - Campaña (#Form)",{% else %}text: "Buró - Campaña (S/. Fact)",{% endif %}
       fontColor: "#009EE5",
       fontWeight: "bold",             
     },
@@ -1927,12 +2031,13 @@ window.onload = function () {
     },
     {
       type: "scatter",
-      name: "# FORMALIZADOS",
+      {% if tipo_form = 1 %}name: "# FORMALIZADOS",{% else %}name: "Facturación (MM)",{% endif %}
       indexLabelFontColor: "darkblue",
       indexLabelFontSize: 12,
       indexLabelOrientation: "vertical",      
       color: "#C8175E",
       indexLabel: " {y}",
+      yValueFormatString: "#,###.##",
       showInLegend: "true",
       click: onClick,
       dataPoints: [
@@ -2055,7 +2160,7 @@ window.onload = function () {
     theme: "theme2",
     zoomEnabled: true,
     title:{
-      text: "Segmentos - Uno a Uno (#Form)",
+      {% if tipo_form = 1 %}text: "Segmentos - Uno a Uno (#Form)",{% else %}text: "Segmentos - Uno a Uno (S/. Fact)",{% endif %}
       fontColor: "#86C82D",
       fontWeight: "bold",            
     },
@@ -2121,11 +2226,12 @@ window.onload = function () {
     },
     {
       type: "scatter",
-      name: "# Formalizados",
+      {% if tipo_form = 1 %}name: "# FORMALIZADOS",{% else %}name: "Facturación (MM)",{% endif %}
       indexLabelFontColor: "darkblue",
       indexLabelFontSize: 12,
       indexLabelOrientation: "vertical",      
       indexLabel: "{y}",
+      yValueFormatString: "#,###.##",
       color: "#C8175E",
       showInLegend: "true",
       click: onClick,
@@ -2162,7 +2268,7 @@ window.onload = function () {
     theme: "theme2",
     zoomEnabled: true,
     title:{
-      text: "Relación Laboral - Uno a Uno (#Form)",
+      {% if tipo_form = 1 %}text: "Relación Laboral - Uno a Uno (#Form)",{% else %}text: "Relación Laboral - Uno a Uno (S/. Fact)",{% endif %}
       fontColor: "#86C82D",  
       fontWeight: "bold",           
     },
@@ -2216,7 +2322,7 @@ window.onload = function () {
       indexLabelFontColor: "white",
       indexLabelFontSize: 12,
       color: '#86C82D',     
-      indexLabel: "#percent%",
+      //indexLabel: "#percent%",
       percentFormatString: "#0.",
       showInLegend: "true",
       click: onClick2,
@@ -2231,7 +2337,7 @@ window.onload = function () {
       name: "No Reconocido",
       indexLabelFontColor: "white",
       indexLabelFontSize: 12,     
-      indexLabel: "#percent%",
+      //indexLabel: "#percent%",
       color: "#C8175E",
       percentFormatString: "#0.",
       showInLegend: "true",
@@ -2244,11 +2350,12 @@ window.onload = function () {
     },
     {
       type: "scatter",
-      name: "# Formalizados",
+      {% if tipo_form = 1 %}name: "# FORMALIZADOS",{% else %}name: "Facturación (MM)",{% endif %}
       indexLabelFontColor: "darkblue",
       indexLabelFontSize: 12,
       indexLabelOrientation: "vertical",      
       indexLabel: " {y}",
+      yValueFormatString: "#,###.##",
       color: "#C8175E",
       showInLegend: "true",
       click: onClick,
@@ -2326,7 +2433,7 @@ window.onload = function () {
     {
       type: "spline",
       name: "Mora 6",
-      indexLabel: "{y}%",
+      //indexLabel: "{y}%",
       indexLabelFontColor: "#89D1F3",
       indexLabelFontSize: 12,
       color: "#89D1F3",
@@ -2342,7 +2449,7 @@ window.onload = function () {
     {
       type: "spline",
       name: "Mora 9",
-      indexLabel: "{y}%",
+      //indexLabel: "{y}%",
       indexLabelFontColor: "#094FA4",
       indexLabelFontSize: 12,
       color: "#094FA4",
@@ -2358,7 +2465,7 @@ window.onload = function () {
     {
       type: "spline",
       name: "Mora 12",
-      indexLabel: "{y}%",
+      //indexLabel: "{y}%",
       indexLabelFontColor: "#86C82D",
       indexLabelFontSize: 12,
       color: "#86C82D",
@@ -2367,6 +2474,54 @@ window.onload = function () {
       click: onClick3,
       dataPoints: [
         {% for key, value in mora12_uno_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "Mora 18",
+      //indexLabel: "{y}%",
+      indexLabelFontColor: "#FDBD2C",
+      indexLabelFontSize: 12,
+      color: "#FDBD2C",
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mora18_uno_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "Mora 24",
+      //indexLabel: "{y}%",
+      indexLabelFontColor: "#F6891E",
+      indexLabelFontSize: 12,
+      color: "#F6891E",
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mora24_uno_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "Mora 36",
+      //indexLabel: "{y}%",
+      indexLabelFontColor: "#C8175E",
+      indexLabelFontSize: 12,
+      color: "#C8175E",
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mora36_uno_dict.items|sort %}
         { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
         {% endfor %}
       ]
@@ -2625,7 +2780,7 @@ window.onload = function () {
     theme: "theme2",
     zoomEnabled: true,
     title:{
-      text: "Formalizados Cluster",
+      {% if tipo_form = 1 %}text: "Formalizados Clúster",{% else %}text: "Facturados Clúster",{% endif %}
       fontColor: "#094FA4",  
       fontWeight: "bold",           
     },
@@ -2738,12 +2893,13 @@ window.onload = function () {
     },
     {
       type: "scatter",
-      name: "# FORMALIZADOS",
+      {% if tipo_form = 1 %}name: "# FORMALIZADOS",{% else %}name: "Facturación (MM)",{% endif %}
       indexLabelFontColor: "darkblue",
       indexLabelFontSize: 12,
       indexLabelOrientation: "vertical",      
       color: "#FDBD2C",
       indexLabel: " {y}",
+      yValueFormatString: "#,###.##",
       showInLegend: "true",
       click: onClick2,
       dataPoints: [
@@ -3511,19 +3667,35 @@ window.onload = function () {
   }
 
     $("#button1").click(function(){
-      window.location.href = "/reports/seguimiento/tdc/"+"mes_vigencia"+"/"+"2011"+"/";
+      window.location.href = "/reports/seguimiento/tdc/"+"mes_vigencia"+"/"+"2012"+"/"+"form"+"/";
     });
     $("#button2").click(function(){
-      window.location.href = "/reports/seguimiento/tdc/"+"trimestre_form"+"/"+"2011"+"/";
+      window.location.href = "/reports/seguimiento/tdc/"+"trimestre_form"+"/"+"2012"+"/"+"form"+"/";
       $("#tarjeta_periodo").style.display = "none";
     });
 
+    $("#btn_form").click(function(){
+      window.location.href = "/reports/seguimiento/tdc/"+"mes_vigencia"+"/"+"2012"+"/"+"form"+"/";
+    });
+
+    $("#btn_fact").click(function(){
+      window.location.href = "/reports/seguimiento/tdc/"+"mes_vigencia"+"/"+"2012"+"/"+"facturacion"+"/";
+    });
+
+    $("#btn_form2").click(function(){
+      window.location.href = "/reports/seguimiento/tdc/"+"trimestre_form"+"/"+"2012"+"/"+"form"+"/";
+    });
+
+    $("#btn_fact2").click(function(){
+      window.location.href = "/reports/seguimiento/tdc/"+"trimestre_form"+"/"+"2012"+"/"+"facturacion"+"/";
+    });
+
     $("#tarjeta_periodo").change(function(e){
-      window.location.href = "/reports/seguimiento/tdc/"+"mes_vigencia"+"/"+$("#tarjeta_periodo").val()+"/";
+      window.location.href = "/reports/seguimiento/tdc/"+"mes_vigencia"+"/"+$("#tarjeta_periodo").val()+"/"+"form"+"/";
     });
 
     $("#tarjeta_periodo2").change(function(e){
-      window.location.href = "/reports/seguimiento/tdc/"+"trimestre_form"+"/"+$("#tarjeta_periodo2").val()+"/";
+      window.location.href = "/reports/seguimiento/tdc/"+"trimestre_form"+"/"+$("#tarjeta_periodo2").val()+"/"+"form"+"/";
     });
 </script>
 {% endblock %}
