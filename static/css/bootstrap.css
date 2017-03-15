@@ -3551,7 +3551,7 @@ tbody.collapse.in {
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 125px;
+  min-width: 130px;
   padding: 5px 0;
   margin: 1px 0 0;
   font-size: 14px;
