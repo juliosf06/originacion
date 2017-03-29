@@ -1,0 +1,188 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Formalizados Web{% endblock %}
+
+{% block content %}
+
+        <h1 class="page-header">Cartera Minorista - Banca Personas</h1>
+        <div class="form-inline">
+        	<input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+        </div>
+        <div class="table-responsive" style="height: 320px; width: 100%; display: inline-block;">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th style="background-color: white;border: 0;"></th>
+                <th colspan="3">Facturación (MM soles)</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th colspan="3">Inversión (MM soles)</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th colspan="2">% Cartera Atrasada</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th colspan="3">Dotación (MM soles)</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th colspan="2">% Coste de Riesgo</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th colspan="2">% Incumplimiento 12 meses(>90 días)</th>
+              </tr>
+              <tr>
+                <th>Productos</th>
+                <th>{{mes_inicial|convert_date}}</th>
+                <th>{{mes_final|convert_date}}</th>
+                <th>% Var</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th>{{mes_inicial|convert_date}}</th>
+                <th>{{mes_final|convert_date}}</th>
+                <th>% Var</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th>{{mes_inicial|convert_date}}</th>
+                <th>{{mes_final|convert_date}}</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th>{{mes_inicial|convert_date}}</th>
+                <th>{{mes_final|convert_date}}</th>
+                <th>% Var</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th>{{mes_inicial|convert_date}}</th>
+                <th>{{mes_final|convert_date}}</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th>{{mes_inicial|convert_date}}</th>
+                <th>{{mes_final|convert_date}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="background-color: #178DAB;color: white;">Consumo</td>
+                <td>{{fact_1602.1|to_round|to_int}}</td>
+                <td>{{fact_1702.1|to_round|to_int}}</td>
+                <td>{{variacion.1|x_cien|to_un_decimal}}%</td>
+                <td></td>
+                <td>{{inv_1602.1|to_round|to_int}}</td>
+                <td>{{inv_1702.1|to_round|to_int}}</td>
+                <td>{{varia_inv.1|x_cien|to_un_decimal}}%</td>
+                <td></td>
+                <td>{{cartera_16.1|to_dos_decimal}}%</td>
+                <td>{{cartera_17.1|to_dos_decimal}}%</td>
+                <td></td>
+                <td>{{dota_16.1|to_un_decimal}}</td>
+                <td>{{dota_17.1|to_un_decimal}}</td>
+                <td>{{varia_dota.1|x_cien|to_un_decimal}}%</td>
+                <td></td>
+                <td>{{riesgo1_dict.1|x_cien|to_dos_decimal}}%</td>
+                <td>{{riesgo2_dict.1|x_cien|to_dos_decimal}}%</td>
+                <td></td>
+                <td>{{mora2_dict.1|to_dos_decimal}}%</td>
+                <td>{{mora1_dict.1|to_dos_decimal}}%</td>
+              </tr>
+              <tr>
+                <td style="background-color: #178DAB;color: white;">Vehícular</td>
+                <td>{{fact_1602.2|to_round|to_int}}</td>
+                <td>{{fact_1702.2|to_round|to_int}}</td>
+                <td>{{variacion.2|x_cien|to_un_decimal}}%</td>
+                <td></td>
+                <td>{{inv_1602.2|to_round|to_int}}</td>
+                <td>{{inv_1702.2|to_round|to_int}}</td>
+                <td>{{varia_inv.2|x_cien|to_un_decimal}}%</td>
+                <td></td>
+                <td>{{cartera_16.2|to_dos_decimal}}%</td>
+                <td>{{cartera_17.2|to_dos_decimal}}%</td>
+                <td></td>
+                <td>{{dota_16.2|to_un_decimal}}</td>
+                <td>{{dota_17.2|to_un_decimal}}</td>
+                <td>{{varia_dota.2|x_cien|to_un_decimal}}%</td>
+                <td></td>
+                <td>{{riesgo1_dict.2|x_cien|to_dos_decimal}}%</td>
+                <td>{{riesgo2_dict.2|x_cien|to_dos_decimal}}%</td>
+                <td></td>
+                <td>{{mora2_dict.2|to_dos_decimal}}%</td>
+                <td>{{mora1_dict.2|to_dos_decimal}}%</td>
+              </tr>
+              <tr>
+                <td style="background-color: #178DAB;color: white;">Tarjetas</td>
+                <td>{{fact_1602.3|to_round|to_int}}</td>
+                <td>{{fact_1702.3|to_round|to_int}}</td>
+                <td>{{variacion.3|x_cien|to_un_decimal}}%</td>
+                <td></td>
+                <td>{{inv_1602.3|to_round|to_int}}</td>
+                <td>{{inv_1702.3|to_round|to_int}}</td>
+                <td>{{varia_inv.3|x_cien|to_un_decimal}}%</td>
+                <td></td>
+                <td>{{cartera_16.3|to_dos_decimal}}%</td>
+                <td>{{cartera_17.3|to_dos_decimal}}%</td>
+                <td></td>
+                <td>{{dota_16.3|to_un_decimal}}</td>
+                <td>{{dota_17.3|to_un_decimal}}</td>
+                <td>{{varia_dota.3|x_cien|to_un_decimal}}%</td>
+                <td></td>
+                <td>{{riesgo1_dict.3|x_cien|to_dos_decimal}}%</td>
+                <td>{{riesgo2_dict.3|x_cien|to_dos_decimal}}%</td>
+                <td></td>
+                <td>{{mora2_dict.3|to_dos_decimal}}%</td>
+                <td>{{mora1_dict.3|to_dos_decimal}}%</td>
+              </tr>
+              <tr>
+                <td style="background-color: #178DAB;color: white;">Hipotecario</td>
+                <td>{{fact_1602.4|to_round|to_int}}</td>
+                <td>{{fact_1702.4|to_round|to_int}}</td>
+                <td>{{variacion.4|x_cien|to_un_decimal}}%</td>
+                <td></td>
+                <td>{{inv_1602.4|to_round|to_int}}</td>
+                <td>{{inv_1702.4|to_round|to_int}}</td>
+                <td>{{varia_inv.4|x_cien|to_un_decimal}}%</td>
+                <td></td>
+                <td>{{cartera_16.4|to_dos_decimal}}%</td>
+                <td>{{cartera_17.4|to_dos_decimal}}%</td>
+                <td></td>
+                <td>{{dota_16.4|to_un_decimal}}</td>
+                <td>{{dota_17.4|to_un_decimal}}</td>
+                <td>{{varia_dota.4|x_cien|to_un_decimal}}%</td>
+                <td></td>
+                <td>{{riesgo1_dict.4|x_cien|to_dos_decimal}}%</td>
+                <td>{{riesgo2_dict.4|x_cien|to_dos_decimal}}%</td>
+                <td></td>
+                <td>{{mora2_dict.4|to_dos_decimal}}%</td>
+                <td>{{mora1_dict.4|to_dos_decimal}}%</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>Total</th>
+                <th>{{fact_1602.5|to_round|to_int}}</th>
+                <th>{{fact_1702.5|to_round|to_int}}</th>
+                <th>{{variacion.5|x_cien|to_un_decimal}}%</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th>{{inv_1602.5|to_round|to_int}}</th>
+                <th>{{inv_1702.5|to_round|to_int}}</th>
+                <th>{{varia_inv.5|x_cien|to_un_decimal}}%</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th>{{cartera_16.5|to_dos_decimal}}%</th>
+                <th>{{cartera_17.5|to_dos_decimal}}%</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th>{{dota_16.5|to_round|to_int}}</th>
+                <th>{{dota_17.5|to_round|to_int}}</th>
+                <th>{{varia_dota.5|x_cien|to_un_decimal}}%</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th>{{riesgo1_dict.5|to_dos_decimal}}%</th>
+                <th>{{riesgo2_dict.5|to_dos_decimal}}%</th>
+                <th style="background-color: white;border: 0;"></th>
+                <th>{{mora2_dict.5|to_dos_decimal}}%</th>
+                <th>{{mora1_dict.5|to_dos_decimal}}%</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+
+
+
+{% endblock %}
+
+{% block script_final %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}
+

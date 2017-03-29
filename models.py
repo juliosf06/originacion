@@ -219,6 +219,34 @@ class Evaluacionpld(models.Model):
     def __str__(self):
         return self.fecha+' '+self.cliente+' '+ self.documento
 
+class Stock(models.Model):
+    codmes = models.CharField(max_length=10,default=0)
+    flg_campana = models.CharField(max_length=50,default=0)
+    trimestre = models.CharField(max_length=10)
+    producto = models.CharField(max_length=20,default=0)    
+    subproducto = models.CharField(max_length=40,default=0)
+    campana = models.CharField(max_length=50,default=0)
+    ctas = models.DecimalField(max_digits=8, decimal_places=2)
+    fact = models.DecimalField(max_digits=14, decimal_places=8)
+    inv = models.DecimalField(max_digits=14, decimal_places=8)
+    atrasada = models.DecimalField(max_digits=14, decimal_places=8)
+
+    def __str__(self):
+        return self.codmes+' '+self.producto+' '+ self.subproducto
+
+class Dotaciones(models.Model):
+    codmes = models.CharField(max_length=10,default=0)
+    producto = models.CharField(max_length=20,default=0)    
+    subproducto = models.CharField(max_length=40,default=0)
+    campana = models.CharField(max_length=50,default=0)
+    riesgo = models.DecimalField(max_digits=20, decimal_places=4)
+    dotacion = models.DecimalField(max_digits=20, decimal_places=4)
+    mora = models.DecimalField(max_digits=20, decimal_places=4)
+    salidas = models.DecimalField(max_digits=20, decimal_places=4)
+
+    def __str__(self):
+        return self.codmes+' '+self.producto+' '+ self.subproducto
+
 class Seguimiento(models.Model):
     periodo = models.CharField(max_length=10)
     trimestre_form = models.CharField(max_length=10)

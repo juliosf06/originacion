@@ -53,7 +53,6 @@ urlpatterns = [
     # URLS para reportes de Evaluacion
     url(r'^evaluacion/$', views.evaluacion_evaluaciontc, name='evaluacion_evaluaciontc'),
     url(r'^evaluacion/evaluaciontc/$', views.evaluacion_evaluaciontc, name='evaluacion_evaluaciontc'),
-    url(r'^evaluacion/evaluacionpld/$', views.evaluacion_evaluacionpld, name='evaluacion_evaluacionpld'),
 
     # URLS para reportes de Seguimiento
     url(r'^seguimiento/$', views.seguimiento_tdc, name='seguimiento_tarjeta'),
@@ -82,6 +81,7 @@ urlpatterns = [
     url(r'^benchmark/$', views.altas_seguimiento, name='altas_seguimiento'),
     url(r'^seguimiento/web/$', views.seguimiento_web, name='seguimiento_web'),
     url(r'^seguimiento/resumen_seguimiento/$', views.resumen_seguimiento, name='resumen_seguimiento'),
+    url(r'^seguimiento/cartera/$', views.cartera_minorista, name='cartera_minorista'),
 
     # URLS para reportes de Hipotecario
     url(r'^hipotecario/$', views.hipoteca_ssff, name='hipoteca_ssff'),
@@ -129,6 +129,8 @@ urlpatterns = [
     url(r'^load_data/carga_efectividadtc/$', views.carga_efectividadtc, name='carga_efectividadtc'),
     url(r'^load_data/carga_altasseguimiento/$', views.carga_altasseguimiento, name='carga_altasseguimiento'),
     url(r'^load_data/carga_ofertasproducto/$', views.carga_ofertasproducto, name='carga_ofertasproducto'),
+    url(r'^load_data/carga_stock/$', views.carga_stock, name='carga_stock'),
+    url(r'^load_data/carga_dotaciones/$', views.carga_dotaciones, name='carga_dotaciones'),
     url(r'^load_data/excel/$', views.excel, name='excel'),
     url(r'^load_data/$', views.load, name='load'),
     #url(r'^mapa/$', views.mapa, name='mapa'),

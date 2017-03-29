@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from models import RVGL, Campana2, Caida,Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento, Seguimiento1, FlujOperativo,HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles, Exoneracion, Forzaje, CampanaWeb, Mapa, DepartamentosWeb, CampanaLabSeg, CampanaEfec, CampanaEquifax, Comentario, EfectividadTC, AltasSeguimiento, OfertasProducto
+from models import Stock, Dotaciones, RVGL, Campana2, Caida,Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento, Seguimiento1, FlujOperativo,HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles, Exoneracion, Forzaje, CampanaWeb, Mapa, DepartamentosWeb, CampanaLabSeg, CampanaEfec, CampanaEquifax, Comentario, EfectividadTC, AltasSeguimiento, OfertasProducto
 from adaptor.model import CsvDbModel
 
 class UploadRVGL(forms.Form):
@@ -249,6 +249,22 @@ class UploadOfertasProducto(forms.Form):
 class OfertasProductoCsv(CsvDbModel):
     class Meta:
         dbModel = OfertasProducto
+        delimiter = ","
+
+class UploadStock(forms.Form):
+    stock = forms.FileField()
+
+class StockCsv(CsvDbModel):
+    class Meta:
+        dbModel = Stock
+        delimiter = ","
+
+class UploadDotaciones(forms.Form):
+    dotaciones = forms.FileField()
+
+class DotacionesCsv(CsvDbModel):
+    class Meta:
+        dbModel = Dotaciones
         delimiter = ","
 
 class UploadFileForm(forms.Form):

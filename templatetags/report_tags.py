@@ -63,6 +63,18 @@ def to_int(value):
     return 0 if value=='' else int(value)
 
 @register.filter
+def to_round(value):
+    return 0 if value=='' else round(value, 0)
+
+@register.filter
+def to_un_decimal(value):
+    return 0 if value=='' else round(value, 1)
+
+@register.filter
+def to_dos_decimal(value):
+    return 0 if value=='' else round(value, 2)
+
+@register.filter
 def to_str(value):
     return 0 if value=='' else str(value)
 

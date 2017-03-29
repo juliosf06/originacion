@@ -7,6 +7,7 @@ from django.db.models import Count, Sum, Avg, Max, Case, When, IntegerField, F, 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response as render
 from .forms import UploadFileForm
+from decimal import *
 
 from django.template import RequestContext
 
@@ -1115,6 +1116,7 @@ def rvgl_top20ofic(request, fecha=before2, analista='TODOS'):
 # 4.- Vistas para reportes de EVALUACION
 @login_required
 def evaluacion_evaluaciontc(request):
+    meses = Seguimiento.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
     evaluaciontc = Evaluaciontc.objects.all().order_by('cliente').distinct('cliente')
 
     static_url=settings.STATIC_URL
@@ -1123,11 +1125,208 @@ def evaluacion_evaluaciontc(request):
                   context_instance=RequestContext(request))
 
 @login_required
-def evaluacion_evaluacionpld(request):
-    evaluacionpld = Evaluacionpld.objects.all().order_by('cliente').distinct('cliente')
+def cartera_minorista(request):
+    meses = Seguimiento.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct('mes_vigencia')
+    meses_list= []
+    for i in meses:
+      meses_list.append(i['mes_vigencia'])
+    mes_inicial=meses_list[12]
+    mes_final=meses_list[0]
+
+    facturacion = Seguimiento.objects.values('producto','mes_vigencia').filter(mes_vigencia__in=[meses_list[0],meses_list[12]],origen__in=['UNO A UNO','FAST','REGULAR']).annotate(facturacion=Sum('facturacion')).order_by('producto')
+
+    fact_1602 = {}; fact_1702 = {}; variacion = {};
+    for i in facturacion:
+      if i['mes_vigencia'] == meses_list[12]:
+        if i['producto'] == '01 Consumo':
+          fact_1602['1'] = i['facturacion']
+        if i['producto'] == '02 Auto':
+          fact_1602['2'] = i['facturacion']
+        if i['producto'] == '03 Tarjeta':
+          fact_1602['3'] = i['facturacion']
+        if i['producto'] == '04 Hipotecario':
+          fact_1602['4'] = i['facturacion']
+      if i['mes_vigencia'] == meses_list[0]:
+        if i['producto'] == '01 Consumo':
+          fact_1702['1'] = i['facturacion']
+        if i['producto'] == '02 Auto':
+          fact_1702['2'] = i['facturacion']
+        if i['producto'] == '03 Tarjeta':
+          fact_1702['3'] = i['facturacion']
+        if i['producto'] == '04 Hipotecario':
+          fact_1702['4'] = i['facturacion']
+    fact_1602['5']=fact_1602['1']+fact_1602['2']+fact_1602['3']+fact_1602['4']
+    fact_1702['5']=fact_1702['1']+fact_1702['2']+fact_1702['3']+fact_1702['4']
+    variacion['1']=(fact_1702['1']/fact_1602['1'])-1
+    variacion['2']=(fact_1702['2']/fact_1602['2'])-1
+    variacion['3']=(fact_1702['3']/fact_1602['3'])-1
+    variacion['4']=(fact_1702['4']/fact_1602['4'])-1
+    variacion['5']=(fact_1702['5']/fact_1602['5'])-1
+
+    stock = Stock.objects.values('producto','codmes').filter(codmes__in=[meses_list[0],meses_list[12]]).annotate(inversion=Sum('inv'),atraso=Sum('atrasada')).order_by('producto')
+    inv_1602 = {}; inv_1702 = {}; varia_inv = {}; cartera_16={}; cartera_17={};
+    atraso_16={}; atraso_17={};
+    for i in stock:
+      if i['codmes'] == meses_list[12]:
+        if i['producto'] == 'PLD':
+          inv_1602['1'] = i['inversion']
+          cartera_16['1'] = i['atraso']*100/i['inversion']
+          atraso_16['1'] = i['atraso']
+        if i['producto'] == 'Auto':
+          inv_1602['2'] = i['inversion']
+          cartera_16['2'] = i['atraso']*100/i['inversion']
+          atraso_16['2'] = i['atraso']
+        if i['producto'] == 'TdC':
+          inv_1602['3'] = i['inversion']
+          cartera_16['3'] = i['atraso']*100/i['inversion']
+          atraso_16['3'] = i['atraso']
+        if i['producto'] == 'Hipoteca':
+          inv_1602['4'] = i['inversion']
+          cartera_16['4'] = i['atraso']*100/i['inversion']
+          atraso_16['4'] = i['atraso']
+      if i['codmes'] == meses_list[0]:
+        if i['producto'] == 'PLD':
+          inv_1702['1'] = i['inversion']
+          cartera_17['1'] = i['atraso']*100/i['inversion']
+          atraso_17['1'] = i['atraso']
+        if i['producto'] == 'Auto':
+          inv_1702['2'] = i['inversion']
+          cartera_17['2'] = i['atraso']*100/i['inversion']
+          atraso_17['2'] = i['atraso']
+        if i['producto'] == 'TdC':
+          inv_1702['3'] = i['inversion']
+          cartera_17['3'] = i['atraso']*100/i['inversion']
+          atraso_17['3'] = i['atraso']
+        if i['producto'] == 'Hipoteca':
+          inv_1702['4'] = i['inversion']
+          cartera_17['4'] = i['atraso']*100/i['inversion']
+          atraso_17['4'] = i['atraso']
+    inv_1602['5']=inv_1602['1']+inv_1602['2']+inv_1602['3']+inv_1602['4']
+    inv_1702['5']=inv_1702['1']+inv_1702['2']+inv_1702['3']+inv_1702['4']
+    cartera_16['5'] = (atraso_16['1']+atraso_16['2']+atraso_16['3']+atraso_16['4'])*100/inv_1602['5']
+    cartera_17['5'] = (atraso_17['1']+atraso_17['2']+atraso_17['3']+atraso_17['4'])*100/inv_1702['5']
+    varia_inv['1']=(inv_1702['1']/inv_1602['1'])-1
+    varia_inv['2']=(inv_1702['2']/inv_1602['2'])-1
+    varia_inv['3']=(inv_1702['3']/inv_1602['3'])-1
+    varia_inv['4']=(inv_1702['4']/inv_1602['4'])-1
+    varia_inv['5']=(inv_1702['5']/inv_1602['5'])-1
+
+    dotacion = Dotaciones.objects.values('producto','codmes').filter(codmes__in=[meses_list[0],meses_list[12]]).annotate(dotacion=Sum('dotacion')).order_by('producto')
+    dota_16 = {}; dota_17 = {}; varia_dota = {};
+    for i in dotacion:
+      if i['codmes'] == meses_list[12]:
+        if i['producto'] == 'PLD':
+          dota_16['1'] = i['dotacion']/1000000
+        if i['producto'] == 'Auto':
+          dota_16['2'] = i['dotacion']/1000000
+        if i['producto'] == 'TdC':
+          dota_16['3'] = i['dotacion']/1000000
+        if i['producto'] == 'Hipoteca':
+          dota_16['4'] = i['dotacion']/1000000
+      if i['codmes'] == meses_list[0]:
+        if i['producto'] == 'PLD':
+          dota_17['1'] = i['dotacion']/1000000
+        if i['producto'] == 'Auto':
+          dota_17['2'] = i['dotacion']/1000000
+        if i['producto'] == 'TdC':
+          dota_17['3'] = i['dotacion']/1000000
+        if i['producto'] == 'Hipoteca':
+          dota_17['4'] = i['dotacion']/1000000
+    dota_16['5']=dota_16['1']+dota_16['2']+dota_16['3']+dota_16['4']
+    dota_17['5']=dota_17['1']+dota_17['2']+dota_17['3']+dota_17['4']
+    varia_dota['1']=(dota_17['1']/dota_16['1'])-1
+    varia_dota['2']=(dota_17['2']/dota_16['2'])-1
+    varia_dota['3']=(dota_17['3']/dota_16['3'])-1
+    varia_dota['4']=(dota_17['4']/dota_16['4'])-1
+    varia_dota['5']=(dota_17['5']/dota_16['5'])-1
+
+    meses2 = Dotaciones.objects.values('codmes').order_by('-codmes').distinct('codmes')
+    meses_list2= []
+    for i in meses2:
+      meses_list2.append(i['codmes'])
+
+    riesgo_16 = Dotaciones.objects.values('producto').filter(codmes__gte=meses_list2[11]).annotate(riesgo=Avg('riesgo'),dotacion=Sum('dotacion'),salidas=Sum('salidas'))
+    riesgo_17 = Dotaciones.objects.values('producto').filter(codmes__gte=meses_list2[23],codmes__lte=meses_list2[12]).annotate(riesgo=Avg('riesgo'),dotacion=Sum('dotacion'),salidas=Sum('salidas'))
+    riesgo1_dict = {}; riesgo2_dict = {}; sum_dota=0; sum_salida=0; sum_riesgo=0;
+    sum_dota1=0; sum_salida1=0; sum_riesgo1=0;
+    for i in riesgo_16:
+        if i['producto'] == 'PLD':
+          riesgo1_dict['1'] = (i['dotacion']-i['salidas'])/Decimal(i['riesgo'])
+        if i['producto'] == 'Auto':
+          riesgo1_dict['2'] = (i['dotacion']-i['salidas'])/Decimal(i['riesgo'])
+        if i['producto'] == 'TdC':
+          riesgo1_dict['3'] = (i['dotacion']-i['salidas'])/Decimal(i['riesgo'])
+        if i['producto'] == 'Hipoteca':
+          riesgo1_dict['4'] = (i['dotacion']-i['salidas'])/Decimal(i['riesgo'])
+    for i in riesgo_17:
+        if i['producto'] == 'PLD':
+          riesgo2_dict['1'] = (i['dotacion']-i['salidas'])/Decimal(i['riesgo'])
+        if i['producto'] == 'Auto':
+          riesgo2_dict['2'] = (i['dotacion']-i['salidas'])/Decimal(i['riesgo'])
+        if i['producto'] == 'TdC':
+          riesgo2_dict['3'] = (i['dotacion']-i['salidas'])/Decimal(i['riesgo'])
+        if i['producto'] == 'Hipoteca':
+          riesgo2_dict['4'] = (i['dotacion']-i['salidas'])/Decimal(i['riesgo'])
+    for i in riesgo_17:
+      sum_dota = sum_dota + i['dotacion']
+      sum_salida = sum_salida + i['salidas']
+      sum_riesgo = sum_riesgo + i['riesgo']
+    riesgo1_dict['5'] = (sum_dota-sum_salida)*100/Decimal(sum_riesgo)
+    for i in riesgo_16:
+      sum_dota1 = sum_dota1 + i['dotacion']
+      sum_salida1 = sum_salida1 + i['salidas']
+      sum_riesgo1 = sum_riesgo1 + i['riesgo']
+    riesgo2_dict['5'] = (sum_dota1-sum_salida1)*100/Decimal(sum_riesgo1)
+
+    meses3 = Seguimiento.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct('mes_vigencia')
+    meses_list3= []
+    for i in meses3:
+      meses_list3.append(i['mes_vigencia'])
+
+    mora = Seguimiento.objects.values('producto','mes_vigencia').filter(mes_vigencia__in=[meses_list3[12],meses_list3[24]],origen__in=['FAST','REGULAR','UNO A UNO']).annotate(mora12=Sum('mora12'),ctas=Sum('ctas'))
+    mora1_dict = {}; mora2_dict = {}; sum_mora1 = 0; sum_ctas1 =0; sum_mora2 = 0; sum_ctas2 =0;
+    for i in mora:
+      if i['mes_vigencia'] == meses_list3[12]:
+        if i['producto'] == '01 Consumo':
+          mora1_dict['1'] = i['mora12']*100/i['ctas']
+          sum_mora1 = sum_mora1 + i['mora12']
+          sum_ctas1 = sum_ctas1 + i['ctas']
+        if i['producto'] == '02 Auto':
+          mora1_dict['2'] = i['mora12']*100/i['ctas']
+          sum_mora1 = sum_mora1 + i['mora12']
+          sum_ctas1 = sum_ctas1 + i['ctas']
+        if i['producto'] == '03 Tarjeta':
+          mora1_dict['3'] = i['mora12']*100/i['ctas']
+          sum_mora1 = sum_mora1 + i['mora12']
+          sum_ctas1 = sum_ctas1 + i['ctas']
+        if i['producto'] == '04 Hipotecario':
+          mora1_dict['4'] = i['mora12']*100/i['ctas']
+          sum_mora1 = sum_mora1 + i['mora12']
+          sum_ctas1 = sum_ctas1 + i['ctas']
+      if i['mes_vigencia'] == meses_list3[24]:
+        if i['producto'] == '01 Consumo':
+          mora2_dict['1'] = i['mora12']*100/i['ctas']
+          sum_mora2 = sum_mora2 + i['mora12']
+          sum_ctas2 = sum_ctas2 + i['ctas']
+        if i['producto'] == '02 Auto':
+          mora2_dict['2'] = i['mora12']*100/i['ctas']
+          sum_mora2 = sum_mora2 + i['mora12']
+          sum_ctas2 = sum_ctas2 + i['ctas']
+        if i['producto'] == '03 Tarjeta':
+          mora2_dict['3'] = i['mora12']*100/i['ctas']
+          sum_mora2 = sum_mora2 + i['mora12']
+          sum_ctas2 = sum_ctas2 + i['ctas']
+        if i['producto'] == '04 Hipotecario':
+          mora2_dict['4'] = i['mora12']*100/i['ctas']
+          sum_mora2 = sum_mora2 + i['mora12']
+          sum_ctas2 = sum_ctas2 + i['ctas']
+    mora1_dict['5'] = sum_mora1*100/sum_ctas1
+    mora2_dict['5'] = sum_mora2*100/sum_ctas2
+
+
     static_url=settings.STATIC_URL
     tipo_side = 3
-    return render('reports/evaluacion_evaluacionpld.html', locals(),
+    return render('reports/cartera_minorista.html', locals(),
                   context_instance=RequestContext(request))
 
 
@@ -7622,6 +7821,30 @@ def carga_ofertasproducto(request):
         if form.is_valid():
             csv_file = request.FILES['ofertasproducto']
             OfertasProductoCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_stock(request):
+    if request.method == 'POST':
+        form = UploadStock(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['stock']
+            StockCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_dotaciones(request):
+    if request.method == 'POST':
+        form = UploadDotaciones(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['dotaciones']
+            DotacionesCsv.import_data(data = csv_file)
             return campana_resumen(request)
         else:
             return load(campana_resumen)
