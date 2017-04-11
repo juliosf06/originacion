@@ -5555,15 +5555,15 @@ def seguimiento_increlinea(request):
 
 @login_required
 def seguimiento_lifemiles(request):
-    meses = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502').order_by('-mes_vigencia').distinct()
+    meses = Seguimiento.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502').order_by('-mes_vigencia').distinct()
 
-    form_fact = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(formalizado=Sum('form'),fact=Sum('facturacion')).order_by('mes_vigencia')
+    form_fact = Seguimiento.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502',flg_lifemiles='1').exclude(segmento='').annotate(formalizado=Sum('form'),fact=Sum('facturacion')).order_by('mes_vigencia')
     form_dict = {}; ticket_dict = {};
     for i in form_fact:
         form_dict[i['mes_vigencia']] = i['formalizado']
         ticket_dict[i['mes_vigencia']] = i['fact']*1000000/i['formalizado']
 
-    segmentos = Seguimiento1.objects.values('mes_vigencia','segmento').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    segmentos = Seguimiento.objects.values('mes_vigencia','segmento').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     ava_dict = {}; ms_dict = {}; noph_dict={}; nocli_dict={};
     for i in meses:
         for j in segmentos:
@@ -5595,11 +5595,11 @@ def seguimiento_lifemiles(request):
                 else:
                     nocli_dict[i['mes_vigencia']]=[]
 
-    totrango = Seguimiento1.objects.values('mes_vigencia').exclude(rng_ing='').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    totrango = Seguimiento.objects.values('mes_vigencia').exclude(rng_ing='').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     totrango_dict = {};
     for i in totrango:
         totrango_dict[i['mes_vigencia']]=i['formalizado']
-    rango = Seguimiento1.objects.values('mes_vigencia','rng_ing').exclude(rng_ing='').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    rango = Seguimiento.objects.values('mes_vigencia','rng_ing').exclude(rng_ing='').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     rango1_dict={}; rango2_dict={}; rango3_dict={}; rango4_dict={}; rango5_dict={}; rango6_dict={};
     for i in meses:
         for j in rango:
@@ -5645,7 +5645,7 @@ def seguimiento_lifemiles(request):
                 else:
                     rango6_dict[i['mes_vigencia']]=[]
 
-    buro = Seguimiento1.objects.values('mes_vigencia','buro_camp').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
+    buro = Seguimiento.objects.values('mes_vigencia','buro_camp').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(formalizado=Sum('form')).order_by('mes_vigencia')
     buro1_dict={}; buro2_dict={}; buro3_dict={}; buro4_dict={};
     for i in meses:
         for j in buro:
@@ -5680,9 +5680,9 @@ def seguimiento_lifemiles(request):
     meses_list = [];
     for i in meses:
         meses_list.append(i['mes_vigencia'])
-    mora6 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(mora=Sum('mora6'),cta=Sum('ctas')).order_by('mes_vigencia')
-    mora9 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(mora=Sum('mora9'),cta=Sum('ctas')).order_by('mes_vigencia')
-    mora12 = Seguimiento1.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(mora=Sum('mora12'),cta=Sum('ctas')).order_by('mes_vigencia')
+    mora6 = Seguimiento.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(mora=Sum('mora6'),cta=Sum('ctas')).order_by('mes_vigencia')
+    mora9 = Seguimiento.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(mora=Sum('mora9'),cta=Sum('ctas')).order_by('mes_vigencia')
+    mora12 = Seguimiento.objects.values('mes_vigencia').filter(mes_vigencia__gte='201502',flg_lifemiles='1').annotate(mora=Sum('mora12'),cta=Sum('ctas')).order_by('mes_vigencia')
     mora6_dict={}; mora9_dict={}; mora12_dict={};
     for j in mora6:
         if j['mes_vigencia'] <= meses_list[6]:
@@ -5693,7 +5693,7 @@ def seguimiento_lifemiles(request):
     for j in mora12:
         if j['mes_vigencia'] <= meses_list[12]:
             mora12_dict[j['mes_vigencia']]=j['mora']*100/j['cta']
-
+    print mora12
 
     static_url=settings.STATIC_URL
     tipo_side = 4
