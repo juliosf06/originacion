@@ -506,38 +506,6 @@ window.onload = function () {
         {% endfor %}
       ]
     },
-    {
-      type: "spline",
-      name: "MORA24",
-      indexLabelFontColor: "#F6891E",
-      indexLabelFontSize: 12,     
-      //indexLabel: "{y}%",
-      color: "#F6891E",
-      yValueFormatString: "#0.##",
-      showInLegend: "true",
-      click: onClick3,
-      dataPoints: [
-        {% for key, value in mora24_dict.items|sort %}
-        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-        {% endfor %}
-      ]
-    },
-    {
-      type: "spline",
-      name: "MORA36",
-      indexLabelFontColor: "#B7C204",
-      indexLabelFontSize: 12,     
-      //indexLabel: "{y}%",
-      color: "#B7C204",
-      yValueFormatString: "#0.##",
-      showInLegend: "true",
-      click: onClick3,
-      dataPoints: [
-        {% for key, value in mora36_dict.items|sort %}
-        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-        {% endfor %}
-      ]
-    },
     ]
   });
   chart3.render();
@@ -931,38 +899,6 @@ window.onload = function () {
       click: onClick3,
       dataPoints: [
         {% for key, value in mora18_camp_dict.items|sort %}
-        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-        {% endfor %}
-      ]
-    },
-    {
-      type: "spline",
-      name: "Mora 24",
-      //indexLabel: "{y}%",
-      indexLabelFontColor: "#F6891E",
-      indexLabelFontSize: 12,
-      color: "#F6891E",
-      yValueFormatString: "#0.#",
-      showInLegend: "true",
-      click: onClick3,
-      dataPoints: [
-        {% for key, value in mora24_camp_dict.items|sort %}
-        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-        {% endfor %}
-      ]
-    },
-    {
-      type: "spline",
-      name: "Mora 36",
-      //indexLabel: "{y}%",
-      indexLabelFontColor: "#B7C204",
-      indexLabelFontSize: 12,
-      color: "#B7C204",
-      yValueFormatString: "#0.#",
-      showInLegend: "true",
-      click: onClick3,
-      dataPoints: [
-        {% for key, value in mora36_camp_dict.items|sort %}
         { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
         {% endfor %}
       ]
@@ -2490,38 +2426,6 @@ window.onload = function () {
       click: onClick3,
       dataPoints: [
         {% for key, value in mora18_uno_dict.items|sort %}
-        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-        {% endfor %}
-      ]
-    },
-    {
-      type: "spline",
-      name: "Mora 24",
-      //indexLabel: "{y}%",
-      indexLabelFontColor: "#F6891E",
-      indexLabelFontSize: 12,
-      color: "#F6891E",
-      yValueFormatString: "#0.#",
-      showInLegend: "true",
-      click: onClick3,
-      dataPoints: [
-        {% for key, value in mora24_uno_dict.items|sort %}
-        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
-        {% endfor %}
-      ]
-    },
-    {
-      type: "spline",
-      name: "Mora 36",
-      //indexLabel: "{y}%",
-      indexLabelFontColor: "#B7C204",
-      indexLabelFontSize: 12,
-      color: "#B7C204",
-      yValueFormatString: "#0.#",
-      showInLegend: "true",
-      click: onClick3,
-      dataPoints: [
-        {% for key, value in mora36_uno_dict.items|sort %}
         { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
         {% endfor %}
       ]
