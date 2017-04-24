@@ -1126,48 +1126,19 @@ def evaluacion_evaluaciontc(request):
 
 @login_required
 def cartera_minorista(request):
-    meses = Seguimiento.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct('mes_vigencia')
+    meses = Stock.objects.values('codmes').order_by('-codmes').distinct('codmes')
     meses_list= []
     for i in meses:
-      meses_list.append(i['mes_vigencia'])
-    mes_inicial=meses_list[12]
+      meses_list.append(i['codmes'])
+    num_list=len(meses_list)
+    mes_inicial=meses_list[num_list-1]
     mes_final=meses_list[0]
 
-    facturacion = Seguimiento.objects.values('producto','mes_vigencia').filter(mes_vigencia__in=[meses_list[0],meses_list[12]],origen__in=['UNO A UNO','FAST','REGULAR']).annotate(facturacion=Sum('facturacion')).order_by('producto')
-
-    fact_1602 = {}; fact_1702 = {}; variacion = {};
-    for i in facturacion:
-      if i['mes_vigencia'] == meses_list[12]:
-        if i['producto'] == '01 Consumo':
-          fact_1602['1'] = i['facturacion']
-        if i['producto'] == '02 Auto':
-          fact_1602['2'] = i['facturacion']
-        if i['producto'] == '03 Tarjeta':
-          fact_1602['3'] = i['facturacion']
-        if i['producto'] == '04 Hipotecario':
-          fact_1602['4'] = i['facturacion']
-      if i['mes_vigencia'] == meses_list[0]:
-        if i['producto'] == '01 Consumo':
-          fact_1702['1'] = i['facturacion']
-        if i['producto'] == '02 Auto':
-          fact_1702['2'] = i['facturacion']
-        if i['producto'] == '03 Tarjeta':
-          fact_1702['3'] = i['facturacion']
-        if i['producto'] == '04 Hipotecario':
-          fact_1702['4'] = i['facturacion']
-    fact_1602['5']=fact_1602['1']+fact_1602['2']+fact_1602['3']+fact_1602['4']
-    fact_1702['5']=fact_1702['1']+fact_1702['2']+fact_1702['3']+fact_1702['4']
-    variacion['1']=(fact_1702['1']/fact_1602['1'])-1
-    variacion['2']=(fact_1702['2']/fact_1602['2'])-1
-    variacion['3']=(fact_1702['3']/fact_1602['3'])-1
-    variacion['4']=(fact_1702['4']/fact_1602['4'])-1
-    variacion['5']=(fact_1702['5']/fact_1602['5'])-1
-
-    stock = Stock.objects.values('producto','codmes').filter(codmes__in=[meses_list[0],meses_list[12]]).annotate(inversion=Sum('inv'),atraso=Sum('atrasada')).order_by('producto')
+    stock = Stock.objects.values('producto','codmes').filter(codmes__in=[mes_final,mes_inicial]).annotate(inversion=Sum('inv'),atraso=Sum('atrasada')).order_by('producto')
     inv_1602 = {}; inv_1702 = {}; varia_inv = {}; cartera_16={}; cartera_17={};
     atraso_16={}; atraso_17={};
     for i in stock:
-      if i['codmes'] == meses_list[12]:
+      if i['codmes'] == meses_list[num_list-1]:
         if i['producto'] == 'PLD':
           inv_1602['1'] = i['inversion']
           cartera_16['1'] = i['atraso']*100/i['inversion']
@@ -1211,10 +1182,18 @@ def cartera_minorista(request):
     varia_inv['4']=(inv_1702['4']/inv_1602['4'])-1
     varia_inv['5']=(inv_1702['5']/inv_1602['5'])-1
 
-    dotacion = Dotaciones.objects.values('producto','codmes').filter(codmes__in=[meses_list[0],meses_list[12]]).annotate(dotacion=Sum('dotacion')).order_by('producto')
+    meses2 = Dotaciones.objects.values('codmes').order_by('-codmes').distinct('codmes')
+    meses_list2= []
+    for i in meses2:
+      meses_list2.append(i['codmes'])
+    num_list2=len(meses_list2)
+    mes_inicial2=meses_list2[12]
+    mes_final2=meses_list2[0]
+
+    dotacion = Dotaciones.objects.values('producto','codmes').filter(codmes__in=[mes_final2,mes_inicial2]).annotate(dotacion=Sum('dotacion')).order_by('producto')
     dota_16 = {}; dota_17 = {}; varia_dota = {};
     for i in dotacion:
-      if i['codmes'] == meses_list[12]:
+      if i['codmes'] == meses_list2[12]:
         if i['producto'] == 'PLD':
           dota_16['1'] = i['dotacion']/1000000
         if i['producto'] == 'Auto':
@@ -1223,7 +1202,7 @@ def cartera_minorista(request):
           dota_16['3'] = i['dotacion']/1000000
         if i['producto'] == 'Hipoteca':
           dota_16['4'] = i['dotacion']/1000000
-      if i['codmes'] == meses_list[0]:
+      if i['codmes'] == meses_list2[0]:
         if i['producto'] == 'PLD':
           dota_17['1'] = i['dotacion']/1000000
         if i['producto'] == 'Auto':
@@ -1239,11 +1218,6 @@ def cartera_minorista(request):
     varia_dota['3']=(dota_17['3']/dota_16['3'])-1
     varia_dota['4']=(dota_17['4']/dota_16['4'])-1
     varia_dota['5']=(dota_17['5']/dota_16['5'])-1
-
-    meses2 = Dotaciones.objects.values('codmes').order_by('-codmes').distinct('codmes')
-    meses_list2= []
-    for i in meses2:
-      meses_list2.append(i['codmes'])
 
     riesgo_16 = Dotaciones.objects.values('producto').filter(codmes__gte=meses_list2[11]).annotate(riesgo=Avg('riesgo'),dotacion=Sum('dotacion'),salidas=Sum('salidas'))
     riesgo_17 = Dotaciones.objects.values('producto').filter(codmes__gte=meses_list2[23],codmes__lte=meses_list2[12]).annotate(riesgo=Avg('riesgo'),dotacion=Sum('dotacion'),salidas=Sum('salidas'))
