@@ -345,6 +345,24 @@
         <div class="form_group"><input type="submit" class="btn btn-default" value="Load Dotaciones" ></div>
             </form>
           </div>
+          <div class="row">
+            <form action="carga_costeriesgo/" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="form_group">
+    <label>Reporte CosteRiesgo</label>
+    <input type="file" id="costeriesgo" name="costeriesgo">
+        </div>
+        <div class="form_group"><input type="submit" class="btn btn-default" value="Load CosteRiesgo" ></div>
+            </form>
+          </div>
+          <div class="row">
+            <form action="carga_costeriesgo2/" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="form_group">
+    <label>Reporte CosteRiesgo2</label>
+    <input type="file" id="costeriesgo2" name="costeriesgo2">
+        </div>
+        <div class="form_group"><input type="submit" class="btn btn-default" value="Load CosteRiesgo2" ></div>
+            </form>
+          </div>
 
         </div>
       </div>

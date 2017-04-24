@@ -1278,54 +1278,115 @@ def cartera_minorista(request):
       sum_riesgo1 = sum_riesgo1 + i['riesgo']
     riesgo2_dict['5'] = (sum_dota1-sum_salida1)*100/Decimal(sum_riesgo1)
 
-    meses3 = Seguimiento.objects.values('mes_vigencia').order_by('-mes_vigencia').distinct('mes_vigencia')
-    meses_list3= []
-    for i in meses3:
-      meses_list3.append(i['mes_vigencia'])
+    meses_costo = CosteRiesgo.objects.values('codmes').order_by('-codmes').distinct('codmes')
+    meses_costo_list= []
+    for i in meses_costo:
+      meses_costo_list.append(i['codmes'])
+    #print meses_costo_list
+    costo_mensual_total = CosteRiesgo.objects.values('codmes','m6_t','m9_t','m12_t','m6_c','m9_c','m12_c','m6_u','m9_u','m12_u').filter(producto='Consumo')
+    cm6t_dict={};cm9t_dict={};cm12t_dict={};
+    cm6c_dict={};cm9c_dict={};cm12c_dict={};
+    cm6u_dict={};cm9u_dict={};cm12u_dict={};
+    for i in costo_mensual_total:
+      for j in meses_costo:
+        if i['codmes']<=meses_costo_list[6]:
+          cm6t_dict[i['codmes']]=i['m6_t']*100
+          cm6c_dict[i['codmes']]=i['m6_c']*100
+          cm6u_dict[i['codmes']]=i['m6_u']*100
+        else:
+          cm6t_dict[i['codmes']]=[]
+          cm6c_dict[i['codmes']]=[]
+          cm6u_dict[i['codmes']]=[]
+        if i['codmes']<=meses_costo_list[9]:
+          cm9t_dict[i['codmes']]=i['m9_t']*100
+          cm9c_dict[i['codmes']]=i['m9_c']*100
+          cm9u_dict[i['codmes']]=i['m9_u']*100
+        else:
+          cm9t_dict[i['codmes']]=[]
+          cm9c_dict[i['codmes']]=[]
+          cm9u_dict[i['codmes']]=[]
+        if i['codmes']<=meses_costo_list[12]:
+          cm12t_dict[i['codmes']]=i['m12_t']*100
+          cm12c_dict[i['codmes']]=i['m12_c']*100
+          cm12u_dict[i['codmes']]=i['m12_u']*100
+        else:
+          cm12t_dict[i['codmes']]=[]
+          cm12c_dict[i['codmes']]=[]
+          cm12u_dict[i['codmes']]=[]
 
-    mora = Seguimiento.objects.values('producto','mes_vigencia').filter(mes_vigencia__in=[meses_list3[12],meses_list3[24]],origen__in=['FAST','REGULAR','UNO A UNO']).annotate(mora12=Sum('mora12'),ctas=Sum('ctas'))
-    mora1_dict = {}; mora2_dict = {}; sum_mora1 = 0; sum_ctas1 =0; sum_mora2 = 0; sum_ctas2 =0;
-    for i in mora:
-      if i['mes_vigencia'] == meses_list3[12]:
-        if i['producto'] == '01 Consumo':
-          mora1_dict['1'] = i['mora12']*100/i['ctas']
-          sum_mora1 = sum_mora1 + i['mora12']
-          sum_ctas1 = sum_ctas1 + i['ctas']
-        if i['producto'] == '02 Auto':
-          mora1_dict['2'] = i['mora12']*100/i['ctas']
-          sum_mora1 = sum_mora1 + i['mora12']
-          sum_ctas1 = sum_ctas1 + i['ctas']
-        if i['producto'] == '03 Tarjeta':
-          mora1_dict['3'] = i['mora12']*100/i['ctas']
-          sum_mora1 = sum_mora1 + i['mora12']
-          sum_ctas1 = sum_ctas1 + i['ctas']
-        if i['producto'] == '04 Hipotecario':
-          mora1_dict['4'] = i['mora12']*100/i['ctas']
-          sum_mora1 = sum_mora1 + i['mora12']
-          sum_ctas1 = sum_ctas1 + i['ctas']
-      if i['mes_vigencia'] == meses_list3[24]:
-        if i['producto'] == '01 Consumo':
-          mora2_dict['1'] = i['mora12']*100/i['ctas']
-          sum_mora2 = sum_mora2 + i['mora12']
-          sum_ctas2 = sum_ctas2 + i['ctas']
-        if i['producto'] == '02 Auto':
-          mora2_dict['2'] = i['mora12']*100/i['ctas']
-          sum_mora2 = sum_mora2 + i['mora12']
-          sum_ctas2 = sum_ctas2 + i['ctas']
-        if i['producto'] == '03 Tarjeta':
-          mora2_dict['3'] = i['mora12']*100/i['ctas']
-          sum_mora2 = sum_mora2 + i['mora12']
-          sum_ctas2 = sum_ctas2 + i['ctas']
-        if i['producto'] == '04 Hipotecario':
-          mora2_dict['4'] = i['mora12']*100/i['ctas']
-          sum_mora2 = sum_mora2 + i['mora12']
-          sum_ctas2 = sum_ctas2 + i['ctas']
-    mora1_dict['5'] = sum_mora1*100/sum_ctas1
-    mora2_dict['5'] = sum_mora2*100/sum_ctas2
+    costo_mensual_totaltdc = CosteRiesgo.objects.values('codmes','m6_t','m9_t','m12_t','m6_c','m9_c','m12_c','m6_u','m9_u','m12_u').filter(producto='Tarjeta')
+    tm6t_dict={};tm9t_dict={};tm12t_dict={};
+    tm6c_dict={};tm9c_dict={};tm12c_dict={};
+    tm6u_dict={};tm9u_dict={};tm12u_dict={};
+    for i in costo_mensual_totaltdc:
+      for j in meses_costo:
+        if i['codmes']<=meses_costo_list[6]:
+          tm6t_dict[i['codmes']]=i['m6_t']*100
+          tm6c_dict[i['codmes']]=i['m6_c']*100
+          tm6u_dict[i['codmes']]=i['m6_u']*100
+        else:
+          tm6t_dict[i['codmes']]=[]
+          tm6c_dict[i['codmes']]=[]
+          tm6u_dict[i['codmes']]=[]
+        if i['codmes']<=meses_costo_list[9]:
+          tm9t_dict[i['codmes']]=i['m9_t']*100
+          tm9c_dict[i['codmes']]=i['m9_c']*100
+          tm9u_dict[i['codmes']]=i['m9_u']*100
+        else:
+          tm9t_dict[i['codmes']]=[]
+          tm9c_dict[i['codmes']]=[]
+          tm9u_dict[i['codmes']]=[]
+        if i['codmes']<=meses_costo_list[12]:
+          tm12t_dict[i['codmes']]=i['m12_t']*100
+          tm12c_dict[i['codmes']]=i['m12_c']*100
+          tm12u_dict[i['codmes']]=i['m12_u']*100
+        else:
+          tm12t_dict[i['codmes']]=[]
+          tm12c_dict[i['codmes']]=[]
+          tm12u_dict[i['codmes']]=[]
+
+    trimestre_costo = CosteRiesgo.objects.values('codmes').order_by('-codmes').distinct('codmes')
+    trimestre_costo_list= []
+    for i in trimestre_costo:
+      trimestre_costo_list.append(i['codmes'])
+
+    costo_trimestre_total = CosteRiesgo2.objects.values('codmes','subproducto','m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12').filter(producto='Consumo')
+    cm1tr_dict={};cm2tr_dict={};cm3tr_dict={};cm4tr_dict={};cm5tr_dict={};cm6tr_dict={};cm7tr_dict={};cm8tr_dict={};cm9tr_dict={};cm10tr_dict={};cm11tr_dict={};cm12tr_dict={};
+    cm1cr_dict={};cm2cr_dict={};cm3cr_dict={};cm4cr_dict={};cm5cr_dict={};cm6cr_dict={};cm7cr_dict={};cm8cr_dict={};cm9cr_dict={};cm10cr_dict={};cm11cr_dict={};cm12cr_dict={};
+    cm1ur_dict={};cm2ur_dict={};cm3ur_dict={};cm4ur_dict={};cm5ur_dict={};cm6ur_dict={};cm7ur_dict={};cm8ur_dict={};cm9ur_dict={};cm10ur_dict={};cm11ur_dict={};cm12ur_dict={};
+    for i in costo_trimestre_total:
+      for j in trimestre_costo:
+        if i['subproducto']=='TOTAL':
+          cm1tr_dict[i['codmes']]=i['m1']*100
+          cm2tr_dict[i['codmes']]=i['m2']*100
+          cm3tr_dict[i['codmes']]=i['m3']*100
+          cm4tr_dict[i['codmes']]=i['m4']*100
+          cm5tr_dict[i['codmes']]=i['m5']*100
+          cm6tr_dict[i['codmes']]=i['m6']*100
+          cm7tr_dict[i['codmes']]=i['m7']*100
+          cm8tr_dict[i['codmes']]=i['m8']*100
+          cm9tr_dict[i['codmes']]=i['m9']*100
+          cm10tr_dict[i['codmes']]=i['m10']*100
+          cm11tr_dict[i['codmes']]=i['m11']*100
+          cm12tr_dict[i['codmes']]=i['m12']*100
+        else:
+          cm1tr_dict[i['codmes']]=[]
+          cm2tr_dict[i['codmes']]=[]
+          cm3tr_dict[i['codmes']]=[]
+          cm4tr_dict[i['codmes']]=[]
+          cm5tr_dict[i['codmes']]=[]
+          cm6tr_dict[i['codmes']]=[]
+          cm7tr_dict[i['codmes']]=[]
+          cm8tr_dict[i['codmes']]=[]
+          cm9tr_dict[i['codmes']]=[]
+          cm10tr_dict[i['codmes']]=[]
+          cm11tr_dict[i['codmes']]=[]
+          cm12tr_dict[i['codmes']]=[]
+    print costo_trimestre_total
 
 
     static_url=settings.STATIC_URL
-    tipo_side = 3
+    tipo_side = 4
     return render('reports/cartera_minorista.html', locals(),
                   context_instance=RequestContext(request))
 
@@ -6585,6 +6646,21 @@ def delete(request, base=0, fecha=after1, numsemana=0):
     if fecha == '000013' and base == '20':
         Seguimiento.objects.all().delete()
 
+    if fecha == '000014' and base == '21':
+        Caida.objects.all().delete()
+
+    if fecha == '000015' and base == '22':
+        CosteRiesgo.objects.all().delete()
+
+    if fecha == '000016' and base == '23':
+        CosteRiesgo2.objects.all().delete()
+
+    if fecha == '000017' and base == '24':
+        Stock.objects.all().delete()
+
+    if fecha == '000018' and base == '25':
+        Dotaciones.objects.all().delete()
+
     control_fecha15 = Seguimiento.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
     for i in control_fecha15:
         if fecha == i['mes_vigencia'] and base == '20':
@@ -6654,6 +6730,31 @@ def delete(request, base=0, fecha=after1, numsemana=0):
     for i in control_fecha14:
         if fecha == i['codmes'] and base == '19':
             Mapa.objects.filter(codmes=fecha).delete()
+
+    control_fecha16 = Caida.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
+    for i in control_fecha16:
+        if fecha == i['mes_vigencia'] and base == '21':
+            Caida.objects.filter(mes_vigencia=fecha).delete()
+
+    control_fecha17 = CosteRiesgo.objects.values('codmes').order_by('codmes').distinct('codmes')
+    for i in control_fecha17:
+        if fecha == i['codmes'] and base == '22':
+            CosteRiesgo.objects.filter(codmes=fecha).delete()
+
+    control_fecha18 = CosteRiesgo2.objects.values('codmes').order_by('codmes').distinct('codmes')
+    for i in control_fecha18:
+        if fecha == i['codmes'] and base == '23':
+            CosteRiesgo2.objects.filter(codmes=fecha).delete()
+
+    control_fecha19 = Stock.objects.values('codmes').order_by('codmes').distinct('codmes')
+    for i in control_fecha19:
+        if fecha == i['codmes'] and base == '24':
+            Stock.objects.filter(codmes=fecha).delete()
+
+    control_fecha20 = Dotaciones.objects.values('codmes').order_by('codmes').distinct('codmes')
+    for i in control_fecha20:
+        if fecha == i['codmes'] and base == '25':
+            Dotaciones.objects.filter(codmes=fecha).delete()
     
 
     static_url=settings.STATIC_URL
@@ -7845,6 +7946,30 @@ def carga_dotaciones(request):
         if form.is_valid():
             csv_file = request.FILES['dotaciones']
             DotacionesCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_costeriesgo(request):
+    if request.method == 'POST':
+        form = UploadCosteRiesgo(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['costeriesgo']
+            CosteRiesgoCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_costeriesgo2(request):
+    if request.method == 'POST':
+        form = UploadCosteRiesgo2(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['costeriesgo2']
+            CosteRiesgo2Csv.import_data(data = csv_file)
             return campana_resumen(request)
         else:
             return load(campana_resumen)

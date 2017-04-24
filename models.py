@@ -247,6 +247,42 @@ class Dotaciones(models.Model):
     def __str__(self):
         return self.codmes+' '+self.producto+' '+ self.subproducto
 
+class CosteRiesgo(models.Model): #mensual
+    codmes = models.CharField(max_length=10,default=0)  
+    producto = models.CharField(max_length=20,default=0)       
+    m6_t = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m9_t = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m12_t = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m6_c = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m9_c = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m12_c = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m6_u = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m9_u = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m12_u = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+
+    def __str__(self):
+        return self.producto+' '+self.codmes
+
+class CosteRiesgo2(models.Model): #trimestral
+    codmes = models.CharField(max_length=10,default=0) 
+    producto = models.CharField(max_length=20,default=0) 
+    subproducto = models.CharField(max_length=20,default=0)   
+    m1 = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m2 = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m3 = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m4 = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m5 = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m6 = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m7 = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m8 = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m9 = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m10 = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m11 = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+    m12 = models.DecimalField(max_digits=8, decimal_places=5, default=0)
+
+    def __str__(self):
+        return self.codmes+' '+self.producto+' '+self.subproducto
+
 class Seguimiento(models.Model):
     periodo = models.CharField(max_length=10)
     trimestre_form = models.CharField(max_length=10)

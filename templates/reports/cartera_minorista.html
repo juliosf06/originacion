@@ -174,6 +174,40 @@
             </tfoot>
           </table>
         </div>
+        <h2 id="titulo2" style="background:#006ec1; text-align:center; color:white; letter-spacing:2px;";>CONSUMO</h2>
+        &nbsp;
+        &nbsp;
+        <div class="rows placeholders">
+          <div id="chartContainer1" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div class="rows placeholders">
+          <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div class="rows placeholders">
+          <div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+        &nbsp;
+        <h2 id="titulo2" style="background:#006ec1; text-align:center; color:white; letter-spacing:2px;";>TARJETAS</h2>
+        &nbsp;
+        &nbsp;
+        <div class="rows placeholders">
+          <div id="chartContainer4" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div class="rows placeholders">
+          <div id="chartContainer5" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div class="rows placeholders">
+          <div id="chartContainer6" style="height: 300px; width: 100%;"></div>
+        </div>
 
 
 
@@ -182,7 +216,326 @@
 
 {% block script_final %}
 <script type="text/javascript">
+window.onload = function () {
+    var chart1 = new CanvasJS.Chart("chartContainer1", {
+        theme: "theme2",//theme1
+        zoomEnabled: true,
+        title:{
+          text: "Costo de Riesgo - Total Consumo",
+          fontColor: "#094FA4", 
+          fontWeight: "bold",             
+        },
+        animationEnabled: true,   // change to true
+        data: [              
+        {
+          type: "spline",
+          name: "M6",
+          indexLabelFontColor: "#89D1F3",
+          color: "#89D1F3",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm6t_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M9",
+          indexLabelFontColor: "#009EE5",
+          color: "#009EE5",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm9t_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M12",
+          indexLabelFontColor: "#094FA4",
+          color: "#094FA4",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm12t_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        ]
+    });
+    chart1.render();
 
+    var chart2 = new CanvasJS.Chart("chartContainer2", {
+        theme: "theme2",//theme1
+        zoomEnabled: true,
+        title:{
+          text: "Costo de Riesgo - Consumo Campañas",
+          fontColor: "#094FA4", 
+          fontWeight: "bold",             
+        },
+        animationEnabled: true,   // change to true
+        data: [              
+        {
+          type: "spline",
+          name: "M6",
+          indexLabelFontColor: "#89D1F3",
+          color: "#89D1F3",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm6c_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M9",
+          indexLabelFontColor: "#009EE5",
+          color: "#009EE5",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm9c_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M12",
+          indexLabelFontColor: "#094FA4",
+          color: "#094FA4",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm12c_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        ]
+    });
+    chart2.render();
+
+    var chart3 = new CanvasJS.Chart("chartContainer3", {
+        theme: "theme2",//theme1
+        zoomEnabled: true,
+        title:{
+          text: "Costo de Riesgo - Consumo Uno a Uno",
+          fontColor: "#094FA4", 
+          fontWeight: "bold",             
+        },
+        animationEnabled: true,   // change to true
+        data: [              
+        {
+          type: "spline",
+          name: "M6",
+          indexLabelFontColor: "#89D1F3",
+          color: "#89D1F3",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm6u_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M9",
+          indexLabelFontColor: "#009EE5",
+          color: "#009EE5",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm9u_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M12",
+          indexLabelFontColor: "#094FA4",
+          color: "#094FA4",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm12u_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        ]
+    });
+    chart3.render();
+
+    var chart4 = new CanvasJS.Chart("chartContainer4", {
+        theme: "theme2",//theme1
+        zoomEnabled: true,
+        title:{
+          text: "Costo de Riesgo - Total Tarjetas",
+          fontColor: "#094FA4", 
+          fontWeight: "bold",             
+        },
+        animationEnabled: true,   // change to true
+        data: [              
+        {
+          type: "spline",
+          name: "M6",
+          indexLabelFontColor: "#89D1F3",
+          color: "#89D1F3",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in tm6t_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M9",
+          indexLabelFontColor: "#009EE5",
+          color: "#009EE5",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in tm9t_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M12",
+          indexLabelFontColor: "#094FA4",
+          color: "#094FA4",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in tm12t_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        ]
+    });
+    chart4.render();
+
+    var chart5 = new CanvasJS.Chart("chartContainer5", {
+        theme: "theme2",//theme1
+        zoomEnabled: true,
+        title:{
+          text: "Costo de Riesgo - Tarjetas Campañas",
+          fontColor: "#094FA4", 
+          fontWeight: "bold",             
+        },
+        animationEnabled: true,   // change to true
+        data: [              
+        {
+          type: "spline",
+          name: "M6",
+          indexLabelFontColor: "#89D1F3",
+          color: "#89D1F3",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in tm6c_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M9",
+          indexLabelFontColor: "#009EE5",
+          color: "#009EE5",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in tm9c_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M12",
+          indexLabelFontColor: "#094FA4",
+          color: "#094FA4",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in tm12c_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        ]
+    });
+    chart5.render();
+
+    var chart6 = new CanvasJS.Chart("chartContainer6", {
+        theme: "theme2",//theme1
+        zoomEnabled: true,
+        title:{
+          text: "Costo de Riesgo - Tarjetas Uno a Uno",
+          fontColor: "#094FA4", 
+          fontWeight: "bold",             
+        },
+        animationEnabled: true,   // change to true
+        data: [              
+        {
+          type: "spline",
+          name: "M6",
+          indexLabelFontColor: "#89D1F3",
+          color: "#89D1F3",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in tm6u_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M9",
+          indexLabelFontColor: "#009EE5",
+          color: "#009EE5",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in tm9u_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M12",
+          indexLabelFontColor: "#094FA4",
+          color: "#094FA4",
+          yValueFormatString: "#0.#",
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in tm12u_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        ]
+    });
+    chart6.render();
+
+    }
 </script>
 {% endblock %}
 
