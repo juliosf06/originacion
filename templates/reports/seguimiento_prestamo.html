@@ -67,6 +67,11 @@
         &nbsp;
         &nbsp;
         <div class="rows placeholders">
+          <div id="chartContainer31" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div class="rows placeholders">
           <div id="chartContainer4" style="height: 300px; width: 100%;"></div>
         </div>
         &nbsp;
@@ -85,6 +90,11 @@
         &nbsp;
         <div class="rows placeholders">
           <div id="chartContainer6" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div class="rows placeholders">
+          <div id="chartContainer32" style="height: 300px; width: 100%;"></div>
         </div>
         &nbsp;
         &nbsp;
@@ -154,6 +164,11 @@
         &nbsp;
         <div class="rows placeholders">
           <div id="chartContainer22" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div class="rows placeholders">
+          <div id="chartContainer33" style="height: 300px; width: 100%;"></div>
         </div>
         &nbsp;
         &nbsp;
@@ -3190,6 +3205,209 @@ window.onload = function () {
   });
   chart30.render();
 
+  var chart31 = new CanvasJS.Chart("chartContainer31", {
+        theme: "theme2",//theme1
+        zoomEnabled: true,
+        title:{
+          text: "Costo de Riesgo - Total Consumo",
+          fontColor: "#094FA4", 
+          fontWeight: "bold",             
+        },
+        legend:{
+          fontSize: 15,
+          cursor: "pointer",
+          itemclick: function (e) {
+              if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                  e.dataSeries.visible = false;
+              } else {
+                  e.dataSeries.visible = true;
+              } 
+              e.chart.render();
+          } 
+        },
+        animationEnabled: true,   // change to true
+        data: [              
+        {
+          type: "spline",
+          name: "M6",
+          indexLabelFontColor: "#89D1F3",
+          color: "#89D1F3",
+          yValueFormatString: "#0.#",
+          click: onClick3,
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm6t_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M9",
+          indexLabelFontColor: "#009EE5",
+          color: "#009EE5",
+          yValueFormatString: "#0.#",
+          click: onClick3,
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm9t_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M12",
+          indexLabelFontColor: "#094FA4",
+          color: "#094FA4",
+          yValueFormatString: "#0.#",
+          click: onClick3,
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm12t_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        ]
+    });
+    chart31.render();
+
+    var chart32 = new CanvasJS.Chart("chartContainer32", {
+        theme: "theme2",//theme1
+        zoomEnabled: true,
+        title:{
+          text: "Costo de Riesgo - Consumo Campañas",
+          fontColor: "#094FA4", 
+          fontWeight: "bold",             
+        },
+        legend:{
+          fontSize: 15,
+          cursor: "pointer",
+          itemclick: function (e) {
+              if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                  e.dataSeries.visible = false;
+              } else {
+                  e.dataSeries.visible = true;
+              } 
+              e.chart.render();
+          } 
+        },
+        animationEnabled: true,   // change to true
+        data: [              
+        {
+          type: "spline",
+          name: "M6",
+          indexLabelFontColor: "#89D1F3",
+          color: "#89D1F3",
+          yValueFormatString: "#0.#",
+          click: onClick3,
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm6c_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M9",
+          indexLabelFontColor: "#009EE5",
+          color: "#009EE5",
+          yValueFormatString: "#0.#",
+          click: onClick3,
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm9c_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M12",
+          indexLabelFontColor: "#094FA4",
+          color: "#094FA4",
+          yValueFormatString: "#0.#",
+          click: onClick3,
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm12c_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        ]
+    });
+    chart32.render();
+
+    var chart33 = new CanvasJS.Chart("chartContainer33", {
+        theme: "theme2",//theme1
+        zoomEnabled: true,
+        title:{
+          text: "Costo de Riesgo - Consumo Uno a Uno",
+          fontColor: "#094FA4", 
+          fontWeight: "bold",             
+        },
+        legend:{
+          fontSize: 15,
+          cursor: "pointer",
+          itemclick: function (e) {
+              if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                  e.dataSeries.visible = false;
+              } else {
+                  e.dataSeries.visible = true;
+              } 
+              e.chart.render();
+          } 
+        },
+        animationEnabled: true,   // change to true
+        data: [              
+        {
+          type: "spline",
+          name: "M6",
+          indexLabelFontColor: "#89D1F3",
+          color: "#89D1F3",
+          yValueFormatString: "#0.#",
+          click: onClick3,
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm6u_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M9",
+          indexLabelFontColor: "#009EE5",
+          color: "#009EE5",
+          yValueFormatString: "#0.#",
+          click: onClick3,
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm9u_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        {
+          type: "spline",
+          name: "M12",
+          indexLabelFontColor: "#094FA4",
+          color: "#094FA4",
+          yValueFormatString: "#0.#",
+          click: onClick3,
+          showInLegend: "true",
+          dataPoints: [
+            {% for key, value in cm12u_dict.items|sort %}
+            { y: {{value}} , label: '{{key|convert_date}}' },
+            {% endfor %}
+          ]
+        },
+        ]
+    });
+    chart33.render();
 
 
   function onClick(e) {
@@ -3280,6 +3498,12 @@ window.onload = function () {
     dataURL29 = canvas29.toDataURL();
     var canvas30 = $("#chartContainer30 .canvasjs-chart-canvas").get(0);
     dataURL30 = canvas30.toDataURL();
+    var canvas31 = $("#chartContainer31 .canvasjs-chart-canvas").get(0);
+    dataURL31 = canvas31.toDataURL();
+    var canvas32 = $("#chartContainer32 .canvasjs-chart-canvas").get(0);
+    dataURL32 = canvas32.toDataURL();
+    var canvas33 = $("#chartContainer33 .canvasjs-chart-canvas").get(0);
+    dataURL33 = canvas33.toDataURL();
     //console.log(dataURL);
     var docDefinition = { 
       content: [
@@ -3323,10 +3547,21 @@ window.onload = function () {
           alignment: 'justify',
           columns: [
             { 
+              image: dataURL31,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
               image: dataURL4,
               width: 500,
               height: 140,
-              pageBreak: 'after',
+              //pageBreak: 'after',
             },
           ]
         },
@@ -3350,6 +3585,17 @@ window.onload = function () {
           columns: [
             { 
               image: dataURL6,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL32,
               height: 140,
               width: 500
             },
@@ -3509,6 +3755,17 @@ window.onload = function () {
           columns: [
             { 
               image: dataURL22,
+              height: 140,
+              width: 500
+            },
+          ]
+        },
+        '\n\n',
+        {
+          alignment: 'justify',
+          columns: [
+            { 
+              image: dataURL33,
               height: 140,
               width: 500
             },

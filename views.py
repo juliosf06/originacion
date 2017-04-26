@@ -2030,6 +2030,42 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
                 if i[filtro1] <= morames_list[num_mora12]:
                     prospe_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['formalizados']
 
+    meses_costo = CosteRiesgo.objects.values('codmes').order_by('-codmes').distinct('codmes')
+    meses_costo_list= []
+    for i in meses_costo:
+      meses_costo_list.append(i['codmes'])
+
+    costo_mensual_totaltdc = CosteRiesgo.objects.values('codmes','m6_t','m9_t','m12_t','m6_c','m9_c','m12_c','m6_u','m9_u','m12_u').filter(producto='Tarjeta')
+    tm6t_dict={};tm9t_dict={};tm12t_dict={};
+    tm6c_dict={};tm9c_dict={};tm12c_dict={};
+    tm6u_dict={};tm9u_dict={};tm12u_dict={};
+    for i in costo_mensual_totaltdc:
+      for j in meses_costo:
+        if i['codmes']<=meses_costo_list[6]:
+          tm6t_dict[i['codmes']]=i['m6_t']*100
+          tm6c_dict[i['codmes']]=i['m6_c']*100
+          tm6u_dict[i['codmes']]=i['m6_u']*100
+        else:
+          tm6t_dict[i['codmes']]=[]
+          tm6c_dict[i['codmes']]=[]
+          tm6u_dict[i['codmes']]=[]
+        if i['codmes']<=meses_costo_list[9]:
+          tm9t_dict[i['codmes']]=i['m9_t']*100
+          tm9c_dict[i['codmes']]=i['m9_c']*100
+          tm9u_dict[i['codmes']]=i['m9_u']*100
+        else:
+          tm9t_dict[i['codmes']]=[]
+          tm9c_dict[i['codmes']]=[]
+          tm9u_dict[i['codmes']]=[]
+        if i['codmes']<=meses_costo_list[12]:
+          tm12t_dict[i['codmes']]=i['m12_t']*100
+          tm12c_dict[i['codmes']]=i['m12_c']*100
+          tm12u_dict[i['codmes']]=i['m12_u']*100
+        else:
+          tm12t_dict[i['codmes']]=[]
+          tm12c_dict[i['codmes']]=[]
+          tm12u_dict[i['codmes']]=[]
+
 
     static_url=settings.STATIC_URL
     tipo_side = 4
@@ -3655,12 +3691,52 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
                 if i[filtro1] <= morames_list[num_mora12]:
                     prospe_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['formalizados']
 
+    meses_costo = CosteRiesgo.objects.values('codmes').order_by('-codmes').distinct('codmes')
+    meses_costo_list= []
+    for i in meses_costo:
+      meses_costo_list.append(i['codmes'])
+
+    costo_mensual_total = CosteRiesgo.objects.values('codmes','m6_t','m9_t','m12_t','m6_c','m9_c','m12_c','m6_u','m9_u','m12_u').filter(producto='Consumo')
+    cm6t_dict={};cm9t_dict={};cm12t_dict={};
+    cm6c_dict={};cm9c_dict={};cm12c_dict={};
+    cm6u_dict={};cm9u_dict={};cm12u_dict={};
+    for i in costo_mensual_total:
+      for j in meses_costo:
+        if i['codmes']<=meses_costo_list[6]:
+          cm6t_dict[i['codmes']]=i['m6_t']*100
+          cm6c_dict[i['codmes']]=i['m6_c']*100
+          cm6u_dict[i['codmes']]=i['m6_u']*100
+        else:
+          cm6t_dict[i['codmes']]=[]
+          cm6c_dict[i['codmes']]=[]
+          cm6u_dict[i['codmes']]=[]
+        if i['codmes']<=meses_costo_list[9]:
+          cm9t_dict[i['codmes']]=i['m9_t']*100
+          cm9c_dict[i['codmes']]=i['m9_c']*100
+          cm9u_dict[i['codmes']]=i['m9_u']*100
+        else:
+          cm9t_dict[i['codmes']]=[]
+          cm9c_dict[i['codmes']]=[]
+          cm9u_dict[i['codmes']]=[]
+        if i['codmes']<=meses_costo_list[12]:
+          cm12t_dict[i['codmes']]=i['m12_t']*100
+          cm12c_dict[i['codmes']]=i['m12_c']*100
+          cm12u_dict[i['codmes']]=i['m12_u']*100
+        else:
+          cm12t_dict[i['codmes']]=[]
+          cm12c_dict[i['codmes']]=[]
+          cm12u_dict[i['codmes']]=[]
+
 
     static_url=settings.STATIC_URL
     tipo_side = 4
     return render('reports/seguimiento_prestamo.html', locals(),
                   context_instance=RequestContext(request))
 
+def geolocalizacion(request):
+
+  return render('reports/geolocalizacion.html', locals(),
+                  context_instance=RequestContext(request))
 
 @login_required
 def seguimiento_pld(request, filtro1='mes_vigencia', filtro2='2011'):
