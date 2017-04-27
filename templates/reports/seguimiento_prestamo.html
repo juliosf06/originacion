@@ -521,6 +521,25 @@ window.onload = function () {
         {% endfor %}
       ]
     },
+    {% if filtro1 = 'trimestre_form' %}
+    {% else %}
+    {
+      type: "spline",
+      name: "Coste6M",
+      indexLabelFontColor: "#3EB6BB",
+      indexLabelFontSize: 12,     
+      //indexLabel: "{y}%",
+      color: "#3EB6BB",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mm6t_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    {% endif %}
     ]
   });
   chart3.render();
@@ -532,6 +551,8 @@ window.onload = function () {
     chart3.options.data[1].indexLabelFontSize = letra3;
     chart3.options.data[2].indexLabelFontSize = letra3;
     chart3.options.data[3].indexLabelFontSize = letra3;
+    chart3.options.data[4].indexLabelFontSize = letra3;
+    chart3.options.data[5].indexLabelFontSize = letra3;
         chart3.render();        
   });
   $("#downtext").click(function () {
@@ -541,6 +562,8 @@ window.onload = function () {
     chart3.options.data[1].indexLabelFontSize = letra3;
     chart3.options.data[2].indexLabelFontSize = letra3;
     chart3.options.data[3].indexLabelFontSize = letra3;
+    chart3.options.data[4].indexLabelFontSize = letra3;
+    chart3.options.data[5].indexLabelFontSize = letra3;
         chart3.render();
   });
 
@@ -918,6 +941,25 @@ window.onload = function () {
         {% endfor %}
       ]
     },
+    {% if filtro1 = 'trimestre_form' %}
+    {% else %}
+    {
+      type: "spline",
+      name: "Coste6M",
+      indexLabelFontColor: "#3EB6BB",
+      indexLabelFontSize: 12,     
+      //indexLabel: "{y}%",
+      color: "#3EB6BB",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mm6c_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    {% endif %}
     ]
   });
   chart6.render();
@@ -2445,6 +2487,25 @@ window.onload = function () {
         {% endfor %}
       ]
     },
+    {% if filtro1 = 'trimestre_form' %}
+    {% else %}
+    {
+      type: "spline",
+      name: "Coste6M",
+      indexLabelFontColor: "#3EB6BB",
+      indexLabelFontSize: 12,     
+      //indexLabel: "{y}%",
+      color: "#3EB6BB",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mm6u_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    {% endif %}
     ]
   });
   chart22.render();
@@ -3229,10 +3290,10 @@ window.onload = function () {
         data: [              
         {
           type: "spline",
-          name: "M6",
-          indexLabelFontColor: "#89D1F3",
-          color: "#89D1F3",
-          yValueFormatString: "#0.#",
+          name: "Coste6M",
+          indexLabelFontColor: "#3EB6BB",
+          color: "#3EB6BB",
+          yValueFormatString: "#0.##",
           click: onClick3,
           showInLegend: "true",
           dataPoints: [
@@ -3243,10 +3304,10 @@ window.onload = function () {
         },
         {
           type: "spline",
-          name: "M9",
+          name: "Coste9M",
           indexLabelFontColor: "#009EE5",
           color: "#009EE5",
-          yValueFormatString: "#0.#",
+          yValueFormatString: "#0.##",
           click: onClick3,
           showInLegend: "true",
           dataPoints: [
@@ -3257,10 +3318,10 @@ window.onload = function () {
         },
         {
           type: "spline",
-          name: "M12",
+          name: "Coste12M",
           indexLabelFontColor: "#094FA4",
           color: "#094FA4",
-          yValueFormatString: "#0.#",
+          yValueFormatString: "#0.##",
           click: onClick3,
           showInLegend: "true",
           dataPoints: [
@@ -3297,10 +3358,10 @@ window.onload = function () {
         data: [              
         {
           type: "spline",
-          name: "M6",
-          indexLabelFontColor: "#89D1F3",
-          color: "#89D1F3",
-          yValueFormatString: "#0.#",
+          name: "Coste6M",
+          indexLabelFontColor: "#3EB6BB",
+          color: "#3EB6BB",
+          yValueFormatString: "#0.##",
           click: onClick3,
           showInLegend: "true",
           dataPoints: [
@@ -3311,10 +3372,10 @@ window.onload = function () {
         },
         {
           type: "spline",
-          name: "M9",
+          name: "Coste9M",
           indexLabelFontColor: "#009EE5",
           color: "#009EE5",
-          yValueFormatString: "#0.#",
+          yValueFormatString: "#0.##",
           click: onClick3,
           showInLegend: "true",
           dataPoints: [
@@ -3325,10 +3386,10 @@ window.onload = function () {
         },
         {
           type: "spline",
-          name: "M12",
+          name: "Coste12M",
           indexLabelFontColor: "#094FA4",
           color: "#094FA4",
-          yValueFormatString: "#0.#",
+          yValueFormatString: "#0.##",
           click: onClick3,
           showInLegend: "true",
           dataPoints: [
@@ -3365,10 +3426,10 @@ window.onload = function () {
         data: [              
         {
           type: "spline",
-          name: "M6",
-          indexLabelFontColor: "#89D1F3",
-          color: "#89D1F3",
-          yValueFormatString: "#0.#",
+          name: "Coste6M",
+          indexLabelFontColor: "#3EB6BB",
+          color: "#3EB6BB",
+          yValueFormatString: "#0.##",
           click: onClick3,
           showInLegend: "true",
           dataPoints: [
@@ -3379,10 +3440,10 @@ window.onload = function () {
         },
         {
           type: "spline",
-          name: "M9",
+          name: "Coste9M",
           indexLabelFontColor: "#009EE5",
           color: "#009EE5",
-          yValueFormatString: "#0.#",
+          yValueFormatString: "#0.##",
           click: onClick3,
           showInLegend: "true",
           dataPoints: [
@@ -3393,10 +3454,10 @@ window.onload = function () {
         },
         {
           type: "spline",
-          name: "M12",
+          name: "Coste12M",
           indexLabelFontColor: "#094FA4",
           color: "#094FA4",
-          yValueFormatString: "#0.#",
+          yValueFormatString: "#0.##",
           click: onClick3,
           showInLegend: "true",
           dataPoints: [

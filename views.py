@@ -2036,9 +2036,9 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
       meses_costo_list.append(i['codmes'])
 
     costo_mensual_totaltdc = CosteRiesgo.objects.values('codmes','m6_t','m9_t','m12_t','m6_c','m9_c','m12_c','m6_u','m9_u','m12_u').filter(producto='Tarjeta')
-    tm6t_dict={};tm9t_dict={};tm12t_dict={};
-    tm6c_dict={};tm9c_dict={};tm12c_dict={};
-    tm6u_dict={};tm9u_dict={};tm12u_dict={};
+    tm6t_dict={};tm9t_dict={};tm12t_dict={};mm6t_dict={};
+    tm6c_dict={};tm9c_dict={};tm12c_dict={};mm6c_dict={};
+    tm6u_dict={};tm9u_dict={};tm12u_dict={};mm6u_dict={};
     for i in costo_mensual_totaltdc:
       for j in meses_costo:
         if i['codmes']<=meses_costo_list[6]:
@@ -2065,6 +2065,23 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
           tm12t_dict[i['codmes']]=[]
           tm12c_dict[i['codmes']]=[]
           tm12u_dict[i['codmes']]=[]
+
+    if filtro1 == 'trimestre_form':
+      for i in meses:
+        mm6t_dict[i['trimestre_form']]=[]
+        mm6c_dict[i['trimestre_form']]=[]
+        mm6u_dict[i['trimestre_form']]=[]
+    else:
+      len_meses = len(meses_costo_list)-1
+      for i in meses:
+        if i['mes_vigencia'] >= meses_costo_list[len_meses]:
+          mm6t_dict[i['mes_vigencia']]=tm6t_dict[i['mes_vigencia']]
+          mm6c_dict[i['mes_vigencia']]=tm6c_dict[i['mes_vigencia']]
+          mm6u_dict[i['mes_vigencia']]=tm6u_dict[i['mes_vigencia']]
+        else:
+          mm6t_dict[i['mes_vigencia']]=[]
+          mm6c_dict[i['mes_vigencia']]=[]
+          mm6u_dict[i['mes_vigencia']]=[]
 
 
     static_url=settings.STATIC_URL
@@ -3697,9 +3714,9 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
       meses_costo_list.append(i['codmes'])
 
     costo_mensual_total = CosteRiesgo.objects.values('codmes','m6_t','m9_t','m12_t','m6_c','m9_c','m12_c','m6_u','m9_u','m12_u').filter(producto='Consumo')
-    cm6t_dict={};cm9t_dict={};cm12t_dict={};
-    cm6c_dict={};cm9c_dict={};cm12c_dict={};
-    cm6u_dict={};cm9u_dict={};cm12u_dict={};
+    cm6t_dict={};cm9t_dict={};cm12t_dict={};mm6t_dict={};
+    cm6c_dict={};cm9c_dict={};cm12c_dict={};mm6c_dict={};
+    cm6u_dict={};cm9u_dict={};cm12u_dict={};mm6u_dict={};
     for i in costo_mensual_total:
       for j in meses_costo:
         if i['codmes']<=meses_costo_list[6]:
@@ -3726,6 +3743,24 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
           cm12t_dict[i['codmes']]=[]
           cm12c_dict[i['codmes']]=[]
           cm12u_dict[i['codmes']]=[]
+
+    if filtro1 == 'trimestre_form':
+      for i in meses:
+        mm6t_dict[i['trimestre_form']]=[]
+        mm6c_dict[i['trimestre_form']]=[]
+        mm6u_dict[i['trimestre_form']]=[]
+    else:
+      len_meses = len(meses_costo_list)-1
+      for i in meses:
+        if i['mes_vigencia'] >= meses_costo_list[len_meses]:
+          mm6t_dict[i['mes_vigencia']]=cm6t_dict[i['mes_vigencia']]
+          mm6c_dict[i['mes_vigencia']]=cm6c_dict[i['mes_vigencia']]
+          mm6u_dict[i['mes_vigencia']]=cm6u_dict[i['mes_vigencia']]
+        else:
+          mm6t_dict[i['mes_vigencia']]=[]
+          mm6c_dict[i['mes_vigencia']]=[]
+          mm6u_dict[i['mes_vigencia']]=[]
+          
 
 
     static_url=settings.STATIC_URL

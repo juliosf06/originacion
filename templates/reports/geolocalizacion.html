@@ -167,10 +167,10 @@ function geocodeAddress(geocoder, resultsMap, zonas) {
         if (status === google.maps.GeocoderStatus.OK) {
           //console.log("SI");
           resultsMap.setCenter(results[0].geometry.location);
-          var marker = new google.maps.Marker({
-            map: resultsMap,
-            position: results[0].geometry.location
-          }); 
+          //var marker = new google.maps.Marker({
+            //map: resultsMap,
+            //position: results[0].geometry.location
+          //}); 
           loc[0]=results[0].geometry.location.lat();
           loc[1]=results[0].geometry.location.lng();  
 
