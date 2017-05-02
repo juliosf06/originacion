@@ -312,6 +312,36 @@ class Seguimiento(models.Model):
     def __str__(self):
         return self.mes_vigencia+' '+self.segmento+' '+self.producto
 
+class SeguimientoTer(models.Model):
+    periodo = models.CharField(max_length=10)
+    trimestre_form = models.CharField(max_length=10)
+    mes_vigencia = models.CharField(max_length=10)
+    producto = models.CharField(max_length=50)
+    origen = models.CharField(max_length=50)
+    riesgos = models.CharField(max_length=20)
+    territorio = models.CharField(max_length=80)
+    rng_ing = models.CharField(max_length=20)
+    segmento = models.CharField(max_length=20)
+    cat_persona = models.CharField(max_length=50)
+    buro_camp = models.CharField(max_length=20)
+    cluster = models.CharField(max_length=50)
+    digital = models.CharField(max_length=5)
+    canal_digital = models.CharField(max_length=30)    
+    flg_lifemiles = models.CharField(max_length=5)
+    form = models.DecimalField(max_digits=12, decimal_places=2)
+    ctas = models.DecimalField(max_digits=8, decimal_places=2)
+    facturacion = models.DecimalField(max_digits=12, decimal_places=8)
+    mora4_60 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora6 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora9 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora12 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora18 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora24 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    mora36 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    
+    def __str__(self):
+        return self.mes_vigencia+' '+self.segmento+' '+self.producto
+
 class Seguimiento1(models.Model):
     periodo = models.CharField(max_length=10, default=0)
     trimestre_form = models.CharField(max_length=10, default=0)

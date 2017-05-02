@@ -82,6 +82,11 @@ urlpatterns = [
     url(r'^seguimiento/web/$', views.seguimiento_web, name='seguimiento_web'),
     url(r'^seguimiento/resumen_seguimiento/$', views.resumen_seguimiento, name='resumen_seguimiento'),
     url(r'^seguimiento/cartera/$', views.cartera_minorista, name='cartera_minorista'),
+    url(r'^seguimiento/prestamoter/$', views.seguimiento_prestamoter, name='seguimiento_prestamoter'),
+    url(r'^seguimiento/prestamoter/(?P<filtro1>[\w|\W]+)/(?P<filtro2>[\w|\W]+)/(?P<filtro3>[\w|\W]+)/$', views.seguimiento_prestamoter, name='seguimiento_prestamoter'),
+    url(r'^seguimiento/tarjetater/$', views.seguimiento_tdcter, name='seguimiento_tarjetater'),
+    url(r'^seguimiento/tarjetater/(?P<filtro1>[\w|\W]+)/(?P<filtro2>[\w|\W]+)/(?P<filtro3>[\w|\W]+)/$', views.seguimiento_tdcter, name='seguimiento_tarjetater'),
+    
 
     # URLS para reportes de Hipotecario
     url(r'^hipotecario/$', views.hipoteca_ssff, name='hipoteca_ssff'),
@@ -134,6 +139,7 @@ urlpatterns = [
     url(r'^load_data/carga_dotaciones/$', views.carga_dotaciones, name='carga_dotaciones'),
     url(r'^load_data/carga_costeriesgo/$', views.carga_costeriesgo, name='carga_costeriesgo'),
     url(r'^load_data/carga_costeriesgo2/$', views.carga_costeriesgo2, name='carga_costeriesgo2'),
+    url(r'^load_data/carga_seguimientoter/$', views.carga_seguimientoter, name='carga_seguimientoter'),
     url(r'^load_data/excel/$', views.excel, name='excel'),
     url(r'^load_data/$', views.load, name='load'),
     #url(r'^mapa/$', views.mapa, name='mapa'),
