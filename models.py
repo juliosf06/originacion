@@ -676,3 +676,43 @@ class OfertasProducto(models.Model):
 
     def __str__(self):
         return self.mes_vigencia
+
+class StockTelefonica(models.Model):
+    codmes = models.CharField(max_length=10)
+    mesform = models.CharField(max_length=10)
+    tipo_operacion = models.CharField(max_length=20)
+    clasificacion_final = models.DecimalField(max_digits=8, decimal_places=4)
+    maduracion = models.DecimalField(max_digits=8, decimal_places=4)
+    con_atraso = models.DecimalField(max_digits=8, decimal_places=4)
+    ctas = models.DecimalField(max_digits=16, decimal_places=4)
+    ctas_atraso = models.DecimalField(max_digits=16, decimal_places=4)
+    ctas_30 = models.DecimalField(max_digits=16, decimal_places=4)
+    deuda = models.DecimalField(max_digits=16, decimal_places=4)
+    mora_30 = models.DecimalField(max_digits=16, decimal_places=4)
+    vigente = models.DecimalField(max_digits=16, decimal_places=4)
+    vencido = models.DecimalField(max_digits=16, decimal_places=4)
+    judicial = models.DecimalField(max_digits=16, decimal_places=4)
+    ref_vigente = models.DecimalField(max_digits=16, decimal_places=4)
+    ref_vencido = models.DecimalField(max_digits=16, decimal_places=4)
+    ref_judicial = models.DecimalField(max_digits=16, decimal_places=4)
+    prov_gen = models.DecimalField(max_digits=16, decimal_places=4)
+    prov_esp = models.DecimalField(max_digits=16, decimal_places=4)
+    prov_pro = models.DecimalField(max_digits=16, decimal_places=4)
+
+    def __str__(self):
+        return self.codmes+' '+self.mesform+' '+self.tipo_operacion+' '+self.clasificacion_final
+
+class FormTelefonica(models.Model):
+    cosecha = models.CharField(max_length=10)
+    rng_edad = models.CharField(max_length=20)
+    rng_buro = models.CharField(max_length=20)
+    cluster = models.CharField(max_length=50)
+    rng_financiar = models.CharField(max_length=20)
+    capital_financiar = models.DecimalField(max_digits=16, decimal_places=4)
+    form = models.DecimalField(max_digits=16, decimal_places=4)
+    m12 = models.DecimalField(max_digits=16, decimal_places=4)
+    m6 = models.DecimalField(max_digits=16, decimal_places=4)
+    m3 = models.DecimalField(max_digits=16, decimal_places=4)
+
+    def __str__(self):
+        return self.cosecha+' '+self.rng_edad+' '+self.rng_buro

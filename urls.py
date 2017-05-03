@@ -86,7 +86,7 @@ urlpatterns = [
     url(r'^seguimiento/prestamoter/(?P<filtro1>[\w|\W]+)/(?P<filtro2>[\w|\W]+)/(?P<filtro3>[\w|\W]+)/$', views.seguimiento_prestamoter, name='seguimiento_prestamoter'),
     url(r'^seguimiento/tarjetater/$', views.seguimiento_tdcter, name='seguimiento_tarjetater'),
     url(r'^seguimiento/tarjetater/(?P<filtro1>[\w|\W]+)/(?P<filtro2>[\w|\W]+)/(?P<filtro3>[\w|\W]+)/$', views.seguimiento_tdcter, name='seguimiento_tarjetater'),
-    
+    url(r'^seguimiento/telefonica/$', views.seguimiento_telefonica, name='seguimiento_telefonica'),
 
     # URLS para reportes de Hipotecario
     url(r'^hipotecario/$', views.hipoteca_ssff, name='hipoteca_ssff'),
@@ -140,6 +140,8 @@ urlpatterns = [
     url(r'^load_data/carga_costeriesgo/$', views.carga_costeriesgo, name='carga_costeriesgo'),
     url(r'^load_data/carga_costeriesgo2/$', views.carga_costeriesgo2, name='carga_costeriesgo2'),
     url(r'^load_data/carga_seguimientoter/$', views.carga_seguimientoter, name='carga_seguimientoter'),
+    url(r'^load_data/carga_stocktelefonica/$', views.carga_stocktelefonica, name='carga_stocktelefonica'),
+    url(r'^load_data/carga_formtelefonica/$', views.carga_formtelefonica, name='carga_formtelefonica'),
     url(r'^load_data/excel/$', views.excel, name='excel'),
     url(r'^load_data/$', views.load, name='load'),
     #url(r'^mapa/$', views.mapa, name='mapa'),

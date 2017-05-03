@@ -8032,6 +8032,50 @@ def seguimiento_web(request):
     return render('reports/seguimiento_web.html', locals(),
                   context_instance=RequestContext(request))
 
+@login_required
+def seguimiento_telefonica(request):
+
+    formalizados = FormTelefonica.objects.values('cosecha').annotate(sum_fact=Sum('capital_financiar'),num_form=Sum('form'),mora3=Sum('m3')).order_by('cosecha')
+    form_dict = {}; m3_dict = {}; fact_dict = {}; ticket_dict = {};
+    for i in formalizados:
+        form_dict[i['cosecha']]=i['num_form']
+        fact_dict[i['cosecha']] = i['sum_fact']
+        ticket_dict[i['cosecha']] = i['sum_fact']/i['num_form']
+        if i['cosecha']<='201612':
+          m3_dict[i['cosecha']] = i['mora3']*100/i['num_form']
+        else:
+          m3_dict[i['cosecha']] = []
+        
+
+    form_rango = FormTelefonica.objects.values('cosecha','rng_financiar').annotate(num_form=Sum('form')).order_by('cosecha')
+    rng1_dict = {}; rng2_dict = {}; rng3_dict = {}; rng4_dict = {}; rng5_dict = {}; rng6_dict = {};
+    for i in form_rango:
+      if i['rng_financiar']=='1. <=100':
+        rng1_dict[i['cosecha']]=i['num_form']*100/form_dict[i['cosecha']]
+      if i['rng_financiar']=='2. <=250':
+        rng2_dict[i['cosecha']]=i['num_form']*100/form_dict[i['cosecha']]
+      if i['rng_financiar']=='3. <=350':
+        rng3_dict[i['cosecha']]=i['num_form']*100/form_dict[i['cosecha']]
+      if i['rng_financiar']=='4. <=500':
+        rng4_dict[i['cosecha']]=i['num_form']*100/form_dict[i['cosecha']]
+      if i['rng_financiar']=='5. <=1000':
+        rng5_dict[i['cosecha']]=i['num_form']*100/form_dict[i['cosecha']]
+      if i['rng_financiar']=='6. >1000':
+        rng6_dict[i['cosecha']]=i['num_form']*100/form_dict[i['cosecha']]
+
+    data_stock = StockTelefonica.objects.values('codmes').annotate(sum_deuda=Sum('deuda'),mora30=Sum('mora_30'),sum_vencido=Sum('vencido'),sum_judicial=Sum('judicial'),sum_ref_vencido=Sum('ref_vencido'),sum_ref_judicial=Sum('ref_judicial')).order_by('codmes')
+    deuda_dict={}; mora30_dict={}; mora_contable_dict={};
+    for i in data_stock:
+      deuda_dict[i['codmes']]=i['sum_deuda']/1000000
+      mora30_dict[i['codmes']]=i['mora30']*100/i['sum_deuda']
+      mora_contable_dict[i['codmes']]=(i['sum_vencido']+i['sum_judicial']+i['sum_ref_vencido']+i['sum_ref_judicial'])*100/i['sum_deuda']
+
+
+    static_url=settings.STATIC_URL
+    tipo_side = 4
+    return render('reports/seguimiento_telefonica.html', locals(),
+                  context_instance=RequestContext(request))
+
 
 
 # 6.- Vistas para reportes de HIPOTECARIO
@@ -9536,6 +9580,30 @@ def carga_seguimientoter(request):
         if form.is_valid():
             csv_file = request.FILES['seguimientoter']
             SeguimientoTerCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_stocktelefonica(request):
+    if request.method == 'POST':
+        form = UploadStockTelefonica(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['stocktelefonica']
+            StockTelefonicaCsv.import_data(data = csv_file)
+            return campana_resumen(request)
+        else:
+            return load(campana_resumen)
+    else:
+        return load(campana_resumen)
+
+def carga_formtelefonica(request):
+    if request.method == 'POST':
+        form = UploadFormTelefonica(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['formtelefonica']
+            FormTelefonicaCsv.import_data(data = csv_file)
             return campana_resumen(request)
         else:
             return load(campana_resumen)

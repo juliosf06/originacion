@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from models import SeguimientoTer,CosteRiesgo,CosteRiesgo2,Stock, Dotaciones, RVGL, Campana2, Caida,Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento, Seguimiento1, FlujOperativo,HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles, Exoneracion, Forzaje, CampanaWeb, Mapa, DepartamentosWeb, CampanaLabSeg, CampanaEfec, CampanaEquifax, Comentario, EfectividadTC, AltasSeguimiento, OfertasProducto
+from models import FormTelefonica,StockTelefonica,SeguimientoTer,CosteRiesgo,CosteRiesgo2,Stock, Dotaciones, RVGL, Campana2, Caida,Verificaciones, Evaluaciontc, Evaluacionpld, Seguimiento, Seguimiento1, FlujOperativo,HipotecaSSFF, HipotecaConce, Moras, AdelantoSueldo, PrestInmediato, AltasEmpresa, AltasSegmento, IncreLinea, Lifemiles, Exoneracion, Forzaje, CampanaWeb, Mapa, DepartamentosWeb, CampanaLabSeg, CampanaEfec, CampanaEquifax, Comentario, EfectividadTC, AltasSeguimiento, OfertasProducto
 from adaptor.model import CsvDbModel
 
 class UploadRVGL(forms.Form):
@@ -289,6 +289,22 @@ class UploadSeguimientoTer(forms.Form):
 class SeguimientoTerCsv(CsvDbModel):
     class Meta:
         dbModel = SeguimientoTer
+        delimiter = ","
+
+class UploadStockTelefonica(forms.Form):
+    stocktelefonica = forms.FileField()
+
+class StockTelefonicaCsv(CsvDbModel):
+    class Meta:
+        dbModel = StockTelefonica
+        delimiter = ","
+
+class UploadFormTelefonica(forms.Form):
+    formtelefonica = forms.FileField()
+
+class FormTelefonicaCsv(CsvDbModel):
+    class Meta:
+        dbModel = FormTelefonica
         delimiter = ","
 
 class UploadFileForm(forms.Form):

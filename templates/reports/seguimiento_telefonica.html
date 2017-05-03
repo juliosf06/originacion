@@ -1,0 +1,469 @@
+{% extends 'reports/base.html' %}
+
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Seguimiento Telefónica{% endblock %}
+
+{% block content %}
+
+<div style="position: fixed; z-index:15; border: 34px solid white; top: 6%; width: 100%;">
+	<div><h1 class="page-header" id="seguimiento_inicio" style="position: fixed; z-index:5; width: 100%; top: 7%;">Seguimiento Telefónica</h1></div>
+	<button id='boton' onclick="PDF()" style="width:5%; border-radius: 8px; background-color: #89D1F3; color: white; right:6%; position: fixed; z-index:5; top: 8.5%;height:3.5%;">PDF</button>
+	<div class="btn-group" style="position: fixed; z-index:5; width: 2%; top: 8.5%; right: 3%;">
+	  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="border-radius: 8px; background-color: #89D1F3; color: white;">
+	    <span class="glyphicon glyphicon-th"></span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+	    <li><button id="uptext" style="border:none;border-radius: 8px;background-color: #008CBA;color: white;font-size:15px; font-weight:bold; padding:1px 6px 1px 6px;">+</button>&nbsp;<button id="downtext" style="border:none;border-radius: 8px; background-color: #008CBA;color: white; font-size:15px;font-weight:bold;padding:1px 9px 1px 9px;">-</button>
+	    </li>
+	  </ul>
+	</div>
+</div>
+&nbsp;
+&nbsp;
+<div class="rows placeholders" style="padding:5% 0% 0% 1%;">
+	<div id="chartContainer1" style="height: 350px; width: 50%; display: inline-block;"></div>
+	<div id="chartContainer4" style="height: 350px; width: 50%; display: inline-block;"></div>
+</div>
+<div class="rows placeholders" >
+	<div id="chartContainer2" style="height: 350px; width: 50%; display: inline-block;"></div>
+	<div id="chartContainer3" style="height: 350px; width: 50%; display: inline-block;"></div>
+</div>
+
+{% endblock %}
+
+{% block script_final %}
+<script type="text/javascript">
+window.onload = function () {
+  var chart1 = new CanvasJS.Chart("chartContainer1", {
+    theme: "theme2",
+    zoomEnabled: true,
+    title:{
+      text: "Formalizados - Incumplimiento (>30 días) 3M",
+      fontColor: "#094FA4",
+      fontWeight: "bold",       
+    },
+    legend:{
+      fontSize: 15,
+      cursor: "pointer",
+      itemclick: function (e) {
+          if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+              e.dataSeries.visible = false;
+          } else {
+              e.dataSeries.visible = true;
+          } 
+          e.chart.render();
+      } 
+    },
+    axisY:{
+    	labelFontColor:"white",
+    },
+    axisY2:{
+    	labelFontColor:"white",
+    },
+    animationEnabled: true,
+    data: [   
+    {
+      type: "column",
+      name: "Form.",
+      indexLabelFontColor: "white",
+      //indexLabelFontSize: 12,  
+      indexLabelPlacement: "inside", 
+      indexLabel: "{y}",        
+      yValueFormatString: "##,###",
+      showInLegend: "true",
+      color: "#89D1F3",
+      click: onClick,
+      dataPoints: [
+        {% for key, value in form_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      axisYType: "secondary",
+      type: "spline",
+      name: "% Incump. 30 días (3M)",
+      indexLabelFontColor: "#009EE5",
+      visible: true,
+      color: "#009EE5",     
+      indexLabel: "{y}%",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in m3_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart1.render();
+  var letra1 = 12;
+  $("#uptext").click(function () {
+    letra1 = letra1 + 2;
+    console.log(letra1);
+    chart1.options.data[0].indexLabelFontSize = letra1;
+    chart1.options.data[1].indexLabelFontSize = letra1;
+    chart1.render();        
+  });
+  $("#downtext").click(function () {
+    letra1 = letra1 - 2;
+    console.log(letra1);
+    chart1.options.data[0].indexLabelFontSize = letra1;
+    chart1.options.data[1].indexLabelFontSize = letra1;
+    chart1.render();
+  });
+
+  var chart2 = new CanvasJS.Chart("chartContainer2", {
+    theme: "theme2",
+    zoomEnabled: true,
+    title:{
+      text: "Facturados - Ticket Promedio",
+      fontColor: "#094FA4",
+      fontWeight: "bold",       
+    },
+    legend:{
+      fontSize: 15,
+      cursor: "pointer",
+      itemclick: function (e) {
+          if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+              e.dataSeries.visible = false;
+          } else {
+              e.dataSeries.visible = true;
+          } 
+          e.chart.render();
+      } 
+    },
+    axisY:{
+    	labelFontColor:"white",
+    },
+    axisY2:{
+    	labelFontColor:"white",
+    },
+    animationEnabled: true,
+    data: [   
+    {
+      type: "column",
+      name: "Fact. (Miles Soles)",
+      indexLabelFontColor: "white",
+      //indexLabelFontSize: 12,  
+      indexLabelPlacement: "inside", 
+      indexLabel: "{y}",        
+      yValueFormatString: "##,###",
+      showInLegend: "true",
+      color: "#89D1F3",
+      click: onClick,
+      dataPoints: [
+        {% for key, value in fact_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      axisYType: "secondary",
+      type: "spline",
+      name: "Ticket prom.",
+      indexLabelFontColor: "#009EE5",
+      color: "#009EE5",     
+      indexLabel: "{y}",
+      yValueFormatString: "#0",
+      showInLegend: "true",
+      click: onClick,
+      dataPoints: [
+        {% for key, value in ticket_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart2.render();
+  var letra2 = 12;
+  $("#uptext").click(function () {
+    letra2 = letra2 + 2;
+    chart2.options.data[0].indexLabelFontSize = letra2;
+    chart2.options.data[1].indexLabelFontSize = letra2;
+    chart2.render();        
+  });
+  $("#downtext").click(function () {
+    letra2 = letra2 - 2;
+    chart2.options.data[0].indexLabelFontSize = letra2;
+    chart2.options.data[1].indexLabelFontSize = letra2;
+    chart2.render();
+  });
+
+  var chart3 = new CanvasJS.Chart("chartContainer3", {
+    theme: "theme2",
+    zoomEnabled: true,
+    title:{
+      text: "Formalizados - Rango Importe",
+      fontColor: "#094FA4",
+      fontWeight: "bold",       
+    },
+    legend:{
+      fontSize: 15,
+      cursor: "pointer",
+      itemclick: function (e) {
+          if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+              e.dataSeries.visible = false;
+          } else {
+              e.dataSeries.visible = true;
+          } 
+          e.chart.render();
+      } 
+    },
+    axisY:{
+    	labelFontColor:"white",
+    },
+    axisY2:{
+    	labelFontColor:"white",
+    },
+    animationEnabled: true,
+    data: [   
+    {
+      type: "stackedColumn",
+      name: "1. <= 100",
+      indexLabelFontColor: "white",
+      //indexLabelFontSize: 12,  
+      indexLabelPlacement: "inside", 
+      indexLabel: "{y}%",        
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      color: "#89D1F3",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in rng1_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      type: "stackedColumn",
+      name: "2. <= 250",
+      indexLabelFontColor: "white",
+      //indexLabelFontSize: 12,  
+      indexLabelPlacement: "inside", 
+      indexLabel: "{y}%",        
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      color: "#009EE5",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in rng2_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      type: "stackedColumn",
+      name: "3. <= 350",
+      indexLabelFontColor: "white",
+      //indexLabelFontSize: 12,  
+      indexLabelPlacement: "inside", 
+      indexLabel: "{y}%",        
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      color: "#094FA4",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in rng3_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      type: "stackedColumn",
+      name: "4. <= 500",
+      indexLabelFontColor: "white",
+      //indexLabelFontSize: 12,  
+      indexLabelPlacement: "inside", 
+      indexLabel: "{y}%",        
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      color: "#86C82D",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in rng4_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      type: "stackedColumn",
+      name: "5. <= 1000",
+      indexLabelFontColor: "white",
+      //indexLabelFontSize: 12,  
+      indexLabelPlacement: "inside", 
+      indexLabel: "{y}%",        
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      color: "#FDBD2C",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in rng5_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      type: "stackedColumn",
+      name: "6. > 1000",
+      indexLabelFontColor: "white",
+      //indexLabelFontSize: 12,  
+      indexLabelPlacement: "inside", 
+      indexLabel: "{y}%",        
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      color: "#F6891E",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in rng6_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      axisYType: "secondary",
+      type: "spline",
+      name: "Form",
+      indexLabelFontColor: "#009EE5",
+      color: "#094FA4",     
+      indexLabel: "{y}",
+      yValueFormatString: "#,###",
+      showInLegend: "true",
+      click: onClick,
+      dataPoints: [
+        {% for key, value in form_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart3.render();
+  var letra3 = 12;
+  $("#uptext").click(function () {
+    letra3 = letra3 + 2;
+    chart3.options.data[0].indexLabelFontSize = letra3;
+    chart3.options.data[1].indexLabelFontSize = letra3;
+    chart3.render();        
+  });
+  $("#downtext").click(function () {
+    letra3 = letra3 - 2;
+    chart3.options.data[0].indexLabelFontSize = letra3;
+    chart3.options.data[1].indexLabelFontSize = letra3;
+    chart3.render();
+  });
+
+  var chart4 = new CanvasJS.Chart("chartContainer4", {
+    theme: "theme2",
+    zoomEnabled: true,
+    title:{
+      text: "Inversión (MM S/) - Mora Contable",
+      fontColor: "#094FA4",
+      fontWeight: "bold",       
+    },
+    legend:{
+      fontSize: 15,
+      cursor: "pointer",
+      itemclick: function (e) {
+          if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+              e.dataSeries.visible = false;
+          } else {
+              e.dataSeries.visible = true;
+          } 
+          e.chart.render();
+      } 
+    },
+    axisY:{
+    	labelFontColor:"white",
+    },
+    axisY2:{
+    	labelFontColor:"white",
+    },
+    animationEnabled: true,
+    data: [   
+    {
+      type: "column",
+      name: "Inversión (MM S/)",
+      indexLabelFontColor: "white",
+      //indexLabelFontSize: 12,  
+      indexLabelPlacement: "inside", 
+      indexLabel: "{y}",        
+      yValueFormatString: "#0.#",
+      showInLegend: "true",
+      color: "#89D1F3",
+      click: onClick,
+      dataPoints: [
+        {% for key, value in deuda_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}'},
+        {% endfor %}
+      ]
+    },
+    {
+      axisYType: "secondary",
+      type: "spline",
+      name: "% Mora 30",
+      indexLabelFontColor: "#009EE5",
+      color: "#009EE5",     
+      indexLabel: "{y}%",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in mora_contable_dict.items|sort %}
+        { y: {{value}} , label: '{{key|convert_date}}' },
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart4.render();
+  var letra4 = 12;
+  $("#uptext").click(function () {
+    letra4 = letra4 + 2;
+    chart4.options.data[0].indexLabelFontSize = letra4;
+    chart4.options.data[1].indexLabelFontSize = letra4;
+    chart4.render();        
+  });
+  $("#downtext").click(function () {
+    letra4 = letra4 - 2;
+    chart4.options.data[0].indexLabelFontSize = letra4;
+    chart4.options.data[1].indexLabelFontSize = letra4;
+    chart4.render();
+  });
+
+  function onClick(e) {
+        if (typeof (e.dataSeries.indexLabel) === "undefined" || e.dataSeries.indexLabel) {
+              e.dataSeries.indexLabel = "";
+          } else {
+              e.dataSeries.indexLabel = "{y}";
+        } 
+        e.chart.render();
+  };
+  function onClick2(e) {
+        if (typeof (e.dataSeries.indexLabel) === "undefined" || e.dataSeries.indexLabel) {
+              e.dataSeries.indexLabel = "";
+          } else {
+              e.dataSeries.indexLabel = "#percent%";
+        } 
+        e.chart.render();
+  };
+  function onClick3(e) {
+        if (typeof (e.dataSeries.indexLabel) === "undefined" || e.dataSeries.indexLabel) {
+              e.dataSeries.indexLabel = "";
+          } else {
+              e.dataSeries.indexLabel = "{y}%";
+        } 
+        e.chart.render();
+  };
+
+  };
+
+</script>
+{% endblock %}
+

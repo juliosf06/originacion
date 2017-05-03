@@ -372,6 +372,24 @@
         <div class="form_group"><input type="submit" class="btn btn-default" value="Load SeguimientoTer" ></div>
             </form>
           </div>
+          <div class="row">
+            <form action="carga_stocktelefonica/" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="form_group">
+    <label>Reporte StockTelefonica</label>
+    <input type="file" id="stocktelefonica" name="stocktelefonica">
+        </div>
+        <div class="form_group"><input type="submit" class="btn btn-default" value="Load StockTelefonica" ></div>
+            </form>
+          </div>
+          <div class="row">
+            <form action="carga_formtelefonica/" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="form_group">
+    <label>Reporte FormTelefonica</label>
+    <input type="file" id="formtelefonica" name="formtelefonica">
+        </div>
+        <div class="form_group"><input type="submit" class="btn btn-default" value="Load FormTelefonica" ></div>
+            </form>
+          </div>
 
         </div>
       </div>
