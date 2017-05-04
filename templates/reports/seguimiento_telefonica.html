@@ -226,7 +226,7 @@ window.onload = function () {
     data: [   
     {
       type: "stackedColumn",
-      name: "1. <= 100",
+      name: "[0 - 250]",
       indexLabelFontColor: "white",
       //indexLabelFontSize: 12,  
       indexLabelPlacement: "inside", 
@@ -243,7 +243,7 @@ window.onload = function () {
     },
     {
       type: "stackedColumn",
-      name: "2. <= 250",
+      name: "[251 - 350]",
       indexLabelFontColor: "white",
       //indexLabelFontSize: 12,  
       indexLabelPlacement: "inside", 
@@ -260,7 +260,7 @@ window.onload = function () {
     },
     {
       type: "stackedColumn",
-      name: "3. <= 350",
+      name: "[351 - 500]",
       indexLabelFontColor: "white",
       //indexLabelFontSize: 12,  
       indexLabelPlacement: "inside", 
@@ -277,7 +277,7 @@ window.onload = function () {
     },
     {
       type: "stackedColumn",
-      name: "4. <= 500",
+      name: "[501 - 1000]",
       indexLabelFontColor: "white",
       //indexLabelFontSize: 12,  
       indexLabelPlacement: "inside", 
@@ -294,7 +294,7 @@ window.onload = function () {
     },
     {
       type: "stackedColumn",
-      name: "5. <= 1000",
+      name: "[1001 - a más]",
       indexLabelFontColor: "white",
       //indexLabelFontSize: 12,  
       indexLabelPlacement: "inside", 
@@ -305,23 +305,6 @@ window.onload = function () {
       click: onClick3,
       dataPoints: [
         {% for key, value in rng5_dict.items|sort %}
-        { y: {{value}} , label: '{{key|convert_date}}'},
-        {% endfor %}
-      ]
-    },
-    {
-      type: "stackedColumn",
-      name: "6. > 1000",
-      indexLabelFontColor: "white",
-      //indexLabelFontSize: 12,  
-      indexLabelPlacement: "inside", 
-      indexLabel: "{y}%",        
-      yValueFormatString: "#0.#",
-      showInLegend: "true",
-      color: "#F6891E",
-      click: onClick3,
-      dataPoints: [
-        {% for key, value in rng6_dict.items|sort %}
         { y: {{value}} , label: '{{key|convert_date}}'},
         {% endfor %}
       ]

@@ -8047,8 +8047,8 @@ def seguimiento_telefonica(request):
           m3_dict[i['cosecha']] = []
         
 
-    form_rango = FormTelefonica.objects.values('cosecha','rng_financiar').annotate(num_form=Sum('form')).order_by('cosecha')
-    rng1_dict = {}; rng2_dict = {}; rng3_dict = {}; rng4_dict = {}; rng5_dict = {}; rng6_dict = {};
+    form_rango = FormTelefonica.objects.values('cosecha','rng_financiar').filter(rng_financiar__in=['1. <=100','2. <=250','3. <=350','4. <=500']).annotate(num_form=Sum('form')).order_by('cosecha')
+    rng1_dict = {}; rng2_dict = {}; rng3_dict = {}; rng4_dict = {};
     for i in form_rango:
       if i['rng_financiar']=='1. <=100':
         rng1_dict[i['cosecha']]=i['num_form']*100/form_dict[i['cosecha']]
@@ -8058,10 +8058,11 @@ def seguimiento_telefonica(request):
         rng3_dict[i['cosecha']]=i['num_form']*100/form_dict[i['cosecha']]
       if i['rng_financiar']=='4. <=500':
         rng4_dict[i['cosecha']]=i['num_form']*100/form_dict[i['cosecha']]
-      if i['rng_financiar']=='5. <=1000':
-        rng5_dict[i['cosecha']]=i['num_form']*100/form_dict[i['cosecha']]
-      if i['rng_financiar']=='6. >1000':
-        rng6_dict[i['cosecha']]=i['num_form']*100/form_dict[i['cosecha']]
+
+    form_rango2 = FormTelefonica.objects.values('cosecha').filter(rng_financiar__in=['5. <=1000','6. >1000']).annotate(num_form=Sum('form')).order_by('cosecha')
+    rng5_dict = {};
+    for i in form_rango2:
+      rng5_dict[i['cosecha']]=i['num_form']*100/form_dict[i['cosecha']]
 
     data_stock = StockTelefonica.objects.values('codmes').annotate(sum_deuda=Sum('deuda'),mora30=Sum('mora_30'),sum_vencido=Sum('vencido'),sum_judicial=Sum('judicial'),sum_ref_vencido=Sum('ref_vencido'),sum_ref_judicial=Sum('ref_judicial')).order_by('codmes')
     deuda_dict={}; mora30_dict={}; mora_contable_dict={};
