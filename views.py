@@ -1927,15 +1927,27 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
     for i in buroxform:
         if i['buro_camp'] == 'G1-G4':
             if i[filtro1] <= morames_list[num_mora6]:
+              if i['cuentas']==0 or i['cuentas']==' ' or i['cuentas']=='':
+                dict_mora6buro1[i[filtro1]] = 0
+              else:
                 dict_mora6buro1[i[filtro1]] = i['sum_mora6']*100/i['cuentas']
         if i['buro_camp'] == 'G5':
             if i[filtro1] <= morames_list[num_mora6]:
+              if i['cuentas']==0 or i['cuentas']==' ' or i['cuentas']=='':
+                dict_mora6buro2[i[filtro1]] = 0
+              else:
                 dict_mora6buro2[i[filtro1]] = i['sum_mora6']*100/i['cuentas']
         if i['buro_camp'] == 'G6-G8':
             if i[filtro1] <= morames_list[num_mora6]:
+              if i['cuentas']==0 or i['cuentas']==' ' or i['cuentas']=='':
+                dict_mora6buro3[i[filtro1]] = 0
+              else:
                 dict_mora6buro3[i[filtro1]] = i['sum_mora6']*100/i['cuentas']
         if i['buro_camp'] == 'NB':
             if i[filtro1] <= morames_list[num_mora6]:
+              if i['cuentas']==0 or i['cuentas']==' ' or i['cuentas']=='':
+                dict_mora6buro4[i[filtro1]] = 0
+              else:
                 dict_mora6buro4[i[filtro1]] = i['sum_mora6']*100/i['cuentas']
 
     total_forzaje = Forzaje.objects.values(filtro1).filter(producto='03 Tarjeta').annotate(cantidad=Sum('form')).order_by(filtro1)
@@ -2074,7 +2086,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
     else:
       len_meses = len(meses_costo_list)-1
       for i in meses:
-        if i['mes_vigencia'] >= meses_costo_list[len_meses]:
+        if i['mes_vigencia'] >= meses_costo_list[len_meses] and i['mes_vigencia'] <= meses_costo_list[0]:
           mm6t_dict[i['mes_vigencia']]=tm6t_dict[i['mes_vigencia']]
           mm6c_dict[i['mes_vigencia']]=tm6c_dict[i['mes_vigencia']]
           mm6u_dict[i['mes_vigencia']]=tm6u_dict[i['mes_vigencia']]
@@ -2806,7 +2818,7 @@ def seguimiento_tdcter(request, filtro1='mes_vigencia', filtro2='2012', filtro3=
     else:
       len_meses = len(meses_costo_list)-1
       for i in meses:
-        if i['mes_vigencia'] >= meses_costo_list[len_meses]:
+        if i['mes_vigencia'] >= meses_costo_list[len_meses] and i['mes_vigencia'] <= meses_costo_list[0]:
           mm6t_dict[i['mes_vigencia']]=tm6t_dict[i['mes_vigencia']]
           mm6c_dict[i['mes_vigencia']]=tm6c_dict[i['mes_vigencia']]
           mm6u_dict[i['mes_vigencia']]=tm6u_dict[i['mes_vigencia']]
@@ -4344,6 +4356,9 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
                 dict_mora6buro2[i[filtro1]] = i['sum_mora6']*100/i['cuentas']
         if i['buro_camp'] == 'G6-G8':
             if i[filtro1] <= morames_list[num_mora6]:
+              if i['cuentas'] == 0:
+                dict_mora6buro3[i[filtro1]] = 0
+              else:
                 dict_mora6buro3[i[filtro1]] = i['sum_mora6']*100/i['cuentas']
         if i['buro_camp'] == 'NB':
             if i[filtro1] <= morames_list[num_mora6]:
@@ -4485,7 +4500,7 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
     else:
       len_meses = len(meses_costo_list)-1
       for i in meses:
-        if i['mes_vigencia'] >= meses_costo_list[len_meses]:
+        if i['mes_vigencia'] >= meses_costo_list[len_meses] and i['mes_vigencia'] <= meses_costo_list[0]:
           mm6t_dict[i['mes_vigencia']]=cm6t_dict[i['mes_vigencia']]
           mm6c_dict[i['mes_vigencia']]=cm6c_dict[i['mes_vigencia']]
           mm6u_dict[i['mes_vigencia']]=cm6u_dict[i['mes_vigencia']]
