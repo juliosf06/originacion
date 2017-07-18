@@ -15,7 +15,7 @@
             <label class="control-label">Periodo:&nbsp;&nbsp;</label>
             <select class="form-control" id="rvglresumenximpo_periodo">
               {% for a in control_fecha %}
-              <option value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+              <option value="{{a}}" {% if fecha == a %} selected {% endif %}>{{a|format_date}}</option>
               {% endfor %}
             </select>
             &nbsp;&nbsp;
@@ -23,7 +23,7 @@
             <select class="form-control" id="rvglresumenximpo_analista">
               <option selected>TODOS</option>
 	      {% for a in control_analistas %}  
-                  <option {% if analista == a.analista %}selected {% endif %}>{{a.analista}}</option>
+                  <option {% if analista == a %}selected {% endif %}>{{a}}</option>
 	      {% endfor %}
             </select>
 	    </center>

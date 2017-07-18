@@ -516,8 +516,9 @@ def campanareglapat(request):
 # 3.- Vistas para reportes de RVGL
 @login_required
 def rvgl_resumen(request, fecha=before2, analista='TODOS'):
-    control_analistas = RVGL.objects.values('analista').distinct('analista')
-    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    control_analistas = RVGL.objects.values_list('analista', flat=True).distinct()
+    control_fecha = RVGL.objects.values_list('mes_vigencia', flat=True).distinct()
+
     evaluacion = RVGL.objects.filter(mes_vigencia=fecha).values('analista').annotate(num_eval=Count('rvgl'),dias=Count('dias_eval')).order_by('analista')
     if analista == "TODOS":
     	banca = RVGL.objects.filter(mes_vigencia=fecha,base_rvgl='1').values('seco').annotate(num_seco=Count('seco')).order_by('seco')
@@ -537,8 +538,8 @@ def rvgl_resumen(request, fecha=before2, analista='TODOS'):
 
 @login_required
 def rvgl_resumenximporte(request, fecha=before2, analista='TODOS'):
-    control_analistas = RVGL.objects.values('analista').distinct('analista')
-    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    control_analistas = RVGL.objects.values_list('analista', flat=True).distinct()
+    control_fecha = RVGL.objects.values_list('mes_vigencia', flat=True).distinct()
     if analista == 'TODOS':
   	importexdict = RVGL.objects.filter(mes_vigencia=fecha,base_rvgl='1').exclude(dictamen='PROCESO').values('dictamen').annotate(sum_importe=Sum('importe_solic')).order_by('dictamen')
         importexprod = RVGL.objects.filter(mes_vigencia=fecha,base_rvgl='1').exclude(dictamen='PROCESO').values('producto_esp').annotate(sum_importexprod=Sum('importe_solic')).order_by('producto_esp')
@@ -555,9 +556,9 @@ def rvgl_resumenximporte(request, fecha=before2, analista='TODOS'):
 
 @login_required
 def rvgl_tiempo(request, fecha=before2, analista='TODOS'):
-    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
-    control_analistas = RVGL.objects.values('analista').distinct('analista')
-    control_seco = RVGL.objects.values('seco').distinct('seco')
+    control_analistas = RVGL.objects.values_list('analista', flat=True).distinct()
+    control_fecha = RVGL.objects.values_list('mes_vigencia', flat=True).distinct()
+    #control_seco = RVGL.objects.values('seco').distinct('seco')
     if analista == 'TODOS':
        tiempo10 = RVGL.objects.values('mes_vigencia','dias_eval' ).filter(mes_vigencia=fecha, dias_eval__gte='0', dias_eval__lte='3', seco__in=['BP','CA'], base_rvgl='1').exclude(dictamen='PROCESO').annotate(num_tiempo=Count(F('dias_eval') )).order_by('dias_eval')
        tiempo11 = RVGL.objects.values('mes_vigencia' ).filter(mes_vigencia=fecha, dias_eval__gte='4',dias_eval__lte='15',seco__in=['BP','CA'], base_rvgl='1').exclude(dictamen='PROCESO').annotate(num_tiempo=Count(F('dias_eval'))).order_by('mes_vigencia')
@@ -918,9 +919,9 @@ def departamentos_web(request,semana=1):
 
 @login_required
 def rvgl_resumenxsco(request, fecha=before2, analista='TODOS'):
-    control_analistas = RVGL.objects.values('analista').distinct('analista')
-    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
-    dictamen = RVGL.objects.values('dictamen').exclude(dictamen='PROCESO').distinct('dictamen').order_by('dictamen')
+    control_analistas = RVGL.objects.values_list('analista', flat=True).distinct()
+    control_fecha = RVGL.objects.values_list('mes_vigencia', flat=True).distinct()
+    dictamen = RVGL.objects.exclude(dictamen='PROCESO').values_list('dictamen', flat=True).distinct().order_by('dictamen')
     if analista == 'TODOS':
        dictamenxsco_ap = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha,base_sco='1').filter(dictamen_sco='AP').annotate(num_dictamenxsco_ap=Count('dictamen_sco')).order_by('dictamen')
        listadict = ['APC','APS','DEN','DEV']
@@ -928,11 +929,11 @@ def rvgl_resumenxsco(request, fecha=before2, analista='TODOS'):
        ap_dict = {}
        for i in dictamen:
 	   for j in dictamenxsco_ap:
-	       if i['dictamen'] == j['dictamen']:
-		  ap_dict[i['dictamen']]=j['num_dictamenxsco_ap']
+	       if i == j['dictamen']:
+		  ap_dict[i]=j['num_dictamenxsco_ap']
 		  break
 	       else:
-		  ap_dict[i['dictamen']]=0
+		  ap_dict[i]=0
        if len(ap_dict) == 0:
 	  scolista.append(0) 
 	  scolista.append(0) 
@@ -940,16 +941,16 @@ def rvgl_resumenxsco(request, fecha=before2, analista='TODOS'):
 	  scolista.append(0) 
        else:      
           for i in dictamen:
-              scolista.append(ap_dict[i['dictamen']])
+              scolista.append(ap_dict[i])
        dictamenxsco_du = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha,base_sco='1').filter(dictamen_sco='DU').annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
        du_dict = {}
        for i in dictamen:
 	   for j in dictamenxsco_du:
-	       if i['dictamen'] == j['dictamen']:
-		  du_dict[i['dictamen']]=j['num_dictamenxsco_du']
+	       if i == j['dictamen']:
+		  du_dict[i]=j['num_dictamenxsco_du']
 		  break
 	       else:
-		  du_dict[i['dictamen']]=0
+		  du_dict[i]=0
        if len(du_dict) == 0:
 	  scolista.append(0) 
 	  scolista.append(0) 
@@ -957,16 +958,16 @@ def rvgl_resumenxsco(request, fecha=before2, analista='TODOS'):
 	  scolista.append(0) 
        else:      
           for i in dictamen:
-              scolista.append(du_dict[i['dictamen']])
+              scolista.append(du_dict[i])
        dictamenxsco_re = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha,base_sco='1').filter(dictamen_sco='RE').annotate(num_dictamenxsco_re=Count('dictamen_sco')).order_by('dictamen')
        re_dict = {}
        for i in dictamen:
 	   for j in dictamenxsco_re:
-	       if i['dictamen'] == j['dictamen']:
-		  re_dict[i['dictamen']]=j['num_dictamenxsco_re']
+	       if i == j['dictamen']:
+		  re_dict[i]=j['num_dictamenxsco_re']
 		  break
 	       else:
-		  re_dict[i['dictamen']]=0
+		  re_dict[i]=0
        if len(re_dict) == 0:
 	  scolista.append(0) 
 	  scolista.append(0) 
@@ -974,7 +975,7 @@ def rvgl_resumenxsco(request, fecha=before2, analista='TODOS'):
 	  scolista.append(0) 
        else:      
           for i in dictamen:
-              scolista.append(re_dict[i['dictamen']])
+              scolista.append(re_dict[i])
        scoxllenado = RVGL.objects.filter(mes_vigencia=fecha).exclude(sco__in=['O','']).values('sco').annotate(num_scoxllenado=Count('sco')).order_by('sco')
        scoxforzaje = RVGL.objects.filter(mes_vigencia=fecha).filter(dictamen_sco='RE').exclude(seg_prime='NULL').values('seg_prime').annotate(num_scoxforzaje=Count('seg_prime')).order_by('seg_prime')
        scoxdictamen = RVGL.objects.filter(mes_vigencia=fecha).exclude(dictamen_sco__in=['NULL','']).values('dictamen_sco' ).annotate(num_scoxdictamen=Count('dictamen_sco')).order_by('dictamen_sco')
@@ -984,11 +985,11 @@ def rvgl_resumenxsco(request, fecha=before2, analista='TODOS'):
        ap_dict = {}
        for i in dictamen:
 	   for j in dictamenxsco_ap:
-	       if i['dictamen'] == j['dictamen']:
-		  ap_dict[i['dictamen']]=j['num_dictamenxsco_ap']
+	       if i == j['dictamen']:
+		  ap_dict[i]=j['num_dictamenxsco_ap']
 		  break
 	       else:
-		  ap_dict[i['dictamen']]=0
+		  ap_dict[i]=0
        if len(ap_dict) == 0:
 	  scolista.append(0) 
 	  scolista.append(0) 
@@ -996,17 +997,17 @@ def rvgl_resumenxsco(request, fecha=before2, analista='TODOS'):
 	  scolista.append(0) 
        else:      
           for i in dictamen:
-              scolista.append(ap_dict[i['dictamen']])
+              scolista.append(ap_dict[i])
 
        dictamenxsco_du = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha,base_sco='1').filter(dictamen_sco='DU', analista= analista).annotate(num_dictamenxsco_du=Count('dictamen_sco')).order_by('dictamen')
        du_dict = {}
        for i in dictamen:
 	   for j in dictamenxsco_du:
-	       if i['dictamen'] == j['dictamen']:
-		  du_dict[i['dictamen']]=j['num_dictamenxsco_du']
+	       if i == j['dictamen']:
+		  du_dict[i]=j['num_dictamenxsco_du']
 		  break
 	       else:
-		  du_dict[i['dictamen']]=0
+		  du_dict[i]=0
        if len(du_dict) == 0:
 	  scolista.append(0) 
 	  scolista.append(0) 
@@ -1014,16 +1015,16 @@ def rvgl_resumenxsco(request, fecha=before2, analista='TODOS'):
 	  scolista.append(0) 
        else:      
           for i in dictamen:
-              scolista.append(du_dict[i['dictamen']])
+              scolista.append(du_dict[i])
        dictamenxsco_re = RVGL.objects.values('dictamen').filter(mes_vigencia=fecha,base_sco='1').filter(dictamen_sco='RE',analista= analista).annotate(num_dictamenxsco_re=Count('dictamen_sco')).order_by('dictamen')
        re_dict = {}
        for i in dictamen:
 	   for j in dictamenxsco_re:
-	       if i['dictamen'] == j['dictamen']:
-		  re_dict[i['dictamen']]=j['num_dictamenxsco_re']
+	       if i == j['dictamen']:
+		  re_dict[i]=j['num_dictamenxsco_re']
 		  break
 	       else:
-		  re_dict[i['dictamen']]=0
+		  re_dict[i]=0
        if len(re_dict) == 0:
 	  scolista.append(0) 
 	  scolista.append(0) 
@@ -1031,7 +1032,7 @@ def rvgl_resumenxsco(request, fecha=before2, analista='TODOS'):
 	  scolista.append(0) 
        else:      
           for i in dictamen:
-              scolista.append(re_dict[i['dictamen']])
+              scolista.append(re_dict[i])
        scoxllenado = RVGL.objects.filter(mes_vigencia=fecha,analista= analista).exclude(sco__in=['O','']).values('sco').annotate(num_scoxllenado=Count('sco')).order_by('sco')
        scoxforzaje = RVGL.objects.filter(mes_vigencia=fecha,analista= analista).filter(dictamen_sco='RE').exclude(seg_prime='NULL').values('seg_prime').annotate(num_scoxforzaje=Count('seg_prime')).order_by('seg_prime')
        scoxdictamen = RVGL.objects.filter(mes_vigencia=fecha,analista= analista).exclude(dictamen_sco__in=['NULL','']).values('dictamen_sco' ).annotate(num_scoxdictamen=Count('dictamen_sco')).order_by('dictamen_sco')
@@ -1042,8 +1043,8 @@ def rvgl_resumenxsco(request, fecha=before2, analista='TODOS'):
                   context_instance=RequestContext(request))
 
 def rvgl_top20terr(request, fecha=before2, analista='TODOS'):
-    control_analistas = RVGL.objects.values('analista').distinct('analista')
-    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    control_analistas = RVGL.objects.values_list('analista', flat=True).distinct()
+    control_fecha = RVGL.objects.values_list('mes_vigencia', flat=True).distinct()
     if analista == 'TODOS':
        top20terr1 = RVGL.objects.filter(mes_vigencia=fecha).values('territorio_nuevo').exclude(territorio_nuevo='').annotate(num_top20terr1=Count('importe_solic'), sum_top20terr1=Sum('importe_solic'),sum_apro=Sum('importe_aprob')).order_by('-sum_apro')[:20]
        top20terr2 = RVGL.objects.values('territorio_nuevo').filter(mes_vigencia=fecha).exclude(importe_aprob=0).exclude(territorio_nuevo='').annotate(num_top20terr2=Count('importe_aprob'), sum_top20terr2=Sum('importe_aprob')).order_by('-sum_top20terr2')[:20]
@@ -1061,8 +1062,8 @@ def rvgl_top20terr(request, fecha=before2, analista='TODOS'):
 
 @login_required
 def rvgl_top20gest(request, fecha=before2, analista='TODOS'):
-    control_analistas = RVGL.objects.values('analista').distinct('analista')
-    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    control_analistas = RVGL.objects.values_list('analista', flat=True).distinct()
+    control_fecha = RVGL.objects.values_list('mes_vigencia', flat=True).distinct()
     if analista == 'TODOS':
        top20gest1 = RVGL.objects.filter(mes_vigencia=fecha).exclude(ejecutivo_cuenta='').values('ejecutivo_cuenta').annotate(num_top20gest1=Count('importe_solic'), sum_top20gest1=Sum('importe_solic'),sum_apro=Sum('importe_aprob')).order_by('-sum_apro')[:20]
        top20gest2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(ejecutivo_cuenta='').exclude(importe_aprob=0).values('ejecutivo_cuenta').annotate(num_top20gest2=Count('importe_aprob'), sum_top20gest2=Sum('importe_aprob')).order_by('-sum_top20gest2')[:20]
@@ -1079,8 +1080,8 @@ def rvgl_top20gest(request, fecha=before2, analista='TODOS'):
 
 @login_required
 def rvgl_top20clie(request, fecha=before2, analista='TODOS'):
-    control_analistas = RVGL.objects.values('analista').distinct('analista')
-    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    control_analistas = RVGL.objects.values_list('analista', flat=True).distinct()
+    control_fecha = RVGL.objects.values_list('mes_vigencia', flat=True).distinct()
     if analista == 'TODOS':
        top20clie1 = RVGL.objects.filter(mes_vigencia=fecha).exclude(cliente='').values('cliente').annotate(num_top20clie1=Count('importe_solic'), sum_top20clie1=Sum('importe_solic'),sum_apro=Sum('importe_aprob')).order_by('-sum_apro')[:20]
        top20clie2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(cliente='').exclude(importe_aprob=0).values('cliente').annotate(num_top20clie2=Count('importe_aprob'), sum_top20clie2=Sum('importe_aprob')).order_by('-sum_top20clie2')[:20]
@@ -1097,8 +1098,8 @@ def rvgl_top20clie(request, fecha=before2, analista='TODOS'):
 
 @login_required
 def rvgl_top20ofic(request, fecha=before2, analista='TODOS'):
-    control_analistas = RVGL.objects.values('analista').distinct('analista')
-    control_fecha = RVGL.objects.values('mes_vigencia').distinct('mes_vigencia')
+    control_analistas = RVGL.objects.values_list('analista', flat=True).distinct()
+    control_fecha = RVGL.objects.values_list('mes_vigencia', flat=True).distinct()
     if analista == 'TODOS':
        top20ofic1 = RVGL.objects.filter(mes_vigencia=fecha).exclude(oficina='').values('oficina').annotate(num_top20ofic1=Count('importe_solic'), sum_top20ofic1=Sum('importe_solic'),sum_apro=Sum('importe_aprob')).order_by('-sum_apro')[:20]
        top20ofic2 = RVGL.objects.filter(mes_vigencia=fecha).exclude(oficina='').exclude(importe_aprob=0).values('oficina').annotate(num_top20ofic2=Count('importe_aprob'), sum_top20ofic2=Sum('importe_aprob')).order_by('-sum_top20ofic2')[:20]
@@ -1116,8 +1117,9 @@ def rvgl_top20ofic(request, fecha=before2, analista='TODOS'):
 # 4.- Vistas para reportes de EVALUACION
 @login_required
 def evaluacion_evaluaciontc(request):
-    meses = Seguimiento.objects.values('mes_vigencia').order_by('mes_vigencia').distinct('mes_vigencia')
-    evaluaciontc = Evaluaciontc.objects.all().order_by('cliente').distinct('cliente')
+    meses = Seguimiento.objects.values_list('mes_vigencia', flat=True).order_by('mes_vigencia').distinct()
+    evaluaciontc = Evaluaciontc.objects.all().order_by('cliente')#.distinct('cliente')
+    print evaluaciontc
 
     static_url=settings.STATIC_URL
     tipo_side = 3
@@ -1372,7 +1374,7 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
     filtro2 = str(filtro2)
     filtro3 = str(filtro3)
 
-    tiempo = Seguimiento.objects.values('periodo').order_by('periodo').distinct('periodo')
+    tiempo = Seguimiento.objects.values_list('periodo', flat=True).order_by('periodo').distinct()
 
     if filtro3 == 'form':
       tipo_form = 1
@@ -1380,10 +1382,10 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
       tipo_form = 0
 
     if filtro1 == 'trimestre_form':
-        meses = Seguimiento.objects.values(filtro1).filter(periodo__gte=filtro2).exclude(trimestre_form__in=['']).order_by(filtro1).distinct(filtro1)
+        meses = Seguimiento.objects.values_list(filtro1, flat=True).filter(periodo__gte=filtro2).exclude(trimestre_form__in=['']).order_by(filtro1).distinct()
         trimestre = 1
     else:
-        meses = Seguimiento.objects.values(filtro1).filter(periodo__gte=filtro2).order_by(filtro1).distinct(filtro1)
+        meses = Seguimiento.objects.values_list(filtro1, flat=True).filter(periodo__gte=filtro2).order_by(filtro1).distinct()
         trimestre = 0
 
     total_form = Seguimiento.objects.values(filtro1, 'producto').filter(producto='03 Tarjeta', periodo__gte=filtro2, origen__in=['FAST','REGULAR','UNO A UNO']).annotate(formalizado=Sum(filtro3),cuentas=Sum('ctas')).order_by(filtro1)
@@ -1411,23 +1413,23 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
     formUno_dict = {}; formFast_dict = {}; formRegular_dict = {};
     for i in meses:
         for j in uno_a_uno:
-            if i[filtro1] == j[filtro1]:
-                formUno_dict[i[filtro1]] = j['formalizado']
+            if i == j[filtro1]:
+                formUno_dict[i] = j['formalizado']
                 break
             else:
-                formUno_dict[i[filtro1]] = 0
+                formUno_dict[i] = 0
         for j in camp_fast:
-            if i[filtro1] == j[filtro1]:
-                formFast_dict[i[filtro1]] = j['formalizado']
+            if i == j[filtro1]:
+                formFast_dict[i] = j['formalizado']
                 break
             else:
-                formFast_dict[i[filtro1]] = 0
+                formFast_dict[i] = 0
         for j in camp_regular:
-            if i[filtro1] == j[filtro1]:
-                formRegular_dict[i[filtro1]] = j['formalizado']
+            if i == j[filtro1]:
+                formRegular_dict[i] = j['formalizado']
                 break
             else:
-                formRegular_dict[i[filtro1]] = 0
+                formRegular_dict[i] = 0
 
     uno_a_uno = Seguimiento.objects.values(filtro1).filter(producto='03 Tarjeta', origen='UNO A UNO', periodo__gte=filtro2).annotate(formalizado=Sum('form'),facturacion=Sum('facturacion')).order_by(filtro1)
     camp_fast = Seguimiento.objects.values(filtro1).filter(producto='03 Tarjeta', origen='FAST', periodo__gte=filtro2).annotate(formalizado=Sum('form'),facturacion=Sum('facturacion')).order_by(filtro1)
@@ -1435,26 +1437,26 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
     ticketUno_dict = {}; ticketFast_dict = {}; ticketRegular_dict = {};
     for i in meses:
         for j in uno_a_uno:
-            if i[filtro1] == j[filtro1]:
-                ticketUno_dict[i[filtro1]] = j['facturacion']*1000000/j['formalizado']
+            if i == j[filtro1]:
+                ticketUno_dict[i] = j['facturacion']*1000000/j['formalizado']
                 break
             else:
-                ticketUno_dict[i[filtro1]] = []
+                ticketUno_dict[i] = []
         for j in camp_fast:
-            if i[filtro1] == j[filtro1]:
-                if i[filtro1] >= meses_fast_list[num_meses_fast]:
-                  ticketFast_dict[i[filtro1]] = j['facturacion']*1000000/j['formalizado']
-                elif i[filtro1] < meses_fast_list[num_meses_fast]:
-                  ticketFast_dict[i[filtro1]] = []
+            if i == j[filtro1]:
+                if i >= meses_fast_list[num_meses_fast]:
+                  ticketFast_dict[i] = j['facturacion']*1000000/j['formalizado']
+                elif i < meses_fast_list[num_meses_fast]:
+                  ticketFast_dict[i] = []
                 break
             else:
-                ticketFast_dict[i[filtro1]] = []
+                ticketFast_dict[i] = []
         for j in camp_regular:
-            if i[filtro1] == j[filtro1]:
-                ticketRegular_dict[i[filtro1]] = j['facturacion']*1000000/j['formalizado']
+            if i == j[filtro1]:
+                ticketRegular_dict[i] = j['facturacion']*1000000/j['formalizado']
                 break
             else:
-                ticketRegular_dict[i[filtro1]] = []
+                ticketRegular_dict[i] = []
 
     if filtro1 == 'trimestre_form':
         meses_moras = Seguimiento.objects.values('trimestre_form').order_by('-trimestre_form').distinct()
@@ -1528,37 +1530,37 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
     rango4_dict = {}; rango5_dict = {}; rango6_dict = {}
     for i in meses:
       for j in rangos:
-        if i[filtro1] == j[filtro1]:
+        if i == j[filtro1]:
           if j['rng_ing'] == '01 [3.5K - ...]':
-            rango1_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+            rango1_dict[i]=j['num_rango']*100/total_form_dict[i]
           elif j['rng_ing'] == '02 [2.5K - 3.5K]':
-            rango2_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+            rango2_dict[i]=j['num_rango']*100/total_form_dict[i]
           elif j['rng_ing'] == '03 [2K - 2.5K]':
-            rango3_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+            rango3_dict[i]=j['num_rango']*100/total_form_dict[i]
           elif j['rng_ing'] == '04 [1.5K - 2K]':
-            rango4_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+            rango4_dict[i]=j['num_rango']*100/total_form_dict[i]
           elif j['rng_ing'] == '05 [1K - 1.5K]':
-            rango5_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+            rango5_dict[i]=j['num_rango']*100/total_form_dict[i]
           elif j['rng_ing'] == '06 [0 - 1K]':
-            rango6_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+            rango6_dict[i]=j['num_rango']*100/total_form_dict[i]
 
     formxcampxuno = Seguimiento.objects.values(filtro1,'riesgos').filter(producto='03 Tarjeta', periodo__gte=filtro2, origen__in=['FAST','REGULAR','UNO A UNO']).annotate(formalizado=Sum(filtro3)).order_by(filtro1)
     camp_form_dict = {}; uno_form_dict = {};
     for i in meses:
         for j in formxcampxuno:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                camp_form_dict[i[filtro1]] = j['formalizado']
+            if i == j[filtro1]:
+                camp_form_dict[i] = j['formalizado']
                 break
             else:
-                camp_form_dict[i[filtro1]] = 0
+                camp_form_dict[i] = 0
         for j in formxcampxuno:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                uno_form_dict[i[filtro1]] = j['formalizado']
+            if i == j[filtro1]:
+                uno_form_dict[i] = j['formalizado']
                 break
             else:
-                uno_form_dict[i[filtro1]] = 0
+                uno_form_dict[i] = 0
 
     seg_ava = Seguimiento.objects.values(filtro1).filter(riesgos='CAMP', producto='03 Tarjeta', segmento='1.AVA', periodo__gte=filtro2).annotate(seg=Sum(filtro3)).order_by(filtro1)
     seg_ms = Seguimiento.objects.values(filtro1,'riesgos').filter(producto='03 Tarjeta', segmento='2.MS', periodo__gte=filtro2).annotate(seg=Sum(filtro3)).order_by(filtro1)
@@ -1568,53 +1570,53 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
     useg_ms_dict = {}; useg_noph_dict = {}; useg_nocli_dict = {};
     for i in meses:
         for j in seg_ava:
-            if i[filtro1] == j[filtro1]:
-                seg_ava_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                seg_ava_dict[i] = j['seg']
                 break
             else:
-                seg_ava_dict[i[filtro1]] = 0
+                seg_ava_dict[i] = 0
         for j in seg_ms:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                seg_ms_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                seg_ms_dict[i] = j['seg']
                 break
             else:
-                seg_ms_dict[i[filtro1]] = 0
+                seg_ms_dict[i] = 0
         for j in seg_ms:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                useg_ms_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                useg_ms_dict[i] = j['seg']
                 break
             else:
-                useg_ms_dict[i[filtro1]] = 0
+                useg_ms_dict[i] = 0
         for j in seg_noph:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                seg_noph_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                seg_noph_dict[i] = j['seg']
                 break
             else:
-                seg_noph_dict[i[filtro1]] = 0
+                seg_noph_dict[i] = 0
         for j in seg_noph:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                useg_noph_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                useg_noph_dict[i] = j['seg']
                 break
             else:
-                useg_noph_dict[i[filtro1]] = 0
+                useg_noph_dict[i] = 0
         for j in seg_nocli:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                seg_nocli_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                seg_nocli_dict[i] = j['seg']
                 break
             else:
-                seg_nocli_dict[i[filtro1]] = 0
+                seg_nocli_dict[i] = 0
         for j in seg_nocli:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                useg_nocli_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                useg_nocli_dict[i] = j['seg']
                 break
             else:
-                useg_nocli_dict[i[filtro1]] = 0
+                useg_nocli_dict[i] = 0
 
     total_ctasxmorasxcampxuno = Seguimiento.objects.values(filtro1,'riesgos').filter(producto='03 Tarjeta', periodo__gte=filtro2).annotate(sum_ctas=Sum('ctas'),sum_mora460=Sum('mora4_60'),sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12'),sum_mora18=Sum('mora18'), sum_mora24=Sum('mora24'), sum_mora36=Sum('mora36')).order_by(filtro1)
     total_ctasxcamp_dict = {}; mora460_camp_dict = {}; mora6_camp_dict = {}; mora9_camp_dict = {}; mora12_camp_dict = {}; mora18_camp_dict = {}; mora24_camp_dict = {}; mora36_camp_dict = {};
@@ -1691,65 +1693,65 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
     dict_moraunoms = {}; dict_moraunonoph = {}; dict_moraunonocli = {};
     for i in meses:
        for j in moras:
-          if i[filtro1] == j[filtro1]:
+          if i == j[filtro1]:
             if j['riesgos'] == 'CAMP':
               if  j['segmento']=='1.AVA':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      ava_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] < morames_list[num_lista]:
-                      ava_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      ava_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      ava_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      ava_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']     
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      ava_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i < morames_list[num_lista]:
+                      ava_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      ava_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      ava_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      ava_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']     
               elif  j['segmento']=='2.MS':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      ms_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] < morames_list[num_lista]:
-                      ms_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      ms_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      ms_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      ms_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      ms_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i < morames_list[num_lista]:
+                      ms_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      ms_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      ms_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      ms_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']
               elif  j['segmento']=='3.NoPH':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      noph_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] < morames_list[num_lista]:
-                      noph_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      noph_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      noph_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      noph_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      noph_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i < morames_list[num_lista]:
+                      noph_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      noph_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      noph_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      noph_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']
               elif  j['segmento']=='4.NoCli':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      nocli_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] < morames_list[num_lista]:
-                      nocli_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      nocli_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      nocli_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      nocli_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      nocli_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i < morames_list[num_lista]:
+                      nocli_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      nocli_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      nocli_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      nocli_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']
     for i in meses:
        for j in moras:
-          if i[filtro1] == j[filtro1]:
+          if i == j[filtro1]:
             if j['riesgos'] == 'UNO A UNO':
               if  j['segmento']=='2.MS':
-                if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moraunoms[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                if i <= morames_list[num_mora6]:
+                      dict_moraunoms[i]=j['sum_mora6']*100/j['sum_ctas']
               elif  j['segmento']=='3.NoPH':
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moraunonoph[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora6]:
+                      dict_moraunonoph[i]=j['sum_mora6']*100/j['sum_ctas']
               elif  j['segmento']=='4.NoCli':
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moraunonocli[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora6]:
+                      dict_moraunonocli[i]=j['sum_mora6']*100/j['sum_ctas']
 
     depen = Seguimiento.objects.values(filtro1,'riesgos').filter(digital='', producto='03 Tarjeta', cat_persona='1. Dependiente', periodo__gte=filtro2).annotate(seg = Sum(filtro3)).order_by(filtro1)
     indep = Seguimiento.objects.values(filtro1,'riesgos').filter(digital='', producto='03 Tarjeta', cat_persona='2. Independiente', periodo__gte=filtro2).annotate(seg=Sum(filtro3)).order_by(filtro1)
@@ -1760,60 +1762,60 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
     for i in meses:
         for j in depen:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                depen_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                depen_dict[i] = j['seg']
                 break
             else:
-                depen_dict[i[filtro1]] = 0
+                depen_dict[i] = 0
         for j in indep:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                indep_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                indep_dict[i] = j['seg']
                 break
             else:
-                indep_dict[i[filtro1]] = 0
+                indep_dict[i] = 0
         for j in pnn:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                pnn_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                pnn_dict[i] = j['seg']
                 break
             else:
-                pnn_dict[i[filtro1]] = 0
+                pnn_dict[i] = 0
         for j in no_recon:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                no_recon_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                no_recon_dict[i] = j['seg']
                 break
             else:
-                no_recon_dict[i[filtro1]] = 0
+                no_recon_dict[i] = 0
         for j in depen:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                udepen_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                udepen_dict[i] = j['seg']
                 break
             else:
-                udepen_dict[i[filtro1]] = 0
+                udepen_dict[i] = 0
         for j in indep:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                uindep_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                uindep_dict[i] = j['seg']
                 break
             else:
-                uindep_dict[i[filtro1]] = 0
+                uindep_dict[i] = 0
         for j in pnn:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                upnn_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                upnn_dict[i] = j['seg']
                 break
             else:
-                upnn_dict[i[filtro1]] = 0
+                upnn_dict[i] = 0
         for j in no_recon:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                uno_recon_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                uno_recon_dict[i] = j['seg']
                 break
             else:
-                uno_recon_dict[i[filtro1]] = 0
+                uno_recon_dict[i] = 0
 
     morascat = Seguimiento.objects.values(filtro1, 'cat_persona','riesgos').filter(producto='03 Tarjeta', periodo__gte=filtro2).annotate(sum_ctas=Sum('ctas'),sum_mora460=Sum('mora4_60'),sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by(filtro1)
     #INCUMPLIMIENTO RELACION LABORAL CAMPANAS
@@ -1826,125 +1828,125 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
     dict_moracampnn = {}; dict_moracamnor = {};
     for i in meses:
        for j in morascat:
-          if i[filtro1] == j[filtro1]:
+          if i == j[filtro1]:
             if j['riesgos'] == 'CAMP':
               if  j['cat_persona']=='1. Dependiente':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      dep_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_lista]:
-                      dep_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      dep_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      dep_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      dep_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']    
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      dep_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i <= morames_list[num_lista]:
+                      dep_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      dep_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      dep_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      dep_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']    
               elif  j['cat_persona']=='2. Independiente':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      indep_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_lista]:
-                      indep_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      indep_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      indep_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      indep_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      indep_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i <= morames_list[num_lista]:
+                      indep_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      indep_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      indep_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      indep_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']
               elif  j['cat_persona']=='3. PNN':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      pnn_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_lista]:
-                      pnn_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      pnn_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      pnn_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      pnn_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      pnn_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i <= morames_list[num_lista]:
+                      pnn_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      pnn_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      pnn_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      pnn_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']
               elif  j['cat_persona']=='4.No Reconocido':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      norec_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_lista]:
-                      norec_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      norec_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      norec_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      norec_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      norec_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i <= morames_list[num_lista]:
+                      norec_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      norec_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      norec_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      norec_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']
     for i in meses:
        for j in morascat:
-          if i[filtro1] == j[filtro1]:
+          if i == j[filtro1]:
             if j['riesgos'] == 'UNO A UNO':
               if  j['cat_persona']=='1. Dependiente':
-                if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moracamdep[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                if i <= morames_list[num_mora6]:
+                      dict_moracamdep[i]=j['sum_mora6']*100/j['sum_ctas']
               elif  j['cat_persona']=='2. Independiente':
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moracamind[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora6]:
+                      dict_moracamind[i]=j['sum_mora6']*100/j['sum_ctas']
               elif  j['cat_persona']=='3. PNN':
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moracampnn[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora6]:
+                      dict_moracampnn[i]=j['sum_mora6']*100/j['sum_ctas']
               elif  j['cat_persona']=='4.No Reconocido':
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moracamnor[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora6]:
+                      dict_moracamnor[i]=j['sum_mora6']*100/j['sum_ctas']
 
     buroxform = Seguimiento.objects.values(filtro1, 'buro_camp').filter(digital='',riesgos='CAMP', producto='03 Tarjeta', periodo__gte=filtro2).annotate(seg=Sum(filtro3),cuentas=Sum('ctas'),sum_mora6=Sum('mora6')).order_by(filtro1)
     dict_burog1 = {}; dict_burog5 = {};
     dict_burog6 = {}; dict_buronb = {};
     for i in meses:
         for j in buroxform:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
               if j['buro_camp'] == 'G1-G4':
-                dict_burog1[i[filtro1]] = j['seg']
+                dict_burog1[i] = j['seg']
                 break
               else:
-                dict_burog1[i[filtro1]] = 0
+                dict_burog1[i] = 0
         for j in buroxform:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
               if j['buro_camp'] == 'G5':
-                dict_burog5[i[filtro1]] = j['seg']
+                dict_burog5[i] = j['seg']
                 break
               else:
-                dict_burog5[i[filtro1]] = 0
+                dict_burog5[i] = 0
         for j in buroxform:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
               if j['buro_camp'] == 'G6-G8':
-                dict_burog6[i[filtro1]] = j['seg']
+                dict_burog6[i] = j['seg']
                 break
               else:
-                dict_burog6[i[filtro1]] = 0
+                dict_burog6[i] = 0
         for j in buroxform:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
               if j['buro_camp'] == 'NB':
-                dict_buronb[i[filtro1]] = j['seg']
+                dict_buronb[i] = j['seg']
                 break
               else:
-                dict_buronb[i[filtro1]] = 0
+                dict_buronb[i] = 0
 
     dict_mora6buro1 = {}; dict_mora6buro2 = {}; 
     dict_mora6buro3 = {}; dict_mora6buro4 = {};
     for i in buroxform:
         if i['buro_camp'] == 'G1-G4':
-            if i[filtro1] <= morames_list[num_mora6]:
+            if i <= morames_list[num_mora6]:
               if i['cuentas']==0 or i['cuentas']==' ' or i['cuentas']=='':
                 dict_mora6buro1[i[filtro1]] = 0
               else:
                 dict_mora6buro1[i[filtro1]] = i['sum_mora6']*100/i['cuentas']
         if i['buro_camp'] == 'G5':
-            if i[filtro1] <= morames_list[num_mora6]:
+            if i <= morames_list[num_mora6]:
               if i['cuentas']==0 or i['cuentas']==' ' or i['cuentas']=='':
                 dict_mora6buro2[i[filtro1]] = 0
               else:
                 dict_mora6buro2[i[filtro1]] = i['sum_mora6']*100/i['cuentas']
         if i['buro_camp'] == 'G6-G8':
-            if i[filtro1] <= morames_list[num_mora6]:
+            if i <= morames_list[num_mora6]:
               if i['cuentas']==0 or i['cuentas']==' ' or i['cuentas']=='':
                 dict_mora6buro3[i[filtro1]] = 0
               else:
                 dict_mora6buro3[i[filtro1]] = i['sum_mora6']*100/i['cuentas']
         if i['buro_camp'] == 'NB':
-            if i[filtro1] <= morames_list[num_mora6]:
+            if i <= morames_list[num_mora6]:
               if i['cuentas']==0 or i['cuentas']==' ' or i['cuentas']=='':
                 dict_mora6buro4[i[filtro1]] = 0
               else:
@@ -1954,45 +1956,45 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
     forzaje_dict = {}
     for i in meses:
      for j in total_forzaje:
-         if i[filtro1] == j[filtro1]:
+         if i == j[filtro1]:
           forzaje_dict[j[filtro1]]=j['cantidad']
 
     forzaje2 = Forzaje.objects.values(filtro1, 'dic_global').filter(producto = '03 Tarjeta').exclude(dic_global='AP').annotate(cantidad=Sum('form')).order_by(filtro1)
     duda_dict = {}; rechazo_dict = {};
     for i in meses:
         for j in forzaje2:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
              if  j['dic_global']=='DU':
-                    duda_dict[i[filtro1]]=j['cantidad']*100/forzaje_dict[i[filtro1]]
+                    duda_dict[i]=j['cantidad']*100/forzaje_dict[i]
                     break
             else:
-                duda_dict[i[filtro1]]= 0
+                duda_dict[i]= 0
         for j in forzaje2:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
              if  j['dic_global']=='RE':
-                    rechazo_dict[i[filtro1]]=j['cantidad']*100/forzaje_dict[i[filtro1]]
+                    rechazo_dict[i]=j['cantidad']*100/forzaje_dict[i]
                     break
             else:
-                rechazo_dict[i[filtro1]]= 0
+                rechazo_dict[i]= 0
 
     form_cluster = Seguimiento.objects.values(filtro1, 'cluster').filter(producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum(filtro3)).order_by(filtro1)
     form_modes_dict = {}; form_desli_dict = {}; form_progre_dict = {};
     form_aspi_dict = {}; form_prospe_dict = {}; form_sd_dict = {};
     for i in meses:
         for j in form_cluster:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
               if j['cluster'] == '1. Modestos':
-                form_modes_dict[i[filtro1]] = j['formalizados']
+                form_modes_dict[i] = j['formalizados']
               elif j['cluster'] == '2. Desligados':
-                form_desli_dict[i[filtro1]] = j['formalizados']
+                form_desli_dict[i] = j['formalizados']
               elif j['cluster'] == '3. Progresistas':
-                form_progre_dict[i[filtro1]] = j['formalizados']
+                form_progre_dict[i] = j['formalizados']
               elif j['cluster'] == '4. Aspirantes':
-                form_aspi_dict[i[filtro1]] = j['formalizados']
+                form_aspi_dict[i] = j['formalizados']
               elif j['cluster'] == '5. Prosperos':
-                form_prospe_dict[i[filtro1]] = j['formalizados']
+                form_prospe_dict[i] = j['formalizados']
               elif j['cluster'] == '0. S.D.':
-                form_sd_dict[i[filtro1]] = j['formalizados']
+                form_sd_dict[i] = j['formalizados']
 
     form_clusterxmora = Seguimiento.objects.values(filtro1, 'cluster').filter(producto='03 Tarjeta', periodo__gte=filtro2).annotate(formalizados=Sum('form'),sum_mora460=Sum('mora4_60'),sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by(filtro1)
     modes_mora6_dict = {}; desli_mora6_dict = {}; 
@@ -2001,51 +2003,51 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
     prospe_mora460_dict = {}; prospe_mora6_dict = {}; prospe_mora9_dict = {}; prospe_mora12_dict = {}
     for i in meses:
        for j in form_clusterxmora:
-          if i[filtro1] == j[filtro1]:
+          if i == j[filtro1]:
             if  j['cluster']=='1. Modestos':
-                if i[filtro1] <= morames_list[num_mora6]:
-                    modes_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
+                if i <= morames_list[num_mora6]:
+                    modes_mora6_dict[i]=j['sum_mora6']*100/j['formalizados']
             elif  j['cluster']=='2. Desligados':
-                if i[filtro1] <= morames_list[num_mora6]:
-                    desli_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
+                if i <= morames_list[num_mora6]:
+                    desli_mora6_dict[i]=j['sum_mora6']*100/j['formalizados']
             elif  j['cluster']=='3. Progresistas':
-                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                    progre_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_lista]:
-                    progre_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[num_mora6]:
-                    progre_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_mora9]:
-                    progre_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_mora12]:
-                    progre_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['formalizados']
+                if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                    progre_mora460_dict[i]=j['sum_mora460']*100/j['formalizados']
+                if i <= morames_list[num_lista]:
+                    progre_mora460_dict[i]=[]
+                if i <= morames_list[num_mora6]:
+                    progre_mora6_dict[i]=j['sum_mora6']*100/j['formalizados']
+                if i <= morames_list[num_mora9]:
+                    progre_mora9_dict[i]=j['sum_mora9']*100/j['formalizados']
+                if i <= morames_list[num_mora12]:
+                    progre_mora12_dict[i]=j['sum_mora12']*100/j['formalizados']
             elif  j['cluster']=='4. Aspirantes':
-                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                    aspi_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_lista]:
-                    aspi_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[num_mora6]:
-                    aspi_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_mora9]:
-                    aspi_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_mora12]:
-                    aspi_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['formalizados']
+                if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                    aspi_mora460_dict[i]=j['sum_mora460']*100/j['formalizados']
+                if i <= morames_list[num_lista]:
+                    aspi_mora460_dict[i]=[]
+                if i <= morames_list[num_mora6]:
+                    aspi_mora6_dict[i]=j['sum_mora6']*100/j['formalizados']
+                if i <= morames_list[num_mora9]:
+                    aspi_mora9_dict[i]=j['sum_mora9']*100/j['formalizados']
+                if i <= morames_list[num_mora12]:
+                    aspi_mora12_dict[i]=j['sum_mora12']*100/j['formalizados']
             elif  j['cluster']=='5. Prosperos':
-                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                    prospe_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_lista]:
-                    prospe_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[num_mora6]:
-                    prospe_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_mora9]:
-                    prospe_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_mora12]:
-                    prospe_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['formalizados']
+                if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                    prospe_mora460_dict[i]=j['sum_mora460']*100/j['formalizados']
+                if i <= morames_list[num_lista]:
+                    prospe_mora460_dict[i]=[]
+                if i <= morames_list[num_mora6]:
+                    prospe_mora6_dict[i]=j['sum_mora6']*100/j['formalizados']
+                if i <= morames_list[num_mora9]:
+                    prospe_mora9_dict[i]=j['sum_mora9']*100/j['formalizados']
+                if i <= morames_list[num_mora12]:
+                    prospe_mora12_dict[i]=j['sum_mora12']*100/j['formalizados']
 
-    meses_costo = CosteRiesgo.objects.values('codmes').order_by('-codmes').distinct('codmes')
+    meses_costo = CosteRiesgo.objects.values_list('codmes', flat=True).order_by('-codmes').distinct()
     meses_costo_list= []
     for i in meses_costo:
-      meses_costo_list.append(i['codmes'])
+      meses_costo_list.append(i)
 
     costo_mensual_totaltdc = CosteRiesgo.objects.values('codmes','m6_t','m9_t','m12_t','m6_c','m9_c','m12_c','m6_u','m9_u','m12_u').filter(producto='Tarjeta')
     tm6t_dict={};tm9t_dict={};tm12t_dict={};mm6t_dict={};
@@ -2080,20 +2082,20 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
 
     if filtro1 == 'trimestre_form':
       for i in meses:
-        mm6t_dict[i['trimestre_form']]=[]
-        mm6c_dict[i['trimestre_form']]=[]
-        mm6u_dict[i['trimestre_form']]=[]
+        mm6t_dict[i]=[]
+        mm6c_dict[i]=[]
+        mm6u_dict[i]=[]
     else:
       len_meses = len(meses_costo_list)-1
       for i in meses:
-        if i['mes_vigencia'] >= meses_costo_list[len_meses] and i['mes_vigencia'] <= meses_costo_list[0]:
-          mm6t_dict[i['mes_vigencia']]=tm6t_dict[i['mes_vigencia']]
-          mm6c_dict[i['mes_vigencia']]=tm6c_dict[i['mes_vigencia']]
-          mm6u_dict[i['mes_vigencia']]=tm6u_dict[i['mes_vigencia']]
+        if i >= meses_costo_list[len_meses] and i <= meses_costo_list[0]:
+          mm6t_dict[i]=tm6t_dict[i]
+          mm6c_dict[i]=tm6c_dict[i]
+          mm6u_dict[i]=tm6u_dict[i]
         else:
-          mm6t_dict[i['mes_vigencia']]=[]
-          mm6c_dict[i['mes_vigencia']]=[]
-          mm6u_dict[i['mes_vigencia']]=[]
+          mm6t_dict[i]=[]
+          mm6c_dict[i]=[]
+          mm6u_dict[i]=[]
 
 
     static_url=settings.STATIC_URL
@@ -3793,7 +3795,7 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
     filtro2 = str(filtro2)
     filtro3 = str(filtro3)
 
-    tiempo = Seguimiento.objects.values('periodo').order_by('periodo').distinct('periodo')
+    tiempo = Seguimiento.objects.values_list('periodo', flat=True).order_by('periodo').distinct()
 
     if filtro3 == 'form':
       tipo_form = 1
@@ -3801,17 +3803,17 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
       tipo_form = 0
 
     if filtro1 == 'trimestre_form':
-        meses = Seguimiento.objects.values(filtro1).filter(periodo__gte=filtro2).exclude(trimestre_form__in=['']).order_by(filtro1).distinct(filtro1)
+        meses = Seguimiento.objects.values_list(filtro1, flat=True).filter(periodo__gte=filtro2).exclude(trimestre_form__in=['']).order_by(filtro1).distinct()
         trimestre = 1
     else:
-        meses = Seguimiento.objects.values(filtro1).filter(periodo__gte=filtro2).order_by(filtro1).distinct(filtro1)
+        meses = Seguimiento.objects.values_list(filtro1, flat=True).filter(periodo__gte=filtro2).order_by(filtro1).distinct()
         trimestre = 0
 
     total_form = Seguimiento.objects.values(filtro1, 'producto').filter(producto='01 Consumo', periodo__gte=filtro2, origen__in=['FAST','REGULAR','UNO A UNO']).annotate(formalizado=Sum(filtro3),cuentas=Sum('ctas')).order_by(filtro1)
     total_form_dict = {}; total_ctas_dict = {};
     for i in meses:
       for j in total_form:
-        if i[filtro1] == j[filtro1]:
+        if i == j[filtro1]:
           total_form_dict[j[filtro1]]=j['formalizado']
           total_ctas_dict[j[filtro1]]=j['cuentas']
 
@@ -3834,23 +3836,23 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
     formUno_dict = {}; formFast_dict = {}; formRegular_dict = {};
     for i in meses:
         for j in uno_a_uno:
-            if i[filtro1] == j[filtro1]:
-                formUno_dict[i[filtro1]] = j['formalizado']
+            if i == j[filtro1]:
+                formUno_dict[i] = j['formalizado']
                 break
             else:
-                formUno_dict[i[filtro1]] = 0
+                formUno_dict[i] = 0
         for j in camp_fast:
-            if i[filtro1] == j[filtro1]:
-                formFast_dict[i[filtro1]] = j['formalizado']
+            if i == j[filtro1]:
+                formFast_dict[i] = j['formalizado']
                 break
             else:
-                formFast_dict[i[filtro1]] = 0
+                formFast_dict[i] = 0
         for j in camp_regular:
-            if i[filtro1] == j[filtro1]:
-                formRegular_dict[i[filtro1]] = j['formalizado']
+            if i == j[filtro1]:
+                formRegular_dict[i] = j['formalizado']
                 break
             else:
-                formRegular_dict[i[filtro1]] = 0
+                formRegular_dict[i] = 0
 
     uno_a_uno = Seguimiento.objects.values(filtro1).filter(producto='01 Consumo', origen='UNO A UNO', periodo__gte=filtro2).annotate(formalizado=Sum('form'),facturacion=Sum('facturacion')).order_by(filtro1)
     camp_fast = Seguimiento.objects.values(filtro1).filter(producto='01 Consumo', origen='FAST', periodo__gte=filtro2).annotate(formalizado=Sum('form'),facturacion=Sum('facturacion')).order_by(filtro1)
@@ -3858,26 +3860,26 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
     ticketUno_dict = {}; ticketFast_dict = {}; ticketRegular_dict = {};
     for i in meses:
         for j in uno_a_uno:
-            if i[filtro1] == j[filtro1]:
-                ticketUno_dict[i[filtro1]] = j['facturacion']*1000000/j['formalizado']
+            if i == j[filtro1]:
+                ticketUno_dict[i] = j['facturacion']*1000000/j['formalizado']
                 break
             else:
-                ticketUno_dict[i[filtro1]] = []
+                ticketUno_dict[i] = []
         for j in camp_fast:
-            if i[filtro1] == j[filtro1]:
-                if i[filtro1] >= meses_fast_list[num_meses_fast]:
-                  ticketFast_dict[i[filtro1]] = j['facturacion']*1000000/j['formalizado']
-                elif i[filtro1] < meses_fast_list[num_meses_fast]:
-                  ticketFast_dict[i[filtro1]] = []
+            if i == j[filtro1]:
+                if i >= meses_fast_list[num_meses_fast]:
+                  ticketFast_dict[i] = j['facturacion']*1000000/j['formalizado']
+                elif i < meses_fast_list[num_meses_fast]:
+                  ticketFast_dict[i] = []
                 break
             else:
-                ticketFast_dict[i[filtro1]] = []
+                ticketFast_dict[i] = []
         for j in camp_regular:
-            if i[filtro1] == j[filtro1]:
-                ticketRegular_dict[i[filtro1]] = j['facturacion']*1000000/j['formalizado']
+            if i == j[filtro1]:
+                ticketRegular_dict[i] = j['facturacion']*1000000/j['formalizado']
                 break
             else:
-                ticketRegular_dict[i[filtro1]] = []
+                ticketRegular_dict[i] = []
 
     if filtro1 == 'trimestre_form':
         meses_moras = Seguimiento.objects.values('trimestre_form').order_by('-trimestre_form').distinct()
@@ -3951,37 +3953,37 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
     rango4_dict = {}; rango5_dict = {}; rango6_dict = {}
     for i in meses:
       for j in rangos:
-        if i[filtro1] == j[filtro1]:
+        if i == j[filtro1]:
           if j['rng_ing'] == '01 [3.5K - ...]':
-            rango1_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+            rango1_dict[i]=j['num_rango']*100/total_form_dict[i]
           elif j['rng_ing'] == '02 [2.5K - 3.5K]':
-            rango2_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+            rango2_dict[i]=j['num_rango']*100/total_form_dict[i]
           elif j['rng_ing'] == '03 [2K - 2.5K]':
-            rango3_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+            rango3_dict[i]=j['num_rango']*100/total_form_dict[i]
           elif j['rng_ing'] == '04 [1.5K - 2K]':
-            rango4_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+            rango4_dict[i]=j['num_rango']*100/total_form_dict[i]
           elif j['rng_ing'] == '05 [1K - 1.5K]':
-            rango5_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+            rango5_dict[i]=j['num_rango']*100/total_form_dict[i]
           elif j['rng_ing'] == '06 [0 - 1K]':
-            rango6_dict[i[filtro1]]=j['num_rango']*100/total_form_dict[i[filtro1]]
+            rango6_dict[i]=j['num_rango']*100/total_form_dict[i]
 
     formxcampxuno = Seguimiento.objects.values(filtro1,'riesgos').filter(producto='01 Consumo', periodo__gte=filtro2, origen__in=['FAST','REGULAR','UNO A UNO']).annotate(formalizado=Sum(filtro3)).order_by(filtro1)
     camp_form_dict = {}; uno_form_dict = {};
     for i in meses:
         for j in formxcampxuno:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                camp_form_dict[i[filtro1]] = j['formalizado']
+            if i == j[filtro1]:
+                camp_form_dict[i] = j['formalizado']
                 break
             else:
-                camp_form_dict[i[filtro1]] = 0
+                camp_form_dict[i] = 0
         for j in formxcampxuno:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                uno_form_dict[i[filtro1]] = j['formalizado']
+            if i == j[filtro1]:
+                uno_form_dict[i] = j['formalizado']
                 break
             else:
-                uno_form_dict[i[filtro1]] = 0
+                uno_form_dict[i] = 0
 
     seg_ava = Seguimiento.objects.values(filtro1).filter(riesgos='CAMP', producto='01 Consumo', segmento='1.AVA', periodo__gte=filtro2).annotate(seg=Sum(filtro3)).order_by(filtro1)
     seg_ms = Seguimiento.objects.values(filtro1,'riesgos').filter(producto='01 Consumo', segmento='2.MS', periodo__gte=filtro2).annotate(seg=Sum(filtro3)).order_by(filtro1)
@@ -3991,53 +3993,53 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
     useg_ms_dict = {}; useg_noph_dict = {}; useg_nocli_dict = {};
     for i in meses:
         for j in seg_ava:
-            if i[filtro1] == j[filtro1]:
-                seg_ava_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                seg_ava_dict[i] = j['seg']
                 break
             else:
-                seg_ava_dict[i[filtro1]] = 0
+                seg_ava_dict[i] = 0
         for j in seg_ms:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                seg_ms_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                seg_ms_dict[i] = j['seg']
                 break
             else:
-                seg_ms_dict[i[filtro1]] = 0
+                seg_ms_dict[i] = 0
         for j in seg_ms:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                useg_ms_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                useg_ms_dict[i] = j['seg']
                 break
             else:
-                useg_ms_dict[i[filtro1]] = 0
+                useg_ms_dict[i] = 0
         for j in seg_noph:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                seg_noph_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                seg_noph_dict[i] = j['seg']
                 break
             else:
-                seg_noph_dict[i[filtro1]] = 0
+                seg_noph_dict[i] = 0
         for j in seg_noph:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                useg_noph_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                useg_noph_dict[i] = j['seg']
                 break
             else:
-                useg_noph_dict[i[filtro1]] = 0
+                useg_noph_dict[i] = 0
         for j in seg_nocli:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                seg_nocli_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                seg_nocli_dict[i] = j['seg']
                 break
             else:
-                seg_nocli_dict[i[filtro1]] = 0
+                seg_nocli_dict[i] = 0
         for j in seg_nocli:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                useg_nocli_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                useg_nocli_dict[i] = j['seg']
                 break
             else:
-                useg_nocli_dict[i[filtro1]] = 0
+                useg_nocli_dict[i] = 0
 
     total_ctasxmorasxcampxuno = Seguimiento.objects.values(filtro1,'riesgos').filter(producto='01 Consumo', periodo__gte=filtro2).annotate(sum_ctas=Sum('ctas'),sum_mora460=Sum('mora4_60'),sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12'),sum_mora18=Sum('mora18'), sum_mora24=Sum('mora24'), sum_mora36=Sum('mora36')).order_by(filtro1)
     total_ctasxcamp_dict = {}; mora460_camp_dict = {}; mora6_camp_dict = {}; mora9_camp_dict = {}; mora12_camp_dict = {}; mora18_camp_dict = {}; mora24_camp_dict = {}; mora36_camp_dict = {};
@@ -4114,65 +4116,65 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
     dict_moraunoms = {}; dict_moraunonoph = {}; dict_moraunonocli = {};
     for i in meses:
        for j in moras:
-          if i[filtro1] == j[filtro1]:
+          if i == j[filtro1]:
             if j['riesgos'] == 'CAMP':
               if  j['segmento']=='1.AVA':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      ava_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] < morames_list[num_lista]:
-                      ava_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      ava_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      ava_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      ava_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']     
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      ava_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i < morames_list[num_lista]:
+                      ava_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      ava_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      ava_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      ava_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']     
               elif  j['segmento']=='2.MS':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      ms_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] < morames_list[num_lista]:
-                      ms_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      ms_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      ms_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      ms_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      ms_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i < morames_list[num_lista]:
+                      ms_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      ms_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      ms_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      ms_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']
               elif  j['segmento']=='3.NoPH':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      noph_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] < morames_list[num_lista]:
-                      noph_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      noph_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      noph_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      noph_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      noph_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i < morames_list[num_lista]:
+                      noph_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      noph_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      noph_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      noph_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']
               elif  j['segmento']=='4.NoCli':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      nocli_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] < morames_list[num_lista]:
-                      nocli_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      nocli_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      nocli_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      nocli_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      nocli_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i < morames_list[num_lista]:
+                      nocli_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      nocli_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      nocli_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      nocli_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']
     for i in meses:
        for j in moras:
-          if i[filtro1] == j[filtro1]:
+          if i == j[filtro1]:
             if j['riesgos'] == 'UNO A UNO':
               if  j['segmento']=='2.MS':
-                if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moraunoms[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                if i <= morames_list[num_mora6]:
+                      dict_moraunoms[i]=j['sum_mora6']*100/j['sum_ctas']
               elif  j['segmento']=='3.NoPH':
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moraunonoph[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora6]:
+                      dict_moraunonoph[i]=j['sum_mora6']*100/j['sum_ctas']
               elif  j['segmento']=='4.NoCli':
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moraunonocli[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora6]:
+                      dict_moraunonocli[i]=j['sum_mora6']*100/j['sum_ctas']
 
     depen = Seguimiento.objects.values(filtro1,'riesgos').filter(digital='', producto='01 Consumo', cat_persona='1. Dependiente', periodo__gte=filtro2).annotate(seg = Sum(filtro3)).order_by(filtro1)
     indep = Seguimiento.objects.values(filtro1,'riesgos').filter(digital='', producto='01 Consumo', cat_persona='2. Independiente', periodo__gte=filtro2).annotate(seg=Sum(filtro3)).order_by(filtro1)
@@ -4183,60 +4185,60 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
     for i in meses:
         for j in depen:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                depen_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                depen_dict[i] = j['seg']
                 break
             else:
-                depen_dict[i[filtro1]] = 0
+                depen_dict[i] = 0
         for j in indep:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                indep_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                indep_dict[i] = j['seg']
                 break
             else:
-                indep_dict[i[filtro1]] = 0
+                indep_dict[i] = 0
         for j in pnn:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                pnn_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                pnn_dict[i] = j['seg']
                 break
             else:
-                pnn_dict[i[filtro1]] = 0
+                pnn_dict[i] = 0
         for j in no_recon:
           if j['riesgos'] == 'CAMP':
-            if i[filtro1] == j[filtro1]:
-                no_recon_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                no_recon_dict[i] = j['seg']
                 break
             else:
-                no_recon_dict[i[filtro1]] = 0
+                no_recon_dict[i] = 0
         for j in depen:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                udepen_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                udepen_dict[i] = j['seg']
                 break
             else:
-                udepen_dict[i[filtro1]] = 0
+                udepen_dict[i] = 0
         for j in indep:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                uindep_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                uindep_dict[i] = j['seg']
                 break
             else:
-                uindep_dict[i[filtro1]] = 0
+                uindep_dict[i] = 0
         for j in pnn:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                upnn_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                upnn_dict[i] = j['seg']
                 break
             else:
-                upnn_dict[i[filtro1]] = 0
+                upnn_dict[i] = 0
         for j in no_recon:
           if j['riesgos'] == 'UNO A UNO':
-            if i[filtro1] == j[filtro1]:
-                uno_recon_dict[i[filtro1]] = j['seg']
+            if i == j[filtro1]:
+                uno_recon_dict[i] = j['seg']
                 break
             else:
-                uno_recon_dict[i[filtro1]] = 0
+                uno_recon_dict[i] = 0
 
     morascat = Seguimiento.objects.values(filtro1, 'cat_persona','riesgos').filter(producto='01 Consumo', periodo__gte=filtro2).annotate(sum_ctas=Sum('ctas'),sum_mora460=Sum('mora4_60'),sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by(filtro1)
     #INCUMPLIMIENTO RELACION LABORAL CAMPANAS
@@ -4249,101 +4251,101 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
     dict_moracampnn = {}; dict_moracamnor = {};
     for i in meses:
        for j in morascat:
-          if i[filtro1] == j[filtro1]:
+          if i == j[filtro1]:
             if j['riesgos'] == 'CAMP':
               if  j['cat_persona']=='1. Dependiente':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      dep_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_lista]:
-                      dep_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      dep_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      dep_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      dep_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']    
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      dep_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i <= morames_list[num_lista]:
+                      dep_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      dep_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      dep_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      dep_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']    
               elif  j['cat_persona']=='2. Independiente':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      indep_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_lista]:
-                      indep_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      indep_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      indep_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      indep_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      indep_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i <= morames_list[num_lista]:
+                      indep_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      indep_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      indep_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      indep_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']
               elif  j['cat_persona']=='3. PNN':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      pnn_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_lista]:
-                      pnn_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      pnn_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      pnn_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      pnn_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      pnn_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i <= morames_list[num_lista]:
+                      pnn_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      pnn_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      pnn_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      pnn_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']
               elif  j['cat_persona']=='4.No Reconocido':
-                  if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                      norec_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_lista]:
-                      norec_mora460_dict[i[filtro1]]=[]
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      norec_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora9]:
-                      norec_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['sum_ctas']
-                  if i[filtro1] <= morames_list[num_mora12]:
-                      norec_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                      norec_mora460_dict[i]=j['sum_mora460']*100/j['sum_ctas']
+                  if i <= morames_list[num_lista]:
+                      norec_mora460_dict[i]=[]
+                  if i <= morames_list[num_mora6]:
+                      norec_mora6_dict[i]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora9]:
+                      norec_mora9_dict[i]=j['sum_mora9']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora12]:
+                      norec_mora12_dict[i]=j['sum_mora12']*100/j['sum_ctas']
     for i in meses:
        for j in morascat:
-          if i[filtro1] == j[filtro1]:
+          if i == j[filtro1]:
             if j['riesgos'] == 'UNO A UNO':
               if  j['cat_persona']=='1. Dependiente':
-                if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moracamdep[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                if i <= morames_list[num_mora6]:
+                      dict_moracamdep[i]=j['sum_mora6']*100/j['sum_ctas']
               elif  j['cat_persona']=='2. Independiente':
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moracamind[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora6]:
+                      dict_moracamind[i]=j['sum_mora6']*100/j['sum_ctas']
               elif  j['cat_persona']=='3. PNN':
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moracampnn[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora6]:
+                      dict_moracampnn[i]=j['sum_mora6']*100/j['sum_ctas']
               elif  j['cat_persona']=='4.No Reconocido':
-                  if i[filtro1] <= morames_list[num_mora6]:
-                      dict_moracamnor[i[filtro1]]=j['sum_mora6']*100/j['sum_ctas']
+                  if i <= morames_list[num_mora6]:
+                      dict_moracamnor[i]=j['sum_mora6']*100/j['sum_ctas']
 
     buroxform = Seguimiento.objects.values(filtro1, 'buro_camp').filter(digital='',riesgos='CAMP', producto='01 Consumo', periodo__gte=filtro2).annotate(seg=Sum(filtro3),cuentas=Sum('ctas'),sum_mora6=Sum('mora6')).order_by(filtro1)
     dict_burog1 = {}; dict_burog5 = {};
     dict_burog6 = {}; dict_buronb = {};
     for i in meses:
         for j in buroxform:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
               if j['buro_camp'] == 'G1-G4':
-                dict_burog1[i[filtro1]] = j['seg']
+                dict_burog1[i] = j['seg']
                 break
               else:
-                dict_burog1[i[filtro1]] = 0
+                dict_burog1[i] = 0
         for j in buroxform:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
               if j['buro_camp'] == 'G5':
-                dict_burog5[i[filtro1]] = j['seg']
+                dict_burog5[i] = j['seg']
                 break
               else:
-                dict_burog5[i[filtro1]] = 0
+                dict_burog5[i] = 0
         for j in buroxform:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
               if j['buro_camp'] == 'G6-G8':
-                dict_burog6[i[filtro1]] = j['seg']
+                dict_burog6[i] = j['seg']
                 break
               else:
-                dict_burog6[i[filtro1]] = 0
+                dict_burog6[i] = 0
         for j in buroxform:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
               if j['buro_camp'] == 'NB':
-                dict_buronb[i[filtro1]] = j['seg']
+                dict_buronb[i] = j['seg']
                 break
               else:
-                dict_buronb[i[filtro1]] = 0
+                dict_buronb[i] = 0
 
     dict_mora6buro1 = {}; dict_mora6buro2 = {}; 
     dict_mora6buro3 = {}; dict_mora6buro4 = {};
@@ -4368,45 +4370,45 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
     forzaje_dict = {}
     for i in meses:
      for j in total_forzaje:
-         if i[filtro1] == j[filtro1]:
+         if i == j[filtro1]:
           forzaje_dict[j[filtro1]]=j['cantidad']
 
     forzaje2 = Forzaje.objects.values(filtro1, 'dic_global').filter(producto = '01 Consumo').exclude(dic_global='AP').annotate(cantidad=Sum('form')).order_by(filtro1)
     duda_dict = {}; rechazo_dict = {};
     for i in meses:
         for j in forzaje2:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
              if  j['dic_global']=='DU':
-                    duda_dict[i[filtro1]]=j['cantidad']*100/forzaje_dict[i[filtro1]]
+                    duda_dict[i]=j['cantidad']*100/forzaje_dict[i]
                     break
             else:
-                duda_dict[i[filtro1]]= 0
+                duda_dict[i]= 0
         for j in forzaje2:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
              if  j['dic_global']=='RE':
-                    rechazo_dict[i[filtro1]]=j['cantidad']*100/forzaje_dict[i[filtro1]]
+                    rechazo_dict[i]=j['cantidad']*100/forzaje_dict[i]
                     break
             else:
-                rechazo_dict[i[filtro1]]= 0
+                rechazo_dict[i]= 0
 
     form_cluster = Seguimiento.objects.values(filtro1, 'cluster').filter(producto='01 Consumo', periodo__gte=filtro2).annotate(formalizados=Sum(filtro3)).order_by(filtro1)
     form_modes_dict = {}; form_desli_dict = {}; form_progre_dict = {};
     form_aspi_dict = {}; form_prospe_dict = {}; form_sd_dict = {};
     for i in meses:
         for j in form_cluster:
-            if i[filtro1] == j[filtro1]:
+            if i == j[filtro1]:
               if j['cluster'] == '1. Modestos':
-                form_modes_dict[i[filtro1]] = j['formalizados']
+                form_modes_dict[i] = j['formalizados']
               elif j['cluster'] == '2. Desligados':
-                form_desli_dict[i[filtro1]] = j['formalizados']
+                form_desli_dict[i] = j['formalizados']
               elif j['cluster'] == '3. Progresistas':
-                form_progre_dict[i[filtro1]] = j['formalizados']
+                form_progre_dict[i] = j['formalizados']
               elif j['cluster'] == '4. Aspirantes':
-                form_aspi_dict[i[filtro1]] = j['formalizados']
+                form_aspi_dict[i] = j['formalizados']
               elif j['cluster'] == '5. Prosperos':
-                form_prospe_dict[i[filtro1]] = j['formalizados']
+                form_prospe_dict[i] = j['formalizados']
               elif j['cluster'] == '0. S.D.':
-                form_sd_dict[i[filtro1]] = j['formalizados']
+                form_sd_dict[i] = j['formalizados']
 
     form_clusterxmora = Seguimiento.objects.values(filtro1, 'cluster').filter(producto='01 Consumo', periodo__gte=filtro2).annotate(formalizados=Sum('form'),sum_mora460=Sum('mora4_60'),sum_mora6=Sum('mora6'), sum_mora9=Sum('mora9'), sum_mora12=Sum('mora12')).order_by(filtro1)
     modes_mora6_dict = {}; desli_mora6_dict = {}; 
@@ -4415,51 +4417,51 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
     prospe_mora460_dict = {}; prospe_mora6_dict = {}; prospe_mora9_dict = {}; prospe_mora12_dict = {}
     for i in meses:
        for j in form_clusterxmora:
-          if i[filtro1] == j[filtro1]:
+          if i == j[filtro1]:
             if  j['cluster']=='1. Modestos':
-                if i[filtro1] <= morames_list[num_mora6]:
-                    modes_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
+                if i <= morames_list[num_mora6]:
+                    modes_mora6_dict[i]=j['sum_mora6']*100/j['formalizados']
             elif  j['cluster']=='2. Desligados':
-                if i[filtro1] <= morames_list[num_mora6]:
-                    desli_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
+                if i <= morames_list[num_mora6]:
+                    desli_mora6_dict[i]=j['sum_mora6']*100/j['formalizados']
             elif  j['cluster']=='3. Progresistas':
-                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                    progre_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_lista]:
-                    progre_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[num_mora6]:
-                    progre_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_mora9]:
-                    progre_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_mora12]:
-                    progre_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['formalizados']
+                if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                    progre_mora460_dict[i]=j['sum_mora460']*100/j['formalizados']
+                if i <= morames_list[num_lista]:
+                    progre_mora460_dict[i]=[]
+                if i <= morames_list[num_mora6]:
+                    progre_mora6_dict[i]=j['sum_mora6']*100/j['formalizados']
+                if i <= morames_list[num_mora9]:
+                    progre_mora9_dict[i]=j['sum_mora9']*100/j['formalizados']
+                if i <= morames_list[num_mora12]:
+                    progre_mora12_dict[i]=j['sum_mora12']*100/j['formalizados']
             elif  j['cluster']=='4. Aspirantes':
-                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                    aspi_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_lista]:
-                    aspi_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[num_mora6]:
-                    aspi_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_mora9]:
-                    aspi_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_mora12]:
-                    aspi_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['formalizados']
+                if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                    aspi_mora460_dict[i]=j['sum_mora460']*100/j['formalizados']
+                if i <= morames_list[num_lista]:
+                    aspi_mora460_dict[i]=[]
+                if i <= morames_list[num_mora6]:
+                    aspi_mora6_dict[i]=j['sum_mora6']*100/j['formalizados']
+                if i <= morames_list[num_mora9]:
+                    aspi_mora9_dict[i]=j['sum_mora9']*100/j['formalizados']
+                if i <= morames_list[num_mora12]:
+                    aspi_mora12_dict[i]=j['sum_mora12']*100/j['formalizados']
             elif  j['cluster']=='5. Prosperos':
-                if i[filtro1] <= morames_list[num_mora4] and i[filtro1] >= morames_list[num_lista]:
-                    prospe_mora460_dict[i[filtro1]]=j['sum_mora460']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_lista]:
-                    prospe_mora460_dict[i[filtro1]]=[]
-                if i[filtro1] <= morames_list[num_mora6]:
-                    prospe_mora6_dict[i[filtro1]]=j['sum_mora6']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_mora9]:
-                    prospe_mora9_dict[i[filtro1]]=j['sum_mora9']*100/j['formalizados']
-                if i[filtro1] <= morames_list[num_mora12]:
-                    prospe_mora12_dict[i[filtro1]]=j['sum_mora12']*100/j['formalizados']
+                if i <= morames_list[num_mora4] and i >= morames_list[num_lista]:
+                    prospe_mora460_dict[i]=j['sum_mora460']*100/j['formalizados']
+                if i <= morames_list[num_lista]:
+                    prospe_mora460_dict[i]=[]
+                if i <= morames_list[num_mora6]:
+                    prospe_mora6_dict[i]=j['sum_mora6']*100/j['formalizados']
+                if i <= morames_list[num_mora9]:
+                    prospe_mora9_dict[i]=j['sum_mora9']*100/j['formalizados']
+                if i <= morames_list[num_mora12]:
+                    prospe_mora12_dict[i]=j['sum_mora12']*100/j['formalizados']
 
-    meses_costo = CosteRiesgo.objects.values('codmes').order_by('-codmes').distinct('codmes')
+    meses_costo = CosteRiesgo.objects.values_list('codmes', flat=True).order_by('-codmes').distinct()
     meses_costo_list= []
     for i in meses_costo:
-      meses_costo_list.append(i['codmes'])
+      meses_costo_list.append(i)
 
     costo_mensual_total = CosteRiesgo.objects.values('codmes','m6_t','m9_t','m12_t','m6_c','m9_c','m12_c','m6_u','m9_u','m12_u').filter(producto='Consumo')
     cm6t_dict={};cm9t_dict={};cm12t_dict={};mm6t_dict={};
@@ -4494,20 +4496,20 @@ def seguimiento_prestamo(request, filtro1='mes_vigencia', filtro2='2012', filtro
 
     if filtro1 == 'trimestre_form':
       for i in meses:
-        mm6t_dict[i['trimestre_form']]=[]
-        mm6c_dict[i['trimestre_form']]=[]
-        mm6u_dict[i['trimestre_form']]=[]
+        mm6t_dict[i]=[]
+        mm6c_dict[i]=[]
+        mm6u_dict[i]=[]
     else:
       len_meses = len(meses_costo_list)-1
       for i in meses:
-        if i['mes_vigencia'] >= meses_costo_list[len_meses] and i['mes_vigencia'] <= meses_costo_list[0]:
-          mm6t_dict[i['mes_vigencia']]=cm6t_dict[i['mes_vigencia']]
-          mm6c_dict[i['mes_vigencia']]=cm6c_dict[i['mes_vigencia']]
-          mm6u_dict[i['mes_vigencia']]=cm6u_dict[i['mes_vigencia']]
+        if i >= meses_costo_list[len_meses] and i <= meses_costo_list[0]:
+          mm6t_dict[i]=cm6t_dict[i]
+          mm6c_dict[i]=cm6c_dict[i]
+          mm6u_dict[i]=cm6u_dict[i]
         else:
-          mm6t_dict[i['mes_vigencia']]=[]
-          mm6c_dict[i['mes_vigencia']]=[]
-          mm6u_dict[i['mes_vigencia']]=[]
+          mm6t_dict[i]=[]
+          mm6c_dict[i]=[]
+          mm6u_dict[i]=[]
           
 
 

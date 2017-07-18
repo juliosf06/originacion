@@ -552,7 +552,7 @@ class RVGL(models.Model):
     sco = models.CharField(max_length=10)
     dictamen_sco = models.CharField(max_length=10)
     dic_buro = models.CharField(max_length=10)
-    importe_aprob = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    importe_aprob = models.FloatField(default=0)
     oficina = models.CharField(max_length=50, default=0)
     base_sco = models.IntegerField(default=0)
     base_rvgl = models.IntegerField(default=0)
