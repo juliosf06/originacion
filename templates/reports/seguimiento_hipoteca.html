@@ -28,7 +28,7 @@
             <label>Desde:&nbsp;</label>
             <select class="form-control" id="hipoteca_periodo" style="display: inline-block; width:16%;">
               {% for a in tiempo %}
-              <option value="{{a.periodo}}" {% if filtro2 == a.periodo %} selected {% endif %}>{{a.periodo}}</option>
+              <option value="{{a}}" {% if filtro2 == a %} selected {% endif %}>{{a}}</option>
               {% endfor %}
             </select>
             {% else %}

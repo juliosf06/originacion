@@ -19,7 +19,7 @@
             <button type="button" id="button1" style="display: inline-block;"> Mensual </button>&nbsp;&nbsp;
             <button type="button" id="button2" style="display: inline-block;"> Trimestral </button>
             &nbsp;
-            {% if trimestre = 0 %}
+            {% if trimestre == 0 %}
             <label>Desde:&nbsp;</label>
             <select class="form-control" id="pld_periodo" style="display: inline-block; width:18%;">
               {% for a in tiempo %}

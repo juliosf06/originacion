@@ -21,7 +21,7 @@
     <label class="control-label">Periodo:&nbsp;&nbsp;</label>
       <select class="form-control" name="periodo" id="comentario_periodo" style="width: 20%">
         {% for a in meses %}
-        <option id="{{a.mes_vigencia}}" value="{{a.mes_vigencia}}" {% if fecha == a.mes_vigencia %} selected {% endif %}>{{a.mes_vigencia|format_date}}</option>
+        <option id="{{a}}" value="{{a}}" {% if fecha == a %} selected {% endif %}>{{a|format_date}}</option>
         {% endfor %}
       </select>
     </div>

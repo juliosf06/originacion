@@ -14,7 +14,7 @@
           <label class="control-label">Segmento:&nbsp;&nbsp;</label>
           <form action="" class="form-control" id="exoneracion_segmento">
 	           {% for i in control_segmentos %}
-	           <input type="checkbox" name="segmento" class="check" value="{{i.segmento}}" {% if i.segmento in lista %}checked{% endif %} >{{i.segmento}}
+	           <input type="checkbox" name="segmento" class="check" value="{{i}}" {% if i in lista %}checked{% endif %} >{{i}}
 	           {% endfor %}
           </form>
           <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">

@@ -22,7 +22,7 @@
             <select class="form-control" id="detalles_segmento">
               <option>TOTAL</option>
 	    {% for a in control_segmentos %}
-              <option {% if segmento == a.segmento %}selected {% endif %}>{{a.segmento}} </option>
+              <option {% if segmento == a %}selected {% endif %}>{{a}} </option>
 	    {% endfor %}
             </select>
             <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
