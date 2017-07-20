@@ -16,15 +16,16 @@
 
 .menu{
     position: fixed;
-    padding-top: 25%;
+    margin-left: -3px;
+    padding-top: 200px;
     font-size: 25px;
-    color: #000;
+    color: rgb(9,79,168);
     z-index:9999;
     cursor: pointer;
 }
 
 .menu:hover{
-    color: rgb(9,79,168);
+    color: rgb(0,158,229);
 }
 
 .rows{
