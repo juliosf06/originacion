@@ -183,6 +183,13 @@ def campana_detalles(request, segmento='TOTAL', fecha=''):
     return render('reports/campana2_detalles.html', locals(),
                   context_instance=RequestContext(request))
 
+@login_required
+def modelo_relacional(request):
+    static_url=settings.STATIC_URL
+    tipo_side = 1
+    return render('reports/campana_modelo.html', locals(),
+                  context_instance=RequestContext(request))
+
 
 @login_required
 def campana_caidas(request, fecha=''):

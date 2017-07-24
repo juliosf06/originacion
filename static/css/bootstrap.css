@@ -4193,7 +4193,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: fixed;
   min-height: 50px;
-  border: 1px solid transparent;
 }
 @media (min-width: 983px) { /* 768px*/
   .navbar {
@@ -4662,7 +4661,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 .navbar-inverse .navbar-collapse,
 .navbar-inverse .navbar-form {
-  border-color: #101010;
+  /*border-color: #101010;*/
 }
 .navbar-inverse .navbar-nav > .open > a,
 .navbar-inverse .navbar-nav > .open > a:hover,

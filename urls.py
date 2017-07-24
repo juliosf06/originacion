@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^campanas/campanareglapat/$', views.campanareglapat, name='campanareglapat'),
     url(r'^campanas/tarjeta_campana/$', views.tarjeta_campana, name='tarjeta_campana'),
     url(r'^campanas/resumen_campanas/$', views.resumen_campanas, name='resumen_campanas'),
+    url(r'^campanas/modelo_relacional/$', views.modelo_relacional, name='modelo_relacional'),
 
 
     # URLS para reportes de RVGL
