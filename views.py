@@ -1540,6 +1540,24 @@ def seguimiento_tdc(request, filtro1='mes_vigencia', filtro2='2012', filtro3='fo
         if j[filtro1] <= morames_list[num_mora36]:
             mora36_dict[j[filtro1]]=j['sum_mora']*100/j['cuentas']
 
+    mora_ingresos = Seguimiento.objects.values(filtro1,'rng_ing').filter(producto='03 Tarjeta', periodo__gte=filtro2).annotate(sum_mora9=Sum('mora9'),cuentas=Sum('ctas')).order_by(filtro1)
+    MoraIngreso1_dict = {}; MoraIngreso2_dict = {}; MoraIngreso3_dict = {}; MoraIngreso4_dict = {}; MoraIngreso5_dict = {}; MoraIngreso6_dict = {};
+    for j in mora_ingresos:
+      if j[filtro1]<=morames_list[num_mora9]:
+        if j['rng_ing']=='01 [3.5K - ...]':
+          MoraIngreso1_dict[j[filtro1]]=j['sum_mora9']*100/j['cuentas']
+        elif j['rng_ing']=='02 [2.5K - 3.5K]':
+          MoraIngreso2_dict[j[filtro1]]=j['sum_mora9']*100/j['cuentas']
+        elif j['rng_ing']=='03 [2K - 2.5K]':
+          MoraIngreso3_dict[j[filtro1]]=j['sum_mora9']*100/j['cuentas']
+        elif j['rng_ing']=='04 [1.5K - 2K]':
+          MoraIngreso4_dict[j[filtro1]]=j['sum_mora9']*100/j['cuentas']
+        elif j['rng_ing']=='05 [1K - 1.5K]':
+          MoraIngreso5_dict[j[filtro1]]=j['sum_mora9']*100/j['cuentas']
+        elif j['rng_ing']=='06 [0 - 1K]':
+          MoraIngreso6_dict[j[filtro1]]=j['sum_mora9']*100/j['cuentas']
+
+
     rangos = Seguimiento.objects.values(filtro1, 'rng_ing').filter(producto='03 Tarjeta', periodo__gte=filtro2).annotate(num_rango=Sum(filtro3)).order_by(filtro1)
     rango1_dict = {}; rango2_dict = {}; rango3_dict = {}
     rango4_dict = {}; rango5_dict = {}; rango6_dict = {}
