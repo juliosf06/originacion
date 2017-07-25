@@ -76,6 +76,11 @@
         </div>
         &nbsp;
         &nbsp;
+        <div class="rows placeholders">
+          <div id="chartContainer34" style="height: 300px; width: 100%;"></div>
+        </div>
+        &nbsp;
+        &nbsp;
         <h2 id="seguimiento_campaña">Seguimiento Tarjeta - Campañas</h2>
           <div class="links" style = "text-align:right; font-size: 20px;">
             <a href='#botones'>Inicio</a>&nbsp;&nbsp;
@@ -3468,6 +3473,127 @@ window.onload = function () {
         ]
     });
     chart33.render();
+
+    var chart34 = new CanvasJS.Chart("chartContainer34", {
+    theme: "theme2",zoomEnabled: true,
+    title:{
+      text: "Incumplimiento 9 Meses - Ingresos",
+      fontColor: "#009EE5",
+      fontWeight: "bold",              
+    },
+    legend:{
+      fontSize: 15,
+      cursor: "pointer",
+      itemclick: function (e) {
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+ 
+                e.chart.render();
+            }
+    },
+    animationEnabled: true,   
+    data: [              
+    {
+      type: "spline",
+      name: "[0 - 1,000]",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 12,
+      color: "#FDBD2C",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in MoraIngreso6_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "[1,000 - 1,500]",
+      //indexLabel: "{y}%",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 12,
+      color: "#C8175E",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in MoraIngreso5_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "[1,500 - 2,000]",
+      //indexLabel: "{y}%",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 12,
+      color: "#89D1F3",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in MoraIngreso4_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "[2,000 - 2,500]",
+      //indexLabel: "{y}%",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 12,
+      color: "#009EE5",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in MoraIngreso3_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "[2,500 - 3,500]",
+      //indexLabel: "{y}%",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 12,
+      color: "#094FA4",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in MoraIngreso2_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    {
+      type: "spline",
+      name: "[3,500 - a más]",
+      //indexLabel: "{y}%",
+      indexLabelFontColor: "white",
+      indexLabelFontSize: 12,
+      color: "#86C82D",
+      yValueFormatString: "#0.##",
+      showInLegend: "true",
+      click: onClick3,
+      dataPoints: [
+        {% for key, value in MoraIngreso1_dict.items|sort %}
+        { y: {{value}} , {% if filtro1 = 'trimestre_form' %} label: '{{key}}' {% else %} label: '{{key|convert_date}}' {% endif %} },
+        {% endfor %}
+      ]
+    },
+    ]
+  });
+  chart34.render();
 
 
   function onClick(e) {
