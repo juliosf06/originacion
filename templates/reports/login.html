@@ -8,6 +8,16 @@
   <link href="{{static_url}}css/bootstrap-theme.css" rel="stylesheet">
   <link href="{{static_url}}css/main.css" rel="stylesheet">
   <link href="{{static_url}}css/login.css" rel="stylesheet"> <!-- agregado-->
+  <style>
+  body {
+    background-image: url("{{static_url}}images/fondo1.jpg");
+    background-repeat:no-repeat;
+    background-size:cover;
+  }
+  .card{
+    opacity:0.9;
+  }
+  </style>
 </head>
 
 <body>
@@ -16,8 +26,8 @@
     include the remember me checkbox
     -->
     <div class="container">
-        <div class="card card-container">
-            <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+        <div class="card card-container"> 
+            <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt=""  style="position: absolute; left: 80%; background-color: white; opacity:0.9;"/> -->
             <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
             <p id="profile-name" class="profile-name-card"></p>
             <form class="form-signin" action="#" method="POST">{% csrf_token %}

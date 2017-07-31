@@ -716,3 +716,20 @@ class FormTelefonica(models.Model):
 
     def __str__(self):
         return self.cosecha+' '+self.rng_edad+' '+self.rng_buro
+
+
+class AltasTarjetas(models.Model):
+    mes = models.CharField(max_length=50)
+    segmento = models.CharField(max_length=50)
+    riesgo_cliente = models.CharField(max_length=100)
+    tipo_oferta = models.CharField(max_length=100)
+    edad = models.CharField(max_length=200)
+    sueldo_final = models.CharField(max_length=200)
+    buro = models.CharField(max_length=100)
+    ofertas = models.DecimalField(max_digits=12, decimal_places=2)
+    altas = models.DecimalField(max_digits=12, decimal_places=2)
+    altas_dia = models.DecimalField(max_digits=12, decimal_places=2)
+    dia_alta = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.mes+' '+self.segmento+' '+self.riesgo_cliente

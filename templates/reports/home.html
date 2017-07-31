@@ -1,0 +1,43 @@
+{% load report_tags %}
+
+{% load humanize %}
+
+{% block title %}Prueba{% endblock %}
+
+{% block content %}
+<head>
+  <meta charset='utf-8'>
+  <style>
+  body {
+    background-image: url("{{static_url}}images/fondo3.jpg");
+    background-repeat:no-repeat;
+    background-size:cover;
+  }
+  </style>
+</head>
+
+<body>
+  <div style="position: fixed; z-index:1; border: 5px solid #002356;top: 0%; width: 100%; right:0%;">
+    <div style="font-size: 40px; color: white; background-color: #002356;"><center>BBVA</center></div>
+  </div>
+  <div>
+    <div style="font-size: 65px; color: white; position: relative; top:225px; text-shadow: 4px 4px 4px #000000;"><center>Creando Oportunidades</center></div>
+    <
+  </div>
+</body>
+
+{% endblock %}
+
+{% block script_final %}
+
+<script type="text/javascript">
+  function w3_open() {
+    $("#mySidenav").style.display = "block";
+  }
+  function w3_close() {
+    $("#mySidenav").style.display = "none";
+  }
+</script>
+
+
+{% endblock %}

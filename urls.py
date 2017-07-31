@@ -10,6 +10,9 @@ urlpatterns = [
     #url(r'^$', views.campana_ofertas, name='campana_ofertas'),
 
     # URLS para reportes de campaña
+    url(r'^home/$', views.home, name='home'),
+
+    # URLS para reportes de campaña
     url(r'^campanas/$', views.campana_resumen, name='campana_resumen'),
     url(r'^campanas/resumen/$', views.campana_resumen, name='campana_resumen'),
     url(r'^campanas/resumen/(?P<fecha>[0-9]{6})/$', views.campana_resumen, name='campana_resumen'),

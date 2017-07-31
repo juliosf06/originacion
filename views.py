@@ -65,13 +65,20 @@ def login_reports(request): #agregado
                if 'next' in request.GET:
                    return HttpResponseRedirect(request.GET['next'])
                else:
-                   return HttpResponseRedirect('/reports/campanas')
+                   return HttpResponseRedirect('/reports/seguimiento')
            else:
                # Return a 'disabled account' error message
 	       print("The password is valid, but the account has been disabled!")
        else:
            mensaje="Usurio o password incorrectos"  
     return render('reports/login.html', locals(),
+                  context_instance=RequestContext(request))
+
+@login_required
+def home(request):
+
+    static_url=settings.STATIC_URL
+    return render('reports/home.html', locals(),
                   context_instance=RequestContext(request))
 
 def logout_view(request):
