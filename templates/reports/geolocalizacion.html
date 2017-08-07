@@ -13,7 +13,7 @@
       }
       #map {
         height: 78%;
-        width: 50%%;
+        width: 100%;
       }
       #panel {
         height: Auto;
@@ -45,120 +45,19 @@
 // This example creates a simple polygon representing the Bermuda Triangle.
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 10,
-    center: {lat: -5.200, lng: -80.628},
-    mapTypeId: google.maps.MapTypeId.SATELLITE
+    zoom: 12,
+    center: {lat: -12.056207, lng: -77.037075},
+    //mapTypeId: google.maps.MapTypeId.SATELLITE
   });
   var geocoder = new google.maps.Geocoder();
-  // Define the LatLng coordinates for the polygon's path.
-  var Zona2Coords = [ {lng: -80.630658, lat: -5.214853},    {lng: -80.630443, lat: -5.213592},    {lng: -80.631666, lat: -5.213336},    {lng: -80.632782, lat: -5.211861},
-    {lng: -80.632868, lat: -5.210579},    {lng: -80.632997, lat: -5.208998},    {lng: -80.633104, lat: -5.207737},    {lng: -80.632353, lat: -5.206626},
-    {lng: -80.632031, lat: -5.205942},    {lng: -80.631602, lat: -5.204938},    {lng: -80.630937, lat: -5.204211},    {lng: -80.630078, lat: -5.203527},
-    {lng: -80.629413, lat: -5.202865},    {lng: -80.628662, lat: -5.201262},    {lng: -80.628147, lat: -5.200429},    {lng: -80.627997, lat: -5.199104},
-    {lng: -80.627546, lat: -5.197287},    {lng: -80.627139, lat: -5.195663},    {lng: -80.626452, lat: -5.194745},    {lng: -80.626023, lat: -5.193099},
-    {lng: -80.626559, lat: -5.190770},    {lng: -80.626709, lat: -5.189017},    {lng: -80.627460, lat: -5.186838},    {lng: -80.627782, lat: -5.185705},
-    {lng: -80.628469, lat: -5.184295},    {lng: -80.629048, lat: -5.183269},    {lng: -80.629456, lat: -5.182094},    {lng: -80.628576, lat: -5.180213},
-    {lng: -80.628190, lat: -5.178717},    {lng: -80.627868, lat: -5.177862},    {lng: -80.627353, lat: -5.177050},    {lng: -80.625443, lat: -5.177392},
-    {lng: -80.624542, lat: -5.177969},    {lng: -80.622869, lat: -5.178012},    {lng: -80.621603, lat: -5.178247},    {lng: -80.619779, lat: -5.178503},    {lng: -80.619328, lat: -5.179722},
-    {lng: -80.620186, lat: -5.180619},    {lng: -80.621302, lat: -5.180854},    {lng: -80.622439, lat: -5.182051},    {lng: -80.622804, lat: -5.183376},
-    {lng: -80.622847, lat: -5.184786},    {lng: -80.622675, lat: -5.186133},    {lng: -80.622568, lat: -5.187821},    {lng: -80.622268, lat: -5.189808},
-    {lng: -80.621924, lat: -5.191603},    {lng: -80.621946, lat: -5.193505},    {lng: -80.621603, lat: -5.195065},    {lng: -80.621967, lat: -5.196689},
-    {lng: -80.622396, lat: -5.198292},    {lng: -80.623233, lat: -5.199510},    {lng: -80.623834, lat: -5.200792},    {lng: -80.624135, lat: -5.202416},
-    {lng: -80.624478, lat: -5.203506},    {lng: -80.624886, lat: -5.205472},    {lng: -80.624971, lat: -5.206669},    {lng: -80.625465, lat: -5.208357},
-    {lng: -80.625529, lat: -5.208998},    {lng: -80.625851, lat: -5.209788},    {lng: -80.626473, lat: -5.210857},    {lng: -80.627353, lat: -5.212267},
-    {lng: -80.627997, lat: -5.213378},    {lng: -80.628405, lat: -5.214255},    {lng: -80.629091, lat: -5.215280},    {lng: -80.629714, lat: -5.215387},
-    {lng: -80.630486, lat: -5.215259},    {lng: -80.630701, lat: -5.214896}];
-    var Zona3Coords = [{lng: -80.66472, lat: -5.25683},    {lng: -80.6648, lat: -5.25557},    {lng: -80.66456, lat: -5.25492},    {lng: -80.66467, lat: -5.25406},
-    {lng: -80.66497, lat: -5.25294},    {lng: -80.66531, lat: -5.25177},    {lng: -80.66576, lat: -5.25058},    {lng: -80.66636, lat: -5.24973},    {lng: -80.6669, lat: -5.24936},
-    {lng: -80.66764, lat: -5.24926},    {lng: -80.66882, lat: -5.2493},    {lng: -80.67001, lat: -5.24983},    {lng: -80.67089, lat: -5.25043},    {lng: -80.6713, lat: -5.25116},
-    {lng: -80.67187, lat: -5.2519},    {lng: -80.67274, lat: -5.25257},    {lng: -80.67327, lat: -5.25312},    {lng: -80.67402, lat: -5.25368},    {lng: -80.67462, lat: -5.25415},
-    {lng: -80.6755, lat: -5.25472},    {lng: -80.67578, lat: -5.25541},    {lng: -80.67688, lat: -5.25695},   {lng: -80.6775, lat: -5.25731},    {lng: -80.68016, lat: -5.2591},
-    {lng: -80.6811, lat: -5.25985},    {lng: -80.68175, lat: -5.25985},    {lng: -80.68458, lat: -5.26005},    {lng: -80.68582, lat: -5.26009},    {lng: -80.68734, lat: -5.26079},
-    {lng: -80.6891, lat: -5.26156},    {lng: -80.68962, lat: -5.2625},    {lng: -80.69025, lat: -5.26381},    {lng: -80.68997, lat: -5.26494},    {lng: -80.68939, lat: -5.26571},
-    {lng: -80.68872, lat: -5.26652},    {lng: -80.68769, lat: -5.26667},    {lng: -80.68746, lat: -5.26744},    {lng: -80.68675, lat: -5.26804},    {lng: -80.68578, lat: -5.26851},
-    {lng: -80.6851, lat: -5.26908},    {lng: -80.68388, lat: -5.26951},    {lng: -80.68248, lat: -5.26923},    {lng: -80.6814, lat: -5.26822},    {lng: -80.6811, lat: -5.26695},
-    {lng: -80.68039, lat: -5.26625},    {lng: -80.67937, lat: -5.26562},    {lng: -80.67832, lat: -5.26545},    {lng: -80.67723, lat: -5.26515},    {lng: -80.67613, lat: -5.26505},
-    {lng: -80.67529, lat: -5.26432},    {lng: -80.67477, lat: -5.26366},    {lng: -80.67379, lat: -5.26313},    {lng: -80.67149, lat: -5.26184},    {lng: -80.66913, lat: -5.26075},
-    {lng: -80.66709, lat: -5.25917},    {lng: -80.66472, lat: -5.25683} ];
-    var Zona1Tumbes =[{lng: -80.255556 , lat: -3.478039},{lng: -80.258818 , lat: -3.477953},{lng: -80.261307 , lat: -3.478039},{lng: -80.266457 , lat: -3.480952},{lng: -80.269289 , lat: -3.483436},
-    {lng: -80.272121 , lat: -3.486435},{lng: -80.276327 , lat: -3.490204},{lng: -80.280018 , lat: -3.489776},{lng: -80.282679 , lat: -3.495173},{lng: -80.283279 , lat: -3.499714},{lng: -80.280876 , lat: -3.502455},
-    {lng: -80.283279 , lat: -3.506053},{lng: -80.285683 , lat: -3.509737},{lng: -80.278816 , lat: -3.512993},{lng: -80.274267 , lat: -3.513592},{lng: -80.266800 , lat: -3.509737},{lng: -80.264139 , lat: -3.504683},
-    {lng: -80.265083 , lat: -3.501684},{lng: -80.260963 , lat: -3.499800},{lng: -80.257530 , lat: -3.500228},{lng: -80.254526 , lat: -3.499543},{lng: -80.251522 , lat: -3.498000},{lng: -80.249634 , lat: -3.490975},
-    {lng: -80.248003 , lat: -3.485835},{lng: -80.247402 , lat: -3.479495},{lng: -80.247059 , lat: -3.478210},{lng: -80.255041 , lat: -3.478039}];
-    var Zona2Tumbes =[{lng: -80.415030 , lat: -3.568762},{lng: -80.414858 , lat: -3.564736},{lng: -80.414429 , lat: -3.561823},{lng: -80.415630 , lat: -3.557454},{lng: -80.418463 , lat: -3.556683},
-    {lng: -80.422153 , lat: -3.556854},{lng: -80.423441 , lat: -3.554199},{lng: -80.425329 , lat: -3.551971},{lng: -80.429707 , lat: -3.553428},{lng: -80.432882 , lat: -3.554884},{lng: -80.434771 , lat: -3.553856},
-    {lng: -80.439062 , lat: -3.554541},{lng: -80.443697 , lat: -3.554284},{lng: -80.444899 , lat: -3.562080},{lng: -80.439749 , lat: -3.565250},{lng: -80.432882 , lat: -3.562937},{lng: -80.430393 , lat: -3.568933},
-    {lng: -80.427132 , lat: -3.573302},{lng: -80.421124 , lat: -3.579812},{lng: -80.416660 , lat: -3.582297},{lng: -80.411510 , lat: -3.584952},{lng: -80.409279 , lat: -3.580840},{lng: -80.410910 , lat: -3.575786},
-    {lng: -80.412197 , lat: -3.571931},{lng: -80.414429 , lat: -3.569104},{lng: -80.414858 , lat: -3.568933}];
-    var Zona3Tumbes = [{lng: -81.030092 , lat: -4.103315},{lng: -81.037216 , lat: -4.106482},{lng: -81.042538 , lat: -4.108366},{lng: -81.050005 , lat: -4.111961},{lng: -81.055326 , lat: -4.111619},{lng: -81.057386 , lat: -4.108623},
-    {lng: -81.059103 , lat: -4.106397},{lng: -81.053095 , lat: -4.104428},{lng: -81.051035 , lat: -4.101174},{lng: -81.048288 , lat: -4.098520},{lng: -81.042795 , lat: -4.098349},{lng: -81.038933 , lat: -4.097065},
-    {lng: -81.034384 , lat: -4.097836},{lng: -81.030951 , lat: -4.101945},{lng: -81.030178 , lat: -4.102972}];
-    var Zona1Ancash = [{lng: -78.528900 , lat: -9.107182},{lng: -78.541946 , lat: -9.101588},{lng: -78.546925 , lat: -9.094469},{lng: -78.553448 , lat: -9.090062},{lng: -78.555679 , lat: -9.084129},{lng: -78.558769 , lat: -9.079722},
-    {lng: -78.562202 , lat: -9.072772},{lng: -78.566151 , lat: -9.067517},{lng: -78.568554 , lat: -9.063618},{lng: -78.578510 , lat: -9.062601},{lng: -78.587437 , lat: -9.067687},{lng: -78.591213 , lat: -9.073450},
-    {lng: -78.590183 , lat: -9.078535},{lng: -78.583488 , lat: -9.083451},{lng: -78.573017 , lat: -9.095317},{lng: -78.566837 , lat: -9.101758},{lng: -78.565464 , lat: -9.104809},{lng: -78.560314 , lat: -9.112775},
-    {lng: -78.557053 , lat: -9.121758},{lng: -78.547268 , lat: -9.126673},{lng: -78.535252 , lat: -9.129724},{lng: -78.531303 , lat: -9.122606},{lng: -78.528728 , lat: -9.107521}];
-    var Zona2Ancash = [{lng: -78.314924 , lat: -9.474376},{lng: -78.311405 , lat: -9.469550},{lng: -78.305311 , lat: -9.467857},{lng: -78.292952 , lat: -9.468027},{lng: -78.289604 , lat: -9.466672},
-    {lng: -78.287201 , lat: -9.472344},{lng: -78.281450 , lat: -9.474291},{lng: -78.282824 , lat: -9.477085},{lng: -78.290205 , lat: -9.478948},{lng: -78.295784 , lat: -9.481572},{lng: -78.300934 , lat: -9.478609},
-    {lng: -78.306255 , lat: -9.479286},{lng: -78.313036 , lat: -9.477847},{lng: -78.314924 , lat: -9.474630}];
-    var Zona3Ancash = [{lng: -77.748957 , lat: -9.135783},{lng: -77.746081 , lat: -9.134131},{lng: -77.742133 , lat: -9.132733},{lng: -77.737927 , lat: -9.135868},{lng: -77.735953 , lat: -9.138537},
-    {lng: -77.736468 , lat: -9.143791},{lng: -77.746553 , lat: -9.146630},{lng: -77.749386 , lat: -9.144003},{lng: -77.749085 , lat: -9.135995},{lng: -77.749085 , lat: -9.135868}];
-    var Zona4Ancash = [{lng: -77.535324 , lat: -9.484112},{lng: -77.540302 , lat: -9.485128},{lng: -77.542362 , lat: -9.492070},{lng: -77.542877 , lat: -9.499858},{lng: -77.539959 , lat: -9.500704},{lng: -77.537727 , lat: -9.508323},
-    {lng: -77.538242 , lat: -9.515942},{lng: -77.538586 , lat: -9.522544},{lng: -77.537384 , lat: -9.530670},{lng: -77.536182 , lat: -9.538627},{lng: -77.534294 , lat: -9.542351},{lng: -77.521763 , lat: -9.542859},
-    {lng: -77.513523 , lat: -9.538627},{lng: -77.513008 , lat: -9.530162},{lng: -77.517815 , lat: -9.514756},{lng: -77.522621 , lat: -9.509847},{lng: -77.528286 , lat: -9.505953},{lng: -77.527256 , lat: -9.502736},
-    {lng: -77.530346 , lat: -9.499011},{lng: -77.536011 , lat: -9.494440},{lng: -77.537041 , lat: -9.488514},{lng: -77.534981 , lat: -9.484450}];
-    var Zona1Lima = [{lng: -77.024117 , lat: -11.85407},{lng: -77.021542 , lat: -11.85928},{lng: -77.027035 , lat: -11.86550},{lng: -77.031498 , lat: -11.87188},{lng: -77.037849 , lat: -11.87843},{lng: -77.042313 , lat: -11.88415},
-    {lng: -77.051067 , lat: -11.89221},{lng: -77.060165 , lat: -11.90027},{lng: -77.066002 , lat: -11.90867},{lng: -77.069778 , lat: -11.90598},{lng: -77.066002 , lat: -11.89960},{lng: -77.056904 , lat: -11.88616},{lng: -77.050896 , lat: -11.88095},
-    {lng: -77.044544 , lat: -11.87659},{lng: -77.038364 , lat: -11.86886},{lng: -77.033558 , lat: -11.86130},{lng: -77.024460 , lat: -11.85407}];
-    var Zona2Lima = [{lng: -76.658607 , lat: -11.89401},{lng: -76.657147 , lat: -11.89523},{lng: -76.654701 , lat: -11.89569},{lng: -76.651783 , lat: -11.89263},{lng: -76.649637 , lat: -11.88885},{lng: -76.647148 , lat: -11.88284},
-    {lng: -76.648521 , lat: -11.88104},{lng: -76.652856 , lat: -11.88104},{lng: -76.655903 , lat: -11.88545},{lng: -76.656289 , lat: -11.88939},{lng: -76.658735 , lat: -11.89376}];
-    var Zona3Lima = [{lng: -76.665816 , lat: -11.92072},{lng: -76.662512 , lat: -11.92143},{lng: -76.659851 , lat: -11.92223},{lng: -76.653929 , lat: -11.92332},{lng: -76.653500 , lat: -11.92635},{lng: -76.656632 , lat: -11.92782},
-    {lng: -76.663628 , lat: -11.92874},{lng: -76.667619 , lat: -11.92757},{lng: -76.667619 , lat: -11.92454},{lng: -76.669507 , lat: -11.92345},{lng: -76.670623 , lat: -11.92202},{lng: -76.670022 , lat: -11.91946},
-    {lng: -76.667576 , lat: -11.91732},{lng: -76.665559 , lat: -11.91682},{lng: -76.663671 , lat: -11.91745},{lng: -76.665688 , lat: -11.92047}];
-    var Zona1Lamba = [{lng: -79.908199 , lat: -6.711578},{lng: -79.902363 , lat: -6.714647},{lng: -79.891634 , lat: -6.712260},{lng: -79.890947 , lat: -6.705867},{lng: -79.893436 , lat: -6.693421},{lng: -79.898500 , lat: -6.691205},
-    {lng: -79.911375 , lat: -6.690949},{lng: -79.915924 , lat: -6.694871},{lng: -79.923735 , lat: -6.705952},{lng: -79.916525 , lat: -6.717375},{lng: -79.908371 , lat: -6.711834}];
-    var Zona2Lamba = [{lng: -79.784517 , lat: -6.650200},{lng: -79.780912 , lat: -6.644573},{lng: -79.780912 , lat: -6.637156},{lng: -79.780140 , lat: -6.633831},{lng: -79.779196 , lat: -6.629142},{lng: -79.782543 , lat: -6.624112},
-    {lng: -79.788465 , lat: -6.624027},{lng: -79.793701 , lat: -6.627607},{lng: -79.799280 , lat: -6.631955},{lng: -79.802284 , lat: -6.635877},{lng: -79.802284 , lat: -6.641334},{lng: -79.797821 , lat: -6.647472},{lng: -79.790783 , lat: -6.651308},
-    {lng: -79.787436 , lat: -6.653525},{lng: -79.784603 , lat: -6.650626}];
-    var Zona1Lalib = [{lng: -78.743906 , lat: -8.406829},{lng: -78.740387 , lat: -8.410904},{lng: -78.745365 , lat: -8.420159},{lng: -78.750601 , lat: -8.421433},{lng: -78.756266 , lat: -8.424149},{lng: -78.763905 , lat: -8.423216},
-    {lng: -78.774204 , lat: -8.423810},{lng: -78.779268 , lat: -8.425678},{lng: -78.782959 , lat: -8.427206},{lng: -78.786221 , lat: -8.421772},{lng: -78.775578 , lat: -8.413961},{lng: -78.762445 , lat: -8.408527},
-    {lng: -78.744593 , lat: -8.405810},{lng: -78.744078 , lat: -8.406744}];
-    var Zona2Lalib = [{lng: -78.180170 , lat: -8.142759},{lng: -78.177252 , lat: -8.140550},{lng: -78.173647 , lat: -8.139955},{lng: -78.170128 , lat: -8.141145},{lng: -78.167810 , lat: -8.144713},{lng: -78.166609 , lat: -8.149217},
-    {lng: -78.169098 , lat: -8.151765},{lng: -78.173904 , lat: -8.151256},{lng: -78.177252 , lat: -8.148027},{lng: -78.180084 , lat: -8.146158},{lng: -78.180513 , lat: -8.143354},{lng: -78.180342 , lat: -8.142759}];
-    var Zona3Lalib = [{lng: -78.571129 , lat: -7.904871},{lng: -78.572674 , lat: -7.902236},{lng: -78.569498 , lat: -7.898580},{lng: -78.570871 , lat: -7.894839},{lng: -78.568211 , lat: -7.893564},{lng: -78.566322 , lat: -7.898155},
-    {lng: -78.564434 , lat: -7.900620},{lng: -78.559456 , lat: -7.898750},{lng: -78.556366 , lat: -7.899430},{lng: -78.555851 , lat: -7.903596},{lng: -78.558168 , lat: -7.908527},{lng: -78.561516 , lat: -7.910907},{lng: -78.565550 , lat: -7.912268},
-    {lng: -78.566494 , lat: -7.915753},{lng: -78.569241 , lat: -7.913968},{lng: -78.567781 , lat: -7.909122},{lng: -78.568726 , lat: -7.906572},{lng: -78.570614 , lat: -7.905296},{lng: -78.570957 , lat: -7.905041}];
-
-
-    
-    // Construct the polygon.
-  var Zona2 = new google.maps.Polygon({map: map,paths: Zona2Coords,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});
-  var Zona3 = new google.maps.Polygon({map: map,paths: Zona3Coords,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});  
-  var Zona4 = new google.maps.Polygon({map: map,paths: Zona1Tumbes,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});  
-  var Zona5 = new google.maps.Polygon({map: map,paths: Zona2Tumbes,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});  
-  var Zona6 = new google.maps.Polygon({map: map,paths: Zona3Tumbes,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});  
-  var Zona7 = new google.maps.Polygon({map: map,paths: Zona1Ancash,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});
-  var Zona8 = new google.maps.Polygon({map: map,paths: Zona2Ancash,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});  
-  var Zona9 = new google.maps.Polygon({map: map,paths: Zona3Ancash,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});  
-  var Zona10 = new google.maps.Polygon({map: map,paths: Zona4Ancash,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});  
-  var Zona11 = new google.maps.Polygon({map: map,paths: Zona1Lima,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});  
-  var Zona12 = new google.maps.Polygon({map: map,paths: Zona2Lima,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});
-  var Zona13 = new google.maps.Polygon({map: map,paths: Zona3Lima,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});  
-  var Zona14 = new google.maps.Polygon({map: map,paths: Zona1Lamba,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});  
-  var Zona15 = new google.maps.Polygon({map: map,paths: Zona2Lamba,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});  
-  var Zona16 = new google.maps.Polygon({map: map,paths: Zona1Lalib,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});  
-  var Zona17 = new google.maps.Polygon({map: map,paths: Zona2Lalib,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});
-  var Zona18 = new google.maps.Polygon({map: map,paths: Zona3Lalib,strokeColor: '#FF0000',strokeOpacity: 0.8, strokeWeight: 2,fillColor: '#FF0000',fillOpacity: 0.35});
-  
-  var zonas = [Zona2,Zona3,Zona4,Zona5,Zona6,Zona7,Zona8,Zona9,Zona10,Zona11,Zona12,Zona13,Zona14,Zona15,Zona16,Zona17,Zona18]
-  
+  // Define the LatLng coordinates for the polygon's path.  
   document.getElementById('submit').addEventListener('click', function() {
-          geocodeAddress(geocoder, map, zonas);
+          geocodeAddress(geocoder, map);
         });
   
 }
 
-
-function geocodeAddress(geocoder, resultsMap, zonas) {
+function geocodeAddress(geocoder, resultsMap) {
     console.log("3");
     var address = document.getElementById('address').value;
     var loc = [];
@@ -167,41 +66,17 @@ function geocodeAddress(geocoder, resultsMap, zonas) {
         if (status === google.maps.GeocoderStatus.OK) {
           //console.log("SI");
           resultsMap.setCenter(results[0].geometry.location);
-          //var marker = new google.maps.Marker({
-            //map: resultsMap,
-            //position: results[0].geometry.location
-          //}); 
+          var marker = new google.maps.Marker({
+            map: resultsMap,
+            position: results[0].geometry.location
+          }); 
           loc[0]=results[0].geometry.location.lat();
           loc[1]=results[0].geometry.location.lng();  
-
-          var inside = checkInside(results[0].geometry.location,zonas);
-          setInput(loc[0],loc[1],inside);
-          
-        } else {
-          setInput('no','no','no');
-
-          //alert('Geocode was not successful for the following reason: ' + status);
+          setInput(loc[0],loc[1],'');          
         }
     });
 }
 
-function checkInside(point,poligonos) {
-     if(google.maps.geometry.poly.containsLocation(point, poligonos[0]) == true || google.maps.geometry.poly.containsLocation(point, poligonos[1]) == true
-       || google.maps.geometry.poly.containsLocation(point, poligonos[3]) == true || google.maps.geometry.poly.containsLocation(point, poligonos[4]) == true
-       || google.maps.geometry.poly.containsLocation(point, poligonos[5]) == true || google.maps.geometry.poly.containsLocation(point, poligonos[6]) == true
-       || google.maps.geometry.poly.containsLocation(point, poligonos[7]) == true || google.maps.geometry.poly.containsLocation(point, poligonos[8]) == true
-       || google.maps.geometry.poly.containsLocation(point, poligonos[9]) == true || google.maps.geometry.poly.containsLocation(point, poligonos[10]) == true
-       || google.maps.geometry.poly.containsLocation(point, poligonos[11]) == true || google.maps.geometry.poly.containsLocation(point, poligonos[12]) == true
-       || google.maps.geometry.poly.containsLocation(point, poligonos[13]) == true || google.maps.geometry.poly.containsLocation(point, poligonos[14]) == true
-       || google.maps.geometry.poly.containsLocation(point, poligonos[15]) == true || google.maps.geometry.poly.containsLocation(point, poligonos[16]) == true) {
-       var estado = 'yes';
-       return estado
-     } else {
-       var estado = 'no';
-       return estado
-     }
-
-}
 
 function setInput(lat,long,emer) {
      textbox = document.getElementById('latitud');
@@ -219,4 +94,3 @@ function setInput(lat,long,emer) {
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEswYMY_oA77jFX9Mqk5J-WcKQYKueDWE&callback=initMap"></script>
   </body>
 </html>
-

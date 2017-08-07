@@ -6,12 +6,54 @@
 
 {% block title %}Prueba{% endblock %}
 
+{% block css_inicial %}
+<style>
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td {
+    text-align: center;
+    padding: 8px;
+    background-color: white;
+}
+
+th {
+  background-color: #094FA4;
+  color:white;
+}
+
+td, th {
+  border-bottom: 2px solid #ddd;
+}
+
+</style>
+{% endblock %}
+
 {% block content %}
-<div>
-  <header class="w3-container w3-teal">
-    <span class="w3-opennav w3-xlarge" onclick="w3_open()">&#9776;</span>
-    <h1>My Sidenav</h1>
-  </header>
+
+<div style="background-color: #F2F2F2; padding: 10px 10px 10px 10px;">
+  <div style="width:25%; ">
+      <table >
+        <thead>
+          <tr>
+            <th>Mes</th>
+            <th>Ofertas</th>
+            <th>Altas</th>
+          </tr>
+        </thead>
+        <tbody id="tabla_detalles">
+          {% for a in total_ofertas_meses %}
+          <tr>
+            <td>{{a.mes}}</td>
+            <td>{{a.Ofertas|intcomma}}</td>
+            <td>{{a.Altas|intcomma}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
 </div>
 
 {% endblock %}
@@ -19,12 +61,7 @@
 {% block script_final %}
 
 <script type="text/javascript">
-  function w3_open() {
-    $("#mySidenav").style.display = "block";
-  }
-  function w3_close() {
-    $("#mySidenav").style.display = "none";
-  }
+
 </script>
 
 

@@ -93,6 +93,9 @@ def dummy(request):
                   context_instance=RequestContext(request))
 
 def prueba(request):
+
+    total_ofertas_meses=AltasTarjetas.objects.values('mes').annotate(Ofertas=Sum('ofertas'), Altas=Sum('altas'))
+    print total_ofertas_meses
     
     static_url=settings.STATIC_URL
     tipo_side = 6
